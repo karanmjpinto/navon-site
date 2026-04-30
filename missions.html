@@ -294,6 +294,390 @@
     max-width: 18ch;
   }
   .cross-cta h2 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+
+  /* ── University Partnership · added components ──────────────── */
+
+  /* Spec / cost-comparison tables */
+  .spec-matrix {
+    margin-top: 32px;
+    border: 1px solid var(--line);
+    overflow-x: auto;
+    background: var(--ink);
+  }
+  .spec-matrix table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-display);
+    min-width: 720px;
+  }
+  .spec-matrix th, .spec-matrix td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .spec-matrix tr:last-child td { border-bottom: 0; }
+  .spec-matrix thead th {
+    background: rgba(255,255,255,0.018);
+    border-bottom: 1px solid var(--line-2);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper);
+    font-weight: 500;
+  }
+  .spec-matrix thead th.navon-col {
+    color: var(--ink);
+    background: var(--signal);
+  }
+  .spec-matrix tbody td {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--light);
+  }
+  .spec-matrix tbody td:first-child {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    width: 22%;
+    background: rgba(255,255,255,0.012);
+  }
+  .spec-matrix tbody td.navon-cell {
+    color: var(--ink);
+    background: rgba(231,255,0,0.18);
+    font-weight: 500;
+  }
+  .spec-matrix tbody td.navon-cell strong { color: var(--ink); font-weight: 500; }
+  .spec-matrix tbody td strong { color: var(--paper); font-weight: 500; }
+  .spec-matrix tbody td .pill {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    color: var(--mid);
+    margin-top: 4px;
+  }
+  .spec-matrix tbody tr:hover { background: rgba(231,255,0,0.012); }
+
+  /* 90-day pilot programme — 3-phase track */
+  .pilot-phases {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 900px) { .pilot-phases { grid-template-columns: 1fr; } }
+  .pilot-ph {
+    background: var(--ink);
+    padding: 30px 28px 32px;
+    position: relative;
+    transition: background 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .pilot-ph::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--signal);
+    transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .pilot-ph:hover { background: rgba(231,255,0,0.022); }
+  .pilot-ph:hover::before { width: 100%; }
+  .pilot-ph .ph-week {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 8px;
+  }
+  .pilot-ph:hover .ph-week { color: var(--signal); }
+  .pilot-ph .ph-num {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--paper);
+    margin: 0 0 16px;
+  }
+  .pilot-ph h4 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    margin: 0 0 10px;
+    color: var(--paper);
+  }
+  .pilot-ph p {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--mid);
+    margin: 0;
+  }
+
+  /* Knowledge partners detailed cards */
+  .kpartners {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 800px) { .kpartners { grid-template-columns: 1fr; } }
+  .kpartner {
+    background: var(--ink);
+    padding: 28px 26px 30px;
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .kpartner::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--signal);
+    transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .kpartner:hover { background: rgba(231,255,0,0.022); }
+  .kpartner:hover::before { width: 100%; }
+  .kpartner .k-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 12px;
+  }
+  .kpartner:hover .k-tag { color: var(--signal); }
+  .kpartner h4 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.018em;
+    margin: 0 0 10px;
+    color: var(--paper);
+  }
+  .kpartner .k-loc {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 14px;
+  }
+  .kpartner p {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--mid);
+    margin: 0;
+  }
+
+  /* Expert domains — 4-col grid */
+  .domain-grid {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 800px) { .domain-grid { grid-template-columns: 1fr; } }
+  .domain {
+    background: var(--ink);
+    padding: 26px 24px 28px;
+    transition: background 0.3s ease;
+  }
+  .domain:hover { background: rgba(231,255,0,0.022); }
+  .domain .d-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 10px;
+  }
+  .domain:hover .d-tag { color: var(--signal); }
+  .domain h4 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    margin: 0 0 14px;
+    color: var(--paper);
+  }
+  .domain ul {
+    list-style: none;
+    margin: 0;
+    padding: 12px 0 0;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .domain ul li {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--mid);
+    padding-left: 14px;
+    position: relative;
+  }
+  .domain ul li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 8px;
+    width: 6px; height: 1px;
+    background: var(--signal);
+  }
+
+  /* Internship split: at-site vs global */
+  .intern-split {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 800px) { .intern-split { grid-template-columns: 1fr; } }
+  .intern-card {
+    background: var(--ink);
+    padding: 32px 30px 32px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s ease;
+  }
+  .intern-card.featured {
+    background: linear-gradient(180deg, rgba(231,255,0,0.05), rgba(0,0,0,0));
+  }
+  .intern-card:hover { background: rgba(231,255,0,0.025); }
+  .intern-card .ic-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--signal);
+    margin-bottom: 10px;
+  }
+  .intern-card h4 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.018em;
+    margin: 0 0 14px;
+    color: var(--paper);
+  }
+  .intern-card .ic-lede {
+    color: var(--light);
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0 0 18px;
+  }
+  .intern-card ul {
+    list-style: none;
+    margin: 0;
+    padding: 14px 0 0;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .intern-card ul li {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--mid);
+    padding-left: 18px;
+    position: relative;
+  }
+  .intern-card ul li::before {
+    content: "→";
+    position: absolute;
+    left: 0; top: 0;
+    color: var(--signal);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  /* Next-steps stepper — 4 numbered steps */
+  .steps {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 1000px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px)  { .steps { grid-template-columns: 1fr; } }
+  .step {
+    background: var(--ink);
+    padding: 24px 22px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .step::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--signal);
+    transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .step:hover { background: rgba(231,255,0,0.022); }
+  .step:hover::before { width: 100%; }
+  .step .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--signal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--signal);
+    font-weight: 500;
+  }
+  .step h5 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    margin: 0;
+    color: var(--paper);
+  }
+  .step p {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--mid);
+    margin: 0;
+  }
+  .step .step-time {
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
 </style>
 </head>
 <body class="theme-light">
@@ -509,49 +893,95 @@
     <div class="mission-narrative">
       <div>
         <div class="eyebrow"><span class="mark"></span>03 / Universities</div>
-        <h2 class="reveal">GPU access in 60 seconds —<br/><span class="accent">priced for the institutions</span><br/><span class="accent">building the next decade.</span></h2>
+        <h2 class="reveal">Sovereign compute,<br/><span class="accent">on Kenyan soil —</span><br/><span class="accent">priced for the institution.</span></h2>
       </div>
       <p class="reveal d1">
-        For university research groups, faculty, and the labs across
-        every discipline where compute is the bottleneck between theory
-        and practice. Dedicated allocation, persistent workspaces,
-        institutional pricing — and a structured path from student
-        project to industry career.
+        Direct, dedicated access to Navon's data centre at Hells Gate
+        Deep Tech Park, Naivasha SEZ — alongside a global expert network,
+        structured internships at the site itself, and a pathway from
+        student project to industry career. Built for every faculty where
+        compute is the bottleneck between theory and practice.
       </p>
     </div>
 
-    <div class="numbered cols-3 reveal">
+    <!-- ── Headline stats — three killer numbers ──────────────── -->
+    <div class="stat-strip reveal d1">
+      <div class="s"><div class="l">vs hyperscalers</div><div class="v"><span class="signal">60–80%</span></div><div class="d">cheaper than AWS or Azure for equivalent compute</div></div>
+      <div class="s"><div class="l">data sovereignty</div><div class="v">100%</div><div class="d">Kenyan soil, Kenyan law — DPA 2019 by physical fact</div></div>
+      <div class="s"><div class="l">spin-up</div><div class="v"><span class="signal">&lt;60s</span></div><div class="d">environment provisioning — no procurement cycles</div></div>
+      <div class="s"><div class="l">scaling</div><div class="v">100 MW</div><div class="d">0.8 MW today, growing to 100 MW by 2035</div></div>
+    </div>
+
+    <div class="numbered cols-3 reveal" style="margin-top: 56px;">
       <div class="numbered-item"><div class="num">01 / 60-SECOND SPIN-UP</div><h4>JupyterHub via institutional SSO.</h4><p>Researchers and students live in under a minute. No local installation, no per-user IT overhead, persistent workspaces across sessions.</p></div>
-      <div class="numbered-item"><div class="num">02 / DEDICATED ALLOCATION</div><h4>Capacity that's actually yours.</h4><p>GPU and CPU/HPC allocations dedicated to the institution. No competition between departments for the same pool.</p></div>
+      <div class="numbered-item"><div class="num">02 / DEDICATED ALLOCATION</div><h4>Capacity that's actually yours.</h4><p>GPU and CPU/HPC allocations dedicated to the institution per tier. No competition between departments for the same pool.</p></div>
       <div class="numbered-item"><div class="num">03 / ANNUAL CONTRACTS</div><h4>Predictable, not metered.</h4><p>Annual commitments billable in USD or KES. Predictable budget for grant compliance and finance close.</p></div>
-      <div class="numbered-item"><div class="num">04 / QUANTUM SANDBOX</div><h4>Real quantum, not simulated.</h4><p>Quantum platform via QCentroid for circuits, hybrid algorithms, and post-quantum cryptography research.</p></div>
-      <div class="numbered-item"><div class="num">05 / INTERNSHIP PIPELINE</div><h4>On-site at Hells Gate.</h4><p>Structured placements at the Naivasha facility across infrastructure, ops, and research — credit-bearing where the institution wants.</p></div>
-      <div class="numbered-item"><div class="num">06 / GLOBAL MENTORSHIP</div><h4>UCL · ETH · UPM · UPC · Strathmore.</h4><p>Mentorship and guest lectures from world-leading research universities, on a regular cadence aligned with the academic term.</p></div>
+      <div class="numbered-item"><div class="num">04 / QUANTUM SANDBOX</div><h4>Real quantum, not simulated.</h4><p>Quantum sandbox for circuits, hybrid algorithms, and post-quantum cryptography research — alongside classical compute.</p></div>
+      <div class="numbered-item"><div class="num">05 / INTERNSHIP PIPELINE</div><h4>On-site at Hells Gate.</h4><p>Structured placements at the Naivasha facility across infrastructure, ops, security, and research — confirmed within four weeks of nomination.</p></div>
+      <div class="numbered-item"><div class="num">06 / GLOBAL MENTORSHIP</div><h4>UCL · ETH · UPM · UPC.</h4><p>Mentorship and guest lectures from world-leading research universities — minimum one session per cohort per month.</p></div>
     </div>
 
-    <!-- The University Partnership Programme -->
+    <!-- ── Infrastructure specifications ──────────────────────── -->
     <div class="sub-head">
-      <div class="eyebrow"><span class="mark"></span>The university partnership</div>
-      <h3>Infrastructure for <span class="accent">the whole institution</span> — not just CS.</h3>
-      <p>The platform is shared, multi-purpose infrastructure. Different faculties draw on the resources relevant to their work simultaneously, with dedicated allocations per institution ensuring no competition for capacity between departments.</p>
+      <div class="eyebrow"><span class="mark"></span>Infrastructure specifications</div>
+      <h3>Built on Kenya's own <span class="accent">data centre infrastructure.</span></h3>
+      <p>Shared, multi-purpose infrastructure — not a single-use GPU cluster. All compute, storage, and developer environments live on-site at Hells Gate, powered entirely by geothermal energy. Resources are accessible through a single university login.</p>
     </div>
 
-    <div class="included">
-      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>GPU compute</h5><p>AI/ML training, inference serving, image and signal processing, scientific GPU workloads.</p></div></div>
-      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>CPU / HPC</h5><p>Simulation, optimisation, large-memory scientific computing — climate, bioinformatics, engineering.</p></div></div>
-      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>Persistent storage</h5><p>NVMe + object storage for datasets, model outputs, and reproducible research artefacts.</p></div></div>
-      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>JupyterHub workspaces</h5><p>Shared environment for all faculties via university SSO. Live in under 60 seconds.</p></div></div>
-      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>Dev sandboxes</h5><p>Isolated per project or group. Reproducible builds, secrets management, version control built in.</p></div></div>
-      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>Quantum platform</h5><p>QCentroid integration for quantum circuits, hybrid algorithms, post-quantum cryptography research.</p></div></div>
-      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>100 GbE fabric</h5><p>Fast data movement across the cluster; low-latency between compute and storage.</p></div></div>
-      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>Admin portal</h5><p>Hosted.ai-powered IT admin dashboard for users, faculties, quotas, and grant-aligned usage reporting.</p></div></div>
+    <div class="spec-matrix reveal">
+      <table>
+        <thead>
+          <tr>
+            <th>Resource</th>
+            <th>Specification</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Data centre</td>
+            <td><strong>Hells Gate Deep Tech Park</strong>, Naivasha SEZ — power, bare metal, network fabric (25G to compute, 100G to storage)<br/><span class="pill">Geothermal · 100% green</span></td>
+            <td>Navon-owned physical facility. All infrastructure on-site in Kenya; no data leaves Kenyan soil.</td>
+          </tr>
+          <tr>
+            <td>GPU compute</td>
+            <td><strong>2× GPU nodes</strong> — 8× NVIDIA RTX 5090 per node, 1 TB DDR5 RAM, 8 TB NVMe per node</td>
+            <td>AI/ML training, inference serving, image processing, scientific GPU workloads — dedicated allocation per tier.</td>
+          </tr>
+          <tr>
+            <td>CPU / HPC</td>
+            <td><strong>3× dual AMD EPYC 9965</strong> compute nodes — 768 GB DDR5 RAM, 4 TB NVMe per node</td>
+            <td>Simulation, optimisation, large-memory scientific computing, climate modelling, bioinformatics, engineering analysis.</td>
+          </tr>
+          <tr>
+            <td>Storage (NAS)</td>
+            <td><strong>1× high-performance NAS</strong> — AMD EPYC 9965, 512 GB DDR5, 4 TB NVMe boot, 24 × 24 TB SAS HDD (<strong>576 TB raw</strong>), 2× 100 GbE NIC</td>
+            <td>Persistent research data, datasets, model outputs, publications — sovereign, secure, accessible across sessions and teams.</td>
+          </tr>
+          <tr>
+            <td>Developer sandboxes</td>
+            <td>Isolated per project/group — JupyterHub (university SSO, persistent workspaces), AI environments, quantum sandbox</td>
+            <td>Full-stack research and development: AI/ML workflows, Jupyter notebooks, quantum circuits, hybrid algorithms, PQC — live in under 60 seconds.</td>
+          </tr>
+          <tr>
+            <td>Orchestration</td>
+            <td><strong>Hosted.ai / Kinesis Enterprise</strong> — unified platform management, job scheduling, resource governance</td>
+            <td>IT admins manage users, faculties, quotas and usage reporting from a single dashboard. Fair allocation between departments with priority scheduling.</td>
+          </tr>
+          <tr>
+            <td>Compliance</td>
+            <td><strong>Kenya Data Protection Act 2019</strong> — full sovereignty, no international transfer agreements required</td>
+            <td>All compute and storage on Kenyan soil at all times — fully auditable under Kenyan law.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- Faculty-by-faculty use cases -->
+    <!-- ── Faculty / disciplines ──────────────────────────────── -->
     <div class="sub-head">
       <div class="eyebrow"><span class="mark"></span>Across the faculty</div>
       <h3>One contract. <span class="accent">Every discipline.</span></h3>
-      <p>One partnership agreement gives the whole institution access to shared, managed resources that each discipline uses in the way relevant to their work.</p>
+      <p>One partnership agreement gives every faculty that depends on serious compute direct, managed access. The infrastructure scales to match what the institution actually needs — today, and as research programmes grow.</p>
     </div>
 
     <div class="faculty-grid">
@@ -568,7 +998,7 @@
         <div class="faculty-tags"><span class="faculty-tag">CPU/HPC</span><span class="faculty-tag">Storage</span></div>
       </article>
       <article class="faculty">
-        <div class="faculty-num">03 / PHYSICS &amp; MATH</div>
+        <div class="faculty-num">03 / PHYSICS &amp; MATHEMATICS</div>
         <h4>Quantum, modelling, optimisation.</h4>
         <p>Quantum computing research, numerical modelling, large-scale optimisation problems on CPU/HPC + quantum sandbox + persistent storage.</p>
         <div class="faculty-tags"><span class="faculty-tag">Quantum</span><span class="faculty-tag">CPU/HPC</span></div>
@@ -591,25 +1021,307 @@
         <p>Large-scale survey analysis, demographic modelling, NLP on local-language datasets via JupyterHub + GPU inference + secure storage.</p>
         <div class="faculty-tags"><span class="faculty-tag">JupyterHub</span><span class="faculty-tag">GPU</span></div>
       </article>
+      <article class="faculty">
+        <div class="faculty-num">07 / CROSS-FACULTY RESEARCH</div>
+        <h4>Shared datasets, reproducible pipelines.</h4>
+        <p>Shared datasets, reproducible analysis pipelines, interdisciplinary collaboration on JupyterHub + dev sandboxes + object storage.</p>
+        <div class="faculty-tags"><span class="faculty-tag">JupyterHub</span><span class="faculty-tag">Sandboxes</span><span class="faculty-tag">Object</span></div>
+      </article>
     </div>
 
-    <!-- Sovereignty & sustainability callout -->
-    <div class="stat-strip reveal d1" style="margin-top: 80px;">
-      <div class="s"><div class="l">Spin-up</div><div class="v"><span class="signal">60 s</span></div><div class="d">JupyterHub via SSO, no local install</div></div>
-      <div class="s"><div class="l">Data residency</div><div class="v">Kenya</div><div class="d">DPA 2019 — on-soil, no transfer</div></div>
-      <div class="s"><div class="l">Carbon</div><div class="v">~0</div><div class="d">geothermal-powered facility</div></div>
-      <div class="s"><div class="l">Uptime</div><div class="v">99.5%</div><div class="d">monthly availability target</div></div>
+    <!-- ── Cost comparison vs hyperscalers ───────────────────── -->
+    <div class="sub-head">
+      <div class="eyebrow"><span class="mark"></span>Cost comparison</div>
+      <h3>60–80% below <span class="accent">equivalent hyperscaler configurations.</span></h3>
+      <p>Indicative monthly cost for an equivalent mixed university research workload across GPU, CPU, and storage. Annual contracts eliminate pay-per-second unpredictability — student access, sandboxes, and the internship pipeline are included rather than priced separately. Sources: AWS, Google Cloud, Azure pricing (verified April 2026).</p>
+    </div>
+
+    <div class="spec-matrix reveal">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th class="navon-col">Navon Africa</th>
+            <th>AWS (p4d.24xl)</th>
+            <th>Google Cloud (a2-highgpu)</th>
+            <th>Azure (ND96)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Indicative monthly cost</td>
+            <td class="navon-cell"><strong>$4,200–$6,800</strong></td>
+            <td>$22,000–$28,000</td>
+            <td>$19,000–$25,000</td>
+            <td>$21,000–$27,000</td>
+          </tr>
+          <tr>
+            <td>Currency</td>
+            <td class="navon-cell">KES / USD</td>
+            <td>USD only</td>
+            <td>USD only</td>
+            <td>USD only</td>
+          </tr>
+          <tr>
+            <td>Data residency</td>
+            <td class="navon-cell"><strong>Kenya · on-soil</strong></td>
+            <td>EU / US regions</td>
+            <td>EU / US regions</td>
+            <td>South Africa</td>
+          </tr>
+          <tr>
+            <td>Billing model</td>
+            <td class="navon-cell">Annual · fixed</td>
+            <td>Pay-per-second</td>
+            <td>Pay-per-second</td>
+            <td>Pay-per-second</td>
+          </tr>
+          <tr>
+            <td>Student access</td>
+            <td class="navon-cell">Built-in, included</td>
+            <td>Not included</td>
+            <td>Not included</td>
+            <td>Not included</td>
+          </tr>
+          <tr>
+            <td>Sandboxes &amp; quantum</td>
+            <td class="navon-cell">Included</td>
+            <td>Not included</td>
+            <td>Not included</td>
+            <td>Not included</td>
+          </tr>
+          <tr>
+            <td>Internship pipeline</td>
+            <td class="navon-cell">Included</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td>Carbon footprint</td>
+            <td class="navon-cell">Near-zero · geothermal</td>
+            <td>Varies by region</td>
+            <td>Varies by region</td>
+            <td>Varies by region</td>
+          </tr>
+          <tr>
+            <td>Cost vs Navon</td>
+            <td class="navon-cell">—</td>
+            <td>60–80% more</td>
+            <td>60–75% more</td>
+            <td>60–77% more</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── SLA / Service level commitments ───────────────────── -->
+    <div class="sub-head">
+      <div class="eyebrow"><span class="mark"></span>Service levels</div>
+      <h3>What's <span class="accent">contractually committed.</span></h3>
+      <p>Every partnership ships with a named account manager, dedicated onboarding engineer for the first 30 days, and quarterly reviews. The commitments below are written into the agreement.</p>
+    </div>
+
+    <div class="included">
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">SLA · 01</div><h5>99.5% platform uptime.</h5><p>Monthly availability target across compute, storage, and developer environments.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">SLA · 02</div><h5>P1 incident response.</h5><p>Under 2 hours from notification — direct line to the on-call engineer.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">SLA · 03</div><h5>P2 incident response.</h5><p>Under 8 hours from notification, including triage and root-cause communication.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">SLA · 04</div><h5>Onboarding support.</h5><p>Dedicated onboarding engineer for the first 30 days — until every faculty is live.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">SLA · 05</div><h5>Named account manager.</h5><p>Single point of contact for all queries — commercial, technical, escalation.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">SLA · 06</div><h5>Quarterly reviews.</h5><p>Usage reporting across GPU, CPU, and storage; capacity planning; roadmap alignment.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">SLA · 07</div><h5>Internship placement.</h5><p>Confirmation within 4 weeks of nomination — at the data centre or via the partner network.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">SLA · 08</div><h5>Mentorship cadence.</h5><p>Minimum one session per cohort per month from the global expert network.</p></div></div>
+    </div>
+
+    <!-- ── Internships split ─────────────────────────────────── -->
+    <div class="sub-head">
+      <div class="eyebrow"><span class="mark"></span>Internships &amp; on-site opportunities</div>
+      <h3>Real experience — <span class="accent">at the data centre and beyond.</span></h3>
+      <p>The internship pipeline is rooted in a real, operating facility. Students don't get placed in generic office roles — they work at or alongside the Hells Gate data centre, gaining hands-on experience with the infrastructure they've been using throughout their studies.</p>
+    </div>
+
+    <div class="intern-split reveal">
+      <div class="intern-card featured">
+        <div class="ic-tag">/ At the data centre · Hells Gate</div>
+        <h4>Hands-on at Naivasha SEZ.</h4>
+        <p class="ic-lede">Students work at or alongside the operating facility. Defined responsibilities, mentored project outcomes, credit-bearing where the institution wants it.</p>
+        <ul>
+          <li>Infrastructure engineering &amp; data centre operations</li>
+          <li>Cloud systems and DevOps</li>
+          <li>Cybersecurity and network security</li>
+          <li>Quantum research and applied computing</li>
+          <li>Data labelling, annotation, and dataset curation</li>
+        </ul>
+      </div>
+      <div class="intern-card">
+        <div class="ic-tag">/ Global network access</div>
+        <h4>Beyond the campus.</h4>
+        <p class="ic-lede">Placement opportunities with Navon's partner network across East Africa, Europe and beyond — exposure to live industry challenges in AI, cybersecurity, fintech, agritech and infrastructure.</p>
+        <ul>
+          <li>Live industry challenges across the partner network</li>
+          <li>Access to advisory network — UCL, ETH Zurich, UPM, UPC</li>
+          <li>Top-performing interns considered for full-time roles</li>
+          <li>Career path as Navon scales 0.8 MW → 100 MW</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── 90-day pilot programme ────────────────────────────── -->
+    <div class="sub-head">
+      <div class="eyebrow"><span class="mark"></span>90-day pilot programme</div>
+      <h3>Evaluate on <span class="accent">real workloads</span> before committing.</h3>
+      <p>We recommend starting with a structured 90-day pilot. Research teams across participating faculties run real workloads on the platform before the institution commits to a full annual partnership. Pilot pricing is discounted; no commitment beyond 90 days; full data portability if you choose not to continue.</p>
+    </div>
+
+    <div class="pilot-phases reveal">
+      <div class="pilot-ph">
+        <div class="ph-week">Phase 01 · Weeks 1–2</div>
+        <div class="ph-num">01</div>
+        <h4>Onboarding.</h4>
+        <p>Accounts provisioned, SSO configured, all resource pools activated. Research leads from each participating faculty receive platform training.</p>
+      </div>
+      <div class="pilot-ph">
+        <div class="ph-week">Phase 02 · Weeks 3–8</div>
+        <div class="ph-num">02</div>
+        <h4>Research sprint.</h4>
+        <p>Students and researchers run real workloads across GPU, CPU/HPC, and storage. Internship candidates nominated. First mentorship session delivered.</p>
+      </div>
+      <div class="pilot-ph">
+        <div class="ph-week">Phase 03 · Weeks 9–12</div>
+        <div class="ph-num">03</div>
+        <h4>Evaluation.</h4>
+        <p>Usage review by faculty, cost comparison vs current alternatives, outcomes assessed. Go/no-go decision with full data portability if not proceeding.</p>
+      </div>
+    </div>
+
+    <!-- ── Knowledge partners — detailed ─────────────────────── -->
+    <div class="sub-head">
+      <div class="eyebrow"><span class="mark"></span>Global partners &amp; knowledge network</div>
+      <h3>World-class expertise <span class="accent">that backs the partnership.</span></h3>
+      <p>Working relationships through which Navon brings external expertise directly to partner universities — guest lectures, knowledge transfer, curriculum support, and research collaboration. Delivered on top of the infrastructure your institution is already using.</p>
+    </div>
+
+    <div class="kpartners reveal">
+      <div class="kpartner">
+        <div class="k-tag">Partner · 01</div>
+        <h4>UCL.</h4>
+        <div class="k-loc">University College London</div>
+        <p>Guest lectures, curriculum alignment, and research collaboration in AI, computer science, and data systems. Access to UCL's global network of researchers and practitioners.</p>
+      </div>
+      <div class="kpartner">
+        <div class="k-tag">Partner · 02</div>
+        <h4>ETH Zurich.</h4>
+        <div class="k-loc">Eidgenössische Technische Hochschule</div>
+        <p>Knowledge transfer in advanced computing, engineering simulation, robotics, and applied AI — directly relevant to engineering and science faculties at partner institutions.</p>
+      </div>
+      <div class="kpartner">
+        <div class="k-tag">Partner · 03</div>
+        <h4>UPM.</h4>
+        <div class="k-loc">Universidad Politécnica de Madrid</div>
+        <p>Curriculum input and guest expertise in telecommunications, AI, systems engineering, and large-scale infrastructure design.</p>
+      </div>
+      <div class="kpartner">
+        <div class="k-tag">Partner · 04</div>
+        <h4>UPC.</h4>
+        <div class="k-loc">Universitat Politècnica de Catalunya</div>
+        <p>Research collaboration and guest education in data science, quantum computing, and advanced networking. Active contributor to Navon's quantum research programme.</p>
+      </div>
+    </div>
+
+    <!-- ── Expert domains ────────────────────────────────────── -->
+    <div class="sub-head">
+      <div class="eyebrow"><span class="mark"></span>Expert domains</div>
+      <h3>Where the network <span class="accent">goes deep.</span></h3>
+      <p>Four research domains where the partner network can deliver guest lectures, curriculum input, and joint research — at any partner university, on top of the infrastructure already in place.</p>
+    </div>
+
+    <div class="domain-grid reveal">
+      <div class="domain">
+        <div class="d-tag">Domain · 01</div>
+        <h4>Artificial Intelligence.</h4>
+        <ul>
+          <li>LLM training and fine-tuning</li>
+          <li>NLP for African and low-resource languages</li>
+          <li>Computer vision</li>
+          <li>AI policy and responsible deployment</li>
+          <li>ML infrastructure at scale</li>
+        </ul>
+      </div>
+      <div class="domain">
+        <div class="d-tag">Domain · 02</div>
+        <h4>Quantum Computing.</h4>
+        <ul>
+          <li>Quantum circuit design</li>
+          <li>Hybrid classical-quantum algorithms</li>
+          <li>Post-quantum cryptography (PQC)</li>
+          <li>Quantum Key Distribution (QKD)</li>
+          <li>Quantum error correction</li>
+        </ul>
+      </div>
+      <div class="domain">
+        <div class="d-tag">Domain · 03</div>
+        <h4>Advanced Computing &amp; HPC.</h4>
+        <ul>
+          <li>GPU cluster architecture</li>
+          <li>High-performance computing and simulation</li>
+          <li>Large-memory scientific workloads</li>
+          <li>Semiconductor platforms</li>
+        </ul>
+      </div>
+      <div class="domain">
+        <div class="d-tag">Domain · 04</div>
+        <h4>Cybersecurity.</h4>
+        <ul>
+          <li>Quantum-safe security frameworks</li>
+          <li>Sovereign cloud security</li>
+          <li>Zero-trust network design</li>
+          <li>Cryptographic implementation</li>
+          <li>Infrastructure hardening</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Next steps ─────────────────────────────────────────── -->
+    <div class="sub-head">
+      <div class="eyebrow"><span class="mark"></span>Next steps</div>
+      <h3>How to <span class="accent">get started.</span></h3>
+      <p>From first call to first faculty live in two weeks. Lightweight MoU, clear obligations, and a structured engagement so the institution can evaluate before committing.</p>
+    </div>
+
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h5>Discovery call.</h5>
+        <p>30-minute conversation to understand research workloads across faculties, student cohort size, and institutional requirements.</p>
+        <div class="step-time">~ 30 minutes</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h5>Technical scoping.</h5>
+        <p>Navon engineering maps compute needs across GPU, CPU/HPC, and storage to the right tier and configuration.</p>
+        <div class="step-time">~ 1 week</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h5>MoU signature.</h5>
+        <p>Lightweight agreement with clear obligations, SLAs, and success criteria — not a 60-page master service contract.</p>
+        <div class="step-time">~ 2 weeks</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h5>Onboarding.</h5>
+        <p>First students and researchers across all participating faculties are live within two weeks of signing.</p>
+        <div class="step-time">~ 2 weeks</div>
+      </div>
     </div>
 
     <div class="partners-strip">
-      <span class="label">Knowledge partners ↓</span>
+      <span class="label">Knowledge network ↓</span>
       <span class="partner-name">UCL</span>
       <span class="partner-name">ETH Zurich</span>
       <span class="partner-name">UPM Madrid</span>
       <span class="partner-name">UPC Barcelona</span>
       <span class="partner-name">Strathmore University</span>
-      <span class="partner-name">QCentroid</span>
-      <span class="partner-name">ExeQuantum</span>
       <span class="partner-name">AI Kenya</span>
       <span class="partner-name">Alliance for AI</span>
     </div>
@@ -617,11 +1329,11 @@
     <div class="mission-cta">
       <div>
         <h4>University Partnership Programme.</h4>
-        <p>Three tiers sized for the institution — from teaching-focused departments to multi-faculty research universities. Annual contract, named account manager, internship pipeline included.</p>
+        <p>Annual contract sized to the institution — from teaching-focused departments to multi-faculty research universities. Named account manager, dedicated onboarding, internship pipeline, mentorship cadence — all included. Start with a 90-day pilot.</p>
       </div>
       <div class="dual-cta">
-        <a href="mailto:partnerships@navon.cloud" class="cta">University programme <span class="arrow">→</span></a>
-        <a href="mailto:partnerships@navon.cloud" class="cta-ghost">Researcher access <span class="arrow">→</span></a>
+        <a href="mailto:partnerships@navonworld.com" class="cta">Start a 90-day pilot <span class="arrow">→</span></a>
+        <a href="mailto:partnerships@navonworld.com" class="cta-ghost">Book discovery call <span class="arrow">→</span></a>
       </div>
     </div>
   </section>
