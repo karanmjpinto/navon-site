@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cookie Preferences — Navon</title>
+<meta name="description" content="Manage how cookies are used on the Navon site." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/shared.css">
+<style>
+  .cookie-cat {
+    border: 1px solid var(--line);
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+    transition: border-color 0.25s ease;
+  }
+  .cookie-cat:hover { border-color: var(--line-2); }
+  .cookie-cat-name {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 8px;
+  }
+  .cookie-cat h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.018em;
+    margin: 0 0 8px;
+  }
+  .cookie-cat p { color: var(--mid); font-size: 14px; line-height: 1.55; margin: 0; max-width: 64ch; }
+  .cookie-cat .req {
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--signal);
+  }
+
+  .toggle {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle .track {
+    position: absolute;
+    inset: 0;
+    background: var(--charcoal);
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+  .toggle .knob {
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 20px; height: 20px;
+    background: var(--mid);
+    border-radius: 50%;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.25s ease;
+  }
+  .toggle input:checked + .track { background: rgba(231,255,0,0.18); border-color: var(--signal); }
+  .toggle input:checked + .track + .knob { transform: translateX(24px); background: var(--signal); }
+  .toggle input:disabled + .track { background: rgba(231,255,0,0.18); border-color: var(--signal); cursor: not-allowed; }
+  .toggle input:disabled + .track + .knob { transform: translateX(24px); background: var(--signal); cursor: not-allowed; }
+
+  .save-row {
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .save-row .status {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    transition: color 0.3s ease;
+  }
+  .save-row .status.saved { color: var(--signal); }
+</style>
+</head>
+<body class="theme-light">
+
+<nav class="nav">
+  <a href="../index.html" class="wordmark">NAVON<span class="dot">.</span></a>
+  <div class="nav-right">
+    <div class="nav-menu">
+      <a href="../index.html">Platform</a>
+      <span class="has-dropdown">
+        <a href="../products.html">Products <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-5">
+            <a class="mega-menu-card" href="../products.html#modular"><div class="num">01</div><div class="name">Modular DCs</div></a>
+            <a class="mega-menu-card" href="../products.html#turnkey"><div class="num">02</div><div class="name">Turnkey systems</div></a>
+            <a class="mega-menu-card" href="../products.html#cloud"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
+            <a class="mega-menu-card" href="../products.html#security"><div class="num">04</div><div class="name">Cybersecurity</div></a>
+            <a class="mega-menu-card" href="../products.html#utility"><div class="num">05</div><div class="name">Utility</div></a>
+          </div>
+        </div>
+      </span>
+      <a href="../missions.html">Missions</a>
+      <span class="has-dropdown">
+        <a href="../resources.html">Resources <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-2">
+            <div class="mega-menu-col"><h5>Read</h5><a class="link" href="../insights.html">Insights <span class="arrow">→</span></a><a class="link" href="../news.html">News <span class="arrow">→</span></a><a class="link" href="../faq.html">FAQ <span class="arrow">→</span></a></div>
+            <div class="mega-menu-col"><h5>Build</h5><a class="link" href="../docs.html">Docs <span class="arrow">→</span></a><a class="link" href="../resources.html#whitepapers">Whitepapers <span class="arrow">→</span></a><a class="link" href="../resources.html#brand">Brand kit <span class="arrow">→</span></a></div>
+          </div>
+        </div>
+      </span>
+      <a href="../foundations.html">Foundations</a>
+      <a href="../about.html">About</a>
+    </div>
+    <a href="../about.html#contact" class="cta">Talk to us <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<main class="legal-page">
+  <div class="crumb"><a href="../index.html">Navon</a> · Legal · Cookies</div>
+  <h1>Cookie preferences.</h1>
+  <div class="meta">Effective · TBD · Version 0.1 · Scaffold pending counsel review</div>
+
+  <p>We keep cookie use to a minimum. The categories below describe what we use and why. Toggle to set your preferences for this browser; essential cookies cannot be disabled because the site won't function without them.</p>
+
+  <div class="placeholder" style="margin-bottom: 32px;">
+    <strong>Counsel to provide.</strong> Final cookie list, retention periods per cookie, and named third-party providers will be filled in before public launch. The toggle behaviour and category model below are production-ready.
+  </div>
+
+  <div class="cookie-cat">
+    <div>
+      <div class="cookie-cat-name">Category 01</div>
+      <h3>Essential.</h3>
+      <p>Required for the site to function: session state, security tokens, your acceptance of this banner. These cannot be disabled.</p>
+      <div class="req">Always on</div>
+    </div>
+    <label class="toggle"><input type="checkbox" checked disabled><span class="track"></span><span class="knob"></span></label>
+  </div>
+
+  <div class="cookie-cat">
+    <div>
+      <div class="cookie-cat-name">Category 02</div>
+      <h3>Analytics.</h3>
+      <p>Help us understand how the site is used so we can improve it. Aggregated, no personal identifiers stored. Counsel to confirm provider and retention.</p>
+    </div>
+    <label class="toggle"><input type="checkbox" data-cat="analytics"><span class="track"></span><span class="knob"></span></label>
+  </div>
+
+  <div class="cookie-cat">
+    <div>
+      <div class="cookie-cat-name">Category 03</div>
+      <h3>Marketing.</h3>
+      <p>Used only if you've opted in to receive marketing communications. We don't run ad re-targeting from this site by default.</p>
+    </div>
+    <label class="toggle"><input type="checkbox" data-cat="marketing"><span class="track"></span><span class="knob"></span></label>
+  </div>
+
+  <div class="save-row">
+    <button class="cta" id="save-prefs">Save preferences <span class="arrow">→</span></button>
+    <button class="cta-ghost" id="reset-prefs">Reject non-essential</button>
+    <span class="status" id="status"></span>
+  </div>
+</main>
+
+<footer class="site-footer cols-5">
+  <div class="foot-brand"><div class="wordmark">NAVON<span class="dot">.</span></div><p>Vertically integrated deep tech for emerging markets. Sovereign, green, full-stack compute — one site, one layer, one partnership at a time.</p></div>
+  <div><h4>Products</h4><a href="../products.html#modular">Modular DCs</a><a href="../products.html#turnkey">Turnkey systems</a><a href="../products.html#cloud">Sovereign cloud</a><a href="../products.html#security">Cybersecurity</a><a href="../products.html#utility">Utility</a></div>
+  <div><h4>Resources</h4><a href="../insights.html">Insights</a><a href="../news.html">News</a><a href="../faq.html">FAQ</a><a href="../docs.html">Docs</a><a href="../resources.html">All resources</a></div>
+  <div><h4>Company</h4><a href="../about.html">About</a><a href="../foundations.html">Foundations</a><a href="../missions.html">Missions</a><a href="../inside.html">Inside Navon</a><a href="../about.html#contact">Contact</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+  <div><h4>Legal</h4><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a><a href="cookie-preferences.html">Cookies</a></div>
+</footer>
+<div class="legal"><div>© Navon World · Sovereign compute, powered by the earth.</div><div>Naivasha SEZ · Kenya · Global South, one site at a time.</div></div>
+
+<script src="../assets/shared.js"></script>
+<script>
+  /* Cookie preferences UI */
+  const PREFS_KEY = 'navon-cookie-prefs';
+  const COOKIE_KEY = 'navon-cookies-acknowledged';
+  const status = document.getElementById('status');
+  const toggles = document.querySelectorAll('input[data-cat]');
+
+  /* Load existing prefs */
+  try {
+    const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
+    toggles.forEach((t) => { t.checked = !!prefs[t.dataset.cat]; });
+  } catch (e) {}
+
+  document.getElementById('save-prefs').addEventListener('click', () => {
+    const prefs = {};
+    toggles.forEach((t) => { prefs[t.dataset.cat] = t.checked; });
+    localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+    localStorage.setItem(COOKIE_KEY, '1');
+    status.textContent = '✓ Preferences saved';
+    status.classList.add('saved');
+    setTimeout(() => { status.textContent = ''; status.classList.remove('saved'); }, 3000);
+  });
+
+  document.getElementById('reset-prefs').addEventListener('click', () => {
+    toggles.forEach((t) => { t.checked = false; });
+    localStorage.setItem(PREFS_KEY, '{}');
+    localStorage.setItem(COOKIE_KEY, '1');
+    status.textContent = '✓ Non-essential rejected';
+    status.classList.add('saved');
+    setTimeout(() => { status.textContent = ''; status.classList.remove('saved'); }, 3000);
+  });
+</script>
+</body>
+</html>

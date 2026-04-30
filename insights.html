@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Insights — Navon</title>
+<meta name="description" content="How we think about deep tech, energy, sovereignty, and the next era of compute." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  /* hero visual placeholder */
+  .hero-glyph {
+    width: 100%;
+    max-width: 460px;
+    aspect-ratio: 1.2 / 1;
+    margin-left: auto;
+  }
+
+  /* category filter strip */
+  .filter {
+    padding: 28px var(--px);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+    background: rgba(255,255,255,0.012);
+  }
+  .filter-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .filter-pill {
+    padding: 6px 14px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--light);
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    font-family: inherit;
+  }
+  .filter-pill:hover { border-color: var(--signal); color: var(--signal); }
+  .filter-pill.active { background: var(--signal); color: var(--ink); border-color: var(--signal); }
+
+  /* Featured article */
+  .featured {
+    padding: var(--section-y) var(--px) 64px;
+    border-bottom: 1px solid var(--line);
+  }
+  .feat-card {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 56px;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+  @media (max-width: 900px) { .feat-card { grid-template-columns: 1fr; gap: 32px; } }
+  .feat-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--signal);
+    margin-bottom: 24px;
+  }
+  .feat-tag::before { content: ""; width: 6px; height: 6px; background: var(--signal); display: inline-block; border-radius: 50%; }
+  .feat-title {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 4.4vw, 56px);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    margin: 0 0 24px;
+    font-weight: 500;
+    transition: color 0.25s ease;
+  }
+  .feat-card:hover .feat-title { color: var(--signal); }
+  .feat-desc {
+    color: var(--mid);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0 0 24px;
+    max-width: 56ch;
+  }
+  .feat-meta {
+    display: flex;
+    gap: 18px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .feat-visual {
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--line);
+    background: linear-gradient(135deg, rgba(231,255,0,0.04), rgba(255,255,255,0.015));
+    position: relative;
+    overflow: hidden;
+  }
+  .feat-visual svg { width: 100%; height: 100%; }
+
+  /* Grid of articles */
+  .insights-grid {
+    padding: 56px var(--px) var(--section-y);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 1100px) { .insights-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 700px)  { .insights-grid { grid-template-columns: 1fr; } }
+
+  .insight {
+    background: var(--ink);
+    padding: 36px 28px 36px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 360px;
+    transition: background 0.3s ease;
+  }
+  .insight::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--signal);
+    transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .insight:hover { background: rgba(231,255,0,0.025); }
+  .insight:hover::before { width: 100%; }
+
+  .insight-thumb {
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--line);
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255,255,255,0.025), rgba(231,255,0,0.015));
+  }
+  .insight-thumb svg { width: 100%; height: 100%; }
+  .insight-cat {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 14px;
+  }
+  .insight:hover .insight-cat { color: var(--signal); }
+  .insight-title {
+    font-family: var(--font-display);
+    font-size: 19px;
+    line-height: 1.25;
+    letter-spacing: -0.012em;
+    margin: 0 0 14px;
+    font-weight: 500;
+    color: var(--paper);
+  }
+  .insight-desc {
+    color: var(--mid);
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0 0 20px;
+  }
+  .insight-foot {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .insight:hover .insight-foot { color: var(--signal); }
+  .insight-foot .arrow { transition: transform 0.3s ease; }
+  .insight:hover .insight-foot .arrow { transform: translateX(4px); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="wordmark">NAVON<span class="dot">.</span></a>
+  <div class="nav-right">
+    <div class="nav-menu">
+      <a href="index.html">Platform</a>
+      <span class="has-dropdown">
+        <a href="products.html">Products <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-5">
+            <a class="mega-menu-card" href="products.html#modular"><div class="num">01</div><div class="name">Modular DCs</div></a>
+            <a class="mega-menu-card" href="products.html#turnkey"><div class="num">02</div><div class="name">Turnkey systems</div></a>
+            <a class="mega-menu-card" href="products.html#cloud"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
+            <a class="mega-menu-card" href="products.html#security"><div class="num">04</div><div class="name">Cybersecurity</div></a>
+            <a class="mega-menu-card" href="products.html#utility"><div class="num">05</div><div class="name">Utility</div></a>
+          </div>
+        </div>
+      </span>
+      <a href="missions.html">Missions</a>
+      <span class="has-dropdown">
+        <a href="resources.html">Resources <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-2">
+            <div class="mega-menu-col"><h5>Read</h5><a class="link" href="insights.html">Insights <span class="arrow">→</span></a><a class="link" href="news.html">News <span class="arrow">→</span></a><a class="link" href="faq.html">FAQ <span class="arrow">→</span></a></div>
+            <div class="mega-menu-col"><h5>Build</h5><a class="link" href="docs.html">Docs <span class="arrow">→</span></a><a class="link" href="resources.html#whitepapers">Whitepapers <span class="arrow">→</span></a><a class="link" href="resources.html#brand">Brand kit <span class="arrow">→</span></a></div>
+          </div>
+        </div>
+      </span>
+      <a href="hells-gate.html">Hells Gate</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="about.html">About</a>
+    </div>
+    <a href="about.html#contact" class="cta">Talk to us <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<!-- Page hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Insights</div>
+      <h1 class="page-title reveal">How we think<br/>about <span class="accent">deep tech.</span></h1>
+      <p class="page-lede reveal d1" style="margin-top:24px;">
+        Energy, sovereignty, and the architecture of the next era of compute —
+        as we read it from where we build.
+      </p>
+    </div>
+    <svg class="hero-glyph tech draw" viewBox="0 0 460 380" aria-hidden="true">
+      <!-- abstract: diverging lines representing perspectives -->
+      <g class="hair">
+        <line x1="60" y1="60" x2="400" y2="60"/>
+        <line x1="60" y1="100" x2="380" y2="100"/>
+        <line x1="60" y1="140" x2="320" y2="140"/>
+        <line x1="60" y1="180" x2="360" y2="180"/>
+        <line x1="60" y1="220" x2="300" y2="220"/>
+        <line x1="60" y1="260" x2="380" y2="260"/>
+        <line x1="60" y1="300" x2="340" y2="300"/>
+      </g>
+      <g class="signal d2" stroke-width="1.4">
+        <line x1="60" y1="180" x2="360" y2="180"/>
+      </g>
+      <circle cx="360" cy="180" r="5" class="signal"/>
+      <circle cx="360" cy="180" r="8" class="signal pulse" opacity="0.4"/>
+      <text x="60" y="338" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">12 ARTICLES · UPDATED MONTHLY</text>
+    </svg>
+  </div>
+</section>
+
+<!-- Filter -->
+<div class="filter">
+  <span class="filter-label">Filter ↓</span>
+  <button class="filter-pill active" data-cat="all">All</button>
+  <button class="filter-pill" data-cat="ai">AI</button>
+  <button class="filter-pill" data-cat="energy">Energy</button>
+  <button class="filter-pill" data-cat="infra">Infrastructure</button>
+  <button class="filter-pill" data-cat="geo">Geopolitics</button>
+  <button class="filter-pill" data-cat="net">Networking</button>
+</div>
+
+<!-- Featured article -->
+<section class="featured">
+  <article class="feat-card reveal" data-cat="geo">
+    <div>
+      <div class="feat-tag">Featured · Geopolitics</div>
+      <h2 class="feat-title">How global power is being reshaped — and why it changes where compute lives.</h2>
+      <p class="feat-desc">Multipolar economic shifts are redrawing global power dynamics, opening new opportunities for regions that have been infrastructure takers for decades. We read it as a permission slip — and a deadline.</p>
+      <div class="feat-meta">
+        <span>Read · 8 min</span>
+        <span>·</span>
+        <span>Geopolitics &amp; Economics</span>
+      </div>
+    </div>
+    <div class="feat-visual">
+      <svg viewBox="0 0 480 360" class="tech draw" aria-hidden="true">
+        <g stroke="rgba(255,255,255,0.08)" fill="none">
+          <circle cx="240" cy="180" r="70"/>
+          <circle cx="240" cy="180" r="120" stroke-dasharray="2 5"/>
+          <circle cx="240" cy="180" r="170" stroke-dasharray="1 7"/>
+        </g>
+        <circle cx="240" cy="180" r="8" class="signal"/>
+        <circle cx="240" cy="180" r="14" class="signal pulse" opacity="0.4"/>
+        <g class="hair d2">
+          <circle cx="120" cy="120" r="5" fill="#9E9F9B"/>
+          <circle cx="370" cy="100" r="5" fill="#9E9F9B"/>
+          <circle cx="380" cy="270" r="5" fill="#9E9F9B"/>
+          <circle cx="100" cy="260" r="5" fill="#9E9F9B"/>
+        </g>
+        <g class="dashed d3">
+          <line x1="240" y1="180" x2="120" y2="120"/>
+          <line x1="240" y1="180" x2="370" y2="100"/>
+          <line x1="240" y1="180" x2="380" y2="270"/>
+          <line x1="240" y1="180" x2="100" y2="260"/>
+        </g>
+        <text x="20" y="340" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">A MULTIPOLAR COMPUTE LANDSCAPE</text>
+      </svg>
+    </div>
+  </article>
+</section>
+
+<!-- Grid -->
+<section class="insights-grid">
+
+  <article class="insight reveal d1" data-cat="ai">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair"><line x1="20" y1="60" x2="300" y2="60"/><line x1="20" y1="90" x2="280" y2="90"/><line x1="20" y1="120" x2="260" y2="120"/></g>
+        <rect x="20" y="80" width="180" height="20" class="signal" opacity="0.85"/>
+      </svg>
+    </div>
+    <div class="insight-cat">AI · COMPUTING</div>
+    <h3 class="insight-title">The only people who think AI is overhyped don't have real access.</h3>
+    <p class="insight-desc">AI is only "overhyped" because most GPUs are racing to super-intelligence — not running customer applications. Access is the bottleneck.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+  <article class="insight reveal d2" data-cat="infra">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <rect class="hair" x="40" y="40" width="240" height="100" fill="none"/>
+        <g class="hair"><line x1="60" y1="60" x2="60" y2="120"/><line x1="100" y1="60" x2="100" y2="120"/><line x1="140" y1="60" x2="140" y2="120"/><line x1="180" y1="60" x2="180" y2="120"/><line x1="220" y1="60" x2="220" y2="120"/><line x1="260" y1="60" x2="260" y2="120"/></g>
+        <rect x="100" y="60" width="40" height="60" class="signal" opacity="0.85"/>
+      </svg>
+    </div>
+    <div class="insight-cat">DATA CENTRE OPS</div>
+    <h3 class="insight-title">Data centres aren't always maxed out — here's how to fill the gaps.</h3>
+    <p class="insight-desc">By Tyler H. Norris. Redundancy and maintenance keep facilities below peak capacity. The gap between nameplate and real load is bigger than you think.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+  <article class="insight reveal d3" data-cat="infra">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair">
+          <circle cx="80" cy="90" r="20" fill="none"/>
+          <circle cx="160" cy="90" r="20" fill="none"/>
+          <circle cx="240" cy="90" r="20" fill="none"/>
+          <line x1="100" y1="90" x2="140" y2="90"/>
+          <line x1="180" y1="90" x2="220" y2="90"/>
+        </g>
+        <circle cx="160" cy="90" r="6" class="signal"/>
+      </svg>
+    </div>
+    <div class="insight-cat">INFRASTRUCTURE · DESIGN</div>
+    <h3 class="insight-title">Ten first principles of data centres.</h3>
+    <p class="insight-desc">From efficiency to automation: the foundational rules that should govern every modern data centre design.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+  <article class="insight reveal d1" data-cat="energy">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <circle class="hair" cx="160" cy="100" r="32" fill="none"/>
+        <g class="hair"><line x1="160" y1="40" x2="160" y2="160"/><line x1="100" y1="100" x2="220" y2="100"/></g>
+        <circle cx="160" cy="100" r="6" class="signal"/>
+        <circle cx="160" cy="100" r="10" class="signal pulse" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="insight-cat">ENERGY · INFRASTRUCTURE</div>
+    <h3 class="insight-title">Why small modular reactors are the future of AI energy.</h3>
+    <p class="insight-desc">SMRs as on-site, sustainable power for the AI scaling curve — and where they fit alongside geothermal, hydro, and grid baseload.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+  <article class="insight reveal d2" data-cat="energy">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <path class="line" d="M20 130 Q 160 100 300 130 L 300 160 L 20 160 Z" fill="none"/>
+        <g class="hair">
+          <path d="M160 130 C 158 100, 152 84, 160 64"/>
+          <path d="M150 124 C 148 100, 144 86, 150 68"/>
+          <path d="M170 124 C 172 102, 176 86, 170 68"/>
+        </g>
+        <circle cx="160" cy="64" r="4" class="signal"/>
+        <circle cx="160" cy="64" r="7" class="signal pulse" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="insight-cat">ENERGY · SUSTAINABILITY</div>
+    <h3 class="insight-title">Geothermal energy and the future of data centres.</h3>
+    <p class="insight-desc">Why baseload heat from the earth is one of the cleanest, most reliable inputs to AI infrastructure expansion — and where the corridors are.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+  <article class="insight reveal d3" data-cat="ai">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair">
+          <circle cx="80" cy="90" r="14" fill="none"/>
+          <circle cx="160" cy="90" r="14" fill="none"/>
+          <circle cx="240" cy="90" r="14" fill="none"/>
+          <line x1="94" y1="90" x2="146" y2="90"/>
+          <line x1="174" y1="90" x2="226" y2="90"/>
+        </g>
+        <circle cx="160" cy="90" r="6" class="signal"/>
+      </svg>
+    </div>
+    <div class="insight-cat">AI · STRATEGY</div>
+    <h3 class="insight-title">AI usage is now a baseline expectation.</h3>
+    <p class="insight-desc">After Tobi Lütke's Shopify memo: AI competency isn't an advantage anymore — it's an operational floor across every level of an organisation.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+  <article class="insight reveal d1" data-cat="energy">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair">
+          <line x1="40" y1="60" x2="280" y2="60"/>
+          <line x1="40" y1="120" x2="280" y2="120"/>
+        </g>
+        <g class="signal">
+          <line x1="40" y1="60" x2="180" y2="60" stroke-width="1.5"/>
+          <line x1="40" y1="120" x2="120" y2="120" stroke-width="1.5"/>
+        </g>
+        <text x="40" y="150" font-size="8" letter-spacing="2" fill="#9E9F9B">WATT</text>
+        <text x="40" y="40" font-size="8" letter-spacing="2" fill="#9E9F9B">BIT</text>
+      </svg>
+    </div>
+    <div class="insight-cat">ENERGY · MARKETS</div>
+    <h3 class="insight-title">The Watt-Bit spread and the future of AI power markets.</h3>
+    <p class="insight-desc">The widening gap between energy supply and AI compute demand is a tradable spread — and it's reshaping who can build at scale.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+  <article class="insight reveal d2" data-cat="net">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair">
+          <rect x="40" y="60" width="50" height="60" fill="none"/>
+          <rect x="135" y="60" width="50" height="60" fill="none"/>
+          <rect x="230" y="60" width="50" height="60" fill="none"/>
+          <line x1="90" y1="90" x2="135" y2="90"/>
+          <line x1="185" y1="90" x2="230" y2="90"/>
+        </g>
+        <rect x="135" y="60" width="50" height="60" class="signal" opacity="0.85"/>
+      </svg>
+    </div>
+    <div class="insight-cat">INFRASTRUCTURE · NETWORKING</div>
+    <h3 class="insight-title">The data centre is the computer — how the network shapes performance.</h3>
+    <p class="insight-desc">Ethernet vs high-performance fabric: why the network is now the dominant variable in large-scale AI training and inference.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+  <article class="insight reveal d3" data-cat="ai">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <circle class="hair" cx="160" cy="90" r="40" fill="none"/>
+        <g class="hair">
+          <circle cx="60" cy="50" r="10" fill="none"/>
+          <circle cx="260" cy="50" r="10" fill="none"/>
+          <circle cx="60" cy="130" r="10" fill="none"/>
+          <circle cx="260" cy="130" r="10" fill="none"/>
+        </g>
+        <g class="dashed">
+          <line x1="70" y1="55" x2="125" y2="80"/>
+          <line x1="250" y1="55" x2="195" y2="80"/>
+          <line x1="70" y1="125" x2="125" y2="100"/>
+          <line x1="250" y1="125" x2="195" y2="100"/>
+        </g>
+        <circle cx="160" cy="90" r="5" class="signal"/>
+      </svg>
+    </div>
+    <div class="insight-cat">AI · EDGE</div>
+    <h3 class="insight-title">Scaling edge physical AI — bridging cloud intelligence with the real world.</h3>
+    <p class="insight-desc">What it takes to make edge AI reliable and scalable enough to integrate with physical systems — robotics, sensors, autonomous infrastructure.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+  <article class="insight reveal d1" data-cat="infra">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair">
+          <rect x="40" y="40" width="240" height="100" fill="none"/>
+          <line x1="80" y1="40" x2="80" y2="140"/>
+          <line x1="120" y1="40" x2="120" y2="140"/>
+          <line x1="160" y1="40" x2="160" y2="140"/>
+          <line x1="200" y1="40" x2="200" y2="140"/>
+          <line x1="240" y1="40" x2="240" y2="140"/>
+        </g>
+        <rect x="40" y="40" width="100" height="100" class="signal" opacity="0.8"/>
+      </svg>
+    </div>
+    <div class="insight-cat">INFRASTRUCTURE · ENERGY</div>
+    <h3 class="insight-title">The needs of hyperscaler offtakers — capacity, scale, speed.</h3>
+    <p class="insight-desc">What hyperscalers actually require from energy infrastructure, why traditional utilities fall short, and where alternative siting models step in.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+  <article class="insight reveal d2" data-cat="geo">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair" fill="none">
+          <circle cx="160" cy="90" r="60"/>
+          <circle cx="160" cy="90" r="40" stroke-dasharray="2 4"/>
+        </g>
+        <g class="hair">
+          <circle cx="120" cy="60" r="3" fill="#9E9F9B"/>
+          <circle cx="200" cy="70" r="3" fill="#9E9F9B"/>
+          <circle cx="180" cy="120" r="3" fill="#9E9F9B"/>
+          <circle cx="110" cy="115" r="3" fill="#9E9F9B"/>
+        </g>
+        <circle cx="160" cy="90" r="5" class="signal"/>
+      </svg>
+    </div>
+    <div class="insight-cat">GEOPOLITICS · ECONOMICS</div>
+    <h3 class="insight-title">How global power is being reshaped.</h3>
+    <p class="insight-desc">Multipolar economic shifts are creating new infrastructure opportunities — particularly for the regions that have been digital takers for decades.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+  <article class="insight reveal d3" data-cat="energy">
+    <div class="insight-thumb">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair">
+          <line x1="40" y1="140" x2="280" y2="140"/>
+          <line x1="40" y1="140" x2="40" y2="60"/>
+          <polyline points="40,120 80,90 130,100 180,70 240,50 280,40" fill="none"/>
+        </g>
+        <g class="signal" stroke-width="1.4" fill="none">
+          <polyline points="40,120 80,90 130,100 180,70 240,50 280,40"/>
+        </g>
+        <circle cx="280" cy="40" r="5" class="signal"/>
+      </svg>
+    </div>
+    <div class="insight-cat">ENERGY · AI IMPACT</div>
+    <h3 class="insight-title">How AI will impact energy demand.</h3>
+    <p class="insight-desc">Data centres on track to double global power demand. The question is whether sustainability innovation can keep pace — and where it has to be sited.</p>
+    <div class="insight-foot"><span>Read</span><span class="arrow">→</span></div>
+  </article>
+
+</section>
+
+<!-- Footer -->
+<footer class="site-footer cols-5">
+  <div class="foot-brand"><div class="wordmark">NAVON<span class="dot">.</span></div><p>Vertically integrated deep tech for emerging markets. Sovereign, green, full-stack compute — one site, one layer, one partnership at a time.</p></div>
+  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="products.html#cloud">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
+  <div><h4>Resources</h4><a href="insights.html">Insights</a><a href="news.html">News</a><a href="faq.html">FAQ</a><a href="docs.html">Docs</a><a href="resources.html">All resources</a></div>
+  <div><h4>Company</h4><a href="about.html">About</a><a href="foundations.html">Foundations</a><a href="missions.html">Missions</a><a href="inside.html">Inside Navon</a><a href="about.html#contact">Contact</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+  <div><h4>Legal</h4><a href="legal/privacy-policy.html">Privacy</a><a href="legal/terms-of-service.html">Terms</a><a href="legal/cookie-preferences.html">Cookies</a></div>
+</footer>
+<div class="legal">
+  <div>© Navon World · Sovereign compute, powered by the earth.</div>
+  <div>Naivasha SEZ · Kenya · Global South, one site at a time.</div>
+</div>
+
+<script src="assets/shared.js"></script>
+<script>
+  /* category filter */
+  const pills = document.querySelectorAll('.filter-pill');
+  const items = document.querySelectorAll('[data-cat]');
+  pills.forEach((p) => {
+    p.addEventListener('click', () => {
+      pills.forEach((x) => x.classList.remove('active'));
+      p.classList.add('active');
+      const cat = p.dataset.cat;
+      items.forEach((it) => {
+        const match = cat === 'all' || it.dataset.cat === cat;
+        it.style.display = match ? '' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>

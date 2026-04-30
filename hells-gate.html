@@ -1,0 +1,1184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hells Gate Deep Tech Park — Navon</title>
+<meta name="description" content="Navon's flagship: a sovereign, geothermal-powered, Tier III colocation campus in Kenya's Naivasha Special Economic Zone. Factory-built modular infrastructure, 400 kW per module, PUE 1.29." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  .hero-glyph { width: 100%; max-width: 480px; aspect-ratio: 1.2 / 1; margin-left: auto; }
+
+  /* hero stat strip pinned beneath title */
+  .hero-stats {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 900px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } }
+  .hero-stats .s {
+    background: var(--ink);
+    padding: 26px 24px;
+    transition: background 0.3s ease;
+  }
+  .hero-stats .s:hover { background: rgba(231,255,0,0.022); }
+  .hero-stats .s .l {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 10px;
+  }
+  .hero-stats .s .v {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 36px);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    color: var(--paper);
+  }
+  .hero-stats .s .v .signal { color: var(--signal); }
+  .hero-stats .s .d { font-size: 12.5px; color: var(--mid); margin-top: 8px; line-height: 1.5; }
+
+  /* shared section block */
+  .block { padding: var(--section-y) var(--px); border-bottom: 1px solid var(--line); }
+  .block.alt { background: linear-gradient(180deg, rgba(255,255,255,0.012), transparent); }
+
+  .block-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: end;
+    margin-bottom: 64px;
+  }
+  @media (max-width: 900px) { .block-head { grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; } }
+  .block-head h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.6vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 16px 0 0;
+    font-weight: 500;
+    max-width: 18ch;
+  }
+  .block-head h2 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+  .block-head p { color: var(--light); font-size: 16.5px; line-height: 1.6; max-width: 50ch; margin: 0; }
+
+  /* split visual + text rows */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .split.flip { direction: rtl; }
+  .split.flip > * { direction: ltr; }
+  @media (max-width: 980px) { .split, .split.flip { grid-template-columns: 1fr; gap: 40px; direction: ltr; } }
+  .split p {
+    color: var(--light);
+    font-size: 16.5px;
+    line-height: 1.6;
+    margin: 0 0 16px;
+    max-width: 56ch;
+  }
+  .split h3 {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    margin: 0 0 20px;
+    font-weight: 500;
+    max-width: 22ch;
+  }
+  .split h3 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+
+  .visual-frame {
+    aspect-ratio: 1 / 1;
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,255,255,0.014), transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+  }
+  .visual-frame svg { width: 100%; height: 100%; }
+
+  /* spec list (bullets with mono labels) */
+  .spec-list { list-style: none; margin: 24px 0 0; padding: 0; }
+  .spec-list li {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  @media (max-width: 600px) { .spec-list li { grid-template-columns: 1fr; gap: 4px; } }
+  .spec-list li .k {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .spec-list li .v { color: var(--light); font-size: 15px; line-height: 1.55; }
+  .spec-list li .v strong { color: var(--paper); font-weight: 500; }
+
+  /* feature grid (3 across) */
+  .feat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 32px;
+  }
+  @media (max-width: 1000px) { .feat-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px)  { .feat-grid { grid-template-columns: 1fr; } }
+  .feat {
+    background: var(--ink);
+    padding: 30px 26px 32px;
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .feat::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--signal);
+    transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .feat:hover { background: rgba(231,255,0,0.022); }
+  .feat:hover::before { width: 100%; }
+  .feat .num {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    color: var(--slate);
+    margin-bottom: 18px;
+  }
+  .feat:hover .num { color: var(--signal); }
+  .feat h4 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    margin: 0 0 10px;
+  }
+  .feat p { color: var(--mid); font-size: 13.5px; line-height: 1.55; margin: 0; }
+
+  /* technical summary table */
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid var(--line);
+    margin-top: 8px;
+  }
+  .spec-table tr { border-bottom: 1px solid var(--line); transition: background 0.2s ease; }
+  .spec-table tr:hover { background: rgba(231,255,0,0.012); }
+  .spec-table td { padding: 18px 20px; vertical-align: top; }
+  .spec-table td:first-child {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    white-space: nowrap;
+    width: 280px;
+  }
+  .spec-table td:last-child { color: var(--light); font-size: 14.5px; line-height: 1.55; }
+  .spec-table td:last-child strong { color: var(--paper); font-weight: 500; }
+  @media (max-width: 720px) {
+    .spec-table td { padding: 14px 0; display: block; }
+    .spec-table td:first-child { width: auto; padding-bottom: 4px; }
+  }
+
+  /* sustainability + AI compact rows */
+  .pillar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 32px;
+  }
+  @media (max-width: 1000px) { .pillar { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px)  { .pillar { grid-template-columns: 1fr; } }
+  .pillar .p {
+    background: var(--ink);
+    padding: 28px 24px;
+    transition: background 0.3s ease;
+  }
+  .pillar .p:hover { background: rgba(231,255,0,0.022); }
+  .pillar .p .l {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 10px;
+  }
+  .pillar .p .v {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    color: var(--paper);
+    margin-bottom: 10px;
+  }
+  .pillar .p .v .signal { color: var(--signal); }
+  .pillar .p .d { font-size: 13px; color: var(--mid); line-height: 1.5; }
+
+  /* CTA */
+  .final-cta { padding: var(--section-y) var(--px); position: relative; overflow: hidden; }
+  .final-cta::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(231,255,0,0.07), transparent 50%);
+    pointer-events: none;
+  }
+  .final-cta-inner { position: relative; display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: end; }
+  @media (max-width: 820px) { .final-cta-inner { grid-template-columns: 1fr; gap: 32px; } }
+  .final-cta h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5.4vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    margin: 16px 0 0;
+    font-weight: 500;
+    max-width: 16ch;
+  }
+  .final-cta h2 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+
+  /* ── Site photography ─────────────────────────── */
+  /* Full-bleed cinematic band */
+  .photo-band {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--ink-2);
+  }
+  @media (max-width: 800px) { .photo-band { aspect-ratio: 4/3; } }
+  .photo-band img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.82) contrast(1.06) saturate(1.02);
+    transition: filter 0.6s var(--easing), transform 8s var(--easing);
+  }
+  .photo-band:hover img { filter: brightness(0.96) contrast(1.06) saturate(1.02); transform: scale(1.02); }
+  .photo-band .meta {
+    position: absolute;
+    left: var(--px);
+    bottom: 28px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: rgba(0,0,0,0.5);
+    padding: 8px 14px;
+    backdrop-filter: blur(8px);
+    border-left: 2px solid var(--signal);
+  }
+
+  /* Pair (two photos side by side) */
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-top: 64px;
+  }
+  @media (max-width: 700px) { .photo-pair { grid-template-columns: 1fr; } }
+  .photo-pair figure {
+    margin: 0;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--ink-2);
+  }
+  .photo-pair figure img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.88) contrast(1.06);
+    transition: filter 0.5s var(--easing), transform 8s var(--easing);
+  }
+  .photo-pair figure:hover img { filter: brightness(1) contrast(1.06); transform: scale(1.03); }
+  .photo-pair figcaption {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: rgba(0,0,0,0.5);
+    padding: 6px 12px;
+    backdrop-filter: blur(6px);
+    border-left: 2px solid var(--signal);
+  }
+
+  /* Side-embed (1 photo paired with a small body card) */
+  .photo-side {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    border: 1px solid var(--line);
+    margin-top: 64px;
+    background: var(--ink);
+  }
+  @media (max-width: 800px) { .photo-side { grid-template-columns: 1fr; } }
+  .photo-side .ps-img {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--ink-2);
+  }
+  .photo-side .ps-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.9) contrast(1.06);
+    transition: filter 0.5s var(--easing), transform 8s var(--easing);
+  }
+  .photo-side:hover .ps-img img { filter: brightness(1) contrast(1.06); transform: scale(1.03); }
+  .photo-side .ps-body {
+    padding: 32px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--line);
+  }
+  @media (max-width: 800px) {
+    .photo-side .ps-body { border-left: 0; border-top: 1px solid var(--line); }
+  }
+  .photo-side .ps-body .tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--signal);
+    margin-bottom: 14px;
+  }
+  .photo-side .ps-body h4 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    margin: 0 0 12px;
+  }
+  .photo-side .ps-body p {
+    color: var(--mid);
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Mosaic — 4 photos in an asymmetric grid */
+  .photo-mosaic {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 32px;
+    aspect-ratio: 16 / 9;
+    min-height: 460px;
+  }
+  .photo-mosaic figure { margin: 0; position: relative; overflow: hidden; background: var(--ink-2); }
+  .photo-mosaic figure:nth-child(1) { grid-column: 1; grid-row: 1 / 3; }
+  .photo-mosaic figure:nth-child(2) { grid-column: 2; grid-row: 1; }
+  .photo-mosaic figure:nth-child(3) { grid-column: 3; grid-row: 1; }
+  .photo-mosaic figure:nth-child(4) { grid-column: 2 / 4; grid-row: 2; }
+  .photo-mosaic figure img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.88) contrast(1.06);
+    transition: filter 0.5s var(--easing), transform 8s var(--easing);
+  }
+  .photo-mosaic figure:hover img { filter: brightness(1) contrast(1.06); transform: scale(1.04); }
+  .photo-mosaic figcaption {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: rgba(0,0,0,0.5);
+    padding: 5px 10px;
+    backdrop-filter: blur(6px);
+    border-left: 2px solid var(--signal);
+  }
+  @media (max-width: 800px) {
+    .photo-mosaic { grid-template-columns: 1fr; grid-template-rows: repeat(4, 1fr); aspect-ratio: 4 / 5; min-height: 0; }
+    .photo-mosaic figure { grid-column: 1 !important; grid-row: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="wordmark">NAVON<span class="dot">.</span></a>
+  <div class="nav-right">
+    <div class="nav-menu">
+      <a href="index.html">Platform</a>
+      <span class="has-dropdown">
+        <a href="products.html">Products <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-5">
+            <a class="mega-menu-card" href="products.html#modular"><div class="num">01</div><div class="name">Modular DCs</div></a>
+            <a class="mega-menu-card" href="products.html#turnkey"><div class="num">02</div><div class="name">Turnkey systems</div></a>
+            <a class="mega-menu-card" href="products.html#cloud"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
+            <a class="mega-menu-card" href="products.html#security"><div class="num">04</div><div class="name">Cybersecurity</div></a>
+            <a class="mega-menu-card" href="products.html#utility"><div class="num">05</div><div class="name">Utility</div></a>
+          </div>
+        </div>
+      </span>
+      <a href="missions.html">Missions</a>
+      <span class="has-dropdown">
+        <a href="resources.html">Resources <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-2">
+            <div class="mega-menu-col"><h5>Read</h5><a class="link" href="insights.html">Insights <span class="arrow">→</span></a><a class="link" href="news.html">News <span class="arrow">→</span></a><a class="link" href="faq.html">FAQ <span class="arrow">→</span></a></div>
+            <div class="mega-menu-col"><h5>Build</h5><a class="link" href="docs.html">Docs <span class="arrow">→</span></a><a class="link" href="resources.html#whitepapers">Whitepapers <span class="arrow">→</span></a><a class="link" href="resources.html#brand">Brand kit <span class="arrow">→</span></a></div>
+          </div>
+        </div>
+      </span>
+      <a href="hells-gate.html" class="current">Hells Gate</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="about.html">About</a>
+    </div>
+    <a href="about.html#contact" class="cta">Talk to us <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Hells Gate Deep Tech Park · Naivasha SEZ · Kenya</div>
+      <h1 class="page-title reveal">The flagship.<br/><span class="accent">Geothermal. Sovereign.</span></h1>
+      <p class="page-lede reveal d1" style="margin-top:24px;">
+        A purpose-built colocation campus in Kenya's Naivasha Special Economic Zone — carrier-neutral, geothermal-powered, Tier III. Factory-engineered modules from Delta Electronics, sited on a 1,000-acre footprint with direct access to the Olkaria-Suswa 220 kV corridor.
+      </p>
+    </div>
+    <svg class="hero-glyph tech draw" viewBox="0 0 480 380" aria-hidden="true">
+      <!-- ground line -->
+      <line class="line" x1="20" y1="320" x2="460" y2="320"/>
+      <path class="dashed" d="M20 340 Q 240 310 460 340"/>
+      <path class="dashed" d="M20 360 Q 240 330 460 360"/>
+      <!-- geothermal vents -->
+      <g class="hair">
+        <path d="M120 320 C 118 280, 110 260, 120 230 C 130 200, 125 170, 120 150"/>
+        <path d="M110 310 C 108 275, 104 258, 110 230"/>
+        <path d="M130 310 C 132 278, 138 258, 130 230"/>
+      </g>
+      <!-- module -->
+      <rect class="line" x="200" y="180" width="220" height="120" fill="none"/>
+      <line class="hair" x1="200" y1="220" x2="420" y2="220"/>
+      <line class="hair" x1="200" y1="260" x2="420" y2="260"/>
+      <line class="hair" x1="270" y1="180" x2="270" y2="300"/>
+      <line class="hair" x1="350" y1="180" x2="350" y2="300"/>
+      <!-- power feed -->
+      <polyline class="signal" points="120,150 120,120 360,120 360,180" fill="none" stroke-width="1.2"/>
+      <circle cx="120" cy="150" r="4" class="signal"/>
+      <circle cx="120" cy="150" r="8" class="signal pulse" opacity="0.4"/>
+      <!-- racks -->
+      <rect x="210" y="230" width="14" height="60" class="signal" opacity="0.6"/>
+      <rect x="232" y="230" width="14" height="60" class="signal" opacity="0.4"/>
+      <rect x="254" y="230" width="14" height="60" class="signal" opacity="0.5"/>
+      <text x="22" y="22" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">OLKARIA · 220 kV · 95% GEOTHERMAL</text>
+      <text x="200" y="170" font-size="9" letter-spacing="1.5" class="label-signal">400 kW MODULE · 20 RACKS · TIER III</text>
+      <text x="22" y="370" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">NAIVASHA SEZ · 1,624 m · 1,000 ACRES</text>
+    </svg>
+  </div>
+
+  <!-- hero stats -->
+  <div class="hero-stats reveal d2" style="margin-top:80px;">
+    <div class="s"><div class="l">IT load / module</div><div class="v">400<span class="signal"> kW</span></div><div class="d">20 racks @ 20 kW+ each, dual A+B feed</div></div>
+    <div class="s"><div class="l">Validated PUE</div><div class="v">1.29</div><div class="d">17–19% below the 1.55–1.60 global mean</div></div>
+    <div class="s"><div class="l">Clean baseload</div><div class="v">95%</div><div class="d">Geothermal · Olkaria-Suswa corridor</div></div>
+    <div class="s"><div class="l">Deploy cycle</div><div class="v">9–12<span class="signal"> mo</span></div><div class="d">vs 24–36 months for conventional builds</div></div>
+  </div>
+</section>
+
+<!-- Cinematic site band -->
+<section class="photo-band reveal" aria-label="Hells Gate site">
+  <img src="assets/hells-gate/1A1A1056-1.jpg" alt="The Hells Gate site at Naivasha — open ground, dirt access road, Rift Valley sky" loading="lazy">
+  <div class="meta">Naivasha SEZ · 1,000-acre footprint</div>
+</section>
+
+<!-- Strategic positioning -->
+<section class="block">
+  <div class="block-head">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Why here</div>
+      <h2 class="reveal">Compute demand outpacing<br/>the <span class="accent">infrastructure to support it.</span></h2>
+    </div>
+    <p class="reveal d1">
+      Tier III-equivalent supply outside South Africa and Nigeria is critically constrained. Hells Gate resolves that supply gap through site selection rather than retrofitting commercial real estate. Naivasha converges three site advantages few locations on the continent can match.
+    </p>
+  </div>
+
+  <div class="feat-grid">
+    <div class="feat reveal d1">
+      <div class="num">/ 01</div>
+      <h4>Geothermal baseload power</h4>
+      <p>Direct access via the Olkaria-Suswa 220 kV corridor — 95% renewable energy mix, near-zero carbon intensity, no weather dependency, no time-of-day variance.</p>
+    </div>
+    <div class="feat reveal d2">
+      <div class="num">/ 02</div>
+      <h4>SEZ regulatory framework</h4>
+      <p>Tax incentives, simplified customs, and regulatory clarity purpose-built for infrastructure investment. Kenya Data Protection Act (2019) provides jurisdictional clarity for sovereign workloads.</p>
+    </div>
+    <div class="feat reveal d3">
+      <div class="num">/ 03</div>
+      <h4>1,000-acre campus footprint</h4>
+      <p>Decades of expansion capacity aligned to realised demand — not speculative overbuild. Each 400 kW module deploys in 9–12 months as load arrives.</p>
+    </div>
+  </div>
+
+  <!-- Site context pair -->
+  <div class="photo-pair reveal">
+    <figure>
+      <img src="assets/hells-gate/1A1A1057-1.jpg" alt="The land at Hells Gate before the build — sparse acacia, volcanic soil, Rift Valley horizon" loading="lazy">
+      <figcaption>The land · pre-build</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/hells-gate/1A1A1041-1.jpg" alt="Navon team and partners on site at Naivasha SEZ, Kenya" loading="lazy">
+      <figcaption>Ground-truthing the site</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Infrastructure architecture -->
+<section class="block alt">
+  <div class="block-head">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Infrastructure architecture</div>
+      <h2 class="reveal">Factory-built modules.<br/><span class="accent">Tier III, by engineering.</span></h2>
+    </div>
+    <p class="reveal d1">
+      Modular pods manufactured by Delta Electronics — a global OEM with 300+ Tier III deployments across five continents. Each pod is a self-contained, factory-tested infrastructure unit. Integration risk and quality variance of conventional builds are eliminated before shipment.
+    </p>
+  </div>
+
+  <div class="split">
+    <div class="reveal">
+      <h3>Modular pod, <span class="accent">commissioned in weeks.</span></h3>
+      <p>Three steel enclosures per module house IT racks, power distribution, cooling plant, and fire suppression. Manufactured to precise tolerances. Full factory acceptance testing before shipment. On-site commissioning compressed to weeks rather than months.</p>
+      <ul class="spec-list">
+        <li><div class="k">IT room modules</div><div class="v">2 × <strong>12.6 m × 2.7 m × 3.2 m</strong> (L × W × H)</div></li>
+        <li><div class="k">Power room module</div><div class="v">1 × <strong>12.6 m × 2.9 m × 3.2 m</strong> (L × W × H)</div></li>
+        <li><div class="k">IT load capacity</div><div class="v"><strong>400 kW</strong> per module</div></li>
+        <li><div class="k">Rack count</div><div class="v"><strong>20 × Delta 42U</strong> server racks, dual rPDU (A+B) per rack</div></li>
+        <li><div class="k">Floor loading</div><div class="v">Rated for fully populated racks at <strong>1,420 kg</strong> each</div></li>
+        <li><div class="k">Deploy cycle</div><div class="v"><strong>9–12 months</strong> from order to live production</div></li>
+      </ul>
+    </div>
+    <div class="visual-frame">
+      <svg viewBox="0 0 320 320" class="tech draw" aria-hidden="true">
+        <!-- module footprint -->
+        <rect class="line" x="30" y="60" width="260" height="200" fill="none"/>
+        <text x="38" y="78" font-size="9" letter-spacing="1.5" fill="#9E9F9B">400 kW MODULAR POD</text>
+        <!-- two IT rooms + power room -->
+        <rect class="hair" x="50" y="100" width="70" height="140" fill="none"/>
+        <rect class="hair" x="130" y="100" width="70" height="140" fill="none"/>
+        <rect class="hair" x="210" y="100" width="60" height="140" fill="none"/>
+        <text x="58" y="115" font-size="8" letter-spacing="1.5" fill="#9E9F9B">IT ROOM A</text>
+        <text x="138" y="115" font-size="8" letter-spacing="1.5" fill="#9E9F9B">IT ROOM B</text>
+        <text x="218" y="115" font-size="8" letter-spacing="1.5" class="label-signal">POWER</text>
+        <!-- racks -->
+        <g>
+          <rect x="58" y="130" width="8" height="100" class="signal" opacity="0.6"/>
+          <rect x="70" y="130" width="8" height="100" class="signal" opacity="0.5"/>
+          <rect x="82" y="130" width="8" height="100" class="signal" opacity="0.6"/>
+          <rect x="94" y="130" width="8" height="100" class="signal" opacity="0.5"/>
+          <rect x="106" y="130" width="8" height="100" class="signal" opacity="0.6"/>
+        </g>
+        <g>
+          <rect x="138" y="130" width="8" height="100" class="signal" opacity="0.6"/>
+          <rect x="150" y="130" width="8" height="100" class="signal" opacity="0.5"/>
+          <rect x="162" y="130" width="8" height="100" class="signal" opacity="0.6"/>
+          <rect x="174" y="130" width="8" height="100" class="signal" opacity="0.5"/>
+          <rect x="186" y="130" width="8" height="100" class="signal" opacity="0.6"/>
+        </g>
+        <!-- ups blocks -->
+        <rect class="hair" x="218" y="130" width="44" height="22" fill="none"/>
+        <rect class="hair" x="218" y="158" width="44" height="22" fill="none"/>
+        <text x="222" y="145" font-size="7" letter-spacing="1" fill="#9E9F9B">UPS A · 500 kVA</text>
+        <text x="222" y="173" font-size="7" letter-spacing="1" fill="#9E9F9B">UPS B · 500 kVA</text>
+        <text x="38" y="285" font-size="9" letter-spacing="1.5" fill="#9E9F9B">3 ENCLOSURES · 20 RACKS · DELTA OEM</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="split flip" style="margin-top:80px;">
+    <div class="reveal">
+      <h3>42U racks. <span class="accent">High-density ready.</span></h3>
+      <p>Heavy-gauge cold-rolled steel, 1,500 kg static load, EIA-310-E compliant. Built for GPU-dense and accelerator-heavy configurations operating well above traditional enterprise power envelopes.</p>
+      <ul class="spec-list">
+        <li><div class="k">Dimensions</div><div class="v"><strong>600 × 1,200 × 2,000 mm</strong>, 42U usable height</div></li>
+        <li><div class="k">Construction</div><div class="v">Welded cold-rolled steel, <strong>IP20</strong> protection</div></li>
+        <li><div class="k">Access</div><div class="v">Lockable front and rear doors, <strong>77% perforated</strong> ventilation</div></li>
+        <li><div class="k">Power distribution</div><div class="v">Dual rPDU (A+B), each delivering a <strong>32 A</strong> redundant feed</div></li>
+        <li><div class="k">Cable management</div><div class="v">Top and bottom entry, brush panels, vertical trays, integrated earthing</div></li>
+        <li><div class="k">Compatibility</div><div class="v">EIA-310-E 19-inch rails, tool-less adjustable depth</div></li>
+      </ul>
+    </div>
+    <div class="visual-frame">
+      <svg viewBox="0 0 320 320" class="tech draw" aria-hidden="true">
+        <!-- rack -->
+        <rect class="line" x="100" y="40" width="120" height="240" fill="none"/>
+        <line class="hair" x1="100" y1="60" x2="220" y2="60"/>
+        <line class="hair" x1="100" y1="260" x2="220" y2="260"/>
+        <!-- 42U lines -->
+        <g class="hair">
+          <line x1="110" y1="70" x2="210" y2="70"/>
+          <line x1="110" y1="80" x2="210" y2="80"/>
+          <line x1="110" y1="90" x2="210" y2="90"/>
+          <line x1="110" y1="100" x2="210" y2="100"/>
+          <line x1="110" y1="110" x2="210" y2="110"/>
+          <line x1="110" y1="120" x2="210" y2="120"/>
+          <line x1="110" y1="130" x2="210" y2="130"/>
+          <line x1="110" y1="140" x2="210" y2="140"/>
+        </g>
+        <!-- equipment -->
+        <rect x="110" y="150" width="100" height="20" class="signal" opacity="0.55"/>
+        <rect x="110" y="174" width="100" height="20" class="signal" opacity="0.45"/>
+        <rect x="110" y="198" width="100" height="20" class="signal" opacity="0.6"/>
+        <rect x="110" y="222" width="100" height="20" class="signal" opacity="0.4"/>
+        <!-- A+B PDUs -->
+        <rect class="signal" x="86" y="60" width="6" height="200" opacity="0.7"/>
+        <rect class="signal" x="228" y="60" width="6" height="200" opacity="0.7"/>
+        <text x="76" y="55" font-size="8" letter-spacing="1.5" class="label-signal">PDU A</text>
+        <text x="222" y="55" font-size="8" letter-spacing="1.5" class="label-signal">PDU B</text>
+        <text x="110" y="32" font-size="9" letter-spacing="1.5" fill="#9E9F9B">42U · 1,500 kg · 20 kW+</text>
+        <text x="60" y="295" font-size="9" letter-spacing="1.5" fill="#9E9F9B">DUAL 32 A · A+B FEED · NO SINGLE POINT</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Factory-to-site logistics -->
+  <div class="photo-side reveal">
+    <div class="ps-img">
+      <img src="assets/hells-gate/1A1A1015-1.jpg" alt="Inland container depot adjacent to Hells Gate — gantry crane, freight yard, Standard Gauge Railway" loading="lazy">
+    </div>
+    <div class="ps-body">
+      <div class="tag">Factory → site</div>
+      <h4>Trucked from the factory.<br/>Onto the railway. To the SEZ.</h4>
+      <p>Modules ship from the Delta Croatia facility through the Mombasa-Nairobi-Naivasha Standard Gauge Railway corridor, terminating directly at the inland container depot adjacent to the campus. Civil works run in parallel; capacity lands when the trailer arrives, not 18 months later.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ISP / ODF node -->
+<section class="block">
+  <div class="block-head">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>ISP node · ODF · On-campus carrier interconnect</div>
+      <h2 class="reveal">A dedicated module<br/>for <span class="accent">customer network gear.</span></h2>
+    </div>
+    <p class="reveal d1">
+      Alongside the colocation pods, the campus hosts an 18 kW factory-built ISP node — a separate Delta module engineered for tenants' optical and network equipment. Two on-site ODF cabinets terminate fibre for cross-connect into customer racks, keeping carrier and customer infrastructure cleanly separated from the main IT halls.
+    </p>
+  </div>
+
+  <div class="split">
+    <div class="reveal">
+      <h3>Built for routers, ROADMs,<br/><span class="accent">amplifiers and ODF.</span></h3>
+      <p>An 8.4 × 3.4 × 3.2 m factory module with EI60 insulated panels, configured around six 42U racks plus two ODF cabinets. Customer-installed equipment typically includes IP routers (1U–5U), DWDM inline amplifiers, DWDM ROADMs, and optional DC power plants. Every rack is provisioned for dual A+B feed by default — single-PSU devices are not the design assumption.</p>
+      <ul class="spec-list">
+        <li><div class="k">Module envelope</div><div class="v"><strong>8,400 × 3,400 × 3,200 mm</strong>, 80 mm EI60 panels, single EI60 leaf door</div></li>
+        <li><div class="k">IT load</div><div class="v"><strong>18 kW</strong> total — design ceiling <strong>3 kW per rack</strong></div></li>
+        <li><div class="k">Rack count</div><div class="v"><strong>1 × 800 mm</strong> + <strong>5 × 600 mm</strong> Delta 42U racks, 1,100 mm deep</div></li>
+        <li><div class="k">ODF cabinets</div><div class="v"><strong>2 ×</strong> dedicated optical distribution frame for fibre cross-connect</div></li>
+        <li><div class="k">Power feed</div><div class="v"><strong>Dual A+B</strong> per rack — assumed for every customer device</div></li>
+        <li><div class="k">PDU outlets</div><div class="v">12 × Delta rPDU (400 V 3-phase, 16 A) — mixed <strong>C13 + C19</strong> connectors</div></li>
+        <li><div class="k">UPS</div><div class="v"><strong>2 × Delta HPH G2 20K</strong> — 5-minute battery autonomy at full 18 kW load (BOL)</div></li>
+        <li><div class="k">Cooling</div><div class="v">2 × BlueBox in-row DX units with humidifier, hot aisle containment, R410a</div></li>
+        <li><div class="k">Fire</div><div class="v">Siemens detection, FK-5-1-12 clean agent — same standard as the colocation modules</div></li>
+      </ul>
+    </div>
+    <div class="visual-frame">
+      <svg viewBox="0 0 320 320" class="tech draw" aria-hidden="true">
+        <!-- module footprint -->
+        <rect class="line" x="30" y="40" width="260" height="240" fill="none"/>
+        <text x="38" y="58" font-size="9" letter-spacing="1.5" fill="#9E9F9B">18 kW ISP NODE</text>
+        <text x="38" y="72" font-size="8" letter-spacing="1.5" fill="#9E9F9B">8.4 × 3.4 × 3.2 m</text>
+        <!-- ODF cabinets -->
+        <rect class="signal" x="50" y="100" width="20" height="80" opacity="0.55"/>
+        <rect class="signal" x="76" y="100" width="20" height="80" opacity="0.55"/>
+        <text x="46" y="94" font-size="8" letter-spacing="1.5" class="label-signal">ODF × 2</text>
+        <!-- 800mm rack -->
+        <rect class="hair" x="116" y="100" width="22" height="80" fill="none"/>
+        <text x="116" y="194" font-size="7" letter-spacing="1" fill="#9E9F9B">800 mm</text>
+        <!-- 5 × 600mm racks -->
+        <rect class="hair" x="146" y="100" width="18" height="80" fill="none"/>
+        <rect class="hair" x="170" y="100" width="18" height="80" fill="none"/>
+        <rect class="hair" x="194" y="100" width="18" height="80" fill="none"/>
+        <rect class="hair" x="218" y="100" width="18" height="80" fill="none"/>
+        <rect class="hair" x="242" y="100" width="18" height="80" fill="none"/>
+        <text x="180" y="194" font-size="7" letter-spacing="1" fill="#9E9F9B">5 × 600 mm</text>
+        <!-- equipment fills -->
+        <rect x="119" y="108" width="16" height="14" class="signal" opacity="0.45"/>
+        <rect x="119" y="126" width="16" height="22" class="signal" opacity="0.5"/>
+        <rect x="148" y="110" width="14" height="14" class="signal" opacity="0.5"/>
+        <rect x="148" y="128" width="14" height="22" class="signal" opacity="0.4"/>
+        <rect x="172" y="110" width="14" height="22" class="signal" opacity="0.4"/>
+        <rect x="172" y="138" width="14" height="14" class="signal" opacity="0.5"/>
+        <rect x="196" y="115" width="14" height="34" class="signal" opacity="0.45"/>
+        <rect x="220" y="118" width="14" height="20" class="signal" opacity="0.4"/>
+        <rect x="244" y="112" width="14" height="28" class="signal" opacity="0.5"/>
+        <!-- A+B PDUs above each rack -->
+        <line class="signal" x1="116" y1="96" x2="260" y2="96" stroke-width="0.8" opacity="0.7"/>
+        <line class="signal" x1="116" y1="184" x2="260" y2="184" stroke-width="0.8" opacity="0.7"/>
+        <text x="262" y="100" font-size="7" letter-spacing="1.5" class="label-signal">A</text>
+        <text x="262" y="188" font-size="7" letter-spacing="1.5" class="label-signal">B</text>
+        <!-- UPS + cooling strip -->
+        <rect class="hair" x="50" y="220" width="100" height="22" fill="none"/>
+        <text x="58" y="235" font-size="8" letter-spacing="1.5" class="label-signal">2 × HPH G2 20K · N+N</text>
+        <rect class="hair" x="160" y="220" width="100" height="22" fill="none"/>
+        <text x="166" y="235" font-size="8" letter-spacing="1.5" class="label-signal">2 × IN-ROW DX · N+1</text>
+        <text x="38" y="266" font-size="8" letter-spacing="1.5" fill="#9E9F9B">5-MIN UPS · FK-5-1-12 · MIXED C13 / C19</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="feat-grid" style="margin-top:64px;">
+    <div class="feat reveal d1">
+      <div class="num">/ Tenant equipment</div>
+      <h4>Routers, optical, DC plant</h4>
+      <p>Customer-installed: IP routers (mostly 1U–5U), DWDM inline amplifiers, DWDM ROADMs. DC power plants accommodated where required.</p>
+    </div>
+    <div class="feat reveal d2">
+      <div class="num">/ Power assumption</div>
+      <h4>Dual feed by default</h4>
+      <p>Every rack is wired for A+B — single-PSU devices are the exception, not the rule. Design ceiling 3 kW per rack with dual 16 A 3-phase rPDUs, mixed C13 + C19.</p>
+    </div>
+    <div class="feat reveal d3">
+      <div class="num">/ Carrier-neutral</div>
+      <h4>ODF cross-connect on-site</h4>
+      <p>Two ODF cabinets terminate diverse fibre paths, enabling cross-connects between tenants and providers without carrier infrastructure entering the main IT halls.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Power & grid -->
+<section class="block">
+  <div class="block-head">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Power &amp; grid resilience</div>
+      <h2 class="reveal">Two utility feeds. Two UPS chains.<br/><span class="accent">Zero single points.</span></h2>
+    </div>
+    <p class="reveal d1">
+      Reliable, redundant power underpins every credible data centre. Hells Gate combines a resilient grid connection with a fully redundant internal electrical architecture engineered for continuous operation under fault conditions. A complete failure of one power path — utility through UPS to rack PDU — results in zero impact to IT load on the surviving path.
+    </p>
+  </div>
+
+  <div class="split">
+    <div class="visual-frame reveal">
+      <svg viewBox="0 0 320 320" class="tech draw" aria-hidden="true">
+        <!-- two utility lines -->
+        <line class="line" x1="40" y1="40" x2="40" y2="280"/>
+        <line class="line" x1="280" y1="40" x2="280" y2="280"/>
+        <text x="14" y="34" font-size="8" letter-spacing="1.5" fill="#9E9F9B">LIMURU</text>
+        <text x="14" y="46" font-size="8" letter-spacing="1.5" fill="#9E9F9B">132/66 kV</text>
+        <text x="252" y="34" font-size="8" letter-spacing="1.5" fill="#9E9F9B">KIMUKA</text>
+        <text x="252" y="46" font-size="8" letter-spacing="1.5" fill="#9E9F9B">220/66 kV</text>
+        <!-- substation -->
+        <rect class="hair" x="100" y="60" width="120" height="40" fill="none"/>
+        <text x="118" y="84" font-size="9" letter-spacing="1.5" class="label-signal">90 MVA SUBSTATION</text>
+        <line class="dashed" x1="40" y1="80" x2="100" y2="80"/>
+        <line class="dashed" x1="280" y1="80" x2="220" y2="80"/>
+        <!-- two MDBs -->
+        <rect class="hair" x="60" y="130" width="80" height="32" fill="none"/>
+        <rect class="hair" x="180" y="130" width="80" height="32" fill="none"/>
+        <text x="76" y="150" font-size="9" letter-spacing="1.5" class="label-signal">MDB-A</text>
+        <text x="196" y="150" font-size="9" letter-spacing="1.5" class="label-signal">MDB-B</text>
+        <line class="signal" x1="100" y1="100" x2="100" y2="130" stroke-width="1.2"/>
+        <line class="signal" x1="220" y1="100" x2="220" y2="130" stroke-width="1.2"/>
+        <!-- two UPS -->
+        <rect class="hair" x="60" y="180" width="80" height="32" fill="none"/>
+        <rect class="hair" x="180" y="180" width="80" height="32" fill="none"/>
+        <text x="74" y="200" font-size="9" letter-spacing="1.5" class="label-signal">UPS A · 500 kVA</text>
+        <text x="194" y="200" font-size="9" letter-spacing="1.5" class="label-signal">UPS B · 500 kVA</text>
+        <line class="signal" x1="100" y1="162" x2="100" y2="180"/>
+        <line class="signal" x1="220" y1="162" x2="220" y2="180"/>
+        <!-- rack -->
+        <rect class="line" x="120" y="240" width="80" height="40" fill="none"/>
+        <text x="134" y="265" font-size="9" letter-spacing="1.5" fill="#9E9F9B">RACK · A+B</text>
+        <line class="signal" x1="100" y1="212" x2="100" y2="260" stroke-width="1.2"/>
+        <line class="signal" x1="100" y1="260" x2="120" y2="260" stroke-width="1.2"/>
+        <line class="signal" x1="220" y1="212" x2="220" y2="260" stroke-width="1.2"/>
+        <line class="signal" x1="220" y1="260" x2="200" y2="260" stroke-width="1.2"/>
+        <text x="60" y="310" font-size="8" letter-spacing="1.5" fill="#9E9F9B">N+N AT UPS · DUAL BUSBAR · TN-S 400 V</text>
+      </svg>
+    </div>
+    <div class="reveal d1">
+      <h3>Grid connection: <span class="accent">two independent paths.</span></h3>
+      <p>The Naivasha SEZ is served by a dedicated 90 MVA substation fed from two independent KPLC transmission lines, sitting along the Olkaria-Suswa 220 kV geothermal corridor. The Ethiopia-Kenya 500 kV HVDC interconnector terminating at Suswa adds cross-border supply diversity.</p>
+      <ul class="spec-list">
+        <li><div class="k">Limuru line</div><div class="v"><strong>132/66 kV</strong>, northern corridor</div></li>
+        <li><div class="k">Kimuka line</div><div class="v"><strong>220/66 kV</strong>, southern corridor</div></li>
+        <li><div class="k">Substation capacity</div><div class="v"><strong>90 MVA</strong> dedicated SEZ feed</div></li>
+        <li><div class="k">Cross-border supply</div><div class="v">Ethiopia-Kenya <strong>500 kV HVDC</strong> import via Suswa</div></li>
+        <li><div class="k">Internal architecture</div><div class="v">Dual MDB (1600 A), <strong>2 × Delta DPH Gen2 500 kVA</strong> UPS in N+N, VRLA battery backup</div></li>
+        <li><div class="k">Distribution</div><div class="v"><strong>400 V / 50 Hz TN-S</strong>, IP31-rated switchgear, Type 1+2 surge suppression</div></li>
+        <li><div class="k">Generator readiness</div><div class="v">ATS on each bus for seamless failover to fixed standby generator</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Substation visual proof -->
+  <div class="photo-side reveal">
+    <div class="ps-img">
+      <img src="assets/hells-gate/1A1A1024-1.jpg" alt="The 90 MVA substation serving Hells Gate, Naivasha SEZ — open-air switchyard, perimeter wall, dual transmission feed" loading="lazy">
+    </div>
+    <div class="ps-body">
+      <div class="tag">90 MVA · Naivasha SEZ</div>
+      <h4>The substation, on site.</h4>
+      <p>Two independent KPLC transmission lines (Limuru 132/66 kV and Kimuka 220/66 kV) terminate at the dedicated 90 MVA SEZ substation pictured here — the same one that feeds every rack inside the campus. Geothermal corridor proximity, redundant feed, no diesel-baseload assumption.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Cooling -->
+<section class="block alt">
+  <div class="block-head">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Cooling &amp; thermal engineering</div>
+      <h2 class="reveal">PUE 1.29 — verified,<br/>not <span class="accent">aspirational.</span></h2>
+    </div>
+    <p class="reveal d1">
+      Calculated at 400 kW constant IT load using Delta Electronics' validated thermal model, incorporating site-specific climate data and altitude profile. For every 1.00 kW of IT load, the facility consumes 0.29 kW of overhead — a structural 17–19% efficiency gain over the 1.55–1.60 global mean.
+    </p>
+  </div>
+
+  <div class="split">
+    <div class="reveal">
+      <h3>Designed against <span class="accent">ASHRAE 20-year climate.</span></h3>
+      <p>Ambient temperatures from +6 °C to +34.3 °C, at 1,624 m above sea level. Elevated altitude reduces air density and lowers the condensing temperature for refrigerant systems — measurable thermal advantage over coastal or lowland sites. Compressor workload drops, energy efficiency is structurally improved.</p>
+      <ul class="spec-list">
+        <li><div class="k">In-row cooling</div><div class="v"><strong>18 × BlueBox DX units</strong> (N+1: 17 active, 1 standby)</div></li>
+        <li><div class="k">Heat rejection</div><div class="v">Dedicated outdoor condenser per in-row unit</div></li>
+        <li><div class="k">Containment</div><div class="v"><strong>Hot aisle containment</strong> — eliminates recirculation under sustained load</div></li>
+        <li><div class="k">Power room cooling</div><div class="v"><strong>3 × Daikin</strong> ceiling cassette splits in N+1</div></li>
+        <li><div class="k">Auxiliary</div><div class="v">Integrated humidity control and leak detection across all modules</div></li>
+        <li><div class="k">Water consumption</div><div class="v"><strong>Zero</strong> — DX refrigerant-based heat rejection</div></li>
+      </ul>
+    </div>
+    <div class="visual-frame">
+      <svg viewBox="0 0 320 320" class="tech draw" aria-hidden="true">
+        <!-- hot aisle containment diagram -->
+        <rect class="line" x="40" y="80" width="240" height="160" fill="none"/>
+        <text x="50" y="98" font-size="9" letter-spacing="1.5" fill="#9E9F9B">HOT AISLE CONTAINMENT</text>
+        <!-- racks rows -->
+        <g>
+          <rect x="60" y="120" width="14" height="80" class="hair" fill="none"/>
+          <rect x="80" y="120" width="14" height="80" class="hair" fill="none"/>
+          <rect x="100" y="120" width="14" height="80" class="hair" fill="none"/>
+          <rect x="120" y="120" width="14" height="80" class="hair" fill="none"/>
+        </g>
+        <g>
+          <rect x="186" y="120" width="14" height="80" class="hair" fill="none"/>
+          <rect x="206" y="120" width="14" height="80" class="hair" fill="none"/>
+          <rect x="226" y="120" width="14" height="80" class="hair" fill="none"/>
+          <rect x="246" y="120" width="14" height="80" class="hair" fill="none"/>
+        </g>
+        <!-- in-row units -->
+        <rect class="signal" x="140" y="120" width="40" height="80" opacity="0.5"/>
+        <text x="146" y="166" font-size="8" letter-spacing="1.5" class="label-signal">DX N+1</text>
+        <!-- airflow arrows -->
+        <g class="signal" stroke-width="1" fill="none">
+          <polyline points="74,225 74,210"/>
+          <polyline points="246,225 246,210"/>
+          <polyline points="160,90 160,116"/>
+        </g>
+        <text x="50" y="270" font-size="9" letter-spacing="1.5" fill="#9E9F9B">PUE 1.29 · NO RECIRCULATION · STABLE INLET TEMP</text>
+        <!-- pue strip -->
+        <rect class="line" x="40" y="285" width="240" height="14" fill="none"/>
+        <rect class="signal" x="40" y="285" width="148" height="14" opacity="0.6"/>
+        <text x="194" y="296" font-size="9" letter-spacing="1.5" class="label-signal">1.29</text>
+        <text x="40" y="316" font-size="8" letter-spacing="1.5" fill="#9E9F9B">GLOBAL MEAN 1.55–1.60</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- AI / High-density -->
+<section class="block">
+  <div class="block-head">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>AI &amp; high-density compute</div>
+      <h2 class="reveal">Engineered from inception<br/>for <span class="accent">GPU-dense workloads.</span></h2>
+    </div>
+    <p class="reveal d1">
+      For organisations deploying sovereign AI — large language models, computer vision pipelines, scientific simulation, real-time inference at scale — Hells Gate provides the physical infrastructure layer to operate within African jurisdiction without performance compromise.
+    </p>
+  </div>
+
+  <div class="feat-grid">
+    <div class="feat reveal d1">
+      <div class="num">/ 01 · Density</div>
+      <h4>20 kW+ per rack</h4>
+      <p>Every rack position supports GPU-dense and accelerator-heavy configurations — multi-GPU server platforms (NVIDIA HGX, AMD Instinct MI300X, Tenstorrent) operating well above traditional enterprise power envelopes.</p>
+    </div>
+    <div class="feat reveal d2">
+      <div class="num">/ 02 · Thermal</div>
+      <h4>Hot aisle containment</h4>
+      <p>Prevents thermal runaway and maintains stable inlet temperatures under sustained high-density load — critical for GPU clusters with narrow thermal operating windows.</p>
+    </div>
+    <div class="feat reveal d3">
+      <div class="num">/ 03 · Resilience</div>
+      <h4>Dual-feed power</h4>
+      <p>Redundant A+B ensures continuous operation of compute-intensive workloads where mid-training interruption means lost GPU-hours and corrupted checkpoints.</p>
+    </div>
+    <div class="feat reveal d4">
+      <div class="num">/ 04 · Orchestration</div>
+      <h4>Pipeline-ready</h4>
+      <p>Provisioned for containerised AI/ML pipelines, distributed training (PyTorch DDP, DeepSpeed, Megatron-LM), and GPU scheduling (Kubernetes with NVIDIA GPU Operator, Slurm).</p>
+    </div>
+    <div class="feat reveal d5">
+      <div class="num">/ 05 · Headroom</div>
+      <h4>90 MVA campus capacity</h4>
+      <p>Substation firm capacity, dual independent utility feeds, and proximity to the geothermal generation corridor support significant campus-level power scaling.</p>
+    </div>
+    <div class="feat reveal d6">
+      <div class="num">/ 06 · Sovereignty</div>
+      <h4>In-jurisdiction by default</h4>
+      <p>For sovereign AI deployments, government data residency mandates, and financial services data localisation — physical infrastructure that meets regulatory requirements without operational compromise.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Security & sovereignty -->
+<section class="block alt">
+  <div class="block-head">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Security, sovereignty, compliance</div>
+      <h2 class="reveal">Layered physical security.<br/><span class="accent">Jurisdictional clarity.</span></h2>
+    </div>
+    <p class="reveal d1">
+      The campus operates a layered physical security model managed by Securex — Kenya's leading security services provider — combined with an architectural design that supports compliance with the Kenya Data Protection Act (2019) and GDPR-aligned data handling.
+    </p>
+  </div>
+
+  <div class="split">
+    <div class="reveal">
+      <h3>Physical security, <span class="accent">module to rack.</span></h3>
+      <ul class="spec-list">
+        <li><div class="k">Manned security</div><div class="v"><strong>24/7 on-site</strong> with controlled perimeter access (Securex)</div></li>
+        <li><div class="k">Surveillance</div><div class="v">CCTV across all facility areas with retention and monitoring protocols</div></li>
+        <li><div class="k">Access control</div><div class="v">Electronic at module, room and rack — each rack <strong>individually keyed</strong></div></li>
+        <li><div class="k">Visitor management</div><div class="v">Escort procedures for all non-authorised personnel</div></li>
+        <li><div class="k">Cage option</div><div class="v">Security cages can be integrated around racks per specification</div></li>
+        <li><div class="k">Fire detection</div><div class="v"><strong>Siemens</strong> multi-zone, optional VESDA aspirating early-warning</div></li>
+        <li><div class="k">Fire suppression</div><div class="v"><strong>FK-5-1-12</strong> clean agent — non-conductive, residue-free, occupant-safe</div></li>
+      </ul>
+    </div>
+    <div class="reveal d1">
+      <h3>Sovereignty <span class="accent">by physical fact.</span></h3>
+      <p>Kenya's Data Protection Act (2019) establishes a clear legal framework for processing and storing personal data within Kenyan jurisdiction. The facility is architecturally designed to support compliance with this legislation and with GDPR-aligned data handling for organisations serving European clients or operating under EU contractual obligations.</p>
+      <p style="margin-top:18px;">For sovereign AI deployments, government data residency mandates, or financial services data localisation, Hells Gate provides jurisdictional clarity and physical infrastructure that meets regulatory requirements without operational compromise or data transit through third-party jurisdictions.</p>
+      <div class="pillar" style="margin-top:32px; grid-template-columns: 1fr 1fr; border:none; background:transparent;">
+        <div class="p" style="border:1px solid var(--line);"><div class="l">Data Protection</div><div class="v">KE 2019</div><div class="d">Kenya Data Protection Act compliance architecture</div></div>
+        <div class="p" style="border:1px solid var(--line); border-left:none;"><div class="l">Cross-border</div><div class="v">GDPR<span class="signal">-aligned</span></div><div class="d">For EU clients and contractual obligations</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sustainability -->
+<section class="block">
+  <div class="block-head">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Sustainability</div>
+      <h2 class="reveal">Structurally green —<br/>not an <span class="accent">offset narrative.</span></h2>
+    </div>
+    <p class="reveal d1">
+      Sustainability at Hells Gate is a consequence of site selection, power source and engineering — not an ESG strategy applied after the fact. The facility provides verifiable, structurally low-carbon compute without reliance on renewable energy certificates or voluntary carbon markets.
+    </p>
+  </div>
+
+  <div class="pillar">
+    <div class="p reveal d1"><div class="l">Energy mix</div><div class="v">95<span class="signal">%</span></div><div class="d">Geothermal baseload from the Olkaria complex — one of the largest in Africa</div></div>
+    <div class="p reveal d2"><div class="l">PUE</div><div class="v">1.29</div><div class="d">Validated under 400 kW constant IT load, Delta thermal model</div></div>
+    <div class="p reveal d3"><div class="l">Altitude advantage</div><div class="v">1,624 m</div><div class="d">Lower ambient + air density reduces mechanical cooling demand</div></div>
+    <div class="p reveal d4"><div class="l">Water use</div><div class="v">0 L<span class="signal"> / kWh</span></div><div class="d">DX refrigerant heat rejection — no water consumption for cooling</div></div>
+  </div>
+
+  <p class="reveal d5" style="color:var(--mid); font-size:14px; line-height:1.6; max-width:60ch; margin:36px 0 0;">
+    Reportable against CDP, TCFD, Science Based Targets, and EU Taxonomy frameworks. Carbon intensity per unit of compute is structurally low rather than nominally offset.
+  </p>
+</section>
+
+<!-- Cinematic land band -->
+<section class="photo-band reveal" aria-label="Standing on the Hells Gate land">
+  <img src="assets/hells-gate/1A1A1062-1.jpg" alt="On site at the Naivasha SEZ — dirt road, open horizon, Rift Valley sky" loading="lazy">
+  <div class="meta">Structurally green · by site, not by certificate</div>
+</section>
+
+<!-- Scalability -->
+<section class="block alt">
+  <div class="block-head">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Scalability &amp; expansion</div>
+      <h2 class="reveal">Scale with demand.<br/><span class="accent">Not speculation.</span></h2>
+    </div>
+    <p class="reveal d1">
+      The modular design decouples capacity deployment from traditional construction timelines and capital cycles. Tenants align infrastructure investment with realised demand — eliminating speculative overprovisioning while retaining a clear, pre-engineered path to scale.
+    </p>
+  </div>
+
+  <ul class="spec-list reveal d1" style="margin-top:0;">
+    <li><div class="k">Incremental scaling</div><div class="v">Additional <strong>400 kW modules</strong> deploy in 9–12 months — vs 24–36 months for conventional builds. Factory-tested before shipment compresses on-site commissioning to weeks.</div></li>
+    <li><div class="k">Campus expansion</div><div class="v"><strong>1,000-acre SEZ footprint</strong> — decades of growth capacity without site relocation or land acquisition risk.</div></li>
+    <li><div class="k">Grid headroom</div><div class="v"><strong>90 MVA</strong> firm substation capacity, dual independent utility feeds, geothermal corridor proximity — supports significant campus-level power scaling.</div></li>
+    <li><div class="k">Technology-neutral racks</div><div class="v">Standard 42U with 20 kW+ power and cooling — accommodate current and next-generation server, storage and accelerator hardware without infrastructure modification.</div></li>
+  </ul>
+</section>
+
+<!-- Technical summary table -->
+<section class="block">
+  <div class="block-head">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Technical summary</div>
+      <h2 class="reveal">Specification, <span class="accent">at a glance.</span></h2>
+    </div>
+    <p class="reveal d1">
+      Every parameter derived from Delta Electronics engineering documentation, validated thermal models, and the physical characteristics of the Naivasha site. Single line diagrams and full technical due diligence package available on request.
+    </p>
+  </div>
+
+  <table class="spec-table reveal d1">
+    <tr><td>Location</td><td><strong>Naivasha Special Economic Zone, Kenya</strong></td></tr>
+    <tr><td>Altitude</td><td>1,624 m above sea level</td></tr>
+    <tr><td>Campus footprint</td><td>1,000-acre expansion capacity</td></tr>
+    <tr><td>Module configuration</td><td>3 steel enclosures per module, factory-built (Delta Electronics)</td></tr>
+    <tr><td>IT load per module</td><td><strong>400 kW</strong></td></tr>
+    <tr><td>Rack count</td><td>20 × Delta 42U racks per module</td></tr>
+    <tr><td>Rack power density</td><td><strong>20 kW+</strong> per rack — dual 32 A A+B PDU feeds</td></tr>
+    <tr><td>UPS</td><td>2 × Delta DPH Gen2 500 kVA (N+N), VRLA battery backup</td></tr>
+    <tr><td>Power distribution</td><td>400 V / 50 Hz TN-S, dual MDB (A/B), dual busbar</td></tr>
+    <tr><td>Generator readiness</td><td>Dual generator input with ATS on each bus</td></tr>
+    <tr><td>Cooling</td><td>18 × BlueBox in-row DX units (N+1), hot aisle containment</td></tr>
+    <tr><td>PUE</td><td><strong>1.29</strong> — validated at 400 kW constant IT load (Delta thermal model)</td></tr>
+    <tr><td>Grid supply</td><td>90 MVA SEZ substation; Limuru 132/66 kV + Kimuka 220/66 kV</td></tr>
+    <tr><td>Energy source</td><td><strong>95% geothermal</strong> (Olkaria-Suswa corridor)</td></tr>
+    <tr><td>Fire suppression</td><td>Siemens detection + FK-5-1-12 clean agent</td></tr>
+    <tr><td>Physical security</td><td>Securex 24/7 manned, CCTV, electronic access control</td></tr>
+    <tr><td>Compliance</td><td>Kenya Data Protection Act (2019), GDPR-aligned architecture</td></tr>
+    <tr><td>Deployment timeline</td><td><strong>9–12 months</strong> per module (vs 24–36 months traditional)</td></tr>
+    <tr><td>Redundancy</td><td>Tier III: N+1 cooling, N+N power, dual network paths</td></tr>
+    <tr><td>ISP node / ODF</td><td>Dedicated <strong>18 kW</strong> Delta module — 1 × 800 mm + 5 × 600 mm 42U racks, <strong>2 × ODF cabinets</strong>, dual A+B feed, mixed C13/C19, 5-min UPS autonomy</td></tr>
+  </table>
+</section>
+
+<!-- Why this matters -->
+<section class="block alt">
+  <div class="block-head">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Why this matters</div>
+      <h2 class="reveal">Auditable infrastructure,<br/>not <span class="accent">assurances.</span></h2>
+    </div>
+    <p class="reveal d1">
+      Infrastructure decisions in emerging markets carry concentrated risk. Power reliability, cooling adequacy, physical security and regulatory alignment are not abstract evaluation criteria — they determine whether a deployment delivers production-grade availability or becomes an operational liability.
+    </p>
+  </div>
+
+  <div class="feat-grid">
+    <div class="feat reveal d1">
+      <div class="num">/ 01</div>
+      <h4>Operational credibility</h4>
+      <p>Factory-tested modular infrastructure from a global OEM with 300+ deployments — built to Tier III standards with documented redundancy across every subsystem.</p>
+    </div>
+    <div class="feat reveal d2">
+      <div class="num">/ 02</div>
+      <h4>Cost efficiency</h4>
+      <p>PUE 1.29 and geothermal-powered operations deliver structurally lower cost-per-kilowatt than diesel-dependent or grid-marginal alternatives.</p>
+    </div>
+    <div class="feat reveal d3">
+      <div class="num">/ 03</div>
+      <h4>Regulatory alignment</h4>
+      <p>Kenyan data sovereignty compliance, GDPR-aligned architecture, SEZ fiscal advantages — a clear governance framework for international deployments.</p>
+    </div>
+    <div class="feat reveal d4">
+      <div class="num">/ 04</div>
+      <h4>Future readiness</h4>
+      <p>20 kW+ rack density, campus-scale expansion, 90 MVA grid headroom, technology-neutral infrastructure — accommodates evolving workload requirements without re-platforming.</p>
+    </div>
+  </div>
+
+  <!-- Mosaic — partnership / site visit moments -->
+  <div class="photo-mosaic reveal">
+    <figure>
+      <img src="assets/hells-gate/1A1A1108-1.jpg" alt="Navon team and partners outside the Integrated Building, Naivasha SEZ" loading="lazy">
+      <figcaption>The team · Integrated Building</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/hells-gate/1A1A1080-1.jpg" alt="Three Navon team members on site at Hells Gate" loading="lazy">
+      <figcaption>On site</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/hells-gate/1A1A0918-1.jpg" alt="Arrival at the SEZ entry point" loading="lazy">
+      <figcaption>Arrival</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/hells-gate/1A1A1054-1.jpg" alt="Site walkthrough at Hells Gate — three colleagues on the access road" loading="lazy">
+      <figcaption>Site walkthrough</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Site visits · Technical DD · Capacity planning</div>
+      <h2 class="reveal">Come see <span class="accent">Hells Gate.</span></h2>
+    </div>
+    <div class="reveal d1">
+      <p style="color:var(--light); font-size:17px; line-height:1.55; max-width:42ch; margin:0 0 28px;">
+        For technical due diligence, site visit arrangements, capacity planning, or custom configuration discussions — talk to Navon's infrastructure team directly.
+      </p>
+      <div class="dual-cta">
+        <a href="mailto:info@navonworld.com" class="cta">info@navonworld.com <span class="arrow">→</span></a>
+        <a href="docs.html" class="cta-ghost">Read the docs <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer cols-5">
+  <div class="foot-brand"><div class="wordmark">NAVON<span class="dot">.</span></div><p>Vertically integrated deep tech for emerging markets. Sovereign, green, full-stack compute — one site, one layer, one partnership at a time.</p></div>
+  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="products.html#cloud">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
+  <div><h4>Resources</h4><a href="insights.html">Insights</a><a href="news.html">News</a><a href="faq.html">FAQ</a><a href="docs.html">Docs</a><a href="resources.html">All resources</a></div>
+  <div><h4>Company</h4><a href="about.html">About</a><a href="hells-gate.html">Hells Gate</a><a href="foundations.html">Foundations</a><a href="missions.html">Missions</a><a href="inside.html">Inside Navon</a><a href="about.html#contact">Contact</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+  <div><h4>Legal</h4><a href="legal/privacy-policy.html">Privacy</a><a href="legal/terms-of-service.html">Terms</a><a href="legal/cookie-preferences.html">Cookies</a></div>
+</footer>
+<div class="legal"><div>© Navon World · Sovereign compute, powered by the earth.</div><div>Naivasha SEZ · Kenya · Global South, one site at a time.</div></div>
+
+<script src="assets/shared.js"></script>
+</body>
+</html>

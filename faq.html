@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FAQ — Navon</title>
+<meta name="description" content="Direct answers for customers, partners, and engineers — about how Navon works, what we offer, and what we don't." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  .hero-glyph {
+    width: 100%;
+    max-width: 460px;
+    aspect-ratio: 1.2 / 1;
+    margin-left: auto;
+  }
+
+  /* Tabs */
+  .tabs {
+    padding: 0 var(--px);
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.012);
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 10;
+    backdrop-filter: blur(14px);
+    background: rgba(0,0,0,0.7);
+  }
+  .tabs-inner {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .tab {
+    position: relative;
+    padding: 22px 28px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid);
+    background: transparent;
+    border: 0;
+    border-right: 1px solid var(--line);
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .tab:hover { color: var(--paper); background: rgba(255,255,255,0.02); }
+  .tab.active { color: var(--signal); }
+  .tab.active::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--signal);
+  }
+  .tab .count {
+    margin-left: 10px;
+    color: var(--slate);
+    font-size: 10px;
+  }
+  .tab.active .count { color: var(--signal); }
+
+  /* FAQ panels */
+  .faq-section {
+    padding: var(--section-y) var(--px);
+    border-bottom: 1px solid var(--line);
+  }
+  .faq-panel { display: none; }
+  .faq-panel.active { display: block; }
+
+  .faq-intro {
+    max-width: 60ch;
+    color: var(--light);
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 64px;
+  }
+
+  .faq {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .q {
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    transition: background 0.3s ease;
+  }
+  .q:last-child { border-bottom: 0; }
+  .q:hover { background: rgba(255,255,255,0.018); }
+
+  .q-toggle {
+    width: 100%;
+    padding: 28px 24px;
+    background: transparent;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    font-family: inherit;
+    color: var(--paper);
+    transition: color 0.2s ease;
+  }
+  .q-toggle:hover { color: var(--signal); }
+  .q-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--slate);
+    min-width: 60px;
+    transition: color 0.2s ease;
+  }
+  .q.open .q-num { color: var(--signal); }
+  .q-text {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.8vw, 22px);
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    line-height: 1.3;
+  }
+  .q-icon {
+    width: 20px; height: 20px;
+    flex-shrink: 0;
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .q-icon::before, .q-icon::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .q-icon::before { width: 14px; height: 1.5px; }
+  .q-icon::after { width: 1.5px; height: 14px; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .q.open .q-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+  .q.open .q-icon { color: var(--signal); }
+
+  .q-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .q-body-inner {
+    padding: 0 24px 36px 84px;
+    color: var(--light);
+    font-size: 15.5px;
+    line-height: 1.65;
+    max-width: 80ch;
+  }
+  .q-body-inner p { margin: 0 0 14px; }
+  .q-body-inner p:last-child { margin-bottom: 0; }
+  .q-body-inner ul { margin: 0 0 14px; padding-left: 22px; }
+  .q-body-inner li { margin-bottom: 6px; color: var(--mid); }
+  .q-body-inner strong { color: var(--paper); font-weight: 500; }
+  .q-body-inner code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--signal);
+    background: rgba(231,255,0,0.06);
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+  .q-body-inner a { color: var(--signal); border-bottom: 1px solid rgba(231,255,0,0.4); transition: border-color 0.2s ease; }
+  .q-body-inner a:hover { border-color: var(--signal); }
+
+  @media (max-width: 700px) {
+    .q-body-inner { padding-left: 24px; }
+    .q-toggle { padding: 24px 16px; gap: 16px; }
+    .q-num { min-width: 40px; }
+  }
+
+  /* Still have a question CTA */
+  .ask {
+    padding: var(--section-y) var(--px);
+    position: relative;
+    overflow: hidden;
+  }
+  .ask::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(231,255,0,0.06), transparent 50%);
+    pointer-events: none;
+  }
+  .ask-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 48px;
+    align-items: end;
+  }
+  @media (max-width: 820px) { .ask-inner { grid-template-columns: 1fr; gap: 32px; } }
+  .ask h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.6vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 16px 0 0;
+    font-weight: 500;
+    max-width: 18ch;
+  }
+  .ask h2 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="wordmark">NAVON<span class="dot">.</span></a>
+  <div class="nav-right">
+    <div class="nav-menu">
+      <a href="index.html">Platform</a>
+      <span class="has-dropdown">
+        <a href="products.html">Products <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-5">
+            <a class="mega-menu-card" href="products.html#modular"><div class="num">01</div><div class="name">Modular DCs</div></a>
+            <a class="mega-menu-card" href="products.html#turnkey"><div class="num">02</div><div class="name">Turnkey systems</div></a>
+            <a class="mega-menu-card" href="products.html#cloud"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
+            <a class="mega-menu-card" href="products.html#security"><div class="num">04</div><div class="name">Cybersecurity</div></a>
+            <a class="mega-menu-card" href="products.html#utility"><div class="num">05</div><div class="name">Utility</div></a>
+          </div>
+        </div>
+      </span>
+      <a href="missions.html">Missions</a>
+      <span class="has-dropdown">
+        <a href="resources.html">Resources <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-2">
+            <div class="mega-menu-col"><h5>Read</h5><a class="link" href="insights.html">Insights <span class="arrow">→</span></a><a class="link" href="news.html">News <span class="arrow">→</span></a><a class="link" href="faq.html">FAQ <span class="arrow">→</span></a></div>
+            <div class="mega-menu-col"><h5>Build</h5><a class="link" href="docs.html">Docs <span class="arrow">→</span></a><a class="link" href="resources.html#whitepapers">Whitepapers <span class="arrow">→</span></a><a class="link" href="resources.html#brand">Brand kit <span class="arrow">→</span></a></div>
+          </div>
+        </div>
+      </span>
+      <a href="hells-gate.html">Hells Gate</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="about.html">About</a>
+    </div>
+    <a href="about.html#contact" class="cta">Talk to us <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<!-- Page hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>FAQ</div>
+      <h1 class="page-title reveal">Direct answers.<br/><span class="accent">No hedging.</span></h1>
+      <p class="page-lede reveal d1" style="margin-top:24px;">
+        Three audiences, three lenses. If a question matters to you and isn't here, ask us — we'll add it.
+      </p>
+    </div>
+    <svg class="hero-glyph tech draw" viewBox="0 0 460 380" aria-hidden="true">
+      <g class="hair">
+        <line x1="60" y1="80" x2="400" y2="80"/>
+        <line x1="60" y1="140" x2="320" y2="140"/>
+        <line x1="60" y1="200" x2="380" y2="200"/>
+        <line x1="60" y1="260" x2="340" y2="260"/>
+        <line x1="60" y1="320" x2="300" y2="320"/>
+      </g>
+      <g class="signal d2" stroke-width="1.2" fill="none">
+        <line x1="380" y1="80" x2="400" y2="80"/>
+        <line x1="300" y1="140" x2="320" y2="140"/>
+        <line x1="360" y1="200" x2="380" y2="200"/>
+        <line x1="320" y1="260" x2="340" y2="260"/>
+      </g>
+      <circle cx="400" cy="80" r="4" class="signal"/>
+      <circle cx="320" cy="140" r="4" class="signal"/>
+      <circle cx="380" cy="200" r="4" class="signal"/>
+      <circle cx="340" cy="260" r="4" class="signal"/>
+      <circle cx="380" cy="200" r="7" class="signal pulse" opacity="0.4"/>
+      <text x="60" y="358" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">17 QUESTIONS · 3 AUDIENCES</text>
+    </svg>
+  </div>
+</section>
+
+<!-- Tabs -->
+<div class="tabs">
+  <div class="tabs-inner">
+    <button class="tab active" data-tab="customers">For customers <span class="count">06</span></button>
+    <button class="tab" data-tab="partners">For partners <span class="count">05</span></button>
+    <button class="tab" data-tab="technical">Technical <span class="count">06</span></button>
+  </div>
+</div>
+
+<!-- Panels -->
+<section class="faq-section">
+
+  <!-- CUSTOMERS -->
+  <div class="faq-panel active" id="customers">
+    <p class="faq-intro reveal">
+      Buying compute from Navon: how it differs from a hyperscaler, what you actually get, and what we don't do.
+    </p>
+    <div class="faq">
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">01 / C</span>
+          <span class="q-text">What does Navon actually sell?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Five things, all built on the same vertically integrated stack:</p>
+          <ul>
+            <li><strong>Modular data centres</strong>. Bare-metal capacity from a Tier III pod, sold by the rack or by the module.</li>
+            <li><strong>Turnkey systems</strong>. Pre-configured compute, storage, and networking shipped as a single, deployable unit.</li>
+            <li><strong>Private sovereign cloud</strong>. Orchestrated GPU, HPC and storage on top of that capacity, with governance built in.</li>
+            <li><strong>Cybersecurity</strong>. Quantum-safe communications and data-protection layers from the foundation up.</li>
+            <li><strong>Utility</strong>. The DCIM and operating layer that customers and Navon ops both work through.</li>
+          </ul>
+          <p>Most customers start with one and grow into the others.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">02 / C</span>
+          <span class="q-text">How is this different from AWS, Azure, or GCP?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Three differences that matter:</p>
+          <ul>
+            <li><strong>Physical residency.</strong> Your data sits in a facility we own and operate, in your jurisdiction. Not a regional zone of a US hyperscaler.</li>
+            <li><strong>Energy pedigree.</strong> Power is sourced from local renewable baseload — geothermal, hydro — not bought as offsets against a coal grid.</li>
+            <li><strong>Right-sized economics.</strong> Modular capacity priced for growth-market enterprises, not a one-size hyperscaler price book.</li>
+          </ul>
+          <p>For workloads where sovereignty, cost, or proximity matters, the math changes. For workloads that don't care, hyperscalers remain a fine choice.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">03 / C</span>
+          <span class="q-text">When can I deploy?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Hells Gate goes live in <strong>Q3 2026</strong> with the first 400 kW Tier III module. Customers signed before commissioning are placed first; the typical onboarding cycle from contract to live workload is <strong>6–10 weeks</strong> after the facility opens.</p>
+          <p>If you have a workload that's date-sensitive, talk to us early — we can sequence module commissioning around committed demand.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">04 / C</span>
+          <span class="q-text">What workloads is Navon best for?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <ul>
+            <li><strong>Sovereign AI</strong> — training, fine-tuning, inference where data jurisdiction is non-negotiable.</li>
+            <li><strong>HPC simulation</strong> — climate, genomics, CFD, financial risk on dedicated GPU/CPU clusters.</li>
+            <li><strong>Government &amp; public-sector platforms</strong> — digital ID, health informatics, sector platforms with compliance baked in.</li>
+            <li><strong>Enterprise sovereign cloud</strong> — banking, telecom, energy workloads that can't sit in a foreign jurisdiction.</li>
+          </ul>
+          <p>If your workload is latency-insensitive, low-density, and has no sovereignty requirement, a hyperscaler is probably cheaper.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">05 / C</span>
+          <span class="q-text">How is data sovereignty actually enforced?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>By <strong>physics first, contracts second</strong>:</p>
+          <ul>
+            <li>The hardware sits in a facility we own and operate inside your jurisdiction. No cross-border replication unless you ask for it.</li>
+            <li>Encryption keys are held in-country. Sovereign HSM by default.</li>
+            <li>Compliance is mapped to local statute (e.g. Kenya DPA 2019) and aligned with GDPR where useful, not bolted on as a checkbox.</li>
+            <li>Operators on the ground are local. Audits happen in person.</li>
+          </ul>
+          <p>"Residency by physical fact, not policy promise" is the test we hold ourselves to.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">06 / C</span>
+          <span class="q-text">What's the pricing model?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Three commercial models, depending on how you want to consume:</p>
+          <ul>
+            <li><strong>Co-location</strong> — per-rack pricing, monthly, with power and cross-connects bundled.</li>
+            <li><strong>Bare metal &amp; managed</strong> — dedicated GPU/CPU clusters with our orchestration layer on top, billed monthly.</li>
+            <li><strong>Sovereign cloud</strong> — consumption-based for compute, storage, and managed services. Billable in USD or local currency where supported.</li>
+          </ul>
+          <p>We publish indicative ranges to qualified customers under NDA. Public price lists come once we're commercially live.</p>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTNERS -->
+  <div class="faq-panel" id="partners">
+    <p class="faq-intro reveal">
+      Building with Navon: equipment partners, capital partners, universities, and ecosystem collaborators.
+    </p>
+    <div class="faq">
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">01 / P</span>
+          <span class="q-text">Who does Navon partner with?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Seven categories:</p>
+          <ul>
+            <li><strong>Equipment &amp; compute</strong> — NVIDIA (GPUs, Inception Program), Delta Electronics (modular pods, UPS, cooling), Sytronix (right-fit compute), Asterfusion (network fabric), Pure Infrastructure, Hoptroff (precision time).</li>
+            <li><strong>Connectivity</strong> — Safaricom (carrier-neutral fibre).</li>
+            <li><strong>Software &amp; cloud</strong> — Hosted.ai, Kinesis Enterprise.</li>
+            <li><strong>Quantum &amp; cryptography</strong> — QCentroid, ExeQuantum, ID Quantique.</li>
+            <li><strong>Energy</strong> — MAST Energy Developments.</li>
+            <li><strong>Universities &amp; AI ecosystem</strong> — UCL, ETH Zurich, UPM Madrid, UPC Barcelona, Strathmore University, AI Kenya, Alliance for AI.</li>
+            <li><strong>Customers &amp; joint go-to-market</strong> — Atlancis, Siscom, Africa Compute Fund.</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">02 / P</span>
+          <span class="q-text">How do I become a Navon partner?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Email <a href="mailto:partnerships@navon.cloud">partnerships@navon.cloud</a> with a one-page brief on what you'd bring (technology, capital, market access, talent) and where you'd want to deploy first. We respond within five working days. If there's fit, we move to MOU or pilot inside a quarter.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">03 / P</span>
+          <span class="q-text">What's the University Partnership Programme?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>A structured programme that gives African universities <strong>dedicated sovereign compute</strong> at growth-market pricing, paired with:</p>
+          <ul>
+            <li>JupyterHub and dev sandboxes via university SSO.</li>
+            <li>HPC templates for climate, genomics, CFD.</li>
+            <li>Quantum sandbox access via QCentroid.</li>
+            <li>On-site internships at Hells Gate.</li>
+            <li>Guest lectures and mentorship from UCL, ETH, UPM and UPC.</li>
+          </ul>
+          <p>Email <a href="mailto:partnerships@navon.cloud">partnerships@navon.cloud</a> if you're a university or research institution that wants in.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">04 / P</span>
+          <span class="q-text">Can I co-build a Navon site?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Yes — if you bring at least one of: a secured site with permits, dedicated baseload power, anchor demand, or DFI-grade capital. Co-build deals are structured as joint ventures with shared infrastructure ownership and a Navon-operated stack on top. Talk to us early; the diligence cycle is typically 90–120 days.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">05 / P</span>
+          <span class="q-text">What's expected of an equipment / vendor partner?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Three things, in priority order:</p>
+          <ul>
+            <li><strong>Right-fit technology</strong> — designed or adaptable to growth-market conditions (altitude, dust, humidity, grid quality).</li>
+            <li><strong>Local presence or a credible plan to build one</strong> — we don't air-freight spares from Frankfurt forever.</li>
+            <li><strong>Roadmap alignment</strong> — willingness to co-engineer for the workloads we're targeting, not just ship catalogue.</li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECHNICAL -->
+  <div class="faq-panel" id="technical">
+    <p class="faq-intro reveal">
+      The engineering questions: density, redundancy, networking, certifications, and the parts of the stack we own outright.
+    </p>
+    <div class="faq">
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">01 / T</span>
+          <span class="q-text">What rack densities does Navon support?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Default is <strong>20 kW+ per rack</strong>, GPU-ready, with dual 32 A A+B PDUs (hot-aisle containment). Higher densities (up to 90 kW per rack) are supported in the next-generation pod via direct-liquid cooling — talk to us if your workload needs it.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">02 / T</span>
+          <span class="q-text">What's the PUE? Tier rating? Redundancy model?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <ul>
+            <li><strong>PUE</strong> — 1.29, validated at 400 kW constant IT load.</li>
+            <li><strong>Tier</strong> — Tier III engineering throughout.</li>
+            <li><strong>Power</strong> — N+N (UPS A · UPS B, dual MDB).</li>
+            <li><strong>Cooling</strong> — N+1 BlueBox DX with hot-aisle containment.</li>
+            <li><strong>Connectivity</strong> — dual fibre entry, carrier-neutral meet-me room.</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">03 / T</span>
+          <span class="q-text">What energy sources power Navon?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Site by site, sourced locally and at scale:</p>
+          <ul>
+            <li><strong>Hells Gate (Kenya)</strong> — 95% geothermal, fed directly from the Olkaria-Suswa 220 kV corridor.</li>
+            <li><strong>Tanzania (planned)</strong> — hydro baseload.</li>
+            <li><strong>Future sites</strong> — geothermal, hydro, solar with battery storage. Diesel only for emergency backup, never as primary.</li>
+          </ul>
+          <p>Energy is sourced upstream — not offset.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">04 / T</span>
+          <span class="q-text">What certifications and compliance does Navon meet?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <ul>
+            <li><strong>Tier III</strong> facility engineering.</li>
+            <li><strong>Kenya Data Protection Act 2019</strong> compliance.</li>
+            <li><strong>GDPR-aligned</strong> architecture (where the customer needs it).</li>
+            <li><strong>Naivasha SEZ-gazetted</strong> with Kenyan special economic zone protections and incentives.</li>
+            <li>ISO 27001 and SOC 2 are on the roadmap for post-commissioning.</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">05 / T</span>
+          <span class="q-text">What's the network architecture?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Asterfusion leaf fabric, dual-switch HA: <strong>25 GbE</strong> to compute nodes, <strong>100 GbE</strong> to storage, dual-corded for redundancy. Carrier-neutral interconnect through Liquid, Safaricom and SEACOM with dual fibre entry into the meet-me room. Direct cross-connects for hyperscaler peering on request.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">06 / T</span>
+          <span class="q-text">What about quantum-safe cryptography?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Navon's cybersecurity layer is built with <strong>post-quantum cryptography (PQC)</strong> embedded from the ground up — not retrofitted. Quantum Key Distribution (QKD) pathways are on the roadmap for sites with sovereign communications requirements. Key management is HSM-backed, in-country.</p>
+          <p>This is a deliberate design choice: post-quantum migration is going to be expensive for everyone running TLS 1.2/1.3 with classical key exchange. Building from scratch lets us skip that bill.</p>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Still got a question? -->
+<section class="ask">
+  <div class="ask-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Still wondering</div>
+      <h2 class="reveal">Question not<br/>answered? <span class="accent">Ask us.</span></h2>
+    </div>
+    <div class="reveal d1">
+      <p style="color:var(--light); font-size:16px; line-height:1.55; max-width:46ch; margin:0 0 24px;">
+        We add to this page when real questions come in. Drop us a line and we'll either answer directly — or add it here so the next person doesn't have to.
+      </p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="mailto:info@navonworld.com" class="cta">info@navonworld.com <span class="arrow">→</span></a>
+        <a href="mailto:partnerships@navon.cloud" class="cta-ghost">Partnerships <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer cols-5">
+  <div class="foot-brand"><div class="wordmark">NAVON<span class="dot">.</span></div><p>Vertically integrated deep tech for emerging markets. Sovereign, green, full-stack compute — one site, one layer, one partnership at a time.</p></div>
+  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="products.html#cloud">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
+  <div><h4>Resources</h4><a href="insights.html">Insights</a><a href="news.html">News</a><a href="faq.html">FAQ</a><a href="docs.html">Docs</a><a href="resources.html">All resources</a></div>
+  <div><h4>Company</h4><a href="about.html">About</a><a href="foundations.html">Foundations</a><a href="missions.html">Missions</a><a href="inside.html">Inside Navon</a><a href="about.html#contact">Contact</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+  <div><h4>Legal</h4><a href="legal/privacy-policy.html">Privacy</a><a href="legal/terms-of-service.html">Terms</a><a href="legal/cookie-preferences.html">Cookies</a></div>
+</footer>
+<div class="legal">
+  <div>© Navon World · Sovereign compute, powered by the earth.</div>
+  <div>Naivasha SEZ · Kenya · Global South, one site at a time.</div>
+</div>
+
+<script src="assets/shared.js"></script>
+<script>
+  /* Tabs */
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.faq-panel');
+  tabs.forEach((t) => {
+    t.addEventListener('click', () => {
+      tabs.forEach((x) => x.classList.remove('active'));
+      panels.forEach((p) => p.classList.remove('active'));
+      t.classList.add('active');
+      document.getElementById(t.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* Accordion */
+  document.querySelectorAll('.q-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const q = btn.parentElement;
+      const body = q.querySelector('.q-body');
+      const inner = q.querySelector('.q-body-inner');
+      const isOpen = q.classList.contains('open');
+      if (isOpen) {
+        body.style.maxHeight = '0px';
+        q.classList.remove('open');
+      } else {
+        q.classList.add('open');
+        body.style.maxHeight = inner.offsetHeight + 'px';
+      }
+    });
+  });
+</script>
+</body>
+</html>

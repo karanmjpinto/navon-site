@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Docs — Navon</title>
+<meta name="description" content="Technical documentation: quickstart, modular pod architecture, compliance, energy methodology." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  .docs-h1 {
+    grid-column: 1 / -1;
+    padding: 0 0 32px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 56px;
+  }
+  .docs-h1 h1 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    margin: 16px 0 0;
+    font-weight: 500;
+  }
+  .docs-h1 h1 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+  .docs-h1 .lede {
+    margin-top: 14px;
+    color: var(--light);
+    font-size: 16px;
+    max-width: 60ch;
+    line-height: 1.55;
+  }
+  .anchor-target { scroll-margin-top: calc(var(--nav-h) + 24px); }
+</style>
+</head>
+<body class="theme-light">
+
+<nav class="nav">
+  <a href="index.html" class="wordmark">NAVON<span class="dot">.</span></a>
+  <div class="nav-right">
+    <div class="nav-menu">
+      <a href="index.html">Platform</a>
+      <span class="has-dropdown">
+        <a href="products.html">Products <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-5">
+            <a class="mega-menu-card" href="products.html#modular"><div class="num">01</div><div class="name">Modular DCs</div></a>
+            <a class="mega-menu-card" href="products.html#turnkey"><div class="num">02</div><div class="name">Turnkey systems</div></a>
+            <a class="mega-menu-card" href="products.html#cloud"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
+            <a class="mega-menu-card" href="products.html#security"><div class="num">04</div><div class="name">Cybersecurity</div></a>
+            <a class="mega-menu-card" href="products.html#utility"><div class="num">05</div><div class="name">Utility</div></a>
+          </div>
+        </div>
+      </span>
+      <a href="missions.html">Missions</a>
+      <span class="has-dropdown">
+        <a href="resources.html">Resources <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-2">
+            <div class="mega-menu-col"><h5>Read</h5><a class="link" href="insights.html">Insights <span class="arrow">→</span></a><a class="link" href="news.html">News <span class="arrow">→</span></a><a class="link" href="faq.html">FAQ <span class="arrow">→</span></a></div>
+            <div class="mega-menu-col"><h5>Build</h5><a class="link" href="docs.html">Docs <span class="arrow">→</span></a><a class="link" href="resources.html#whitepapers">Whitepapers <span class="arrow">→</span></a><a class="link" href="resources.html#brand">Brand kit <span class="arrow">→</span></a></div>
+          </div>
+        </div>
+      </span>
+      <a href="hells-gate.html">Hells Gate</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="about.html">About</a>
+    </div>
+    <a href="about.html#contact" class="cta">Talk to us <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-sidebar">
+    <h4>Get started</h4>
+    <a href="#quickstart" data-doc-link>Quickstart</a>
+    <a href="#engagement" data-doc-link>Engagement paths</a>
+
+    <h4>Architecture</h4>
+    <a href="#pod-20" data-doc-link>20 kW rack</a>
+    <a href="#pod-90" data-doc-link>90 kW pod</a>
+    <a href="#pod-400" data-doc-link>400 kW pod</a>
+    <a href="#network" data-doc-link>Network fabric</a>
+
+    <h4>Operations</h4>
+    <a href="#dcim" data-doc-link>DCIM</a>
+    <a href="#optimization" data-doc-link>Optimisation cycle</a>
+
+    <h4>Compliance</h4>
+    <a href="#compliance" data-doc-link>Frameworks</a>
+    <a href="#tier-iii" data-doc-link>Tier III mapping</a>
+
+    <h4>Methodology</h4>
+    <a href="#methodology" data-doc-link>Energy claim</a>
+    <a href="#pue" data-doc-link>PUE measurement</a>
+
+    <h4>Reference</h4>
+    <a href="#api" data-doc-link>API <span class="badge">soon</span></a>
+    <a href="#changelog" data-doc-link>Changelog <span class="badge">soon</span></a>
+  </aside>
+
+  <div class="docs-content">
+
+    <header class="docs-h1">
+      <div class="eyebrow"><span class="mark"></span>Docs</div>
+      <h1>Build <span class="accent">on Navon.</span></h1>
+      <p class="lede">Technical documentation for engineers, procurement, and compliance teams. Engagement paths, pod specifications, network fabric, certifications, and the methodology behind every claim on this site.</p>
+    </header>
+
+    <section class="docs-section anchor-target" id="quickstart">
+      <div class="crumb">Get started · 01</div>
+      <h2>Quickstart.</h2>
+      <p>Three minutes to know whether Navon is the right answer for your workload. If after reading this you think the answer is yes, jump to <a href="#engagement">engagement paths</a>.</p>
+      <ol>
+        <li><strong>Confirm the workload class.</strong> Navon is purpose-built for sovereign AI training, HPC simulation, regulated enterprise platforms, and government digital infrastructure. Latency-insensitive, low-density, no-sovereignty workloads are usually cheaper on a hyperscaler.</li>
+        <li><strong>Confirm the jurisdiction.</strong> Navon's first site is Hells Gate, Naivasha SEZ, Kenya. Phase 2 brings Uganda; Phase 3 brings Tanzania and South Africa. If your data must be resident in one of these, the math works.</li>
+        <li><strong>Pick a starting layer.</strong> Most customers start with a single product line and grow into the rest. Browse <a href="products.html">products</a> for the four lines.</li>
+      </ol>
+    </section>
+
+    <section class="docs-section anchor-target" id="engagement">
+      <div class="crumb">Get started · 02</div>
+      <h2>Engagement paths.</h2>
+      <p>There are three ways to engage with Navon. Pick the one that fits where you are.</p>
+      <h3>Pilot</h3>
+      <p>For small-team workloads or PoC. Single 20 kW rack, 1–3 month commitment, fixed pricing. Onboarding in 6–10 weeks once Hells Gate is live (Q3 2026).</p>
+      <h3>MOU</h3>
+      <p>For institutions exploring a longer commitment with non-binding intent. Standard MOU template covering scope, timing, and exclusivity. We sign these in 2–4 weeks.</p>
+      <h3>Anchor</h3>
+      <p>For governments, DFIs, or enterprises committing to a multi-MW deployment. Sequenced commissioning, dedicated module(s), bespoke SLA. Diligence cycle is 90–120 days.</p>
+    </section>
+
+    <section class="docs-section anchor-target" id="pod-20">
+      <div class="crumb">Architecture · 01</div>
+      <h2>20 kW rack.</h2>
+      <p>A single 42U cabinet pre-configured for proof-of-concept and small-team workloads. Three CPU compute nodes, two GPU compute nodes, one NAS, Asterfusion leaf fabric.</p>
+      <h3>Power budget</h3>
+      <table>
+        <thead><tr><th>Component</th><th>PSU</th><th>Feed A</th><th>Feed B</th><th>Total</th></tr></thead>
+        <tbody>
+          <tr><td>GPU node ×2</td><td>2× 3 kW</td><td>6.50 kW</td><td>6.50 kW</td><td>13.00 kW</td></tr>
+          <tr><td>CPU node ×3</td><td>2× 1.6 kW</td><td>2.25 kW</td><td>2.25 kW</td><td>4.50 kW</td></tr>
+          <tr><td>NAS</td><td>2× 1.6 kW</td><td>0.50 kW</td><td>0.50 kW</td><td>1.00 kW</td></tr>
+          <tr><td>Asterfusion fabric</td><td>2× PSU</td><td>0.28 kW</td><td>0.27 kW</td><td>0.55 kW</td></tr>
+          <tr><td><strong>Feed totals</strong></td><td>—</td><td><strong>9.53 kW</strong></td><td><strong>9.52 kW</strong></td><td><strong>19.05 kW</strong></td></tr>
+        </tbody>
+      </table>
+      <p>Feed totals assume balanced dual-corded operation; on single-feed failover the surviving feed carries the full <code>~19 kW</code>, so both PDUs are sized to 20 kW (32 A @ 240 V or 48 A @ 415 V 3-phase derated).</p>
+      <h3>Network</h3>
+      <p>Asterfusion leaf fabric, dual-switch HA: <code>25 GbE</code> to compute, <code>100 GbE</code> NAS uplink. Dual-corded, primary on feed A, redundant on feed B.</p>
+      <h3>Lead time</h3>
+      <p>14–16 weeks from PO. Cluster cost on Navon preferred pricing; refer to commercial pack under NDA.</p>
+    </section>
+
+    <section class="docs-section anchor-target" id="pod-90">
+      <div class="crumb">Architecture · 02</div>
+      <h2>90 kW pod.</h2>
+      <p>Five direct-liquid-cooled racks at 90 kW each, with N+N power and a dedicated DLC loop. Built for next-generation GPU clusters and HPC workloads where rack density is the binding constraint.</p>
+      <h3>Form factor</h3>
+      <ul>
+        <li>5 × DLC racks, 42U each</li>
+        <li>Total IT load: 450 kW</li>
+        <li>UPS: 2 × 500 kVA (N+N)</li>
+        <li>Cooling: closed-loop direct-liquid + N+1 air handlers for residual</li>
+      </ul>
+      <h3>Use cases</h3>
+      <ul>
+        <li>GPU training (B200, H100, MI300x, MI355x)</li>
+        <li>HPC: climate, genomics, CFD</li>
+        <li>Inference fleet at scale</li>
+      </ul>
+      <h3>Lead time</h3>
+      <p>9–12 months for the first pod (factory build); 6–9 months for repeats once tooling is stood up.</p>
+    </section>
+
+    <section class="docs-section anchor-target" id="pod-400">
+      <div class="crumb">Architecture · 03</div>
+      <h2>400 kW pod.</h2>
+      <p>The Hells Gate flagship configuration: three steel enclosures (two IT rooms + one power-and-cooling room) with twenty 42U racks at 20 kW+ each. Tier III throughout.</p>
+      <h3>Layout</h3>
+      <ul>
+        <li><strong>IT Room 1</strong> — 10 × 42U racks, 200 kW</li>
+        <li><strong>IT Room 2</strong> — 10 × 42U racks, 200 kW</li>
+        <li><strong>Power &amp; cooling</strong> — 2 × 500 kVA UPS (N+N), 2 × MDB 1600 A, 18 × BlueBox DX, meet-me room</li>
+      </ul>
+      <h3>Power &amp; cooling</h3>
+      <table>
+        <thead><tr><th>Spec</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Redundancy</td><td>Tier III · N+N power · N+1 cooling</td></tr>
+          <tr><td>PUE (validated)</td><td>1.29 at 400 kW constant IT load</td></tr>
+          <tr><td>Cooling</td><td>18 × BlueBox DX with hot-aisle containment</td></tr>
+          <tr><td>Rack PDU</td><td>Dual 32 A · A+B redundant</td></tr>
+        </tbody>
+      </table>
+      <h3>Connectivity</h3>
+      <p>Carrier-neutral meet-me room with Safaricom and dual fibre entry. Customer cross-connects on request, no lock-in.</p>
+    </section>
+
+    <section class="docs-section anchor-target" id="network">
+      <div class="crumb">Architecture · 04</div>
+      <h2>Network fabric.</h2>
+      <p>Asterfusion leaf-spine across all pod variants, with dual-switch HA at every layer.</p>
+      <ul>
+        <li><strong>Compute access</strong>: 25 GbE</li>
+        <li><strong>Storage uplink</strong>: 100 GbE</li>
+        <li><strong>External</strong>: dual fibre into the meet-me room, BGP peering with customer ASNs available</li>
+      </ul>
+    </section>
+
+    <section class="docs-section anchor-target" id="dcim">
+      <div class="crumb">Operations · 01</div>
+      <h2>DCIM.</h2>
+      <p>Every Navon site runs on an integrated <strong>Data Centre Infrastructure Management</strong> platform — the operations layer that monitors, manages, and optimises the modular DC in real time. Capacity decisions, change management, and energy reporting all flow through it.</p>
+      <h3>What it covers</h3>
+      <table>
+        <thead><tr><th>Module</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td>Operation</td><td>Real-time temperature, humidity, and environmental telemetry across the floor.</td></tr>
+          <tr><td>Incident</td><td>Event classification, work-order dispatch, repeat-event analysis, case closure.</td></tr>
+          <tr><td>PUE Energy</td><td>Live PUE dashboard with historical trend, validated against meter data.</td></tr>
+          <tr><td>Asset</td><td>Rack-level inventory and asset module — every U accounted for, QR-tagged.</td></tr>
+          <tr><td>Capacity</td><td>Automatic availability calculation; cold/hot aisle utilisation by zone.</td></tr>
+          <tr><td>Work Order</td><td>End-to-end change-management workflow: <code>Submit → Plan → Approve → Implement → Review → Close</code>.</td></tr>
+          <tr><td>Analytics</td><td>Energy hierarchy analysis, capacity forecasting, anomaly detection.</td></tr>
+        </tbody>
+      </table>
+      <h3>Why it matters</h3>
+      <p>For sovereign customers, DCIM means <strong>auditable operations</strong> — every change tracked, every kilowatt accounted for, every rack unit visible. For Navon's own engineering team, it means deployment 2 is faster than deployment 1 because the operating playbook is in software, not in someone's head.</p>
+    </section>
+
+    <section class="docs-section anchor-target" id="optimization">
+      <div class="crumb">Operations · 02</div>
+      <h2>Optimisation cycle.</h2>
+      <p>The DCIM platform runs a continuous four-phase loop. Every site, every week.</p>
+      <ol>
+        <li><strong>Measurement</strong> — overall data centre environment captured in real time from a central dashboard.</li>
+        <li><strong>Analytics</strong> — virtual model of the infrastructure mapping relationships between every component.</li>
+        <li><strong>Plan</strong> — historical trend analysis informs capacity and operational planning decisions.</li>
+        <li><strong>Action</strong> — actionable configurations and SOPs executed via the Work Order workflow.</li>
+      </ol>
+      <p>This is the same loop our customers see in their access view of the platform. Sovereign customers get a tenant-scoped slice; Navon operations sees the campus-wide view. Same underlying data.</p>
+    </section>
+
+    <section class="docs-section anchor-target" id="compliance">
+      <div class="crumb">Compliance · 01</div>
+      <h2>Compliance frameworks.</h2>
+      <p>Navon's compliance posture maps to local statute first, with international alignment where useful.</p>
+      <table>
+        <thead><tr><th>Framework</th><th>Status</th><th>Scope</th></tr></thead>
+        <tbody>
+          <tr><td>Kenya DPA 2019</td><td>Compliant</td><td>All Kenyan workloads, data residency, breach notification, DPO appointed</td></tr>
+          <tr><td>GDPR</td><td>Aligned</td><td>Architecture and audit logs aligned for EU customers; not certified</td></tr>
+          <tr><td>SEZ gazette (Naivasha)</td><td>Active</td><td>Tax, customs, and operating incentives under Kenyan SEZ Act</td></tr>
+          <tr><td>ISO 27001</td><td>Roadmap</td><td>Targeted post-commissioning</td></tr>
+          <tr><td>SOC 2 Type II</td><td>Roadmap</td><td>Targeted post-commissioning</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="docs-section anchor-target" id="tier-iii">
+      <div class="crumb">Compliance · 02</div>
+      <h2>Tier III mapping.</h2>
+      <p>The 400 kW pod is engineered to Uptime Institute Tier III standards. Concurrent maintainability without taking the IT load offline.</p>
+      <ul>
+        <li>Multiple independent distribution paths (N+N power)</li>
+        <li>Dual-powered IT equipment</li>
+        <li>Redundant cooling infrastructure (N+1)</li>
+        <li>Concurrent maintainability for all critical components</li>
+      </ul>
+    </section>
+
+    <section class="docs-section anchor-target" id="methodology">
+      <div class="crumb">Methodology · 01</div>
+      <h2>Energy claim.</h2>
+      <p>Hells Gate's "95% geothermal" headline number is the result of a specific calculation that we publish so it can be challenged.</p>
+      <h3>What's in scope</h3>
+      <p>The percentage refers to <strong>delivered electrical energy at the meter</strong> over a calendar year, sourced via the Olkaria-Suswa 220 kV corridor under a power purchase agreement that traces electrons to geothermal generation assets.</p>
+      <h3>What's not in scope</h3>
+      <p>Embodied energy in equipment (steel, copper, silicon) is not counted. Diesel emergency-backup runtime is excluded from the headline number but tracked separately and reported quarterly.</p>
+      <h3>Verification</h3>
+      <p>The claim is verifiable against KPLC meter readings and the corridor's published generation mix. We commit to publishing the annual reconciliation in the year after Hells Gate's first full year of operation.</p>
+    </section>
+
+    <section class="docs-section anchor-target" id="pue">
+      <div class="crumb">Methodology · 02</div>
+      <h2>PUE measurement.</h2>
+      <p>The 1.29 PUE figure is validated under specific conditions; we publish them so the comparison is apples-to-apples.</p>
+      <ul>
+        <li><strong>Load</strong>: 400 kW constant IT load (full module commissioned)</li>
+        <li><strong>Method</strong>: 1-minute interval averaging across a representative week</li>
+        <li><strong>Boundary</strong>: includes UPS losses, cooling, lighting, BMS; excludes external transformers</li>
+        <li><strong>Standard</strong>: aligned with The Green Grid PUE Category 2</li>
+      </ul>
+      <p>PUE numbers measured at 30% load or in spec-sheet idealised conditions are not comparable to ours. Always ask vendors for boundary, load, and method before comparing.</p>
+    </section>
+
+    <section class="docs-section anchor-target" id="api">
+      <div class="crumb">Reference · 01</div>
+      <h2>API reference.</h2>
+      <div class="placeholder-card">
+        <h4>Coming Q3 2026</h4>
+        <p>Sovereign cloud control-plane API documentation will publish alongside Hells Gate commissioning. The reference will cover compute provisioning, storage operations, IAM, sovereign HSM, and audit log export. <a href="news.html" style="color:var(--signal); border-bottom: 1px solid rgba(231,255,0,0.4);">Subscribe to news</a> to be notified.</p>
+      </div>
+    </section>
+
+    <section class="docs-section anchor-target" id="changelog">
+      <div class="crumb">Reference · 02</div>
+      <h2>Changelog.</h2>
+      <div class="placeholder-card">
+        <h4>Coming with v1 of the platform</h4>
+        <p>Public changelog will track customer-facing changes to the sovereign cloud platform, the modular pod product line, and compliance posture. Until v1 launches, follow <a href="news.html" style="color:var(--signal); border-bottom: 1px solid rgba(231,255,0,0.4);">News</a> for milestones.</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer class="site-footer cols-5">
+  <div class="foot-brand"><div class="wordmark">NAVON<span class="dot">.</span></div><p>Vertically integrated deep tech for emerging markets. Sovereign, green, full-stack compute — one site, one layer, one partnership at a time.</p></div>
+  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="products.html#cloud">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
+  <div><h4>Resources</h4><a href="insights.html">Insights</a><a href="news.html">News</a><a href="faq.html">FAQ</a><a href="docs.html">Docs</a><a href="resources.html">All resources</a></div>
+  <div><h4>Company</h4><a href="about.html">About</a><a href="foundations.html">Foundations</a><a href="missions.html">Missions</a><a href="inside.html">Inside Navon</a><a href="about.html#contact">Contact</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+  <div><h4>Legal</h4><a href="legal/privacy-policy.html">Privacy</a><a href="legal/terms-of-service.html">Terms</a><a href="legal/cookie-preferences.html">Cookies</a></div>
+</footer>
+<div class="legal"><div>© Navon World · Sovereign compute, powered by the earth.</div><div>Naivasha SEZ · Kenya · Global South, one site at a time.</div></div>
+
+<script src="assets/shared.js"></script>
+<script>
+  /* Highlight current docs section in sidebar */
+  const sections = document.querySelectorAll('.docs-section');
+  const links = document.querySelectorAll('[data-doc-link]');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        links.forEach((l) => {
+          l.classList.toggle('current', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -50% 0px', threshold: 0 });
+  sections.forEach((s) => obs.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Foundations — Navon</title>
+<meta name="description" content="Three principles. No exceptions. Sovereign. Sustainable. Accessible — what every Navon site, layer, and partnership must clear." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  .hero-glyph { width: 100%; max-width: 460px; aspect-ratio: 1.2 / 1; margin-left: auto; }
+
+  .principle-deep {
+    padding: var(--section-y) var(--px);
+    border-bottom: 1px solid var(--line);
+  }
+  .principle-deep.alt { background: linear-gradient(180deg, rgba(255,255,255,0.012), transparent); }
+  .principle-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .principle-deep:nth-of-type(even) .principle-inner { grid-template-columns: 1fr 1fr; direction: rtl; }
+  .principle-deep:nth-of-type(even) .principle-inner > * { direction: ltr; }
+  @media (max-width: 980px) {
+    .principle-inner, .principle-deep:nth-of-type(even) .principle-inner { grid-template-columns: 1fr; gap: 40px; direction: ltr; }
+  }
+
+  .principle-text .num {
+    font-family: var(--font-mono);
+    font-size: 56px;
+    font-weight: 500;
+    color: var(--signal);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .principle-text .name {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5.6vw, 80px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    margin: 0 0 28px;
+  }
+  .principle-text .name .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+  .principle-text p {
+    color: var(--light);
+    font-size: 17px;
+    line-height: 1.6;
+    margin: 0 0 16px;
+    max-width: 52ch;
+  }
+  .principle-text .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 36px;
+    padding-top: 36px;
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 600px) { .principle-text .stat-row { grid-template-columns: 1fr; } }
+  .principle-text .stat .l {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 6px;
+  }
+  .principle-text .stat .v {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.022em;
+    color: var(--paper);
+    line-height: 1;
+  }
+  .principle-text .links {
+    margin-top: 28px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .principle-text .links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mid);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+    border-bottom: 1px solid var(--line);
+    padding: 6px 0;
+  }
+  .principle-text .links a:hover { color: var(--signal); border-color: var(--signal); }
+
+  .principle-visual {
+    aspect-ratio: 1 / 1;
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,255,255,0.014), transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+  }
+  .principle-visual svg { width: 100%; height: 100%; }
+
+  /* The Navon test */
+  .test {
+    padding: var(--section-y) var(--px);
+    border-bottom: 1px solid var(--line);
+  }
+  .test-list {
+    margin-top: 56px;
+    border-top: 1px solid var(--line);
+  }
+  .test-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 1fr;
+    gap: 40px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  @media (max-width: 720px) { .test-row { grid-template-columns: 40px 1fr; } .test-row .crit { grid-column: 1 / -1; padding-left: 56px; } }
+  .test-row .check {
+    width: 28px; height: 28px;
+    border: 1.5px solid var(--signal);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--signal);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .test-row .q {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+  }
+  .test-row .crit {
+    color: var(--mid);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .final-cta {
+    padding: var(--section-y) var(--px);
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(231,255,0,0.07), transparent 50%);
+    pointer-events: none;
+  }
+  .final-cta-inner { position: relative; display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: end; }
+  @media (max-width: 820px) { .final-cta-inner { grid-template-columns: 1fr; gap: 32px; } }
+  .final-cta h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5.4vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    margin: 16px 0 0;
+    font-weight: 500;
+    max-width: 16ch;
+  }
+  .final-cta h2 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="wordmark">NAVON<span class="dot">.</span></a>
+  <div class="nav-right">
+    <div class="nav-menu">
+      <a href="index.html">Platform</a>
+      <span class="has-dropdown">
+        <a href="products.html">Products <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-5">
+            <a class="mega-menu-card" href="products.html#modular"><div class="num">01</div><div class="name">Modular DCs</div></a>
+            <a class="mega-menu-card" href="products.html#turnkey"><div class="num">02</div><div class="name">Turnkey systems</div></a>
+            <a class="mega-menu-card" href="products.html#cloud"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
+            <a class="mega-menu-card" href="products.html#security"><div class="num">04</div><div class="name">Cybersecurity</div></a>
+            <a class="mega-menu-card" href="products.html#utility"><div class="num">05</div><div class="name">Utility</div></a>
+          </div>
+        </div>
+      </span>
+      <a href="missions.html">Missions</a>
+      <span class="has-dropdown">
+        <a href="resources.html">Resources <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-2">
+            <div class="mega-menu-col"><h5>Read</h5><a class="link" href="insights.html">Insights <span class="arrow">→</span></a><a class="link" href="news.html">News <span class="arrow">→</span></a><a class="link" href="faq.html">FAQ <span class="arrow">→</span></a></div>
+            <div class="mega-menu-col"><h5>Build</h5><a class="link" href="docs.html">Docs <span class="arrow">→</span></a><a class="link" href="resources.html#whitepapers">Whitepapers <span class="arrow">→</span></a><a class="link" href="resources.html#brand">Brand kit <span class="arrow">→</span></a></div>
+          </div>
+        </div>
+      </span>
+      <a href="hells-gate.html">Hells Gate</a>
+      <a href="foundations.html" class="current">Foundations</a>
+      <a href="about.html">About</a>
+    </div>
+    <a href="about.html#contact" class="cta">Talk to us <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Foundations</div>
+      <h1 class="page-title reveal">Three principles.<br/><span class="accent">No exceptions.</span></h1>
+      <p class="page-lede reveal d1" style="margin-top:24px;">
+        Every Navon site, every layer of the stack, every partnership is
+        measured against the same three tests. If a deployment isn't all
+        three, it isn't Navon.
+      </p>
+    </div>
+    <svg class="hero-glyph tech draw" viewBox="0 0 460 380" aria-hidden="true">
+      <!-- triangle of principles -->
+      <polygon class="line" points="230,40 410,330 50,330" fill="none"/>
+      <polygon class="dashed" points="230,40 410,330 50,330"/>
+      <circle cx="230" cy="40"  r="6" class="signal"/>
+      <circle cx="230" cy="40"  r="10" class="signal pulse" opacity="0.4"/>
+      <circle cx="410" cy="330" r="5" class="signal"/>
+      <circle cx="50"  cy="330" r="5" class="signal"/>
+      <text x="230" y="28" text-anchor="middle" font-size="11" letter-spacing="2" class="label-signal">SOVEREIGN</text>
+      <text x="430" y="350" text-anchor="end" font-size="11" letter-spacing="2" class="label-signal">SUSTAINABLE</text>
+      <text x="30" y="350" font-size="11" letter-spacing="2" class="label-signal">ACCESSIBLE</text>
+      <text x="60" y="372" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">THE NAVON TEST · ALL THREE OR NONE</text>
+    </svg>
+  </div>
+</section>
+
+<!-- Principle 01 — Sovereign -->
+<section class="principle-deep">
+  <div class="principle-inner">
+    <div class="principle-text reveal">
+      <div class="num">01</div>
+      <h2 class="name">Sovereign.</h2>
+      <p>Regions retain control over their data, infrastructure, and digital future — rather than depending on external powers. Residency by <strong style="color:var(--paper);font-weight:500;">physical fact</strong>, not policy promise.</p>
+      <p>This is the test we hold ourselves to: if your data sits on hardware we operate, that hardware sits in your jurisdiction. Encryption keys are held in-country. Operators on the ground are local. Audits happen in person. Cross-border replication only when you ask for it.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="l">In-country</div><div class="v">100%</div></div>
+        <div class="stat"><div class="l">Sovereign HSM</div><div class="v">Default</div></div>
+        <div class="stat"><div class="l">PQC ready</div><div class="v">Day 1</div></div>
+      </div>
+      <div class="links">
+        <a href="insights.html">Read on global power shifts →</a>
+        <a href="docs.html#compliance">Compliance docs →</a>
+      </div>
+    </div>
+    <div class="principle-visual">
+      <svg viewBox="0 0 320 320" class="tech draw" aria-hidden="true">
+        <rect class="line" x="40" y="60" width="240" height="200" fill="none"/>
+        <text x="50" y="80" font-size="9" letter-spacing="1.5" fill="#9E9F9B">JURISDICTION · KE</text>
+        <!-- inside facility -->
+        <rect class="hair" x="60" y="100" width="200" height="140" fill="none"/>
+        <g class="hair">
+          <rect x="80" y="120" width="60" height="40" fill="none"/>
+          <rect x="160" y="120" width="60" height="40" fill="none"/>
+          <rect x="80" y="180" width="60" height="40" fill="none"/>
+          <rect x="160" y="180" width="60" height="40" fill="none"/>
+        </g>
+        <rect x="80" y="120" width="60" height="40" class="signal" opacity="0.7"/>
+        <text x="86" y="144" font-size="8" letter-spacing="1.5" class="label-signal">DATA</text>
+        <!-- arrow trying to leave, blocked -->
+        <line x1="280" y1="160" x2="305" y2="160" class="dashed"/>
+        <line x1="295" y1="155" x2="305" y2="160" class="signal" stroke-width="1"/>
+        <line x1="295" y1="165" x2="305" y2="160" class="signal" stroke-width="1"/>
+        <line x1="307" y1="148" x2="307" y2="172" class="signal" stroke-width="1.5"/>
+        <text x="50" y="285" font-size="9" letter-spacing="1.5" fill="#9E9F9B">DATA STAYS · KEYS LOCAL · NO CROSS-BORDER</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Principle 02 — Sustainable -->
+<section class="principle-deep alt">
+  <div class="principle-inner">
+    <div class="principle-text reveal">
+      <div class="num">02</div>
+      <h2 class="name">Sustainable.</h2>
+      <p>Built on energy-efficient, clean, resilient infrastructure that can scale within real environmental limits. Geothermal, hydro, solar — chosen at the <strong style="color:var(--paper);font-weight:500;">source</strong>, not bought as offsets.</p>
+      <p>Diesel is for emergency backup, never primary. Site selection starts with the energy question. PUE is measured under load, not in spec sheets. The Hells Gate flagship runs at 95% geothermal from the Olkaria-Suswa 220 kV corridor — a hard ceiling on carbon intensity that we hold every site to.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="l">Clean baseload</div><div class="v">95%+</div></div>
+        <div class="stat"><div class="l">Validated PUE</div><div class="v">1.29</div></div>
+        <div class="stat"><div class="l">Energy savings</div><div class="v">40–60%</div></div>
+      </div>
+      <div class="links">
+        <a href="insights.html">Read on geothermal &amp; AI →</a>
+        <a href="docs.html#methodology">Energy methodology →</a>
+      </div>
+    </div>
+    <div class="principle-visual">
+      <svg viewBox="0 0 320 320" class="tech draw" aria-hidden="true">
+        <!-- earth strata -->
+        <path class="line" d="M30 220 Q 160 190 290 220 L 290 290 L 30 290 Z" fill="none"/>
+        <path class="dashed" d="M30 240 Q 160 215 290 240"/>
+        <path class="dashed" d="M30 260 Q 160 235 290 260"/>
+        <!-- steam vent -->
+        <g class="hair">
+          <path d="M160 220 C 158 180, 150 160, 160 130 C 170 100, 165 70, 160 50"/>
+          <path d="M150 210 C 148 175, 144 158, 150 130"/>
+          <path d="M170 210 C 172 178, 178 158, 170 130"/>
+        </g>
+        <!-- output to facility -->
+        <g class="signal" stroke-width="1" fill="none">
+          <polyline points="160,50 230,50 230,160 270,160"/>
+        </g>
+        <rect x="265" y="148" width="24" height="24" class="signal" opacity="0.7"/>
+        <text x="174" y="38" font-size="9" letter-spacing="1.5" class="label-signal">95% GEOTHERMAL</text>
+        <text x="50" y="285" font-size="9" letter-spacing="1.5" fill="#9E9F9B">SOURCED · NOT OFFSET</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Principle 03 — Accessible -->
+<section class="principle-deep">
+  <div class="principle-inner">
+    <div class="principle-text reveal">
+      <div class="num">03</div>
+      <h2 class="name">Accessible.</h2>
+      <p>Locally available, usable, affordable — through open platforms, partnership programmes, and a price point that growth-market institutions can <strong style="color:var(--paper);font-weight:500;">actually clear</strong>.</p>
+      <p>Hyperscalers price for the West. Africa-priced compute means affording GPU hours that don't depend on USD-denominated subscriptions sized for Silicon Valley. It also means JupyterHub for any university researcher in 60 seconds, on-site internships, mentorship from UCL / ETH / UPM / UPC, and quantum sandboxes for institutions that wouldn't otherwise touch them.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="l">Universities</div><div class="v">5+</div></div>
+        <div class="stat"><div class="l">Pricing in</div><div class="v">USD · KES</div></div>
+        <div class="stat"><div class="l">JupyterHub spin-up</div><div class="v">60 s</div></div>
+      </div>
+      <div class="links">
+        <a href="products.html#consulting">University programme →</a>
+        <a href="insights.html">Read on access &amp; AI →</a>
+      </div>
+    </div>
+    <div class="principle-visual">
+      <svg viewBox="0 0 320 320" class="tech draw" aria-hidden="true">
+        <circle class="hair" cx="160" cy="160" r="90" fill="none"/>
+        <circle class="dashed" cx="160" cy="160" r="120"/>
+        <circle cx="160" cy="160" r="6" class="signal"/>
+        <circle cx="160" cy="160" r="10" class="signal pulse" opacity="0.4"/>
+        <!-- spokes -->
+        <g class="hair">
+          <circle cx="80" cy="100" r="12" fill="none"/>
+          <circle cx="240" cy="100" r="12" fill="none"/>
+          <circle cx="80" cy="220" r="12" fill="none"/>
+          <circle cx="240" cy="220" r="12" fill="none"/>
+          <circle cx="160" cy="60" r="12" fill="none"/>
+        </g>
+        <g class="dashed">
+          <line x1="92" y1="108" x2="135" y2="140"/>
+          <line x1="228" y1="108" x2="185" y2="140"/>
+          <line x1="92" y1="212" x2="135" y2="180"/>
+          <line x1="228" y1="212" x2="185" y2="180"/>
+          <line x1="160" y1="72" x2="160" y2="125"/>
+        </g>
+        <text x="50" y="285" font-size="9" letter-spacing="1.5" fill="#9E9F9B">UNIVERSITIES · ENTERPRISES · GOVERNMENTS</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- The Navon test -->
+<section class="test">
+  <div class="section-head" style="padding-top: 0;">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>The Navon test</div>
+      <h2 class="section-title reveal">Six questions every<br/>deployment <span class="accent">must clear.</span></h2>
+    </div>
+    <p class="section-lede reveal d1">
+      Before a site, layer, or partnership goes live, it answers yes to all six. If it can't, we re-design or walk away. This is the test we hold ourselves to internally — and that customers and partners can hold us to externally.
+    </p>
+  </div>
+
+  <div class="test-list">
+    <div class="test-row reveal d1">
+      <div class="check">✓</div>
+      <div class="q">Does the data stay where it's supposed to?</div>
+      <div class="crit">Physical residency, sovereign keys, no cross-border replication unless explicitly requested.</div>
+    </div>
+    <div class="test-row reveal d2">
+      <div class="check">✓</div>
+      <div class="q">Is the energy clean at source?</div>
+      <div class="crit">Geothermal, hydro, or solar baseload. Not offsets. Diesel only as emergency backup.</div>
+    </div>
+    <div class="test-row reveal d3">
+      <div class="check">✓</div>
+      <div class="q">Can a local researcher actually use it?</div>
+      <div class="crit">JupyterHub via institutional SSO in under 60 seconds. Pricing that growth-market institutions can clear.</div>
+    </div>
+    <div class="test-row reveal d4">
+      <div class="check">✓</div>
+      <div class="q">Are operators on the ground?</div>
+      <div class="crit">Local engineering teams, not air-freighted spares from Frankfurt. Audits happen in person.</div>
+    </div>
+    <div class="test-row reveal d5">
+      <div class="check">✓</div>
+      <div class="q">Is the cryptography quantum-safe?</div>
+      <div class="crit">PQC at the platform level from day one. QKD pathways available where dedicated fibre supports it.</div>
+    </div>
+    <div class="test-row reveal d6">
+      <div class="check">✓</div>
+      <div class="q">Does it scale to the next site?</div>
+      <div class="crit">Modular architecture, repeatable build, vendor-neutral interfaces. The second deployment is faster than the first.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Hold us to it</div>
+      <h2 class="reveal">If a Navon site fails<br/><span class="accent">any of these — call us.</span></h2>
+    </div>
+    <div class="reveal d1">
+      <p style="color:var(--light); font-size:17px; line-height:1.55; max-width:42ch; margin:0 0 28px;">
+        We publish the test because we want to be measured against it.
+        If you ever see a Navon deployment that doesn't clear all six,
+        send us the receipts.
+      </p>
+      <div class="dual-cta">
+        <a href="mailto:info@navonworld.com" class="cta">info@navonworld.com <span class="arrow">→</span></a>
+        <a href="docs.html" class="cta-ghost">Read the docs <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer cols-5">
+  <div class="foot-brand"><div class="wordmark">NAVON<span class="dot">.</span></div><p>Vertically integrated deep tech for emerging markets. Sovereign, green, full-stack compute — one site, one layer, one partnership at a time.</p></div>
+  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="products.html#cloud">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
+  <div><h4>Resources</h4><a href="insights.html">Insights</a><a href="news.html">News</a><a href="faq.html">FAQ</a><a href="docs.html">Docs</a><a href="resources.html">All resources</a></div>
+  <div><h4>Company</h4><a href="about.html">About</a><a href="foundations.html">Foundations</a><a href="missions.html">Missions</a><a href="inside.html">Inside Navon</a><a href="about.html#contact">Contact</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+  <div><h4>Legal</h4><a href="legal/privacy-policy.html">Privacy</a><a href="legal/terms-of-service.html">Terms</a><a href="legal/cookie-preferences.html">Cookies</a></div>
+</footer>
+<div class="legal"><div>© Navon World · Sovereign compute, powered by the earth.</div><div>Naivasha SEZ · Kenya · Global South, one site at a time.</div></div>
+
+<script src="assets/shared.js"></script>
+</body>
+</html>

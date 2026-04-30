@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>For every mission — Navon</title>
+<meta name="description" content="Three audiences, three deployment shapes, one vertically integrated stack. Enterprise · Government · Universities." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  .hero-glyph { width: 100%; max-width: 460px; aspect-ratio: 1.2 / 1; margin-left: auto; }
+
+  .mission-section { padding: var(--section-y) var(--px); border-bottom: 1px solid var(--line); }
+  .mission-narrative {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: end;
+    margin-bottom: 56px;
+  }
+  @media (max-width: 900px) { .mission-narrative { grid-template-columns: 1fr; gap: 32px; } }
+  .mission-narrative h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 16px 0 0;
+    font-weight: 500;
+    max-width: 18ch;
+  }
+  .mission-narrative h2 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+  .mission-narrative p { color: var(--light); font-size: 16.5px; line-height: 1.6; max-width: 48ch; margin: 0; }
+
+  /* mission stat strip */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 56px;
+  }
+  @media (max-width: 900px) { .stat-strip { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .stat-strip { grid-template-columns: 1fr; } }
+  .stat-strip .s {
+    background: var(--ink);
+    padding: 28px 26px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s ease;
+  }
+  .stat-strip .s:hover { background: rgba(231,255,0,0.022); }
+  .stat-strip .s .l {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 10px;
+  }
+  .stat-strip .s .v {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    color: var(--paper);
+  }
+  .stat-strip .s .v .signal { color: var(--signal); }
+  .stat-strip .s .d {
+    font-size: 13px;
+    color: var(--mid);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  /* sub-section header */
+  .sub-head {
+    margin: 80px 0 32px;
+    padding-top: 48px;
+    border-top: 1px solid var(--line);
+  }
+  .sub-head .eyebrow { margin-bottom: 14px; }
+  .sub-head h3 {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    margin: 0 0 14px;
+    font-weight: 500;
+    max-width: 22ch;
+  }
+  .sub-head h3 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+  .sub-head p { color: var(--light); font-size: 16px; line-height: 1.6; max-width: 56ch; margin: 0; }
+
+  /* faculty cards (research panel) */
+  .faculty-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 32px;
+  }
+  @media (max-width: 1100px) { .faculty-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px)  { .faculty-grid { grid-template-columns: 1fr; } }
+  .faculty {
+    background: var(--ink);
+    padding: 28px 24px 30px;
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .faculty::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--signal);
+    transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .faculty:hover { background: rgba(231,255,0,0.022); }
+  .faculty:hover::before { width: 100%; }
+  .faculty-num {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    color: var(--slate);
+    margin-bottom: 18px;
+  }
+  .faculty:hover .faculty-num { color: var(--signal); }
+  .faculty h4 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    margin: 0 0 10px;
+  }
+  .faculty p {
+    color: var(--mid);
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 0 0 18px;
+  }
+  .faculty-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .faculty-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    color: var(--mid);
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .faculty:hover .faculty-tag { border-color: rgba(231,255,0,0.3); color: var(--signal); }
+
+  /* what's included list */
+  .included {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 32px;
+  }
+  @media (max-width: 700px) { .included { grid-template-columns: 1fr; } }
+  .inc-item {
+    background: var(--ink);
+    padding: 24px 26px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    transition: background 0.3s ease;
+  }
+  .inc-item:hover { background: rgba(231,255,0,0.018); }
+  .inc-item .check {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--signal);
+    color: var(--signal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .inc-item .label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 6px;
+  }
+  .inc-item h5 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    margin: 0 0 6px;
+  }
+  .inc-item p {
+    color: var(--mid);
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* partner strip */
+  .partners-strip {
+    margin-top: 56px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 32px;
+  }
+  .partners-strip .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .partners-strip .partner-name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--light);
+    transition: color 0.2s ease;
+  }
+  .partners-strip .partner-name:hover { color: var(--signal); }
+
+  /* mission-end CTA */
+  .mission-cta {
+    margin-top: 56px;
+    padding: 36px 36px;
+    border: 1px solid var(--line);
+    background: linear-gradient(135deg, rgba(231,255,0,0.04), rgba(255,255,255,0.012));
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (max-width: 700px) { .mission-cta { grid-template-columns: 1fr; gap: 20px; } }
+  .mission-cta h4 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.018em;
+    margin: 0 0 6px;
+  }
+  .mission-cta p { color: var(--mid); font-size: 14px; line-height: 1.55; margin: 0; max-width: 56ch; }
+
+  /* cross-mission CTA */
+  .cross-cta {
+    padding: var(--section-y) var(--px);
+    position: relative;
+    overflow: hidden;
+  }
+  .cross-cta::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(231,255,0,0.06), transparent 50%);
+    pointer-events: none;
+  }
+  .cross-cta-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 56px;
+    align-items: end;
+  }
+  @media (max-width: 820px) { .cross-cta-inner { grid-template-columns: 1fr; gap: 32px; } }
+  .cross-cta h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.6vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 16px 0 0;
+    font-weight: 500;
+    max-width: 18ch;
+  }
+  .cross-cta h2 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+</style>
+</head>
+<body class="theme-light">
+
+<!-- ── NAV ─────────────────────────────────────── -->
+<nav class="nav">
+  <a href="index.html" class="wordmark">NAVON<span class="dot">.</span></a>
+  <div class="nav-right">
+    <div class="nav-menu">
+      <a href="index.html">Platform</a>
+      <span class="has-dropdown">
+        <a href="products.html">Products <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-5">
+            <a class="mega-menu-card" href="products.html#modular"><div class="num">01</div><div class="name">Modular DCs</div></a>
+            <a class="mega-menu-card" href="products.html#turnkey"><div class="num">02</div><div class="name">Turnkey systems</div></a>
+            <a class="mega-menu-card" href="products.html#cloud"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
+            <a class="mega-menu-card" href="products.html#security"><div class="num">04</div><div class="name">Cybersecurity</div></a>
+            <a class="mega-menu-card" href="products.html#utility"><div class="num">05</div><div class="name">Utility</div></a>
+          </div>
+        </div>
+      </span>
+      <a href="missions.html">Missions</a>
+      <span class="has-dropdown">
+        <a href="resources.html">Resources <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-2">
+            <div class="mega-menu-col"><h5>Read</h5><a class="link" href="insights.html">Insights <span class="arrow">→</span></a><a class="link" href="news.html">News <span class="arrow">→</span></a><a class="link" href="faq.html">FAQ <span class="arrow">→</span></a></div>
+            <div class="mega-menu-col"><h5>Build</h5><a class="link" href="docs.html">Docs <span class="arrow">→</span></a><a class="link" href="resources.html#whitepapers">Whitepapers <span class="arrow">→</span></a><a class="link" href="resources.html#brand">Brand kit <span class="arrow">→</span></a></div>
+          </div>
+        </div>
+      </span>
+      <a href="hells-gate.html">Hells Gate</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="about.html">About</a>
+    </div>
+    <a href="about.html#contact" class="cta">Talk to us <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<!-- ── HERO ────────────────────────────────────── -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>For every mission</div>
+      <h1 class="page-title reveal">For every mission,<br/><span class="accent">the right Navon.</span></h1>
+      <p class="page-lede reveal d1" style="margin-top:24px;">
+        Three audiences. Three deployment shapes. One vertically integrated
+        stack — adapted to where you operate, what you need to keep
+        sovereign, and how fast you need to ship.
+      </p>
+      <div class="dual-cta reveal d2" style="margin-top:36px;">
+        <a href="#universities" class="cta">Browse missions <span class="arrow">↓</span></a>
+        <a href="about.html#contact" class="cta-ghost">Talk to a solutions architect <span class="arrow">→</span></a>
+      </div>
+    </div>
+    <svg class="hero-glyph tech draw" viewBox="0 0 460 380" aria-hidden="true">
+      <!-- three intersecting nodes -->
+      <g class="hair">
+        <circle cx="160" cy="140" r="80" fill="none"/>
+        <circle cx="300" cy="140" r="80" fill="none"/>
+        <circle cx="230" cy="260" r="80" fill="none"/>
+      </g>
+      <text x="120" y="80" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">ENTERPRISE</text>
+      <text x="280" y="80" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">GOVERNMENT</text>
+      <text x="160" y="350" font-size="10" letter-spacing="2" class="label-signal" font-family="JetBrains Mono">UNIVERSITIES</text>
+      <circle cx="230" cy="195" r="6" class="signal"/>
+      <circle cx="230" cy="195" r="10" class="signal pulse" opacity="0.4"/>
+      <text x="180" y="200" font-size="9" letter-spacing="1.5" fill="#E2E3DE" font-family="JetBrains Mono">ONE STACK</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ── SEGMENTED TABS (sticky) ─────────────────── -->
+<div class="segmented-sticky">
+  <div class="segmented" data-segmented data-segmented-host=".missions-shell">
+    <button class="active" data-target="enterprise">Enterprise <span class="count">01</span></button>
+    <button data-target="government">Government <span class="count">02</span></button>
+    <button data-target="universities">Universities <span class="count">03</span></button>
+  </div>
+</div>
+
+<!-- ── MISSION PANELS ──────────────────────────── -->
+<div class="missions-shell">
+
+  <!-- ENTERPRISE -->
+  <section class="seg-panel active mission-section" id="enterprise">
+    <div class="mission-narrative">
+      <div>
+        <div class="eyebrow"><span class="mark"></span>01 / Enterprise</div>
+        <h2 class="reveal">Workloads you can't<br/><span class="accent">move offshore.</span></h2>
+      </div>
+      <p class="reveal d1">
+        For banks, telcos, energy companies, and regulated enterprises
+        running AI, HPC, and analytics that have to stay in-jurisdiction.
+        Sovereign cloud on Navon-owned hardware, priced for growth markets,
+        with the ergonomics your engineering team already expects.
+      </p>
+    </div>
+
+    <div class="numbered cols-3 reveal">
+      <div class="numbered-item"><div class="num">01 / SOVEREIGN CLOUD</div><h4>Compute &amp; storage in your jurisdiction.</h4><p>Bare-metal, VM, and managed inference fleets — physically in-country, not a regional zone of a foreign hyperscaler.</p></div>
+      <div class="numbered-item"><div class="num">02 / RESERVED CAPACITY</div><h4>Predictable enterprise pricing.</h4><p>Annual commitments with reserved-capacity discounts. No pay-per-second surprises on a six-figure GPU run.</p></div>
+      <div class="numbered-item"><div class="num">03 / COMPLIANCE</div><h4>Regulatory posture by design.</h4><p>Kenya DPA 2019, GDPR-aligned audit logs, role-based access, sovereign HSM key management — built in, not retrofitted.</p></div>
+      <div class="numbered-item"><div class="num">04 / LOCAL BILLING</div><h4>USD or local currency.</h4><p>Annual contracts billable in USD or KES. FX exposure managed by Navon, not your CFO.</p></div>
+      <div class="numbered-item"><div class="num">05 / CARRIER-NEUTRAL</div><h4>Connect on your terms.</h4><p>Multi-carrier fibre into the meet-me room. Cross-connect to your existing footprint without vendor lock-in.</p></div>
+      <div class="numbered-item"><div class="num">06 / NAMED ACCOUNT</div><h4>Quarterly business reviews.</h4><p>Named account manager, capacity planning, usage reporting tied to your finance close. No ticket queue.</p></div>
+    </div>
+
+    <div class="stat-strip reveal d1">
+      <div class="s"><div class="l">Cloud rev / MW</div><div class="v"><span class="signal">$20M</span></div><div class="d">vs. $4M / MW for traditional colo</div></div>
+      <div class="s"><div class="l">Validated PUE</div><div class="v">1.29</div><div class="d">at 400 kW constant IT load</div></div>
+      <div class="s"><div class="l">Renewable</div><div class="v">95%</div><div class="d">geothermal baseload at Hells Gate</div></div>
+      <div class="s"><div class="l">Redundancy</div><div class="v">N+N</div><div class="d">Tier III · concurrently maintainable</div></div>
+    </div>
+
+    <div class="sub-head">
+      <div class="eyebrow"><span class="mark"></span>Where it fits</div>
+      <h3>Enterprise <span class="accent">workloads.</span></h3>
+      <p>We're best-suited where sovereignty, density, or proximity matters. If your workload is latency-insensitive, low-density, and has no data residency requirement, a hyperscaler is usually cheaper.</p>
+    </div>
+
+    <div class="included">
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">USE CASE</div><h5>AI inference at scale</h5><p>Production inference fleets serving regulated customers, with sovereign data lifecycle.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">USE CASE</div><h5>HPC simulation</h5><p>Climate, financial risk, CFD, structural modelling — dedicated CPU/GPU pools.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">USE CASE</div><h5>Training fine-tunes</h5><p>Domain-specific model training on customer data that can't leave the country.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">USE CASE</div><h5>Secure communications</h5><p>End-to-end encrypted comms platforms for cross-border deal teams and executive operations.</p></div></div>
+    </div>
+
+    <div class="partners-strip">
+      <span class="label">Built with ↓</span>
+      <span class="partner-name">NVIDIA</span>
+      <span class="partner-name">Delta Electronics</span>
+      <span class="partner-name">Atlancis</span>
+      <span class="partner-name">Hosted.ai</span>
+      <span class="partner-name">Kinesis</span>
+      <span class="partner-name">Asterfusion</span>
+      <span class="partner-name">MAST Energy Developments</span>
+      <span class="partner-name">Safaricom</span>
+      <span class="partner-name">Siscom</span>
+    </div>
+
+    <div class="mission-cta">
+      <div>
+        <h4>Ready to size up the workload?</h4>
+        <p>30-minute scoping call to map your workload to the right product line and deployment shape. Indicative pricing under NDA.</p>
+      </div>
+      <div class="dual-cta">
+        <a href="about.html#contact" class="cta">Talk to enterprise <span class="arrow">→</span></a>
+        <a href="products.html" class="cta-ghost">Browse products <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOVERNMENT -->
+  <section class="seg-panel mission-section" id="government">
+    <div class="mission-narrative">
+      <div>
+        <div class="eyebrow"><span class="mark"></span>02 / Government</div>
+        <h2 class="reveal">Sovereign compute,<br/><span class="accent">under sovereign law.</span></h2>
+      </div>
+      <p class="reveal d1">
+        For ministries, agencies, central banks, and security services
+        that need their digital infrastructure to live where their
+        statute applies. Built on hardware Navon owns and operates —
+        on-soil, in-jurisdiction, auditable in person.
+      </p>
+    </div>
+
+    <div class="numbered cols-3 reveal">
+      <div class="numbered-item"><div class="num">01 / DATA RESIDENCY</div><h4>By physical fact.</h4><p>Servers in Kenya, operated by Navon, under Kenyan jurisdiction. Not a regional flag on a US hyperscaler.</p></div>
+      <div class="numbered-item"><div class="num">02 / SOVEREIGN HSM</div><h4>Keys stay in-country.</h4><p>Hardware security modules under local jurisdiction. No cross-border key replication unless explicitly authorised.</p></div>
+      <div class="numbered-item"><div class="num">03 / PQC-READY</div><h4>Quantum-safe from the start.</h4><p>Post-quantum cryptography embedded at the platform layer — not a 2030 retrofit project.</p></div>
+      <div class="numbered-item"><div class="num">04 / AUDITABLE</div><h4>Audits happen in person.</h4><p>Local engineering teams. Physical site visits. Sovereign access logs that don't transit a foreign network.</p></div>
+      <div class="numbered-item"><div class="num">05 / SEZ-GAZETTED</div><h4>Operating under SEZ Act.</h4><p>Naivasha Special Economic Zone status — tax, customs, and operating frameworks aligned to long-horizon infrastructure.</p></div>
+      <div class="numbered-item"><div class="num">06 / DUAL-USE</div><h4>Civilian + secure-comms.</h4><p>Same modular pod architecture supports civilian government workloads and dedicated secure-communications enclaves.</p></div>
+    </div>
+
+    <div class="stat-strip reveal d1">
+      <div class="s"><div class="l">In-country residency</div><div class="v"><span class="signal">100%</span></div><div class="d">data, control, keys — all on-soil</div></div>
+      <div class="s"><div class="l">Compliance</div><div class="v">DPA</div><div class="d">Kenya DPA 2019 + GDPR-aligned</div></div>
+      <div class="s"><div class="l">PQC</div><div class="v">Day 1</div><div class="d">post-quantum cryptography embedded</div></div>
+      <div class="s"><div class="l">Operators</div><div class="v">Local</div><div class="d">on-the-ground engineering teams</div></div>
+    </div>
+
+    <div class="sub-head">
+      <div class="eyebrow"><span class="mark"></span>Where it fits</div>
+      <h3>Government <span class="accent">workloads.</span></h3>
+      <p>From sovereign cloud baseline through to specialised enclaves for regulated programmes. Procurement-friendly contract structures and multi-year commitments available.</p>
+    </div>
+
+    <div class="included">
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">USE CASE</div><h5>Digital ID &amp; citizen services</h5><p>Population-scale identity systems with full data residency and DPO-level oversight.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">USE CASE</div><h5>Sovereign AI</h5><p>Government LLMs, language models for local languages, training on classified datasets.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">USE CASE</div><h5>Sovereign cloud baseline</h5><p>General-purpose cloud for ministries replacing public-cloud sprawl with a single sovereign tenant.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">USE CASE</div><h5>Secure communications</h5><p>End-to-end encrypted comms with PQC and optional QKD pathways for sensitive operations.</p></div></div>
+    </div>
+
+    <div class="mission-cta">
+      <div>
+        <h4>Government desk &amp; procurement framework.</h4>
+        <p>Dedicated engagement track for ministries, central banks, and security services. Compliance documentation, in-person briefings, and multi-year contract structures.</p>
+      </div>
+      <div class="dual-cta">
+        <a href="about.html#contact" class="cta">Talk to government desk <span class="arrow">→</span></a>
+        <a href="docs.html#compliance" class="cta-ghost">Compliance docs <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- UNIVERSITIES -->
+  <section class="seg-panel mission-section" id="universities">
+    <div class="mission-narrative">
+      <div>
+        <div class="eyebrow"><span class="mark"></span>03 / Universities</div>
+        <h2 class="reveal">GPU access in 60 seconds —<br/><span class="accent">priced for the institutions</span><br/><span class="accent">building the next decade.</span></h2>
+      </div>
+      <p class="reveal d1">
+        For university research groups, faculty, and the labs across
+        every discipline where compute is the bottleneck between theory
+        and practice. Dedicated allocation, persistent workspaces,
+        institutional pricing — and a structured path from student
+        project to industry career.
+      </p>
+    </div>
+
+    <div class="numbered cols-3 reveal">
+      <div class="numbered-item"><div class="num">01 / 60-SECOND SPIN-UP</div><h4>JupyterHub via institutional SSO.</h4><p>Researchers and students live in under a minute. No local installation, no per-user IT overhead, persistent workspaces across sessions.</p></div>
+      <div class="numbered-item"><div class="num">02 / DEDICATED ALLOCATION</div><h4>Capacity that's actually yours.</h4><p>GPU and CPU/HPC allocations dedicated to the institution. No competition between departments for the same pool.</p></div>
+      <div class="numbered-item"><div class="num">03 / ANNUAL CONTRACTS</div><h4>Predictable, not metered.</h4><p>Annual commitments billable in USD or KES. Predictable budget for grant compliance and finance close.</p></div>
+      <div class="numbered-item"><div class="num">04 / QUANTUM SANDBOX</div><h4>Real quantum, not simulated.</h4><p>Quantum platform via QCentroid for circuits, hybrid algorithms, and post-quantum cryptography research.</p></div>
+      <div class="numbered-item"><div class="num">05 / INTERNSHIP PIPELINE</div><h4>On-site at Hells Gate.</h4><p>Structured placements at the Naivasha facility across infrastructure, ops, and research — credit-bearing where the institution wants.</p></div>
+      <div class="numbered-item"><div class="num">06 / GLOBAL MENTORSHIP</div><h4>UCL · ETH · UPM · UPC · Strathmore.</h4><p>Mentorship and guest lectures from world-leading research universities, on a regular cadence aligned with the academic term.</p></div>
+    </div>
+
+    <!-- The University Partnership Programme -->
+    <div class="sub-head">
+      <div class="eyebrow"><span class="mark"></span>The university partnership</div>
+      <h3>Infrastructure for <span class="accent">the whole institution</span> — not just CS.</h3>
+      <p>The platform is shared, multi-purpose infrastructure. Different faculties draw on the resources relevant to their work simultaneously, with dedicated allocations per institution ensuring no competition for capacity between departments.</p>
+    </div>
+
+    <div class="included">
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>GPU compute</h5><p>AI/ML training, inference serving, image and signal processing, scientific GPU workloads.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>CPU / HPC</h5><p>Simulation, optimisation, large-memory scientific computing — climate, bioinformatics, engineering.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>Persistent storage</h5><p>NVMe + object storage for datasets, model outputs, and reproducible research artefacts.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>JupyterHub workspaces</h5><p>Shared environment for all faculties via university SSO. Live in under 60 seconds.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>Dev sandboxes</h5><p>Isolated per project or group. Reproducible builds, secrets management, version control built in.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>Quantum platform</h5><p>QCentroid integration for quantum circuits, hybrid algorithms, post-quantum cryptography research.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>100 GbE fabric</h5><p>Fast data movement across the cluster; low-latency between compute and storage.</p></div></div>
+      <div class="inc-item"><div class="check">✓</div><div><div class="label">RESOURCE</div><h5>Admin portal</h5><p>Hosted.ai-powered IT admin dashboard for users, faculties, quotas, and grant-aligned usage reporting.</p></div></div>
+    </div>
+
+    <!-- Faculty-by-faculty use cases -->
+    <div class="sub-head">
+      <div class="eyebrow"><span class="mark"></span>Across the faculty</div>
+      <h3>One contract. <span class="accent">Every discipline.</span></h3>
+      <p>One partnership agreement gives the whole institution access to shared, managed resources that each discipline uses in the way relevant to their work.</p>
+    </div>
+
+    <div class="faculty-grid">
+      <article class="faculty">
+        <div class="faculty-num">01 / COMPUTER SCIENCE</div>
+        <h4>AI, NLP, vision, systems.</h4>
+        <p>Model training, NLP for local languages, computer vision, algorithm research, systems programming on dedicated GPU + dev sandboxes.</p>
+        <div class="faculty-tags"><span class="faculty-tag">GPU</span><span class="faculty-tag">Sandboxes</span><span class="faculty-tag">API/CLI</span></div>
+      </article>
+      <article class="faculty">
+        <div class="faculty-num">02 / ENGINEERING</div>
+        <h4>Simulation &amp; FEA.</h4>
+        <p>Structural simulation, fluid dynamics, finite-element analysis, embedded systems prototyping on CPU/HPC + secure storage.</p>
+        <div class="faculty-tags"><span class="faculty-tag">CPU/HPC</span><span class="faculty-tag">Storage</span></div>
+      </article>
+      <article class="faculty">
+        <div class="faculty-num">03 / PHYSICS &amp; MATH</div>
+        <h4>Quantum, modelling, optimisation.</h4>
+        <p>Quantum computing research, numerical modelling, large-scale optimisation problems on CPU/HPC + quantum sandbox + persistent storage.</p>
+        <div class="faculty-tags"><span class="faculty-tag">Quantum</span><span class="faculty-tag">CPU/HPC</span></div>
+      </article>
+      <article class="faculty">
+        <div class="faculty-num">04 / LIFE SCIENCES &amp; MEDICINE</div>
+        <h4>Imaging, genomics, drug discovery.</h4>
+        <p>Medical imaging analysis, genomics pipelines, protein folding, drug-discovery simulation on GPU inference + CPU/HPC + secure storage.</p>
+        <div class="faculty-tags"><span class="faculty-tag">GPU</span><span class="faculty-tag">CPU/HPC</span><span class="faculty-tag">Storage</span></div>
+      </article>
+      <article class="faculty">
+        <div class="faculty-num">05 / CLIMATE &amp; EARTH SCIENCE</div>
+        <h4>Weather &amp; geothermal modelling.</h4>
+        <p>Weather and climate modelling, satellite imagery analysis, geothermal data processing on CPU/HPC + GPU training + large-memory workloads.</p>
+        <div class="faculty-tags"><span class="faculty-tag">CPU/HPC</span><span class="faculty-tag">GPU</span></div>
+      </article>
+      <article class="faculty">
+        <div class="faculty-num">06 / SOCIAL SCIENCES &amp; POLICY</div>
+        <h4>Survey analysis &amp; local-language NLP.</h4>
+        <p>Large-scale survey analysis, demographic modelling, NLP on local-language datasets via JupyterHub + GPU inference + secure storage.</p>
+        <div class="faculty-tags"><span class="faculty-tag">JupyterHub</span><span class="faculty-tag">GPU</span></div>
+      </article>
+    </div>
+
+    <!-- Sovereignty & sustainability callout -->
+    <div class="stat-strip reveal d1" style="margin-top: 80px;">
+      <div class="s"><div class="l">Spin-up</div><div class="v"><span class="signal">60 s</span></div><div class="d">JupyterHub via SSO, no local install</div></div>
+      <div class="s"><div class="l">Data residency</div><div class="v">Kenya</div><div class="d">DPA 2019 — on-soil, no transfer</div></div>
+      <div class="s"><div class="l">Carbon</div><div class="v">~0</div><div class="d">geothermal-powered facility</div></div>
+      <div class="s"><div class="l">Uptime</div><div class="v">99.5%</div><div class="d">monthly availability target</div></div>
+    </div>
+
+    <div class="partners-strip">
+      <span class="label">Knowledge partners ↓</span>
+      <span class="partner-name">UCL</span>
+      <span class="partner-name">ETH Zurich</span>
+      <span class="partner-name">UPM Madrid</span>
+      <span class="partner-name">UPC Barcelona</span>
+      <span class="partner-name">Strathmore University</span>
+      <span class="partner-name">QCentroid</span>
+      <span class="partner-name">ExeQuantum</span>
+      <span class="partner-name">AI Kenya</span>
+      <span class="partner-name">Alliance for AI</span>
+    </div>
+
+    <div class="mission-cta">
+      <div>
+        <h4>University Partnership Programme.</h4>
+        <p>Three tiers sized for the institution — from teaching-focused departments to multi-faculty research universities. Annual contract, named account manager, internship pipeline included.</p>
+      </div>
+      <div class="dual-cta">
+        <a href="mailto:partnerships@navon.cloud" class="cta">University programme <span class="arrow">→</span></a>
+        <a href="mailto:partnerships@navon.cloud" class="cta-ghost">Researcher access <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ── CROSS-MISSION CTA ───────────────────────── -->
+<section class="cross-cta">
+  <div class="cross-cta-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Not sure where you fit?</div>
+      <h2 class="reveal">Most missions cross<br/><span class="accent">more than one row.</span></h2>
+    </div>
+    <div class="reveal d1">
+      <p style="color:var(--light); font-size:16px; line-height:1.6; max-width:46ch; margin:0 0 28px;">
+        Universities co-deploy with ministries. Banks contract through enterprise but pilot through research. Governments incubate startups inside sovereign clouds. We design the engagement around the actual workload, not the org chart.
+      </p>
+      <div class="dual-cta">
+        <a href="about.html#contact" class="cta">Talk to a solutions architect <span class="arrow">→</span></a>
+        <a href="docs.html" class="cta-ghost">Browse the docs <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────── -->
+<footer class="site-footer cols-5">
+  <div class="foot-brand"><div class="wordmark">NAVON<span class="dot">.</span></div><p>Vertically integrated deep tech for emerging markets. Sovereign, green, full-stack compute — one site, one layer, one partnership at a time.</p></div>
+  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="products.html#cloud">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
+  <div><h4>Resources</h4><a href="insights.html">Insights</a><a href="news.html">News</a><a href="faq.html">FAQ</a><a href="docs.html">Docs</a><a href="resources.html">All resources</a></div>
+  <div><h4>Company</h4><a href="about.html">About</a><a href="foundations.html">Foundations</a><a href="missions.html">Missions</a><a href="inside.html">Inside Navon</a><a href="about.html#contact">Contact</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+  <div><h4>Legal</h4><a href="legal/privacy-policy.html">Privacy</a><a href="legal/terms-of-service.html">Terms</a><a href="legal/cookie-preferences.html">Cookies</a></div>
+</footer>
+<div class="legal"><div>© Navon World · Sovereign compute, powered by the earth.</div><div>Naivasha SEZ · Kenya · Global South, one site at a time.</div></div>
+
+<script src="assets/shared.js"></script>
+</body>
+</html>
