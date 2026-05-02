@@ -1,0 +1,24 @@
+[Unit]
+Description=Navon Customer Portal (Next.js)
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=navon
+WorkingDirectory=/srv/navon/portal
+EnvironmentFile=/srv/navon/portal/.env.production
+ExecStart=/usr/bin/pnpm start
+Restart=on-failure
+RestartSec=5
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/navon/invoices
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
