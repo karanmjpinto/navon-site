@@ -129,6 +129,14 @@ img, svg { display: block; max-width: 100%; }
 }
 .wordmark .dot { color: var(--signal); margin-left: 2px; }
 .nav-right { display: flex; align-items: center; gap: 36px; }
+.nav-signin {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mid);
+  letter-spacing: 0.01em;
+  transition: color 180ms var(--easing);
+}
+.nav-signin:hover { color: var(--paper); }
 .nav-menu { display: flex; gap: 28px; }
 .nav-menu a {
   position: relative;
