@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth, signOut } from "@/lib/auth";
 import { unreadCount } from "./notifications/actions";
 import { MaintenanceBanner } from "@/components/maintenance-banner";
+import { FeedbackWidget } from "@/components/feedback-widget";
 
 const NAV = [
   { href: "/dashboard", label: "Dashboard" },
@@ -11,6 +12,12 @@ const NAV = [
   { href: "/reports", label: "Reports" },
   { href: "/docs", label: "Docs" },
   { href: "/settings", label: "Settings" },
+  { href: "/feedback", label: "Feedback" },
+] as const;
+
+const ADMIN_NAV = [
+  { href: "/admin/feedback", label: "FB queue" },
+  { href: "/admin/work-orders", label: "Work orders" },
 ] as const;
 
 export default async function PortalLayout({
@@ -23,12 +30,18 @@ export default async function PortalLayout({
 
   let unread = 0;
   let userOrgId: string | null = null;
+  let isAdmin = false;
+
   if (userId) {
     try {
-      // org membership may not be resolved yet (eg. fresh signup); ignore.
       const { currentOrgId } = await import("@/lib/tenant");
       userOrgId = await currentOrgId(userId);
-      if (userOrgId) unread = await unreadCount(userId, userOrgId);
+      if (userOrgId) {
+        unread = await unreadCount(userId, userOrgId);
+        const { userMembership } = await import("@/lib/rbac");
+        const membership = await userMembership(userId, userOrgId);
+        isAdmin = membership?.role === "admin";
+      }
     } catch {}
   }
 
@@ -53,6 +66,20 @@ export default async function PortalLayout({
                 {item.label}
               </Link>
             ))}
+            {isAdmin && (
+              <>
+                <span className="text-charcoal select-none">|</span>
+                {ADMIN_NAV.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="text-slate hover:text-paper transition-colors duration-150 ease-navon"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </>
+            )}
           </nav>
         </div>
         <div className="flex items-center gap-5 text-xs text-mid">
@@ -103,6 +130,7 @@ export default async function PortalLayout({
         </div>
       </header>
       <main className="flex-1 px-8 py-10">{children}</main>
+      <FeedbackWidget />
     </div>
   );
 }
