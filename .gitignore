@@ -1,3 +1,10 @@
 .DS_Store
 Hells Gate Photos /
 Team Pictures/
+
+# portal/ — Next.js app
+portal/node_modules/
+portal/.next/
+portal/.env*
+!portal/.env.example
+portal/next-env.d.ts
