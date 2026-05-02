@@ -316,10 +316,9 @@ export const auditEvents = pgTable(
   }),
 );
 
-// ── Metrics seed (Phase 1 placeholder; converted to TimescaleDB
-// hypertable in Phase 2 when real DCIM ingestion lands) ───────────
-export const metricsSeed = pgTable(
-  "metrics_seed",
+// ── Metrics (TimescaleDB hypertable; see migration 0002) ─────────
+export const metrics = pgTable(
+  "metrics",
   {
     orgId: uuid("org_id")
       .notNull()
@@ -677,7 +676,7 @@ export type Invoice = typeof invoices.$inferSelect;
 export type InvoiceLine = typeof invoiceLines.$inferSelect;
 export type InvoiceStatus = (typeof invoiceStatusEnum.enumValues)[number];
 export type AuditEvent = typeof auditEvents.$inferSelect;
-export type MetricsRow = typeof metricsSeed.$inferSelect;
+export type MetricsRow = typeof metrics.$inferSelect;
 export type Site = typeof sites.$inferSelect;
 export type Cabinet = typeof cabinets.$inferSelect;
 export type Device = typeof devices.$inferSelect;

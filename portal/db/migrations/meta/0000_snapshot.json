@@ -1765,7 +1765,7 @@
       "isRLSEnabled": false
     },
     "public.metrics_seed": {
-      "name": "metrics_seed",
+      "name": "metrics",
       "schema": "",
       "columns": {
         "org_id": {
@@ -1809,7 +1809,7 @@
       "foreignKeys": {
         "metrics_seed_org_id_orgs_id_fk": {
           "name": "metrics_seed_org_id_orgs_id_fk",
-          "tableFrom": "metrics_seed",
+          "tableFrom": "metrics",
           "tableTo": "orgs",
           "columnsFrom": [
             "org_id"

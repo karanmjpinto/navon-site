@@ -3,7 +3,7 @@ import { db } from "@/db";
 import {
   alertRules,
   alertEvents,
-  metricsSeed,
+  metrics,
   notifications,
   users,
   memberships,
@@ -45,9 +45,9 @@ export async function evaluateAlertsForOrg(orgId: string): Promise<number> {
     const since = new Date(now.getTime() - rule.sustainedMinutes * 60_000);
     const points = await db
       .select()
-      .from(metricsSeed)
-      .where(and(eq(metricsSeed.orgId, orgId), gte(metricsSeed.ts, since)))
-      .orderBy(desc(metricsSeed.ts));
+      .from(metrics)
+      .where(and(eq(metrics.orgId, orgId), gte(metrics.ts, since)))
+      .orderBy(desc(metrics.ts));
     if (points.length === 0) continue;
 
     const value = (p: typeof points[number]): number => {

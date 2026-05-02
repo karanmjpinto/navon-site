@@ -15,7 +15,7 @@ import {
   ticketComments,
   invoices,
   invoiceLines,
-  metricsSeed,
+  metrics,
   sites,
   cabinets,
   devices,
@@ -411,7 +411,7 @@ async function main() {
     return rows;
   };
 
-  await db.insert(metricsSeed).values([
+  await db.insert(metrics).values([
     ...points(uniOrg.id, 14.5, 22.5, 0.7),
     ...points(fintechOrg.id, 9.8, 22.0, 0.4),
   ]);

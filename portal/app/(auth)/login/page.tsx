@@ -69,6 +69,22 @@ export default async function LoginPage({
         </button>
       </form>
 
+      {process.env.SAML_IDP_SSO_URL && (
+        <>
+          <div className="my-6 flex items-center gap-3 text-[11px] text-mid font-mono uppercase tracking-[0.24em]">
+            <span className="h-px flex-1 bg-charcoal" />
+            or
+            <span className="h-px flex-1 bg-charcoal" />
+          </div>
+          <Link
+            href="/api/auth/saml/login"
+            className="flex w-full items-center justify-center gap-2 border border-charcoal text-paper font-medium text-[13px] tracking-wide py-3 transition-[border-color,background] duration-150 ease-navon hover:border-paper"
+          >
+            Sign in with university SSO
+          </Link>
+        </>
+      )}
+
       <p className="mt-8 text-xs text-mid">
         New to Navon?{" "}
         <Link href="/signup" className="text-paper underline underline-offset-4">
