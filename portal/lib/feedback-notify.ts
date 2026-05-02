@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { memberships, notifications } from "@/db/schema";
 
@@ -12,7 +12,7 @@ export async function notifyAdminsNewFeedback(
   const admins = await db
     .select({ userId: memberships.userId })
     .from(memberships)
-    .where(eq(memberships.orgId, orgId));
+    .where(and(eq(memberships.orgId, orgId), eq(memberships.role, "admin")));
 
   const adminIds = admins
     .map((m) => m.userId)
