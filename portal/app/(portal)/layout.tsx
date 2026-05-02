@@ -80,6 +80,12 @@ export default async function PortalLayout({
               </span>
             )}
           </Link>
+          <a
+            href="https://navonworld.com"
+            className="text-mid hover:text-paper transition-colors duration-150 ease-navon"
+          >
+            navonworld.com ↗
+          </a>
           <span>{session?.user?.email}</span>
           <form
             action={async () => {
