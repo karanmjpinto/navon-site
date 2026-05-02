@@ -1,6 +1,7 @@
 .DS_Store
 Hells Gate Photos /
 Team Pictures/
+.claude/
 
 # portal/ — Next.js app
 portal/node_modules/

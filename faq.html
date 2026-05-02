@@ -279,7 +279,7 @@
       <circle cx="380" cy="200" r="4" class="signal"/>
       <circle cx="340" cy="260" r="4" class="signal"/>
       <circle cx="380" cy="200" r="7" class="signal pulse" opacity="0.4"/>
-      <text x="60" y="358" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">17 QUESTIONS · 3 AUDIENCES</text>
+      <text x="60" y="358" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">19 QUESTIONS · 3 AUDIENCES</text>
     </svg>
   </div>
 </section>
@@ -287,7 +287,7 @@
 <!-- Tabs -->
 <div class="tabs">
   <div class="tabs-inner">
-    <button class="tab active" data-tab="customers">For customers <span class="count">06</span></button>
+    <button class="tab active" data-tab="customers">For customers <span class="count">08</span></button>
     <button class="tab" data-tab="partners">For partners <span class="count">05</span></button>
     <button class="tab" data-tab="technical">Technical <span class="count">06</span></button>
   </div>
@@ -370,6 +370,31 @@
       <div class="q">
         <button class="q-toggle">
           <span class="q-num">05 / C</span>
+          <span class="q-text">Can I run Ollama, vLLM, or an OpenAI-compatible API on Navon?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Yes. Navon's GPU pods are <strong>Ollama-ready</strong> for self-hosted open weights — Llama, Mistral, Qwen, DeepSeek — with <strong>vLLM, TGI, and TensorRT-LLM</strong> available for production serving.</p>
+          <p>An <strong>OpenAI-compatible endpoint</strong> sits in front, so SDKs and tools you've already integrated — LangChain, LiteLLM, OpenRouter, LlamaIndex, Cursor — work without code changes. Bring your stack; we provide what's underneath.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">06 / C</span>
+          <span class="q-text">How is Navon different from a model-routing platform or API gateway?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Routing platforms are <strong>software gateways over third-party model APIs</strong>. They aggregate access; they don't own the inference. The compute, the model weights, and the request traffic all live with someone else — usually a hyperscaler outside the jurisdiction.</p>
+          <p>Navon is the <strong>silicon layer</strong>. We own the racks, the cooling, and the geothermal baseload. When a model runs on Navon, the weights, the prompts, and the outputs stay in country.</p>
+          <p>Routing platforms are useful — and many of them will eventually run on top of Navon.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">07 / C</span>
           <span class="q-text">How is data sovereignty actually enforced?</span>
           <span class="q-icon"></span>
         </button>
@@ -387,7 +412,7 @@
 
       <div class="q">
         <button class="q-toggle">
-          <span class="q-num">06 / C</span>
+          <span class="q-num">08 / C</span>
           <span class="q-text">What's the pricing model?</span>
           <span class="q-icon"></span>
         </button>
