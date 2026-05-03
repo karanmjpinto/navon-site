@@ -8,18 +8,6 @@
 	# auto_https disable_redirects
 }
 
-navonworld.com, www.navonworld.com {
-	root * /var/www/navon-site
-	encode gzip zstd
-	file_server
-	header {
-		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-		X-Content-Type-Options "nosniff"
-		Referrer-Policy "strict-origin-when-cross-origin"
-		X-Frame-Options "DENY"
-	}
-}
-
 portal.navonworld.com {
 	encode gzip zstd
 	reverse_proxy portal:3002
