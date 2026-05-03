@@ -1,0 +1,185 @@
+---
+import Site from '../layouts/Site.astro';
+import '../styles/resources.css';
+---
+<Site
+  title="Resources — Navon"
+  description="Insights, news, FAQs, technical docs, whitepapers and brand assets — everything Navon publishes, in one place."
+>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Resources</div>
+      <h1 class="page-title reveal">Everything we publish,<br/><span class="accent">in one place.</span></h1>
+      <p class="page-lede reveal d1" style="margin-top:24px;">
+        Read, browse, or download. From engineering specs to thinking on
+        the future of compute — laid out so you can find what you need
+        and skip what you don't.
+      </p>
+    </div>
+    <svg class="hero-glyph tech draw" viewBox="0 0 460 380" aria-hidden="true">
+      <g class="hair">
+        <rect x="40" y="40" width="120" height="80" fill="none"/>
+        <rect x="180" y="40" width="120" height="80" fill="none"/>
+        <rect x="320" y="40" width="100" height="80" fill="none"/>
+        <rect x="40" y="140" width="120" height="80" fill="none"/>
+        <rect x="180" y="140" width="120" height="80" fill="none"/>
+        <rect x="320" y="140" width="100" height="80" fill="none"/>
+      </g>
+      <rect x="40" y="40" width="120" height="80" class="signal" opacity="0.12"/>
+      <text x="48" y="56" font-size="9" letter-spacing="2" class="label-signal">INSIGHTS</text>
+      <text x="188" y="56" font-size="9" letter-spacing="2" fill="#9E9F9B">NEWS</text>
+      <text x="328" y="56" font-size="9" letter-spacing="2" fill="#9E9F9B">FAQ</text>
+      <text x="48" y="156" font-size="9" letter-spacing="2" fill="#9E9F9B">DOCS</text>
+      <text x="188" y="156" font-size="9" letter-spacing="2" fill="#9E9F9B">PAPERS</text>
+      <text x="328" y="156" font-size="9" letter-spacing="2" fill="#9E9F9B">BRAND</text>
+      <text x="60" y="370" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">SIX SHELVES · ONE LIBRARY</text>
+    </svg>
+  </div>
+</section>
+
+<!-- Resources grid -->
+<section class="resources-grid">
+
+  <a class="res-card reveal d1" href="insights.html">
+    <div class="glyph">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair">
+          <line x1="40" y1="60" x2="280" y2="60"/>
+          <line x1="40" y1="80" x2="240" y2="80"/>
+          <line x1="40" y1="100" x2="260" y2="100"/>
+          <line x1="40" y1="120" x2="220" y2="120"/>
+          <line x1="40" y1="140" x2="280" y2="140"/>
+        </g>
+        <line x1="40" y1="100" x2="160" y2="100" class="signal" stroke-width="1.6"/>
+      </svg>
+    </div>
+    <div class="num">01 / INSIGHTS</div>
+    <h3>How we think.</h3>
+    <p>Twelve essays on energy, sovereignty, AI, networking, and the geopolitics of compute — read straight from how we read the market.</p>
+    <div class="meta"><span>12 articles</span><span class="arrow">→</span></div>
+  </a>
+
+  <a class="res-card reveal d2" href="news.html">
+    <div class="glyph">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair">
+          <circle cx="80" cy="90" r="10" fill="none"/>
+          <circle cx="160" cy="60" r="10" fill="none"/>
+          <circle cx="240" cy="120" r="10" fill="none"/>
+        </g>
+        <g class="signal" stroke-width="1.2" fill="none">
+          <line x1="90" y1="90" x2="150" y2="60"/>
+          <line x1="170" y1="60" x2="230" y2="120"/>
+        </g>
+        <circle cx="160" cy="60" r="5" class="signal"/>
+        <circle cx="160" cy="60" r="9" class="signal pulse" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="num">02 / NEWS</div>
+    <h3>What we just signed.</h3>
+    <p>Partnerships, MOUs, milestones, and on-the-ground updates from Hells Gate and the broader continental plan.</p>
+    <div class="meta"><span>6 announcements</span><span class="arrow">→</span></div>
+  </a>
+
+  <a class="res-card reveal d3" href="faq.html">
+    <div class="glyph">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair">
+          <line x1="40" y1="50" x2="280" y2="50"/>
+          <line x1="40" y1="80" x2="220" y2="80"/>
+          <line x1="40" y1="110" x2="260" y2="110"/>
+          <line x1="40" y1="140" x2="200" y2="140"/>
+        </g>
+        <g class="signal" stroke-width="1.2" fill="none">
+          <line x1="240" y1="50" x2="280" y2="50"/>
+          <line x1="200" y1="80" x2="220" y2="80"/>
+          <line x1="220" y1="110" x2="260" y2="110"/>
+        </g>
+      </svg>
+    </div>
+    <div class="num">03 / FAQ</div>
+    <h3>Direct answers.</h3>
+    <p>Seventeen questions for customers, partners, and engineers — what we sell, what we don't, and how the technical pieces actually fit.</p>
+    <div class="meta"><span>17 questions</span><span class="arrow">→</span></div>
+  </a>
+
+  <a class="res-card reveal d1" href="docs.html">
+    <div class="glyph">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <rect class="hair" x="60" y="40" width="200" height="100" fill="none"/>
+        <g class="hair">
+          <line x1="80" y1="60" x2="180" y2="60"/>
+          <line x1="80" y1="78" x2="240" y2="78"/>
+          <line x1="80" y1="96" x2="200" y2="96"/>
+          <line x1="80" y1="114" x2="220" y2="114"/>
+        </g>
+        <rect x="60" y="40" width="50" height="100" class="signal" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="num">04 / DOCS</div>
+    <h3>Build on Navon.</h3>
+    <p>Quickstart, modular pod architecture, network fabric, compliance frameworks, energy and PUE methodology — engineering specs and the math behind every claim.</p>
+    <div class="meta"><span>6 sections + reference</span><span class="arrow">→</span></div>
+  </a>
+
+  <a class="res-card coming reveal d2" href="#" onclick="event.preventDefault(); alert('Whitepapers coming Q3 2026.');" id="whitepapers">
+    <div class="glyph">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair">
+          <rect x="60" y="30" width="120" height="140" fill="none"/>
+          <rect x="80" y="50" width="120" height="120" fill="none"/>
+          <rect x="100" y="70" width="120" height="100" fill="none"/>
+        </g>
+        <line x1="120" y1="100" x2="220" y2="100" class="signal" stroke-width="1.2"/>
+      </svg>
+    </div>
+    <div class="num">05 / WHITEPAPERS <span class="badge">Soon</span></div>
+    <h3>Three forthcoming.</h3>
+    <p>Long-form research on geothermal-backed AI infrastructure, sovereign cloud architecture, and the African compute opportunity. Publishing alongside Hells Gate commissioning.</p>
+    <div class="meta"><span>Q3 2026</span><span class="arrow">→</span></div>
+  </a>
+
+  <a class="res-card coming reveal d3" href="#" onclick="event.preventDefault(); alert('Brand kit coming soon.');" id="brand">
+    <div class="glyph">
+      <svg viewBox="0 0 320 180" class="tech" aria-hidden="true">
+        <g class="hair">
+          <rect x="60" y="50" width="60" height="80" fill="none"/>
+          <rect x="140" y="50" width="60" height="80" fill="none"/>
+          <rect x="220" y="50" width="60" height="80" fill="none"/>
+        </g>
+        <rect x="60" y="50" width="60" height="80" class="signal" opacity="0.85"/>
+        <rect x="140" y="50" width="60" height="80" fill="none" stroke="#FFFFFF"/>
+        <rect x="220" y="50" width="60" height="80" fill="none" stroke="#3F4157"/>
+      </svg>
+    </div>
+    <div class="num">06 / BRAND KIT <span class="badge">Soon</span></div>
+    <h3>Logos &amp; colors.</h3>
+    <p>Wordmark, color palette (neon yellow, charcoal, black), Space Grotesk + JetBrains Mono type pairing. For partners, journalists, and analysts.</p>
+    <div class="meta"><span>Coming soon</span><span class="arrow">→</span></div>
+  </a>
+
+</section>
+
+<!-- Newsletter -->
+<section class="signup">
+  <div class="signup-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Stay close</div>
+      <h2 class="reveal">Get Navon resources<br/>as <span class="accent">they ship.</span></h2>
+    </div>
+    <div class="reveal d1">
+      <p style="color:var(--light); font-size:16px; line-height:1.55; max-width:46ch; margin:0 0 24px;">
+        New insights, news, and whitepapers, sent the moment they land. About one email a month, no marketing churn.
+      </p>
+      <form class="signup-form" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thanks — you\u0027re on the list.';">
+        <input type="email" placeholder="you@org.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+      <div class="signup-note">No spam. Unsubscribe in one click.</div>
+    </div>
+  </div>
+</section>
+
+</Site>

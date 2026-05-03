@@ -1,0 +1,26 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  bodyClass?: string;
+}
+const { title, description, bodyClass } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <BaseHead title={title} description={description} />
+  <slot name="head" />
+</head>
+<body class={bodyClass}>
+  <Nav />
+  <slot />
+  <Footer />
+  <script src="/assets/shared.js" is:inline></script>
+  <slot name="end" />
+</body>
+</html>

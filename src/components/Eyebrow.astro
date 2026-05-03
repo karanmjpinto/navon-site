@@ -1,0 +1,10 @@
+---
+// Reusable eyebrow with the signal-yellow square mark. Repeats on
+// every page in the existing site — just slotting it as a primitive
+// here so it can evolve in one place.
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+<div class="eyebrow"><span class="mark"></span>{label}</div>

@@ -1,0 +1,89 @@
+---
+import Site from '../../layouts/Site.astro';
+import '../../styles/cookie-preferences.css';
+---
+<Site
+  title="Cookie Preferences — Navon"
+  description="Manage how cookies are used on the Navon site."
+  bodyClass="theme-light"
+>
+
+<main class="legal-page">
+  <div class="crumb"><a href="../index.html">Navon</a> · Legal · Cookies</div>
+  <h1>Cookie preferences.</h1>
+  <div class="meta">Effective · TBD · Version 0.1 · Scaffold pending counsel review</div>
+
+  <p>We keep cookie use to a minimum. The categories below describe what we use and why. Toggle to set your preferences for this browser; essential cookies cannot be disabled because the site won't function without them.</p>
+
+  <div class="placeholder" style="margin-bottom: 32px;">
+    <strong>Counsel to provide.</strong> Final cookie list, retention periods per cookie, and named third-party providers will be filled in before public launch. The toggle behaviour and category model below are production-ready.
+  </div>
+
+  <div class="cookie-cat">
+    <div>
+      <div class="cookie-cat-name">Category 01</div>
+      <h3>Essential.</h3>
+      <p>Required for the site to function: session state, security tokens, your acceptance of this banner. These cannot be disabled.</p>
+      <div class="req">Always on</div>
+    </div>
+    <label class="toggle"><input type="checkbox" checked disabled><span class="track"></span><span class="knob"></span></label>
+  </div>
+
+  <div class="cookie-cat">
+    <div>
+      <div class="cookie-cat-name">Category 02</div>
+      <h3>Analytics.</h3>
+      <p>Help us understand how the site is used so we can improve it. Aggregated, no personal identifiers stored. Counsel to confirm provider and retention.</p>
+    </div>
+    <label class="toggle"><input type="checkbox" data-cat="analytics"><span class="track"></span><span class="knob"></span></label>
+  </div>
+
+  <div class="cookie-cat">
+    <div>
+      <div class="cookie-cat-name">Category 03</div>
+      <h3>Marketing.</h3>
+      <p>Used only if you've opted in to receive marketing communications. We don't run ad re-targeting from this site by default.</p>
+    </div>
+    <label class="toggle"><input type="checkbox" data-cat="marketing"><span class="track"></span><span class="knob"></span></label>
+  </div>
+
+  <div class="save-row">
+    <button class="cta" id="save-prefs">Save preferences <span class="arrow">→</span></button>
+    <button class="cta-ghost" id="reset-prefs">Reject non-essential</button>
+    <span class="status" id="status"></span>
+  </div>
+</main>
+
+<script is:inline>
+  /* Cookie preferences UI */
+  const PREFS_KEY = 'navon-cookie-prefs';
+  const COOKIE_KEY = 'navon-cookies-acknowledged';
+  const status = document.getElementById('status');
+  const toggles = document.querySelectorAll('input[data-cat]');
+
+  /* Load existing prefs */
+  try {
+    const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
+    toggles.forEach((t) => { t.checked = !!prefs[t.dataset.cat]; });
+  } catch (e) {}
+
+  document.getElementById('save-prefs').addEventListener('click', () => {
+    const prefs = {};
+    toggles.forEach((t) => { prefs[t.dataset.cat] = t.checked; });
+    localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+    localStorage.setItem(COOKIE_KEY, '1');
+    status.textContent = '✓ Preferences saved';
+    status.classList.add('saved');
+    setTimeout(() => { status.textContent = ''; status.classList.remove('saved'); }, 3000);
+  });
+
+  document.getElementById('reset-prefs').addEventListener('click', () => {
+    toggles.forEach((t) => { t.checked = false; });
+    localStorage.setItem(PREFS_KEY, '{}');
+    localStorage.setItem(COOKIE_KEY, '1');
+    status.textContent = '✓ Non-essential rejected';
+    status.classList.add('saved');
+    setTimeout(() => { status.textContent = ''; status.classList.remove('saved'); }, 3000);
+  });
+</script>
+</Site>

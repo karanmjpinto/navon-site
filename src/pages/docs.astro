@@ -1,77 +1,12 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Docs — Navon</title>
-<meta name="description" content="Technical documentation: quickstart, modular pod architecture, compliance, energy methodology." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/shared.css">
-<style>
-  .docs-h1 {
-    grid-column: 1 / -1;
-    padding: 0 0 32px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 56px;
-  }
-  .docs-h1 h1 {
-    font-family: var(--font-display);
-    font-size: clamp(40px, 5vw, 64px);
-    line-height: 0.98;
-    letter-spacing: -0.035em;
-    margin: 16px 0 0;
-    font-weight: 500;
-  }
-  .docs-h1 h1 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
-  .docs-h1 .lede {
-    margin-top: 14px;
-    color: var(--light);
-    font-size: 16px;
-    max-width: 60ch;
-    line-height: 1.55;
-  }
-  .anchor-target { scroll-margin-top: calc(var(--nav-h) + 24px); }
-</style>
-</head>
-<body class="theme-light">
-
-<nav class="nav">
-  <a href="index.html" class="wordmark">NAVON<span class="dot">.</span></a>
-  <div class="nav-right">
-    <div class="nav-menu">
-      <a href="index.html">Platform</a>
-      <span class="has-dropdown">
-        <a href="products.html">Products <span class="chev">▾</span></a>
-        <div class="mega-menu">
-          <div class="mega-menu-inner cols-5">
-            <a class="mega-menu-card" href="products.html#modular"><div class="num">01</div><div class="name">Modular DCs</div></a>
-            <a class="mega-menu-card" href="products.html#turnkey"><div class="num">02</div><div class="name">Turnkey systems</div></a>
-            <a class="mega-menu-card" href="cloud.html"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
-            <a class="mega-menu-card" href="products.html#security"><div class="num">04</div><div class="name">Cybersecurity</div></a>
-            <a class="mega-menu-card" href="products.html#utility"><div class="num">05</div><div class="name">Utility</div></a>
-          </div>
-        </div>
-      </span>
-      <a href="missions.html">Missions</a>
-      <span class="has-dropdown">
-        <a href="resources.html">Resources <span class="chev">▾</span></a>
-        <div class="mega-menu">
-          <div class="mega-menu-inner cols-2">
-            <div class="mega-menu-col"><h5>Read</h5><a class="link" href="insights.html">Insights <span class="arrow">→</span></a><a class="link" href="news.html">News <span class="arrow">→</span></a><a class="link" href="faq.html">FAQ <span class="arrow">→</span></a></div>
-            <div class="mega-menu-col"><h5>Build</h5><a class="link" href="docs.html">Docs <span class="arrow">→</span></a><a class="link" href="customer-portal.html">Customer portal <span class="arrow">→</span></a><a class="link" href="resources.html#whitepapers">Whitepapers <span class="arrow">→</span></a><a class="link" href="resources.html#brand">Brand kit <span class="arrow">→</span></a></div>
-          </div>
-        </div>
-      </span>
-      <a href="hells-gate.html">Hells Gate</a>
-      <a href="foundations.html">Foundations</a>
-      <a href="about.html">About</a>
-    </div>
-    <a class="nav-signin" href="https://portal.navonworld.com/login">Sign in</a>
-    <a href="about.html#contact" class="cta">Talk to us <span class="arrow">→</span></a>
-  </div>
-</nav>
+---
+import Site from '../layouts/Site.astro';
+import '../styles/docs.css';
+---
+<Site
+  title="Docs — Navon"
+  description="Technical documentation: quickstart, modular pod architecture, compliance, energy methodology."
+  bodyClass="theme-light"
+>
 
 <div class="docs-shell">
   <aside class="docs-sidebar">
@@ -331,17 +266,7 @@
   </div>
 </div>
 
-<footer class="site-footer cols-5">
-  <div class="foot-brand"><div class="wordmark">NAVON<span class="dot">.</span></div><p>Vertically integrated deep tech for emerging markets. Sovereign, green, full-stack compute — one site, one layer, one partnership at a time.</p></div>
-  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="cloud.html">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
-  <div><h4>Resources</h4><a href="insights.html">Insights</a><a href="news.html">News</a><a href="faq.html">FAQ</a><a href="docs.html">Docs</a><a href="resources.html">All resources</a></div>
-  <div><h4>Company</h4><a href="about.html">About</a><a href="foundations.html">Foundations</a><a href="missions.html">Missions</a><a href="inside.html">Inside Navon</a><a href="about.html#contact">Contact</a><a href="https://portal.navonworld.com">Customer portal →</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
-  <div><h4>Legal</h4><a href="legal/privacy-policy.html">Privacy</a><a href="legal/terms-of-service.html">Terms</a><a href="legal/cookie-preferences.html">Cookies</a></div>
-</footer>
-<div class="legal"><div>© Navon World · Sovereign compute, powered by the earth.</div><div>Naivasha SEZ · Kenya · Global South, one site at a time.</div></div>
-
-<script src="assets/shared.js"></script>
-<script>
+<script is:inline>
   /* Highlight current docs section in sidebar */
   const sections = document.querySelectorAll('.docs-section');
   const links = document.querySelectorAll('[data-doc-link]');
@@ -357,5 +282,4 @@
   }, { rootMargin: '-30% 0px -50% 0px', threshold: 0 });
   sections.forEach((s) => obs.observe(s));
 </script>
-</body>
-</html>
+</Site>
