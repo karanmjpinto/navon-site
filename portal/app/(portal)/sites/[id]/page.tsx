@@ -14,6 +14,14 @@ import {
 } from "@/components/forms";
 import { createCabinet } from "../actions";
 
+function relativeTime(d: Date): string {
+  const diffMs = Date.now() - d.getTime();
+  const h = Math.floor(diffMs / 3_600_000);
+  if (h < 1) return "< 1h ago";
+  if (h < 24) return `${h}h ago`;
+  return `${Math.floor(h / 24)}d ago`;
+}
+
 export default async function SiteDetail({
   params,
 }: {
@@ -60,6 +68,11 @@ export default async function SiteDetail({
           {data.site.address && (
             <p className="text-mid text-sm">{data.site.address}</p>
           )}
+          {data.site.externalId && (
+            <p className="mt-1 text-[10px] font-mono text-slate">
+              from NetBox{data.site.lastSyncedAt ? ` · ${relativeTime(data.site.lastSyncedAt)}` : ""}
+            </p>
+          )}
         </div>
         <Link
           href={`/sites/${data.site.id}/ipam`}
@@ -96,6 +109,12 @@ export default async function SiteDetail({
                 <p className="text-xs text-mid">
                   {c.rackUnits}U · {c.powerCapKw} kW · {c.status}
                 </p>
+                {c.externalId && (
+                  <p className="mt-2 text-[10px] font-mono text-slate">
+                    from NetBox ·{" "}
+                    {c.lastSyncedAt ? relativeTime(c.lastSyncedAt) : "synced"}
+                  </p>
+                )}
               </Link>
             ))}
           </div>

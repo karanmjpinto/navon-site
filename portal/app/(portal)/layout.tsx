@@ -18,6 +18,7 @@ const NAV = [
 const ADMIN_NAV = [
   { href: "/admin/feedback", label: "FB queue" },
   { href: "/admin/work-orders", label: "Work orders" },
+  { href: "/admin/integrations/netbox", label: "NetBox" },
 ] as const;
 
 export default async function PortalLayout({
