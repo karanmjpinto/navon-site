@@ -1,7 +1,7 @@
 # NetBox + openDCIM Integration Strategy
 
 **Author:** Karan Pinto / Claude Code — 2026-05-03  
-**Status:** Phase 1 implemented on `feature/netbox-phase-1`
+**Status:** Phases 1–2 implemented on `main`
 
 ---
 
@@ -25,6 +25,23 @@ Federation pattern approved and built. Files shipped on `feature/netbox-phase-1`
 **Env vars:** `NETBOX_URL`, `NETBOX_TOKEN` (see `.env.example`)  
 **Run sync:** Admin → NetBox nav link → "Run sync now" button, or `pnpm sync:netbox`  
 **Full runbook:** [`docs/integrations/netbox-runbook.md`](./netbox-runbook.md)
+
+---
+
+## Phase 2 — Implemented (2026-05-03)
+
+Real-time webhook processing. Files merged to `main`:
+
+| File | Role |
+|------|------|
+| `portal/lib/netbox/apply.ts` | Shared upsert/archive helpers (used by both sync + webhook) |
+| `portal/app/api/integrations/netbox/webhook/route.ts` | `POST /api/integrations/netbox/webhook` — HMAC-SHA512 verification, LRU idempotency, event dispatch |
+| `portal/app/api/integrations/netbox/webhook/webhook.test.ts` | 8 tests — golden payloads, sig pass/fail, idempotent replay |
+| `scripts/seed-netbox.ts` | Now also configures the webhook in local NetBox |
+
+**Env vars:** `NETBOX_WEBHOOK_SECRET` (shared secret; must match NetBox extras → Webhooks)  
+**Verify delivery:** NetBox admin → Extras → Webhooks → select "navon-portal" → Recent Deliveries tab  
+**Cron stays active** as a 6h drift-reconciliation safety net; webhooks handle day-to-day changes.
 
 ---
 
