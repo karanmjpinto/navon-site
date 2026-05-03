@@ -48,7 +48,7 @@
           <div class="mega-menu-inner cols-5">
             <a class="mega-menu-card" href="products.html#modular"><div class="num">01</div><div class="name">Modular DCs</div></a>
             <a class="mega-menu-card" href="products.html#turnkey"><div class="num">02</div><div class="name">Turnkey systems</div></a>
-            <a class="mega-menu-card" href="products.html#cloud"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
+            <a class="mega-menu-card" href="cloud.html"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
             <a class="mega-menu-card" href="products.html#security"><div class="num">04</div><div class="name">Cybersecurity</div></a>
             <a class="mega-menu-card" href="products.html#utility"><div class="num">05</div><div class="name">Utility</div></a>
           </div>
@@ -98,7 +98,7 @@
     <a href="#pue" data-doc-link>PUE measurement</a>
 
     <h4>Reference</h4>
-    <a href="#api" data-doc-link>API <span class="badge">soon</span></a>
+    <a href="#api" data-doc-link>Inference API <span class="badge">soon</span></a>
     <a href="#changelog" data-doc-link>Changelog <span class="badge">soon</span></a>
   </aside>
 
@@ -300,10 +300,22 @@
 
     <section class="docs-section anchor-target" id="api">
       <div class="crumb">Reference · 01</div>
-      <h2>API reference.</h2>
-      <div class="placeholder-card">
-        <h4>Coming Q3 2026</h4>
-        <p>Sovereign cloud control-plane API documentation will publish alongside Hells Gate commissioning. The reference will cover compute provisioning, storage operations, IAM, sovereign HSM, and audit log export. <a href="news.html" style="color:var(--signal); border-bottom: 1px solid rgba(231,255,0,0.4);">Subscribe to news</a> to be notified.</p>
+      <h2>Inference API.</h2>
+      <p>Native model serving on owned silicon, exposed behind an <strong>OpenAI-compatible endpoint</strong>. Not a routing layer over third-party model APIs — the inference runs on Navon hardware, in your jurisdiction, with weights and traffic that never egress the country.</p>
+
+      <h4>Bring your stack.</h4>
+      <p>The endpoint is drop-in compatible with the SDKs and runtimes engineering teams already use:</p>
+      <table class="spec-table" style="margin-top: 16px;">
+        <tr><td><strong>Serving runtimes</strong></td><td>vLLM · TGI · TensorRT-LLM · Ollama (self-hosted open weights)</td></tr>
+        <tr><td><strong>SDKs &amp; clients</strong></td><td>OpenAI Python/JS · LangChain · LiteLLM · LlamaIndex · OpenRouter SDK · Cursor</td></tr>
+        <tr><td><strong>Open-weight models</strong></td><td>Llama 3.x · Mistral · Qwen · DeepSeek · Phi · plus customer fine-tunes</td></tr>
+        <tr><td><strong>Inference modes</strong></td><td>Streaming · batched · function-calling · vision · embeddings</td></tr>
+        <tr><td><strong>Residency</strong></td><td>Weights, prompts, and outputs stay inside the customer's jurisdiction</td></tr>
+      </table>
+
+      <div class="placeholder-card" style="margin-top: 24px;">
+        <h4>Full API reference: Q3 2026</h4>
+        <p>Formal API reference publishes alongside Hells Gate commissioning — covering inference, compute provisioning, storage operations, IAM, sovereign HSM, and audit log export. <a href="news.html" style="color:var(--signal); border-bottom: 1px solid rgba(231,255,0,0.4);">Subscribe to news</a> to be notified.</p>
       </div>
     </section>
 
@@ -321,9 +333,9 @@
 
 <footer class="site-footer cols-5">
   <div class="foot-brand"><div class="wordmark">NAVON<span class="dot">.</span></div><p>Vertically integrated deep tech for emerging markets. Sovereign, green, full-stack compute — one site, one layer, one partnership at a time.</p></div>
-  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="products.html#cloud">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
+  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="cloud.html">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
   <div><h4>Resources</h4><a href="insights.html">Insights</a><a href="news.html">News</a><a href="faq.html">FAQ</a><a href="docs.html">Docs</a><a href="resources.html">All resources</a></div>
-  <div><h4>Company</h4><a href="about.html">About</a><a href="foundations.html">Foundations</a><a href="missions.html">Missions</a><a href="inside.html">Inside Navon</a><a href="about.html#contact">Contact</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+  <div><h4>Company</h4><a href="about.html">About</a><a href="foundations.html">Foundations</a><a href="missions.html">Missions</a><a href="inside.html">Inside Navon</a><a href="about.html#contact">Contact</a><a href="https://portal.navonworld.com">Customer portal →</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
   <div><h4>Legal</h4><a href="legal/privacy-policy.html">Privacy</a><a href="legal/terms-of-service.html">Terms</a><a href="legal/cookie-preferences.html">Cookies</a></div>
 </footer>
 <div class="legal"><div>© Navon World · Sovereign compute, powered by the earth.</div><div>Naivasha SEZ · Kenya · Global South, one site at a time.</div></div>

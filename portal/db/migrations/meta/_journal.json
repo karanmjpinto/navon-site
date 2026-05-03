@@ -5,15 +5,50 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1777732577396,
+      "when": 1746057600000,
       "tag": "0000_lively_malice",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1746230400000,
-      "tag": "0001_rename_metrics",
+      "when": 1746057601000,
+      "tag": "0001_feedback_work_orders",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1746057602000,
+      "tag": "0002_netbox_sync_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1746057603000,
+      "tag": "0003_rls_feedback_workorders",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1746057604000,
+      "tag": "0004_ipam_netbox",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1746057605000,
+      "tag": "0005_bms_metrics",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1746057606000,
+      "tag": "9999_rls_policies",
       "breakpoints": true
     }
   ]

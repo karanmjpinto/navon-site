@@ -225,7 +225,7 @@
           <div class="mega-menu-inner cols-5">
             <a class="mega-menu-card" href="products.html#modular"><div class="num">01</div><div class="name">Modular DCs</div></a>
             <a class="mega-menu-card" href="products.html#turnkey"><div class="num">02</div><div class="name">Turnkey systems</div></a>
-            <a class="mega-menu-card" href="products.html#cloud"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
+            <a class="mega-menu-card" href="cloud.html"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
             <a class="mega-menu-card" href="products.html#security"><div class="num">04</div><div class="name">Cybersecurity</div></a>
             <a class="mega-menu-card" href="products.html#utility"><div class="num">05</div><div class="name">Utility</div></a>
           </div>
@@ -279,7 +279,7 @@
       <circle cx="380" cy="200" r="4" class="signal"/>
       <circle cx="340" cy="260" r="4" class="signal"/>
       <circle cx="380" cy="200" r="7" class="signal pulse" opacity="0.4"/>
-      <text x="60" y="358" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">17 QUESTIONS · 3 AUDIENCES</text>
+      <text x="60" y="358" font-size="10" letter-spacing="2" fill="#9E9F9B" font-family="JetBrains Mono">19 QUESTIONS · 3 AUDIENCES</text>
     </svg>
   </div>
 </section>
@@ -287,7 +287,7 @@
 <!-- Tabs -->
 <div class="tabs">
   <div class="tabs-inner">
-    <button class="tab active" data-tab="customers">For customers <span class="count">06</span></button>
+    <button class="tab active" data-tab="customers">For customers <span class="count">08</span></button>
     <button class="tab" data-tab="partners">For partners <span class="count">05</span></button>
     <button class="tab" data-tab="technical">Technical <span class="count">06</span></button>
   </div>
@@ -370,6 +370,31 @@
       <div class="q">
         <button class="q-toggle">
           <span class="q-num">05 / C</span>
+          <span class="q-text">Can I run Ollama, vLLM, or an OpenAI-compatible API on Navon?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Yes. Navon's GPU pods are <strong>Ollama-ready</strong> for self-hosted open weights — Llama, Mistral, Qwen, DeepSeek — with <strong>vLLM, TGI, and TensorRT-LLM</strong> available for production serving.</p>
+          <p>An <strong>OpenAI-compatible endpoint</strong> sits in front, so SDKs and tools you've already integrated — LangChain, LiteLLM, OpenRouter, LlamaIndex, Cursor — work without code changes. Bring your stack; we provide what's underneath.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">06 / C</span>
+          <span class="q-text">How is Navon different from a model-routing platform or API gateway?</span>
+          <span class="q-icon"></span>
+        </button>
+        <div class="q-body"><div class="q-body-inner">
+          <p>Routing platforms are <strong>software gateways over third-party model APIs</strong>. They aggregate access; they don't own the inference. The compute, the model weights, and the request traffic all live with someone else — usually a hyperscaler outside the jurisdiction.</p>
+          <p>Navon is the <strong>silicon layer</strong>. We own the racks, the cooling, and the geothermal baseload. When a model runs on Navon, the weights, the prompts, and the outputs stay in country.</p>
+          <p>Routing platforms are useful — and many of them will eventually run on top of Navon.</p>
+        </div></div>
+      </div>
+
+      <div class="q">
+        <button class="q-toggle">
+          <span class="q-num">07 / C</span>
           <span class="q-text">How is data sovereignty actually enforced?</span>
           <span class="q-icon"></span>
         </button>
@@ -387,7 +412,7 @@
 
       <div class="q">
         <button class="q-toggle">
-          <span class="q-num">06 / C</span>
+          <span class="q-num">08 / C</span>
           <span class="q-text">What's the pricing model?</span>
           <span class="q-icon"></span>
         </button>
@@ -605,9 +630,9 @@
 <!-- Footer -->
 <footer class="site-footer cols-5">
   <div class="foot-brand"><div class="wordmark">NAVON<span class="dot">.</span></div><p>Vertically integrated deep tech for emerging markets. Sovereign, green, full-stack compute — one site, one layer, one partnership at a time.</p></div>
-  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="products.html#cloud">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
+  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="cloud.html">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
   <div><h4>Resources</h4><a href="insights.html">Insights</a><a href="news.html">News</a><a href="faq.html">FAQ</a><a href="docs.html">Docs</a><a href="resources.html">All resources</a></div>
-  <div><h4>Company</h4><a href="about.html">About</a><a href="foundations.html">Foundations</a><a href="missions.html">Missions</a><a href="inside.html">Inside Navon</a><a href="about.html#contact">Contact</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+  <div><h4>Company</h4><a href="about.html">About</a><a href="foundations.html">Foundations</a><a href="missions.html">Missions</a><a href="inside.html">Inside Navon</a><a href="about.html#contact">Contact</a><a href="https://portal.navonworld.com">Customer portal →</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a></div>
   <div><h4>Legal</h4><a href="legal/privacy-policy.html">Privacy</a><a href="legal/terms-of-service.html">Terms</a><a href="legal/cookie-preferences.html">Cookies</a></div>
 </footer>
 <div class="legal">

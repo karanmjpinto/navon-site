@@ -1713,7 +1713,7 @@
           <div class="mega-menu-inner cols-5">
             <a class="mega-menu-card" href="products.html#modular"><div class="num">01</div><div class="name">Modular DCs</div></a>
             <a class="mega-menu-card" href="products.html#turnkey"><div class="num">02</div><div class="name">Turnkey systems</div></a>
-            <a class="mega-menu-card" href="products.html#cloud"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
+            <a class="mega-menu-card" href="cloud.html"><div class="num">03</div><div class="name">Sovereign cloud</div></a>
             <a class="mega-menu-card" href="products.html#security"><div class="num">04</div><div class="name">Cybersecurity</div></a>
             <a class="mega-menu-card" href="products.html#utility"><div class="num">05</div><div class="name">Utility</div></a>
           </div>
@@ -2115,19 +2115,72 @@
 </section>
 
 <script>
-  // Stack-diagram layer click → activate matching segmented tab + scroll to panel
-  document.querySelectorAll('.stack-layer[data-jump]').forEach((layer) => {
-    layer.addEventListener('click', (e) => {
-      const target = layer.dataset.jump;
-      const btn = document.querySelector(`.segmented button[data-target="${target}"]`);
-      if (btn) {
-        e.preventDefault();
-        btn.click();
-        const panel = document.getElementById(target);
-        if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  (function () {
+    // Valid panel targets (must match data-target on segmented buttons)
+    const PRODUCT_PANELS = ['modular', 'turnkey', 'cloud', 'security', 'utility'];
+
+    function activatePanel(target, opts) {
+      if (!target || !PRODUCT_PANELS.includes(target)) return false;
+      const btn = document.querySelector('.segmented button[data-target="' + target + '"]');
+      const panel = document.getElementById(target);
+      if (!btn || !panel) return false;
+      btn.click();
+      if (opts && opts.scroll) {
+        // Defer scroll one frame so the panel has rendered after activation
+        requestAnimationFrame(function () {
+          panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
       }
-    });
-  });
+      return true;
+    }
+
+    function handleHash() {
+      const hash = (location.hash || '').replace(/^#/, '');
+      if (PRODUCT_PANELS.includes(hash)) {
+        activatePanel(hash, { scroll: true });
+      }
+    }
+
+    function init() {
+      // 1) Stack-diagram layer click → activate matching panel + scroll
+      document.querySelectorAll('.stack-layer[data-jump]').forEach(function (layer) {
+        layer.addEventListener('click', function (e) {
+          const target = layer.dataset.jump;
+          if (activatePanel(target, { scroll: true })) {
+            e.preventDefault();
+          }
+        });
+      });
+
+      // 2) Mega-menu / footer / any in-page anchor whose href targets a product panel
+      document.querySelectorAll('a[href*="products.html#"], a[href^="#"]').forEach(function (a) {
+        const url = new URL(a.getAttribute('href'), location.href);
+        const target = (url.hash || '').replace(/^#/, '');
+        if (!PRODUCT_PANELS.includes(target)) return;
+        // Only intercept if we're on the products page (same path)
+        if (url.pathname !== location.pathname) return;
+        a.addEventListener('click', function (e) {
+          if (activatePanel(target, { scroll: true })) {
+            e.preventDefault();
+            // Update the URL hash without triggering scroll (smooth scroll already handled)
+            if (history.replaceState) history.replaceState(null, '', '#' + target);
+          }
+        });
+      });
+
+      // 3) On initial load, honour the URL hash (e.g. arrived from mega-menu on another page)
+      if (location.hash) handleHash();
+
+      // 4) Listen for hash changes (e.g. browser back/forward)
+      window.addEventListener('hashchange', handleHash);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
 </script>
 
 <!-- ── SEGMENTED TABS (sticky) ─────────────────── -->
@@ -2490,7 +2543,7 @@
         <div class="spec-card-body">
           <div class="spec-card-num">02 / TRAINING CLUSTER</div>
           <h3>Frontier GPU. Five racks.</h3>
-          <p class="spec-card-desc">Five 20 kW racks built around 8-GPU training systems, each paired with a Blackwell-class PCIe accelerator node to fully utilise the 20 kW envelope. Engineered for large-model training and high-throughput inference, with a flat 400 G fabric across the cluster. Ships in two tiers: latest-generation or prior-generation HGX.</p>
+          <p class="spec-card-desc">Five 20 kW racks built around 8-GPU training systems, each paired with a Blackwell-class PCIe accelerator node to fully utilise the 20 kW envelope. Engineered for large-model training and high-throughput inference, with a flat 400 G fabric across the cluster. Ships pre-integrated with vLLM, Ollama, and an OpenAI-compatible endpoint — the same serving stack as the sovereign cloud, on dedicated silicon. Two tiers: latest-generation or prior-generation HGX.</p>
           <ul class="spec-card-specs">
             <li>FORM<span class="v">5 × 20 kW racks</span></li>
             <li>COMPUTE<span class="v">5 × 8-GPU + PCIe nodes</span></li>
@@ -2913,8 +2966,66 @@
         </div>
       </article>
 
-      <!-- Cloud-3 — QPU access -->
+      <!-- Cloud-3 — Inference, native -->
       <article class="spec-card reveal d3">
+        <div class="spec-card-visual">
+          <svg viewBox="0 0 320 240" class="tech draw" aria-hidden="true">
+            <!-- API endpoint band at top -->
+            <rect class="line" x="40" y="40" width="240" height="28" fill="none"/>
+            <rect x="40" y="40" width="240" height="28" class="signal" opacity="0.16"/>
+            <text x="50" y="58" font-size="8" letter-spacing="1.5" class="label-signal">OPENAI-COMPATIBLE API</text>
+            <!-- arrow down -->
+            <line x1="160" y1="68" x2="160" y2="86" class="signal" stroke-width="0.8"/>
+            <polygon class="signal" points="156,86 164,86 160,92"/>
+            <!-- serving runtimes row -->
+            <g class="hair">
+              <rect x="40"  y="98" width="68" height="34" fill="none"/>
+              <rect x="126" y="98" width="68" height="34" fill="none"/>
+              <rect x="212" y="98" width="68" height="34" fill="none"/>
+            </g>
+            <text x="56"  y="119" font-size="8" letter-spacing="1" fill="#9E9F9B">vLLM</text>
+            <text x="138" y="119" font-size="8" letter-spacing="1" fill="#9E9F9B">OLLAMA</text>
+            <text x="226" y="119" font-size="8" letter-spacing="1" fill="#9E9F9B">TGI · TRT</text>
+            <!-- arrows into silicon -->
+            <line x1="74"  y1="132" x2="120" y2="156" class="signal" stroke-width="0.6"/>
+            <line x1="160" y1="132" x2="160" y2="156" class="signal" stroke-width="0.6"/>
+            <line x1="246" y1="132" x2="200" y2="156" class="signal" stroke-width="0.6"/>
+            <!-- owned silicon at bottom -->
+            <rect class="line" x="40" y="158" width="240" height="42" fill="none"/>
+            <text x="50" y="174" font-size="7" letter-spacing="1.5" class="label-signal">OWNED SILICON · IN-COUNTRY</text>
+            <g class="hair">
+              <rect x="56"  y="180" width="22" height="14" fill="none"/>
+              <rect x="84"  y="180" width="22" height="14" fill="none"/>
+              <rect x="112" y="180" width="22" height="14" fill="none"/>
+              <rect x="140" y="180" width="22" height="14" fill="none"/>
+              <rect x="168" y="180" width="22" height="14" fill="none"/>
+              <rect x="196" y="180" width="22" height="14" fill="none"/>
+              <rect x="224" y="180" width="22" height="14" fill="none"/>
+              <rect x="252" y="180" width="22" height="14" fill="none"/>
+            </g>
+            <text x="60" y="222" font-size="9" letter-spacing="1.5" fill="#9E9F9B">NATIVE SERVING · NOT A ROUTING LAYER</text>
+          </svg>
+        </div>
+        <div class="spec-card-body">
+          <div class="spec-card-num">03 / INFERENCE</div>
+          <h3>Native, not a routing layer.</h3>
+          <p class="spec-card-desc">Production model serving on owned GPU pools — vLLM, TGI, and TensorRT-LLM for high-throughput workloads, Ollama-ready for self-hosted open weights. An <strong>OpenAI-compatible endpoint</strong> sits in front, so SDKs and tools you've already integrated — LangChain, LiteLLM, OpenRouter, LlamaIndex, Cursor — work without code changes. Bring your stack; we provide what's underneath.</p>
+          <ul class="spec-card-specs">
+            <li>API<span class="v">OpenAI-compatible</span></li>
+            <li>RUNTIMES<span class="v">vLLM · Ollama · TGI · TRT-LLM</span></li>
+            <li>WEIGHTS<span class="v">In-country · never egress</span></li>
+            <li>FORM<span class="v">Native serving on Navon silicon</span></li>
+          </ul>
+        </div>
+        <div class="spec-card-tags">
+          <span class="spec-tag">Open weights</span>
+          <span class="spec-tag">Drop-in SDKs</span>
+          <span class="spec-tag">Zero egress</span>
+        </div>
+      </article>
+
+      <!-- Cloud-4 — QPU access -->
+      <article class="spec-card reveal d4">
         <div class="spec-card-visual">
           <svg viewBox="0 0 320 240" class="tech draw" aria-hidden="true">
             <!-- queue of jobs at top -->
@@ -2951,7 +3062,7 @@
           </svg>
         </div>
         <div class="spec-card-body">
-          <div class="spec-card-num">03 / QPU ACCESS</div>
+          <div class="spec-card-num">04 / QPU ACCESS</div>
           <h3>Sovereign quantum sandbox.</h3>
           <p class="spec-card-desc">Sandboxed access to curated partner quantum hardware via a queue API — algorithm development, benchmarking, and hybrid HPC + QPU pipelines, all under Navon's sovereignty posture. For research teams, defence labs, and government programmes building toward post-classical workloads alongside their classical compute.</p>
           <ul class="spec-card-specs">
@@ -2968,8 +3079,8 @@
         </div>
       </article>
 
-      <!-- Cloud-4 — Storage -->
-      <article class="spec-card reveal d4">
+      <!-- Cloud-5 — Storage -->
+      <article class="spec-card reveal d5">
         <div class="spec-card-visual">
           <svg viewBox="0 0 320 240" class="tech draw" aria-hidden="true">
             <!-- three stacked storage tiers -->
@@ -2996,7 +3107,7 @@
           </svg>
         </div>
         <div class="spec-card-body">
-          <div class="spec-card-num">04 / STORAGE</div>
+          <div class="spec-card-num">05 / STORAGE</div>
           <h3>Object, block, file — local-first.</h3>
           <p class="spec-card-desc">NVMe-backed object, block, and filesystem storage tiered to match the workload — fast media for live data, hybrid for working sets, cold HDD for archive and compliance retention. S3-compatible API for object, POSIX for filesystem, iSCSI for block. All in the customer's jurisdiction by default; cross-region replication only on explicit request.</p>
           <ul class="spec-card-specs">
@@ -3012,6 +3123,49 @@
           <span class="spec-tag">Sovereign archive</span>
         </div>
       </article>
+    </div>
+
+    <!-- Committed Capacity teaser — pricing model on top of the cloud SKUs -->
+    <div class="sub-head reveal" style="margin-top: 88px;">
+      <div class="eyebrow"><span class="mark"></span>Committed Capacity</div>
+      <h3>Pre-commit. Pay less. <span class="accent">Stay sovereign.</span></h3>
+      <p>Cloud customers who can size their floor — production inference, recurring training jobs, working-set storage — pre-commit a 1-year or 3-year horizon and land closer to colocation economics than to public cloud, without leaving the jurisdiction.</p>
+    </div>
+
+    <div class="savings-table preview reveal">
+      <div class="savings-row head">
+        <div class="savings-cell">SKU</div>
+        <div class="savings-cell">On-demand</div>
+        <div class="savings-cell">1Y commit</div>
+        <div class="savings-cell">3Y commit</div>
+        <div class="savings-cell">3Y discount</div>
+      </div>
+      <div class="savings-row">
+        <div class="savings-cell sku" data-label="SKU">GPU compute<span class="sku-sub">H100 · A100 · MI300X</span></div>
+        <div class="savings-cell num" data-label="On-demand">$1,000</div>
+        <div class="savings-cell num" data-label="1Y">$680</div>
+        <div class="savings-cell num" data-label="3Y">$450</div>
+        <div class="savings-cell discount" data-label="3Y discount">−55%</div>
+      </div>
+      <div class="savings-row">
+        <div class="savings-cell sku" data-label="SKU">vCPU compute<span class="sku-sub">general-purpose VMs</span></div>
+        <div class="savings-cell num" data-label="On-demand">$1,000</div>
+        <div class="savings-cell num" data-label="1Y">$720</div>
+        <div class="savings-cell num" data-label="3Y">$520</div>
+        <div class="savings-cell discount" data-label="3Y discount">−48%</div>
+      </div>
+      <div class="savings-row">
+        <div class="savings-cell sku" data-label="SKU">Storage<span class="sku-sub">NVMe block · object</span></div>
+        <div class="savings-cell num" data-label="On-demand">$1,000</div>
+        <div class="savings-cell num" data-label="1Y">$770</div>
+        <div class="savings-cell num" data-label="3Y">$600</div>
+        <div class="savings-cell discount" data-label="3Y discount">−40%</div>
+      </div>
+    </div>
+    <p class="savings-disclaimer" style="margin-top:18px;">Indicative anchors · normalised to a $1,000/mo baseline · final pricing confirmed at contract</p>
+
+    <div style="margin-top:24px;">
+      <a href="cloud.html" class="cta-ghost">See the full pricing model on the Cloud page <span class="arrow">→</span></a>
     </div>
 
     <!-- Open-source hyperscaler stack -->
@@ -3563,6 +3717,7 @@
         layers: <strong style="color:var(--paper); font-weight:500;">applications</strong> solve sector problems,
         <strong style="color:var(--paper); font-weight:500;">agents</strong> orchestrate the work, and
         <strong style="color:var(--paper); font-weight:500;">skills</strong> are the atomic primitives both depend on.
+        Operable through <strong style="color:var(--paper); font-weight:500;">low-code workflows</strong> for business and operations teams, full SDKs for engineering groups — same platform, same data, different entry points.
       </p>
     </div>
 
@@ -3626,7 +3781,7 @@
     <div class="sub-head reveal" style="margin-top:88px;">
       <div class="eyebrow"><span class="mark"></span>Layer 03 · Applications</div>
       <h3>Built where <span class="accent">the data lives.</span></h3>
-      <p>Vertical applications shaped to the workflows of each sector — running on Navon's sovereign cloud, encrypted at rest with PQC, and trained on locally held corpora. Each is a packaged outcome, not a toolkit.</p>
+      <p>Vertical applications shaped to the workflows of each sector — running on Navon's sovereign cloud, encrypted at rest with PQC, and trained on locally held corpora. Each is a <strong style="color:var(--ink); font-weight:500;">packaged, low-code outcome</strong> — configurable by domain teams without an engineering rebuild.</p>
     </div>
 
     <div class="sector-grid reveal">
@@ -4323,7 +4478,7 @@
     <div class="wordmark">NAVON<span class="dot">.</span></div>
     <p>Vertically integrated deep tech for emerging markets. Sovereign, green, full-stack compute — one site, one layer, one partnership at a time.</p>
   </div>
-  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="products.html#cloud">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
+  <div><h4>Products</h4><a href="products.html#modular">Modular DCs</a><a href="products.html#turnkey">Turnkey systems</a><a href="cloud.html">Sovereign cloud</a><a href="products.html#security">Cybersecurity</a><a href="products.html#utility">Utility</a></div>
   <div>
     <h4>Resources</h4>
     <a href="insights.html">Insights</a>
@@ -4339,7 +4494,7 @@
     <a href="missions.html">Missions</a>
     <a href="inside.html">Inside Navon</a>
     <a href="about.html#contact">Contact</a>
-    <a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="https://portal.navonworld.com">Customer portal →</a><a href="https://www.linkedin.com/company/navon-world" target="_blank" rel="noopener">LinkedIn ↗</a>
   </div>
   <div>
     <h4>Legal</h4>

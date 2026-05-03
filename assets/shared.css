@@ -1127,6 +1127,150 @@ footer.site-footer.cols-5 { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; }
   margin: 0;
 }
 
+/* ── savings table (cloud reservations) ──────── */
+/* Self-contained dark card — works on both dark hero pages
+   and light product pages (sits as a dark island on either) */
+.savings-table {
+  margin-top: 32px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: var(--ink);
+  font-family: var(--font-display);
+  color: var(--light);
+}
+.savings-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.6fr) 96px repeat(3, minmax(120px, 1fr)) 110px;
+  gap: 0;
+  align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  transition: background 0.25s ease;
+}
+.savings-row:first-child { border-top: 0; }
+.savings-row:not(.head):hover { background: rgba(231,255,0,0.04); }
+.savings-row.head {
+  background: rgba(255,255,255,0.025);
+  border-bottom: 1px solid rgba(255,255,255,0.16);
+}
+.savings-cell {
+  padding: 18px 22px;
+  font-size: 14px;
+  color: var(--light);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  min-width: 0;
+}
+.savings-cell:last-child { border-right: 0; }
+.savings-row.head .savings-cell {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--slate);
+  font-weight: 500;
+  padding: 14px 22px;
+}
+.savings-cell.sku {
+  font-family: var(--font-display);
+  font-size: 15.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.savings-cell.sku .sku-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--slate);
+  font-weight: 400;
+}
+.savings-cell.unit {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+.savings-cell.num {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+.savings-cell.num.dim {
+  color: var(--mid);
+}
+.savings-cell.discount {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--signal);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.savings-disclaimer {
+  margin-top: 18px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--slate);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.savings-disclaimer::before {
+  content: "";
+  width: 6px; height: 6px;
+  background: var(--signal);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* compressed preview variant — used in products.html teaser */
+.savings-table.preview .savings-row {
+  grid-template-columns: minmax(160px, 1.4fr) repeat(3, minmax(110px, 1fr)) 110px;
+}
+.savings-table.preview .savings-cell.unit { display: none; }
+
+@media (max-width: 900px) {
+  .savings-row,
+  .savings-table.preview .savings-row {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+  .savings-row.head { display: none; }
+  .savings-cell {
+    border-right: 0;
+    border-top: 1px dashed rgba(255,255,255,0.08);
+    padding: 10px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .savings-cell:first-child { border-top: 0; }
+  .savings-cell::before {
+    content: attr(data-label);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .savings-cell.sku {
+    flex-direction: row;
+    align-items: baseline;
+    padding: 18px 18px 10px;
+    background: rgba(255,255,255,0.03);
+  }
+  .savings-cell.sku::before { display: none; }
+  .savings-cell.sku .sku-sub { margin-left: auto; }
+}
+
 /* ── light theme (trust pages: legal, docs) ──── */
 body.theme-light {
   background: var(--paper);

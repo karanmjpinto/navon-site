@@ -12,6 +12,7 @@ import {
   uniqueIndex,
   index,
   jsonb,
+  date,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
@@ -111,6 +112,40 @@ export const maintenanceScopeEnum = pgEnum("maintenance_scope", [
   "org",
   "site",
   "cabinet",
+]);
+
+export const feedbackSeverityEnum = pgEnum("feedback_severity", [
+  "low",
+  "medium",
+  "high",
+]);
+
+export const feedbackStatusEnum = pgEnum("feedback_status", [
+  "new",
+  "reviewed",
+  "accepted",
+  "rejected",
+  "converted",
+]);
+
+export const workOrderStatusEnum = pgEnum("work_order_status", [
+  "open",
+  "in_progress",
+  "blocked",
+  "done",
+]);
+
+export const workOrderPriorityEnum = pgEnum("work_order_priority", [
+  "low",
+  "medium",
+  "high",
+  "critical",
+]);
+
+export const externalSourceEnum = pgEnum("external_source", [
+  "netbox",
+  "opendcim",
+  "manual",
 ]);
 
 // ── Tenants ───────────────────────────────────────────────────────
@@ -349,6 +384,9 @@ export const sites = pgTable(
     code: text("code").notNull(), // short label, eg. "HG-01"
     address: text("address"),
     country: text("country").notNull().default("KE"),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
     createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   },
   (t) => ({
@@ -372,6 +410,10 @@ export const cabinets = pgTable(
     powerCapKw: doublePrecision("power_cap_kw").notNull().default(6),
     status: cabinetStatusEnum("status").notNull().default("active"),
     notes: text("notes"),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
+    archivedAt: timestamp("archived_at", { mode: "date" }),
     createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   },
   (t) => ({
@@ -398,6 +440,10 @@ export const devices = pgTable(
     role: deviceRoleEnum("role").notNull().default("compute"),
     rackUStart: integer("rack_u_start"),
     rackUSize: integer("rack_u_size").notNull().default(1),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
+    archivedAt: timestamp("archived_at", { mode: "date" }),
     createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   },
   (t) => ({
@@ -420,6 +466,9 @@ export const crossConnects = pgTable(
     speedGbps: doublePrecision("speed_gbps").notNull(),
     media: crossConnectMediaEnum("media").notNull().default("fiber_sm"),
     status: crossConnectStatusEnum("status").notNull().default("pending"),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
     createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
     provisionedAt: timestamp("provisioned_at", { mode: "date" }),
   },
@@ -663,6 +712,200 @@ export const maintenanceWindows = pgTable(
   }),
 );
 
+// ── Internal feedback → work-order flow ──────────────────────────
+// For Karan's team to report issues/ideas about the portal itself.
+// Distinct from customer tickets (which are for support requests).
+
+export const feedback = pgTable(
+  "feedback",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => orgs.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id),
+    title: text("title").notNull(),
+    description: text("description").notNull(),
+    reason: text("reason").notNull(),
+    severity: feedbackSeverityEnum("severity").notNull().default("medium"),
+    status: feedbackStatusEnum("status").notNull().default("new"),
+    rejectionReason: text("rejection_reason"),
+    workOrderId: uuid("work_order_id"), // set on convert; no FK to avoid circular dep
+    url: text("url"),
+    viewport: text("viewport"),
+    userAgent: text("user_agent"),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (t) => ({
+    orgIdx: index("feedback_org_idx").on(t.orgId, t.createdAt),
+    userIdx: index("feedback_user_idx").on(t.userId),
+    statusIdx: index("feedback_status_idx").on(t.orgId, t.status),
+  }),
+);
+
+export const feedbackAttachments = pgTable(
+  "feedback_attachments",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    feedbackId: uuid("feedback_id")
+      .notNull()
+      .references(() => feedback.id, { onDelete: "cascade" }),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => orgs.id, { onDelete: "cascade" }),
+    filename: text("filename").notNull(),
+    storagePath: text("storage_path").notNull(),
+    mimeType: text("mime_type").notNull(),
+    sizeBytes: integer("size_bytes").notNull(),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (t) => ({
+    feedbackIdx: index("feedback_attachments_feedback_idx").on(t.feedbackId),
+  }),
+);
+
+export const feedbackComments = pgTable(
+  "feedback_comments",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    feedbackId: uuid("feedback_id")
+      .notNull()
+      .references(() => feedback.id, { onDelete: "cascade" }),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => orgs.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id),
+    body: text("body").notNull(),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (t) => ({
+    feedbackIdx: index("feedback_comments_feedback_idx").on(t.feedbackId),
+  }),
+);
+
+export const workOrders = pgTable(
+  "work_orders",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => orgs.id, { onDelete: "cascade" }),
+    sourceFeedbackId: uuid("source_feedback_id").references(
+      () => feedback.id,
+      { onDelete: "set null" },
+    ),
+    title: text("title").notNull(),
+    description: text("description").notNull(),
+    assigneeId: text("assignee_id").references(() => users.id, {
+      onDelete: "set null",
+    }),
+    priority: workOrderPriorityEnum("priority").notNull().default("medium"),
+    status: workOrderStatusEnum("status").notNull().default("open"),
+    dueDate: date("due_date"),
+    createdBy: text("created_by")
+      .notNull()
+      .references(() => users.id),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (t) => ({
+    orgIdx: index("work_orders_org_idx").on(t.orgId, t.createdAt),
+    statusIdx: index("work_orders_status_idx").on(t.orgId, t.status),
+  }),
+);
+
+export const workOrderComments = pgTable(
+  "work_order_comments",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    workOrderId: uuid("work_order_id")
+      .notNull()
+      .references(() => workOrders.id, { onDelete: "cascade" }),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => orgs.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id),
+    body: text("body").notNull(),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (t) => ({
+    workOrderIdx: index("work_order_comments_wo_idx").on(t.workOrderId),
+  }),
+);
+
+// ── IPAM (NetBox-synced) ──────────────────────────────────────────
+
+export const vlans = pgTable(
+  "vlans",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id").notNull().references(() => orgs.id, { onDelete: "cascade" }),
+    siteId: uuid("site_id").references(() => sites.id, { onDelete: "set null" }),
+    vid: integer("vid").notNull(),
+    name: text("name").notNull(),
+    status: text("status").notNull().default("active"),
+    description: text("description"),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (t) => ({
+    orgIdx: index("vlans_org_idx").on(t.orgId),
+  }),
+);
+
+export const prefixes = pgTable(
+  "prefixes",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id").notNull().references(() => orgs.id, { onDelete: "cascade" }),
+    siteId: uuid("site_id").references(() => sites.id, { onDelete: "set null" }),
+    vlanId: uuid("vlan_id").references(() => vlans.id, { onDelete: "set null" }),
+    prefix: text("prefix").notNull(),
+    status: text("status").notNull().default("active"),
+    role: text("role"),
+    description: text("description"),
+    isPool: boolean("is_pool").notNull().default(false),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (t) => ({
+    orgIdx: index("prefixes_org_idx").on(t.orgId),
+  }),
+);
+
+export const ipAddresses = pgTable(
+  "ip_addresses",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id").notNull().references(() => orgs.id, { onDelete: "cascade" }),
+    prefixId: uuid("prefix_id").references(() => prefixes.id, { onDelete: "set null" }),
+    deviceId: uuid("device_id").references(() => devices.id, { onDelete: "set null" }),
+    address: text("address").notNull(),
+    status: text("status").notNull().default("active"),
+    dnsName: text("dns_name"),
+    description: text("description"),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (t) => ({
+    orgIdx: index("ip_addresses_org_idx").on(t.orgId),
+    prefixIdx: index("ip_addresses_prefix_idx").on(t.prefixId),
+  }),
+);
+
 export type Org = typeof orgs.$inferSelect;
 export type User = typeof users.$inferSelect;
 export type Membership = typeof memberships.$inferSelect;
@@ -690,3 +933,15 @@ export type IpAssignment = typeof ipAssignments.$inferSelect;
 export type AlertRule = typeof alertRules.$inferSelect;
 export type AlertEvent = typeof alertEvents.$inferSelect;
 export type MaintenanceWindow = typeof maintenanceWindows.$inferSelect;
+export type Feedback = typeof feedback.$inferSelect;
+export type FeedbackSeverity = (typeof feedbackSeverityEnum.enumValues)[number];
+export type FeedbackStatus = (typeof feedbackStatusEnum.enumValues)[number];
+export type FeedbackAttachment = typeof feedbackAttachments.$inferSelect;
+export type FeedbackComment = typeof feedbackComments.$inferSelect;
+export type WorkOrder = typeof workOrders.$inferSelect;
+export type WorkOrderStatus = (typeof workOrderStatusEnum.enumValues)[number];
+export type WorkOrderPriority = (typeof workOrderPriorityEnum.enumValues)[number];
+export type WorkOrderComment = typeof workOrderComments.$inferSelect;
+export type Vlan = typeof vlans.$inferSelect;
+export type Prefix = typeof prefixes.$inferSelect;
+export type IpAddress = typeof ipAddresses.$inferSelect;
