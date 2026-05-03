@@ -15,13 +15,21 @@
  *   4. Write an audit log entry per run with counts.
  */
 
-import { eq, and, inArray, isNotNull } from "drizzle-orm";
+import { eq, and, inArray } from "drizzle-orm";
 import { db } from "@/db";
-import { orgs, sites, cabinets, devices, crossConnects } from "@/db/schema";
+import { orgs, sites, cabinets } from "@/db/schema";
 import { withOrgContext } from "@/lib/tenant";
 import { recordAudit } from "@/lib/audit";
 import { NetBoxClient } from "@/lib/netbox/client";
-import { mapSite, mapRack, mapDevice, mapCircuit, externalId } from "@/lib/netbox/mapper";
+import { externalId } from "@/lib/netbox/mapper";
+import {
+  applySite,
+  applyRack,
+  applyDevice,
+  applyCircuit,
+  archiveRacksNotIn,
+  archiveDevicesNotIn,
+} from "@/lib/netbox/apply";
 import type { NetBoxTenant, NetBoxSite, NetBoxRack, NetBoxDevice, NetBoxCircuit } from "@/lib/netbox/types";
 
 export interface SyncCounts {
@@ -45,87 +53,6 @@ export interface OrgSyncResult {
 
 function zeroCounts(): SyncCounts {
   return { fetched: 0, upserted: 0, archived: 0, skipped: 0, errored: 0 };
-}
-
-// ── Upsert helpers ────────────────────────────────────────────────
-
-async function upsertSite(
-  tx: Parameters<Parameters<typeof db.transaction>[0]>[0],
-  row: ReturnType<typeof mapSite>,
-): Promise<void> {
-  await tx
-    .insert(sites)
-    .values(row)
-    .onConflictDoUpdate({
-      target: [sites.orgId, sites.externalId],
-      set: {
-        name: row.name,
-        code: row.code,
-        address: row.address,
-        lastSyncedAt: row.lastSyncedAt,
-      },
-    });
-}
-
-async function upsertCabinet(
-  tx: Parameters<Parameters<typeof db.transaction>[0]>[0],
-  row: ReturnType<typeof mapRack>,
-): Promise<void> {
-  await tx
-    .insert(cabinets)
-    .values(row)
-    .onConflictDoUpdate({
-      target: [cabinets.orgId, cabinets.externalId],
-      set: {
-        label: row.label,
-        rackUnits: row.rackUnits,
-        status: row.status,
-        lastSyncedAt: row.lastSyncedAt,
-        archivedAt: null, // un-archive if it came back
-      },
-    });
-}
-
-async function upsertDevice(
-  tx: Parameters<Parameters<typeof db.transaction>[0]>[0],
-  row: ReturnType<typeof mapDevice>,
-): Promise<void> {
-  await tx
-    .insert(devices)
-    .values(row)
-    .onConflictDoUpdate({
-      target: [devices.orgId, devices.externalId],
-      set: {
-        label: row.label,
-        vendor: row.vendor,
-        model: row.model,
-        serial: row.serial,
-        role: row.role,
-        rackUStart: row.rackUStart,
-        rackUSize: row.rackUSize,
-        cabinetId: row.cabinetId,
-        lastSyncedAt: row.lastSyncedAt,
-        archivedAt: null,
-      },
-    });
-}
-
-async function upsertCircuit(
-  tx: Parameters<Parameters<typeof db.transaction>[0]>[0],
-  row: ReturnType<typeof mapCircuit>,
-): Promise<void> {
-  await tx
-    .insert(crossConnects)
-    .values(row)
-    .onConflictDoUpdate({
-      target: [crossConnects.orgId, crossConnects.externalId],
-      set: {
-        toLabel: row.toLabel,
-        speedGbps: row.speedGbps,
-        status: row.status,
-        lastSyncedAt: row.lastSyncedAt,
-      },
-    });
 }
 
 // ── Per-org sync ──────────────────────────────────────────────────
@@ -153,13 +80,12 @@ async function syncOrg(
     });
     result.sites.fetched = nbSites.length;
 
-    // Build a map: netbox site id → Navon site id (after upsert)
     const siteIdMap = new Map<number, string>();
 
     await withOrgContext(org.id, async (tx) => {
       for (const nb of nbSites) {
         try {
-          await upsertSite(tx, mapSite(nb, org.id));
+          await applySite(tx, nb, org.id);
           result.sites.upserted++;
         } catch (err) {
           console.error(`[netbox-sync] site ${nb.id} error:`, err);
@@ -167,7 +93,6 @@ async function syncOrg(
         }
       }
 
-      // Reload site IDs (need Navon UUIDs for FK into cabinets)
       const seenExtIds = nbSites.map((s) => externalId(s.id));
       if (seenExtIds.length > 0) {
         const rows = await tx
@@ -187,7 +112,7 @@ async function syncOrg(
     });
     result.cabinets.fetched = nbRacks.length;
 
-    const rackIdMap = new Map<number, string>(); // netbox rack id → Navon cabinet id
+    const rackIdMap = new Map<number, string>();
 
     await withOrgContext(org.id, async (tx) => {
       for (const nb of nbRacks) {
@@ -198,7 +123,7 @@ async function syncOrg(
           continue;
         }
         try {
-          await upsertCabinet(tx, mapRack(nb, org.id, siteId));
+          await applyRack(tx, nb, org.id, siteId);
           result.cabinets.upserted++;
         } catch (err) {
           console.error(`[netbox-sync] rack ${nb.id} error:`, err);
@@ -216,26 +141,8 @@ async function syncOrg(
           const nbId = parseInt(r.externalId!.replace("netbox:", ""), 10);
           rackIdMap.set(nbId, r.id);
         }
-      }
 
-      // Soft-delete cabinets that disappeared from NetBox
-      if (seenExtIds.length > 0) {
-        const archived = await tx
-          .update(cabinets)
-          .set({ archivedAt: new Date() })
-          .where(
-            and(
-              eq(cabinets.orgId, org.id),
-              eq(cabinets.externalSource, "netbox"),
-              isNotNull(cabinets.externalId),
-              // archived_at is null (not already archived) and not in current set
-            ),
-          )
-          .returning({ id: cabinets.id });
-        // Filter to only rows whose externalId is NOT in seenExtIds — Drizzle
-        // doesn't support NOT IN on nullable columns cleanly, so we post-filter.
-        const toArchive = archived.filter(() => true); // placeholder — see note below
-        result.cabinets.archived = toArchive.length;
+        result.cabinets.archived = await archiveRacksNotIn(tx, org.id, seenExtIds);
       }
     });
 
@@ -251,12 +158,11 @@ async function syncOrg(
       for (const nb of nbDevices) {
         const cabinetId = nb.rack ? rackIdMap.get(nb.rack.id) : undefined;
         if (!cabinetId) {
-          // Device has no rack assignment or rack not synced — skip
           result.devices.skipped++;
           continue;
         }
         try {
-          await upsertDevice(tx, mapDevice(nb, org.id, cabinetId));
+          await applyDevice(tx, nb, org.id, cabinetId);
           seenDeviceExtIds.push(externalId(nb.id));
           result.devices.upserted++;
         } catch (err) {
@@ -265,29 +171,7 @@ async function syncOrg(
         }
       }
 
-      // Soft-delete devices gone from NetBox
-      if (seenDeviceExtIds.length > 0) {
-        await tx
-          .update(devices)
-          .set({ archivedAt: new Date() })
-          .where(
-            and(
-              eq(devices.orgId, org.id),
-              eq(devices.externalSource, "netbox"),
-              isNotNull(devices.externalId),
-            ),
-          );
-        // Un-archive the ones we just upserted (they're still present)
-        await tx
-          .update(devices)
-          .set({ archivedAt: null })
-          .where(
-            and(
-              eq(devices.orgId, org.id),
-              inArray(devices.externalId, seenDeviceExtIds),
-            ),
-          );
-      }
+      await archiveDevicesNotIn(tx, org.id, seenDeviceExtIds);
     });
 
     // ── Circuits ─────────────────────────────────────────────────
@@ -296,8 +180,6 @@ async function syncOrg(
     });
     result.circuits.fetched = nbCircuits.length;
 
-    // Circuits don't have a single rack — attach to the first synced cabinet for
-    // the org as an anchor (cross-connect model requires fromCabinetId).
     const firstCabinetId = rackIdMap.values().next().value as string | undefined;
 
     await withOrgContext(org.id, async (tx) => {
@@ -307,7 +189,7 @@ async function syncOrg(
           continue;
         }
         try {
-          await upsertCircuit(tx, mapCircuit(nb, org.id, firstCabinetId));
+          await applyCircuit(tx, nb, org.id, firstCabinetId);
           result.circuits.upserted++;
         } catch (err) {
           console.error(`[netbox-sync] circuit ${nb.id} error:`, err);
@@ -332,7 +214,6 @@ export async function runNetBoxSync(): Promise<OrgSyncResult[]> {
   const nbTenants = await client.fetchAll<NetBoxTenant>("tenancy/tenants/");
   const navonOrgs = await db.select().from(orgs);
 
-  // Match NetBox tenants to Navon orgs by slug
   const pairs: Array<{ org: typeof orgs.$inferSelect; tenant: NetBoxTenant }> = [];
   for (const tenant of nbTenants) {
     const org = navonOrgs.find((o) => o.slug === tenant.slug);
@@ -361,7 +242,6 @@ export async function runNetBoxSync(): Promise<OrgSyncResult[]> {
     );
   }
 
-  // Write a single audit log entry for the whole run
   const totalUpserted =
     results.reduce((n, r) => n + r.sites.upserted + r.cabinets.upserted + r.devices.upserted + r.circuits.upserted, 0);
   const totalErrored =

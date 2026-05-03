@@ -235,6 +235,42 @@ async function main() {
     console.log(`  ${c.cid} (tenant ${c.tenant === tenantUon.id ? "uon" : "pesa"}): id=${created.id}`);
   }
 
+  // ── Webhook ──────────────────────────────────────────────────────
+  // Configure a webhook so NetBox pushes real-time changes to the portal.
+  // Only registered when NETBOX_WEBHOOK_URL is set (optional for CI).
+  const webhookUrl = process.env.NETBOX_WEBHOOK_URL ?? "http://host.docker.internal:3002/api/integrations/netbox/webhook";
+  const webhookSecret = process.env.NETBOX_WEBHOOK_SECRET ?? "navon-webhook-dev-secret-000000";
+  console.log("\n[webhook]");
+  try {
+    // Check if webhook already exists
+    const existing = await nb<{ results: Array<{ id: number; name: string }> }>(
+      "GET", "extras/webhooks/?name=navon-portal",
+    );
+    if (existing.results.length === 0) {
+      const wh = await nb<{ id: number }>("POST", "extras/webhooks/", {
+        name: "navon-portal",
+        payload_url: webhookUrl,
+        http_method: "POST",
+        http_content_type: "application/json",
+        secret: webhookSecret,
+        enabled: true,
+        type_create: true,
+        type_update: true,
+        type_delete: true,
+        content_types: [
+          "dcim.site", "dcim.rack", "dcim.device",
+          "circuits.circuit", "tenancy.tenant",
+        ],
+      });
+      console.log(`  created webhook id=${wh.id} → ${webhookUrl}`);
+    } else {
+      console.log(`  webhook already exists (id=${existing.results[0].id}) — skipped`);
+    }
+  } catch (err) {
+    // Webhooks endpoint may 404 on older NetBox; non-fatal
+    console.warn(`  webhook setup skipped (${(err as Error).message})`);
+  }
+
   console.log("\n✓ Seed complete.");
 }
 
