@@ -14,6 +14,7 @@ const NAV = [
   { href: "/settings", label: "Settings" },
   { href: "/network", label: "Network" },
   { href: "/feedback", label: "Feedback" },
+  { href: "/guide", label: "Guide" },
 ] as const;
 
 const ADMIN_NAV = [
