@@ -13,10 +13,7 @@ portal.navonworld.com {
 	reverse_proxy portal:3002
 
 	tls {
-		dns godaddy {
-			api_key {env.GODADDY_API_KEY}
-			api_secret {env.GODADDY_API_SECRET}
-		}
+		dns godaddy {env.GODADDY_API_KEY} {env.GODADDY_API_SECRET}
 	}
 
 	header {
