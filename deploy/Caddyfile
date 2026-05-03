@@ -12,11 +12,17 @@ portal.navonworld.com {
 	encode gzip zstd
 	reverse_proxy portal:3002
 
+	tls {
+		dns godaddy {
+			api_key {env.GODADDY_API_KEY}
+			api_secret {env.GODADDY_API_SECRET}
+		}
+	}
+
 	header {
 		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 		X-Content-Type-Options "nosniff"
 		Referrer-Policy "strict-origin-when-cross-origin"
 		X-Frame-Options "DENY"
-		# Next.js sets its own Content-Security-Policy where appropriate.
 	}
 }

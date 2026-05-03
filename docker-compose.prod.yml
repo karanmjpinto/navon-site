@@ -33,11 +33,16 @@ services:
     restart: unless-stopped
 
   caddy:
-    image: caddy:2-alpine
+    build:
+      context: ./deploy/caddy
+      dockerfile: Dockerfile
     ports:
       - "80:80"
       - "443:443"
       - "443:443/udp"
+    environment:
+      GODADDY_API_KEY: ${GODADDY_API_KEY}
+      GODADDY_API_SECRET: ${GODADDY_API_SECRET}
     volumes:
       - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
