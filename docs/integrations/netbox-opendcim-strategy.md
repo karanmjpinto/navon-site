@@ -1,7 +1,30 @@
 # NetBox + openDCIM Integration Strategy
 
 **Author:** Karan Pinto / Claude Code — 2026-05-03  
-**Status:** Draft for review
+**Status:** Phase 1 implemented on `feature/netbox-phase-1`
+
+---
+
+## Phase 1 — Implemented (2026-05-03)
+
+Federation pattern approved and built. Files shipped on `feature/netbox-phase-1`:
+
+| File | Role |
+|------|------|
+| `docker-compose.dev.yml` | Local NetBox (port 8000) + Redis + Postgres |
+| `scripts/seed-netbox.ts` | Fixture seeder — 1 site, 2 racks, 4 devices, 2 circuits |
+| `portal/lib/netbox/client.ts` | TypeScript fetch wrapper with pagination |
+| `portal/lib/netbox/types.ts` | Typed NetBox API response shapes |
+| `portal/lib/netbox/mapper.ts` | Pure NetBox → Navon row converters |
+| `portal/workers/netbox-sync.ts` | Sync worker (CLI + programmatic) |
+| `portal/lib/netbox-cron.ts` | node-cron every-6h scheduler |
+| `portal/instrumentation.ts` | Next.js startup hook |
+| `portal/app/(portal)/admin/integrations/netbox/` | Admin trigger UI |
+| `portal/db/migrations/0002_netbox_sync_fields.sql` | `external_id`, `external_source`, `last_synced_at`, `archived_at` columns |
+
+**Env vars:** `NETBOX_URL`, `NETBOX_TOKEN` (see `.env.example`)  
+**Run sync:** Admin → NetBox nav link → "Run sync now" button, or `pnpm sync:netbox`  
+**Full runbook:** [`docs/integrations/netbox-runbook.md`](./netbox-runbook.md)
 
 ---
 
