@@ -9,3 +9,7 @@ portal/.next/
 portal/.env*
 !portal/.env.example
 portal/next-env.d.ts
+portal/tsconfig.tsbuildinfo
+
+# Drizzle regenerates this on every `drizzle-kit generate` — don't track it
+portal/db/migrations/meta/
