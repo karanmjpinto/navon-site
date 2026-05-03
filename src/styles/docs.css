@@ -1,0 +1,23 @@
+  .docs-h1 {
+    grid-column: 1 / -1;
+    padding: 0 0 32px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 56px;
+  }
+  .docs-h1 h1 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    margin: 16px 0 0;
+    font-weight: 500;
+  }
+  .docs-h1 h1 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+  .docs-h1 .lede {
+    margin-top: 14px;
+    color: var(--light);
+    font-size: 16px;
+    max-width: 60ch;
+    line-height: 1.55;
+  }
+  .anchor-target { scroll-margin-top: calc(var(--nav-h) + 24px); }

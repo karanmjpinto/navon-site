@@ -1,0 +1,85 @@
+  .cookie-cat {
+    border: 1px solid var(--line);
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+    transition: border-color 0.25s ease;
+  }
+  .cookie-cat:hover { border-color: var(--line-2); }
+  .cookie-cat-name {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 8px;
+  }
+  .cookie-cat h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.018em;
+    margin: 0 0 8px;
+  }
+  .cookie-cat p { color: var(--mid); font-size: 14px; line-height: 1.55; margin: 0; max-width: 64ch; }
+  .cookie-cat .req {
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--signal);
+  }
+
+  .toggle {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle .track {
+    position: absolute;
+    inset: 0;
+    background: var(--charcoal);
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+  .toggle .knob {
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 20px; height: 20px;
+    background: var(--mid);
+    border-radius: 50%;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.25s ease;
+  }
+  .toggle input:checked + .track { background: rgba(231,255,0,0.18); border-color: var(--signal); }
+  .toggle input:checked + .track + .knob { transform: translateX(24px); background: var(--signal); }
+  .toggle input:disabled + .track { background: rgba(231,255,0,0.18); border-color: var(--signal); cursor: not-allowed; }
+  .toggle input:disabled + .track + .knob { transform: translateX(24px); background: var(--signal); cursor: not-allowed; }
+
+  .save-row {
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .save-row .status {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    transition: color 0.3s ease;
+  }
+  .save-row .status.saved { color: var(--signal); }

@@ -1,0 +1,458 @@
+  /* ── Manifesto hero ──────────────────────────── */
+  .manifesto {
+    position: relative;
+    padding: calc(var(--nav-h) + 120px) var(--px) 120px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .manifesto::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at 30% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 60%, transparent 90%);
+    -webkit-mask-image: radial-gradient(ellipse at 30% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 60%, transparent 90%);
+    pointer-events: none;
+  }
+  .manifesto-inner { position: relative; z-index: 2; max-width: 1280px; }
+  .manifesto h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8.4vw, 132px);
+    line-height: 0.94;
+    letter-spacing: -0.045em;
+    margin: 24px 0 0;
+    font-weight: 500;
+    max-width: 18ch;
+  }
+  .manifesto h1 .strike {
+    position: relative;
+    display: inline-block;
+    color: var(--mid);
+  }
+  .manifesto h1 .strike::after {
+    content: "";
+    position: absolute;
+    left: -2%;
+    right: 102%;
+    top: 52%;
+    height: 5px;
+    background: var(--signal);
+    transition: right 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s;
+  }
+  .manifesto h1.in .strike::after { right: -2%; }
+  .manifesto h1 .accent {
+    color: var(--signal);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .manifesto-sub {
+    margin-top: 56px;
+    max-width: 56ch;
+    color: var(--light);
+    font-size: 19px;
+    line-height: 1.55;
+  }
+
+  /* ── Risks ───────────────────────────────────── */
+  .risks {
+    padding: var(--section-y) var(--px);
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,255,255,0.012), transparent);
+  }
+  .risks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    margin-top: 64px;
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 900px) { .risks-grid { grid-template-columns: 1fr; } }
+  .risk {
+    background: var(--ink);
+    padding: 40px 32px 44px;
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+  }
+  .risk-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    color: var(--signal);
+    margin-bottom: 28px;
+  }
+  .risk-stat {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    margin: 0 0 8px;
+  }
+  .risk-stat .unit {
+    font-size: 26px;
+    color: var(--mid);
+    margin-left: 4px;
+    letter-spacing: -0.01em;
+  }
+  .risk-cap {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 22px;
+  }
+  .risk h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin: 0 0 10px;
+  }
+  .risk p {
+    color: var(--mid);
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ── Phases ──────────────────────────────────── */
+  .phases {
+    padding: var(--section-y) var(--px);
+    border-bottom: 1px solid var(--line);
+  }
+  .phases-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 64px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 900px) { .phases-track { grid-template-columns: 1fr; } }
+  .ph {
+    position: relative;
+    padding: 44px 32px 48px;
+    border-right: 1px solid var(--line);
+  }
+  .ph:last-child { border-right: 0; }
+  .ph-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 16px;
+  }
+  .ph-num {
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    margin: 0 0 18px;
+    color: var(--mid);
+  }
+  .ph h3 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .ph p {
+    color: var(--mid);
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin: 0 0 28px;
+    max-width: 36ch;
+  }
+  .ph-stats {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .ph-stats div { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; color: var(--slate); text-transform: uppercase; }
+  .ph-stats .v { display: block; font-family: var(--font-display); font-size: 22px; letter-spacing: -0.02em; color: var(--paper); margin-bottom: 4px; font-weight: 500; text-transform: none; }
+  .ph.active {
+    background: linear-gradient(180deg, rgba(231,255,0,0.05), rgba(231,255,0,0.01));
+  }
+  .ph.active .ph-num { color: var(--signal); }
+  .ph.active::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--signal);
+  }
+  .ph.active::after {
+    content: "NAVON ENTERS HERE";
+    position: absolute;
+    bottom: 24px;
+    right: 32px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--signal);
+  }
+  .ph .pulse-dot {
+    position: absolute;
+    top: 14px;
+    right: 28px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--signal);
+  }
+  .ph .pulse-ring {
+    position: absolute;
+    top: 8px;
+    right: 22px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--signal);
+    animation: pulse 2s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  /* ── Drivers ─────────────────────────────────── */
+  .drivers {
+    padding: var(--section-y) var(--px);
+    border-bottom: 1px solid var(--line);
+  }
+  .drivers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    margin-top: 64px;
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 900px) { .drivers-grid { grid-template-columns: 1fr; } }
+  .driver {
+    background: var(--ink);
+    padding: 40px 32px 44px;
+    display: flex;
+    flex-direction: column;
+    min-height: 360px;
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .driver::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--signal);
+    transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .driver:hover { background: rgba(231,255,0,0.025); }
+  .driver:hover::before { width: 100%; }
+  .driver-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--slate);
+    margin-bottom: 28px;
+  }
+  .driver-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 12px;
+  }
+  .driver h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin: 0 0 12px;
+    color: var(--paper);
+  }
+  .driver h3 .arrow { color: var(--signal); }
+  .driver p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--mid);
+    margin: 0 0 28px;
+  }
+  .driver-stat {
+    margin-top: auto;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .driver-stat .v {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    color: var(--signal);
+  }
+  .driver-stat .l {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+
+  /* ── Competitive matrix ──────────────────────── */
+  .matrix {
+    padding: var(--section-y) var(--px);
+    border-bottom: 1px solid var(--line);
+  }
+  .matrix-table {
+    margin-top: 56px;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .matrix-table th, .matrix-table td {
+    padding: 18px 20px;
+    text-align: left;
+    font-size: 14px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+  }
+  .matrix-table tbody tr:last-child td { border-bottom: 0; }
+  .matrix-table th:last-child, .matrix-table td:last-child { border-right: 0; }
+  .matrix-table thead th {
+    background: rgba(255,255,255,0.02);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    font-weight: 500;
+    vertical-align: top;
+  }
+  .matrix-table thead th .sub {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    color: var(--slate);
+  }
+  .matrix-table thead th.col-navon {
+    color: var(--signal);
+    background: rgba(231,255,0,0.04);
+  }
+  .matrix-table thead th.col-navon .sub { color: var(--signal); }
+  .matrix-table tbody td.cap {
+    color: var(--paper);
+    font-weight: 500;
+    width: 32%;
+  }
+  .matrix-table tbody td.cap small {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate);
+    font-weight: 400;
+  }
+  .matrix-table tbody td.cell {
+    text-align: center;
+    color: var(--mid);
+  }
+  .matrix-table tbody td.cell.yes { color: var(--signal); font-family: var(--font-mono); }
+  .matrix-table tbody td.cell.no { color: var(--charcoal); }
+  .matrix-table tbody td.col-navon { background: rgba(231,255,0,0.03); }
+  .matrix-table tbody tr:hover td { background: rgba(255,255,255,0.015); }
+  .matrix-table tbody tr:hover td.col-navon { background: rgba(231,255,0,0.06); }
+  .matrix-key {
+    margin-top: 32px;
+    padding: 24px 28px;
+    border: 1px solid var(--line);
+    background: rgba(231,255,0,0.025);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--light);
+  }
+  .matrix-key strong { color: var(--signal); font-weight: 500; }
+
+  /* ── Vision triangle ─────────────────────────── */
+  .vision {
+    padding: var(--section-y) var(--px);
+    border-bottom: 1px solid var(--line);
+  }
+  .vision-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    margin-top: 64px;
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 900px) { .vision-grid { grid-template-columns: 1fr; } }
+  .principle {
+    background: var(--ink);
+    padding: 56px 32px 56px;
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+  }
+  .principle .glyph {
+    width: 56px; height: 56px;
+    margin-bottom: 32px;
+    color: var(--signal);
+  }
+  .principle h3 {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    margin: 0 0 14px;
+  }
+  .principle p {
+    color: var(--mid);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── Final CTA ───────────────────────────────── */
+  .final-cta {
+    padding: var(--section-y) var(--px);
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(231,255,0,0.07), transparent 50%);
+    pointer-events: none;
+  }
+  .final-cta-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  @media (max-width: 820px) { .final-cta-inner { grid-template-columns: 1fr; gap: 32px; } }
+  .final-cta h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5.6vw, 80px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    margin: 20px 0 0;
+    font-weight: 500;
+    max-width: 16ch;
+  }
+  .final-cta h2 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
+  .final-cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }

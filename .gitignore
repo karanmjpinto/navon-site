@@ -3,6 +3,13 @@ Hells Gate Photos /
 Team Pictures/
 .claude/
 
+# Astro site (source of truth for the marketing site)
+node_modules/
+dist/
+.astro/
+.env
+.env.local
+
 # portal/ — Next.js app
 portal/node_modules/
 portal/.next/
