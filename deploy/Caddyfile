@@ -2,21 +2,7 @@
 # Apex serves the existing static marketing site; portal subdomain proxies the Next.js app.
 # TLS via Let's Encrypt is automatic; just point both A records at the box.
 
-portal.navonworld.com {
+:80 {
 	encode gzip zstd
 	reverse_proxy portal:3002
-
-	# Cert obtained via acme.sh (GoDaddy DNS-01, 60s sleep).
-	# Renewal: ssh gpu-box and run:
-	#   GD_Key=... GD_Secret=... ~/.acme.sh/acme.sh --renew -d portal.navonworld.com --server letsencrypt
-	#   cp ~/.acme.sh/portal.navonworld.com_ecc/{fullchain.cer,portal.navonworld.com.key} /srv/navon/certs/portal.{crt,key}
-	#   docker compose -f docker-compose.prod.yml --env-file /srv/navon/.env restart caddy
-	tls /etc/caddy/certs/portal.crt /etc/caddy/certs/portal.key
-
-	header {
-		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-		X-Content-Type-Options "nosniff"
-		Referrer-Policy "strict-origin-when-cross-origin"
-		X-Frame-Options "DENY"
-	}
 }
