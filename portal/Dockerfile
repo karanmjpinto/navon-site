@@ -14,12 +14,13 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # Dummy DATABASE_URL so db/index.ts doesn't throw during next build's
 # static analysis pass — overridden at runtime via docker-compose env.
 ENV DATABASE_URL=postgresql://build:build@localhost:5432/build
-RUN pnpm build
+RUN mkdir -p public && pnpm build
 
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+RUN mkdir -p public
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
