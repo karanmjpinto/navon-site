@@ -4,10 +4,11 @@
 
 {
 	email ops@navonworld.com
-	acme_dns godaddy {env.GODADDY_API_KEY}:{env.GODADDY_API_SECRET}
-	# Use GoDaddy's own nameservers to verify TXT propagation before
-	# signalling Let's Encrypt — GoDaddy can take ~30s to propagate.
-	resolvers ns25.domaincontrol.com:53 ns26.domaincontrol.com:53
+	cert_issuer acme {
+		dns godaddy {env.GODADDY_API_KEY}:{env.GODADDY_API_SECRET}
+		# Poll GoDaddy's own nameservers — they take ~30s to propagate.
+		resolvers ns25.domaincontrol.com:53 ns26.domaincontrol.com:53
+	}
 }
 
 portal.navonworld.com {
