@@ -17,7 +17,7 @@
 
 import { eq, and, inArray } from "drizzle-orm";
 import { db } from "@/db";
-import { orgs, sites, cabinets } from "@/db/schema";
+import { orgs, sites, cabinets, devices, vlans, prefixes } from "@/db/schema";
 import { withOrgContext } from "@/lib/tenant";
 import { recordAudit } from "@/lib/audit";
 import { NetBoxClient } from "@/lib/netbox/client";
@@ -27,10 +27,16 @@ import {
   applyRack,
   applyDevice,
   applyCircuit,
+  applyVlan,
+  applyPrefix,
+  applyIpAddress,
   archiveRacksNotIn,
   archiveDevicesNotIn,
 } from "@/lib/netbox/apply";
-import type { NetBoxTenant, NetBoxSite, NetBoxRack, NetBoxDevice, NetBoxCircuit } from "@/lib/netbox/types";
+import type {
+  NetBoxTenant, NetBoxSite, NetBoxRack, NetBoxDevice, NetBoxCircuit,
+  NetBoxVlan, NetBoxPrefix, NetBoxIpAddress,
+} from "@/lib/netbox/types";
 
 export interface SyncCounts {
   fetched: number;
@@ -47,6 +53,9 @@ export interface OrgSyncResult {
   cabinets: SyncCounts;
   devices: SyncCounts;
   circuits: SyncCounts;
+  vlans: SyncCounts;
+  prefixes: SyncCounts;
+  ipAddresses: SyncCounts;
   durationMs: number;
   error?: string;
 }
@@ -70,6 +79,9 @@ async function syncOrg(
     cabinets: zeroCounts(),
     devices: zeroCounts(),
     circuits: zeroCounts(),
+    vlans: zeroCounts(),
+    prefixes: zeroCounts(),
+    ipAddresses: zeroCounts(),
     durationMs: 0,
   };
 
@@ -197,6 +209,105 @@ async function syncOrg(
         }
       }
     });
+    // ── VLANs ────────────────────────────────────────────────────
+    const nbVlans = await client.fetchAll<NetBoxVlan>("ipam/vlans/", {
+      tenant_id: String(nbTenant.id),
+    });
+    result.vlans.fetched = nbVlans.length;
+
+    const vlanIdMap = new Map<number, string>(); // nb vlan id → Navon vlan uuid
+
+    await withOrgContext(org.id, async (tx) => {
+      for (const nb of nbVlans) {
+        const siteId = nb.site ? (siteIdMap.get(nb.site.id) ?? null) : null;
+        try {
+          await applyVlan(tx, nb, org.id, siteId);
+          result.vlans.upserted++;
+        } catch (err) {
+          console.error(`[netbox-sync] vlan ${nb.id} error:`, err);
+          result.vlans.errored++;
+        }
+      }
+      // Reload vlan IDs for prefix FK
+      const seenVlanExtIds = nbVlans.map((v) => externalId(v.id));
+      if (seenVlanExtIds.length > 0) {
+        const rows = await tx
+          .select({ id: vlans.id, externalId: vlans.externalId })
+          .from(vlans)
+          .where(and(eq(vlans.orgId, org.id), inArray(vlans.externalId, seenVlanExtIds)));
+        for (const r of rows) {
+          const nbId = parseInt(r.externalId!.replace("netbox:", ""), 10);
+          vlanIdMap.set(nbId, r.id);
+        }
+      }
+    });
+
+    // ── Prefixes ─────────────────────────────────────────────────
+    const nbPrefixes = await client.fetchAll<NetBoxPrefix>("ipam/prefixes/", {
+      tenant_id: String(nbTenant.id),
+    });
+    result.prefixes.fetched = nbPrefixes.length;
+
+    const prefixIdMap = new Map<string, string>(); // nb prefix string → Navon prefix uuid
+
+    await withOrgContext(org.id, async (tx) => {
+      for (const nb of nbPrefixes) {
+        const siteId = nb.site ? (siteIdMap.get(nb.site.id) ?? null) : null;
+        const vlanId = nb.vlan ? (vlanIdMap.get(nb.vlan.id) ?? null) : null;
+        try {
+          await applyPrefix(tx, nb, org.id, siteId, vlanId);
+          result.prefixes.upserted++;
+        } catch (err) {
+          console.error(`[netbox-sync] prefix ${nb.id} error:`, err);
+          result.prefixes.errored++;
+        }
+      }
+      // Reload prefix rows for IP address FK
+      const seenPrefixExtIds = nbPrefixes.map((p) => externalId(p.id));
+      if (seenPrefixExtIds.length > 0) {
+        const rows = await tx
+          .select({ id: prefixes.id, externalId: prefixes.externalId })
+          .from(prefixes)
+          .where(and(eq(prefixes.orgId, org.id), inArray(prefixes.externalId, seenPrefixExtIds)));
+        for (const r of rows) {
+          prefixIdMap.set(r.externalId!, r.id);
+        }
+      }
+    });
+
+    // ── IP Addresses ─────────────────────────────────────────────
+    const nbIps = await client.fetchAll<NetBoxIpAddress>("ipam/ip-addresses/", {
+      tenant_id: String(nbTenant.id),
+    });
+    result.ipAddresses.fetched = nbIps.length;
+
+    await withOrgContext(org.id, async (tx) => {
+      for (const nb of nbIps) {
+        // Try to find the containing prefix by matching the first synced prefix
+        const prefixExtId = prefixIdMap.keys().next().value ?? null;
+        const prefixId = prefixExtId ? (prefixIdMap.get(prefixExtId) ?? null) : null;
+        // Resolve device from assigned_object if present
+        const nbDeviceId = nb.assigned_object?.device?.id;
+        const deviceExtId = nbDeviceId ? externalId(nbDeviceId) : null;
+        let deviceId: string | null = null;
+        if (deviceExtId) {
+          const rows = await tx
+            .select({ id: devices.id })
+            .from(devices)
+            .where(and(eq(devices.orgId, org.id), eq(devices.externalId, deviceExtId)))
+            .limit(1);
+          deviceId = rows[0]?.id ?? null;
+        }
+        try {
+          await applyIpAddress(tx, nb, org.id, prefixId, deviceId);
+          result.ipAddresses.upserted++;
+        } catch (err) {
+          console.error(`[netbox-sync] ip ${nb.id} error:`, err);
+          result.ipAddresses.errored++;
+        }
+      }
+    });
+
   } catch (err) {
     result.error = err instanceof Error ? err.message : String(err);
     console.error(`[netbox-sync] org ${org.slug} failed:`, err);
@@ -238,14 +349,23 @@ export async function runNetBoxSync(): Promise<OrgSyncResult[]> {
       `sites ${r.sites.upserted}↑ ${r.sites.errored}✗ | ` +
       `racks ${r.cabinets.upserted}↑ ${r.cabinets.errored}✗ | ` +
       `devices ${r.devices.upserted}↑ ${r.devices.skipped}⊘ ${r.devices.errored}✗ | ` +
-      `circuits ${r.circuits.upserted}↑ ${r.circuits.errored}✗`,
+      `circuits ${r.circuits.upserted}↑ ${r.circuits.errored}✗ | ` +
+      `vlans ${r.vlans.upserted}↑ | prefixes ${r.prefixes.upserted}↑ | ips ${r.ipAddresses.upserted}↑`,
     );
   }
 
-  const totalUpserted =
-    results.reduce((n, r) => n + r.sites.upserted + r.cabinets.upserted + r.devices.upserted + r.circuits.upserted, 0);
-  const totalErrored =
-    results.reduce((n, r) => n + r.sites.errored + r.cabinets.errored + r.devices.errored + r.circuits.errored, 0);
+  const totalUpserted = results.reduce(
+    (n, r) =>
+      n + r.sites.upserted + r.cabinets.upserted + r.devices.upserted +
+      r.circuits.upserted + r.vlans.upserted + r.prefixes.upserted + r.ipAddresses.upserted,
+    0,
+  );
+  const totalErrored = results.reduce(
+    (n, r) =>
+      n + r.sites.errored + r.cabinets.errored + r.devices.errored +
+      r.circuits.errored + r.vlans.errored + r.prefixes.errored + r.ipAddresses.errored,
+    0,
+  );
 
   await recordAudit({
     action: "netbox.sync",

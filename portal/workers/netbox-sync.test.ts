@@ -78,7 +78,10 @@ describe("runNetBoxSync", () => {
         .mockResolvedValueOnce([]) // sites
         .mockResolvedValueOnce([]) // racks
         .mockResolvedValueOnce([]) // devices
-        .mockResolvedValueOnce([]), // circuits
+        .mockResolvedValueOnce([]) // circuits
+        .mockResolvedValueOnce([]) // vlans
+        .mockResolvedValueOnce([]) // prefixes
+        .mockResolvedValueOnce([]), // ip-addresses
     });
     vi.mocked(NetBoxClient.fromEnv).mockReturnValue(client as never);
 

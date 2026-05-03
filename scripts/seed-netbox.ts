@@ -260,6 +260,7 @@ async function main() {
         content_types: [
           "dcim.site", "dcim.rack", "dcim.device",
           "circuits.circuit", "tenancy.tenant",
+          "ipam.vlan", "ipam.prefix", "ipam.ipaddress",
         ],
       });
       console.log(`  created webhook id=${wh.id} → ${webhookUrl}`);

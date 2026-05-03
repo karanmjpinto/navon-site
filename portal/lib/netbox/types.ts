@@ -92,6 +92,43 @@ export interface NetBoxCircuit {
   description: string;
 }
 
+// ── IPAM ───────────────────────────────────────────────────────────
+
+export interface NetBoxVlan {
+  id: number;
+  vid: number;
+  name: string;
+  status: NetBoxChoiceField;
+  site: NetBoxRef | null;
+  tenant: NetBoxRef | null;
+  description: string;
+}
+
+export interface NetBoxPrefix {
+  id: number;
+  prefix: string;
+  status: NetBoxChoiceField;
+  site: NetBoxRef | null;
+  vlan: NetBoxRef | null;
+  tenant: NetBoxRef | null;
+  role: NetBoxRef | null;
+  is_pool: boolean;
+  description: string;
+}
+
+export interface NetBoxIpAddress {
+  id: number;
+  address: string;
+  status: NetBoxChoiceField;
+  dns_name: string;
+  description: string;
+  tenant: NetBoxRef | null;
+  assigned_object?: {
+    id: number;
+    device?: NetBoxRef;
+  } | null;
+}
+
 // ── Paginated list response (all list endpoints) ───────────────────
 export interface NetBoxList<T> {
   count: number;

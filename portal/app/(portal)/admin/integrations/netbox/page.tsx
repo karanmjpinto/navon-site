@@ -110,7 +110,10 @@ export default function NetBoxIntegrationPage() {
                       ["Racks → Cabinets", r.cabinets],
                       ["Devices", r.devices],
                       ["Circuits", r.circuits],
-                    ] as const
+                      ["VLANs", r.vlans],
+                      ["Prefixes", r.prefixes],
+                      ["IP Addresses", r.ipAddresses],
+                    ] as [string, typeof r.sites][]
                   ).map(([label, c]) => (
                     <tr key={label} className="border-b border-charcoal/40">
                       <td className="py-2 pr-6 text-light">{label}</td>

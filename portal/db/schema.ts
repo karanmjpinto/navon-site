@@ -841,6 +841,72 @@ export const workOrderComments = pgTable(
   }),
 );
 
+// ── IPAM (NetBox-synced) ──────────────────────────────────────────
+
+export const vlans = pgTable(
+  "vlans",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id").notNull().references(() => orgs.id, { onDelete: "cascade" }),
+    siteId: uuid("site_id").references(() => sites.id, { onDelete: "set null" }),
+    vid: integer("vid").notNull(),
+    name: text("name").notNull(),
+    status: text("status").notNull().default("active"),
+    description: text("description"),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (t) => ({
+    orgIdx: index("vlans_org_idx").on(t.orgId),
+  }),
+);
+
+export const prefixes = pgTable(
+  "prefixes",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id").notNull().references(() => orgs.id, { onDelete: "cascade" }),
+    siteId: uuid("site_id").references(() => sites.id, { onDelete: "set null" }),
+    vlanId: uuid("vlan_id").references(() => vlans.id, { onDelete: "set null" }),
+    prefix: text("prefix").notNull(),
+    status: text("status").notNull().default("active"),
+    role: text("role"),
+    description: text("description"),
+    isPool: boolean("is_pool").notNull().default(false),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (t) => ({
+    orgIdx: index("prefixes_org_idx").on(t.orgId),
+  }),
+);
+
+export const ipAddresses = pgTable(
+  "ip_addresses",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id").notNull().references(() => orgs.id, { onDelete: "cascade" }),
+    prefixId: uuid("prefix_id").references(() => prefixes.id, { onDelete: "set null" }),
+    deviceId: uuid("device_id").references(() => devices.id, { onDelete: "set null" }),
+    address: text("address").notNull(),
+    status: text("status").notNull().default("active"),
+    dnsName: text("dns_name"),
+    description: text("description"),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (t) => ({
+    orgIdx: index("ip_addresses_org_idx").on(t.orgId),
+    prefixIdx: index("ip_addresses_prefix_idx").on(t.prefixId),
+  }),
+);
+
 export type Org = typeof orgs.$inferSelect;
 export type User = typeof users.$inferSelect;
 export type Membership = typeof memberships.$inferSelect;
@@ -877,3 +943,6 @@ export type WorkOrder = typeof workOrders.$inferSelect;
 export type WorkOrderStatus = (typeof workOrderStatusEnum.enumValues)[number];
 export type WorkOrderPriority = (typeof workOrderPriorityEnum.enumValues)[number];
 export type WorkOrderComment = typeof workOrderComments.$inferSelect;
+export type Vlan = typeof vlans.$inferSelect;
+export type Prefix = typeof prefixes.$inferSelect;
+export type IpAddress = typeof ipAddresses.$inferSelect;

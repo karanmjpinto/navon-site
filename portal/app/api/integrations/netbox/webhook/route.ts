@@ -23,11 +23,15 @@ import {
   applyRack,
   applyDevice,
   applyCircuit,
+  applyVlan,
+  applyPrefix,
+  applyIpAddress,
   archiveSite,
   archiveRack,
   archiveDevice,
   archiveCircuit,
   resolveSiteId,
+  resolveVlanId,
   resolveFirstCabinetId,
 } from "@/lib/netbox/apply";
 import { recordAudit } from "@/lib/audit";
@@ -38,6 +42,9 @@ import type {
   NetBoxDevice,
   NetBoxCircuit,
   NetBoxTenant,
+  NetBoxVlan,
+  NetBoxPrefix,
+  NetBoxIpAddress,
 } from "@/lib/netbox/types";
 
 // ── In-memory LRU for idempotency ────────────────────────────────
@@ -176,6 +183,63 @@ async function handleCircuit(event: string, data: Record<string, unknown>, orgId
   });
 }
 
+async function handleVlan(event: string, data: Record<string, unknown>, orgId: string): Promise<void> {
+  const nb = data as unknown as NetBoxVlan;
+  if (event === "deleted") {
+    await withOrgContext(orgId, async (tx) => {
+      const { vlans: vlansTable } = await import("@/db/schema");
+      await tx.update(vlansTable)
+        .set({ lastSyncedAt: new Date() })
+        .where(and(eq(vlansTable.orgId, orgId), eq(vlansTable.externalId, `netbox:${nb.id}`)));
+    });
+    return;
+  }
+  const siteId = nb.site
+    ? await withOrgContext(orgId, async (tx) => resolveSiteId(tx, orgId, nb.site!.id))
+    : null;
+  await withOrgContext(orgId, async (tx) => {
+    await applyVlan(tx, nb, orgId, siteId);
+  });
+}
+
+async function handlePrefix(event: string, data: Record<string, unknown>, orgId: string): Promise<void> {
+  const nb = data as unknown as NetBoxPrefix;
+  if (event === "deleted") {
+    await withOrgContext(orgId, async (tx) => {
+      const { prefixes: prefixesTable } = await import("@/db/schema");
+      await tx.update(prefixesTable)
+        .set({ lastSyncedAt: new Date() })
+        .where(and(eq(prefixesTable.orgId, orgId), eq(prefixesTable.externalId, `netbox:${nb.id}`)));
+    });
+    return;
+  }
+  const siteId = nb.site
+    ? await withOrgContext(orgId, async (tx) => resolveSiteId(tx, orgId, nb.site!.id))
+    : null;
+  const vlanId = nb.vlan
+    ? await withOrgContext(orgId, async (tx) => resolveVlanId(tx, orgId, nb.vlan!.id))
+    : null;
+  await withOrgContext(orgId, async (tx) => {
+    await applyPrefix(tx, nb, orgId, siteId, vlanId);
+  });
+}
+
+async function handleIpAddress(event: string, data: Record<string, unknown>, orgId: string): Promise<void> {
+  const nb = data as unknown as NetBoxIpAddress;
+  if (event === "deleted") {
+    await withOrgContext(orgId, async (tx) => {
+      const { ipAddresses: ipsTable } = await import("@/db/schema");
+      await tx.update(ipsTable)
+        .set({ lastSyncedAt: new Date() })
+        .where(and(eq(ipsTable.orgId, orgId), eq(ipsTable.externalId, `netbox:${nb.id}`)));
+    });
+    return;
+  }
+  await withOrgContext(orgId, async (tx) => {
+    await applyIpAddress(tx, nb, orgId, null, null);
+  });
+}
+
 async function handleTenant(event: string, data: Record<string, unknown>): Promise<void> {
   const nb = data as unknown as NetBoxTenant;
   // We don't create/delete Navon orgs from webhook events — org lifecycle
@@ -230,10 +294,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       }
 
       switch (model) {
-        case "dcim.site":    await handleSite(event, data, orgId); break;
-        case "dcim.rack":    await handleRack(event, data, orgId); break;
-        case "dcim.device":  await handleDevice(event, data, orgId); break;
-        case "circuits.circuit": await handleCircuit(event, data, orgId); break;
+        case "dcim.site":         await handleSite(event, data, orgId); break;
+        case "dcim.rack":         await handleRack(event, data, orgId); break;
+        case "dcim.device":       await handleDevice(event, data, orgId); break;
+        case "circuits.circuit":  await handleCircuit(event, data, orgId); break;
+        case "ipam.vlan":         await handleVlan(event, data, orgId); break;
+        case "ipam.prefix":       await handlePrefix(event, data, orgId); break;
+        case "ipam.ipaddress":    await handleIpAddress(event, data, orgId); break;
         default:
           console.log(`[netbox-webhook] unhandled model: ${model}`);
       }

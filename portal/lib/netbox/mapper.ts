@@ -6,13 +6,19 @@ import type {
   NetBoxRack,
   NetBoxDevice,
   NetBoxCircuit,
+  NetBoxVlan,
+  NetBoxPrefix,
+  NetBoxIpAddress,
 } from "./types.js";
-import type { sites, cabinets, devices, crossConnects } from "@/db/schema";
+import type { sites, cabinets, devices, crossConnects, vlans, prefixes, ipAddresses } from "@/db/schema";
 
 type SiteInsert = typeof sites.$inferInsert;
 type CabinetInsert = typeof cabinets.$inferInsert;
 type DeviceInsert = typeof devices.$inferInsert;
 type CrossConnectInsert = typeof crossConnects.$inferInsert;
+type VlanInsert = typeof vlans.$inferInsert;
+type PrefixInsert = typeof prefixes.$inferInsert;
+type IpAddressInsert = typeof ipAddresses.$inferInsert;
 
 // Navon device role enum values
 const ROLE_MAP: Record<string, DeviceInsert["role"]> = {
@@ -112,6 +118,67 @@ export function mapCircuit(
     speedGbps: nb.commit_rate ? nb.commit_rate / 1000 : 1,
     media: "fiber_sm",
     status: CIRCUIT_STATUS_MAP[nb.status.value] ?? "pending",
+    externalId: externalId(nb.id),
+    externalSource: "netbox",
+    lastSyncedAt: new Date(),
+  };
+}
+
+// ── IPAM mappers ──────────────────────────────────────────────────
+
+export function mapVlan(
+  nb: NetBoxVlan,
+  orgId: string,
+  siteId: string | null,
+): VlanInsert {
+  return {
+    orgId,
+    siteId: siteId ?? undefined,
+    vid: nb.vid,
+    name: nb.name,
+    status: nb.status.value,
+    description: nb.description || null,
+    externalId: externalId(nb.id),
+    externalSource: "netbox",
+    lastSyncedAt: new Date(),
+  };
+}
+
+export function mapPrefix(
+  nb: NetBoxPrefix,
+  orgId: string,
+  siteId: string | null,
+  vlanId: string | null,
+): PrefixInsert {
+  return {
+    orgId,
+    siteId: siteId ?? undefined,
+    vlanId: vlanId ?? undefined,
+    prefix: nb.prefix,
+    status: nb.status.value,
+    role: nb.role?.name ?? null,
+    description: nb.description || null,
+    isPool: nb.is_pool,
+    externalId: externalId(nb.id),
+    externalSource: "netbox",
+    lastSyncedAt: new Date(),
+  };
+}
+
+export function mapIpAddress(
+  nb: NetBoxIpAddress,
+  orgId: string,
+  prefixId: string | null,
+  deviceId: string | null,
+): IpAddressInsert {
+  return {
+    orgId,
+    prefixId: prefixId ?? undefined,
+    deviceId: deviceId ?? undefined,
+    address: nb.address,
+    status: nb.status.value,
+    dnsName: nb.dns_name || null,
+    description: nb.description || null,
     externalId: externalId(nb.id),
     externalSource: "netbox",
     lastSyncedAt: new Date(),
