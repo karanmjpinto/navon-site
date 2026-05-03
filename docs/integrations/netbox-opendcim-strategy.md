@@ -1,7 +1,7 @@
 # NetBox + openDCIM Integration Strategy
 
 **Author:** Karan Pinto / Claude Code — 2026-05-03  
-**Status:** Phases 1–2 implemented on `main`
+**Status:** Phases 1–3 implemented on `main`
 
 ---
 
@@ -42,6 +42,25 @@ Real-time webhook processing. Files merged to `main`:
 **Env vars:** `NETBOX_WEBHOOK_SECRET` (shared secret; must match NetBox extras → Webhooks)  
 **Verify delivery:** NetBox admin → Extras → Webhooks → select "navon-portal" → Recent Deliveries tab  
 **Cron stays active** as a 6h drift-reconciliation safety net; webhooks handle day-to-day changes.
+
+---
+
+## Phase 3 — Implemented (2026-05-03)
+
+Customer-visible IPAM. Files merged to `main`:
+
+| File | Role |
+|------|------|
+| `portal/db/migrations/0004_ipam_netbox.sql` | vlans, prefixes, ip_addresses tables with RLS |
+| `portal/lib/netbox/mapper.ts` | mapVlan(), mapPrefix(), mapIpAddress() |
+| `portal/lib/netbox/apply.ts` | applyVlan(), applyPrefix(), applyIpAddress() shared helpers |
+| `portal/workers/netbox-sync.ts` | IPAM sync added after circuits loop |
+| `portal/app/api/integrations/netbox/webhook/route.ts` | IPAM webhook events (ipam.vlan, ipam.prefix, ipam.ipaddress) |
+| `portal/app/(portal)/network/page.tsx` | 3-tab Network page (IP Addresses / Prefixes / VLANs) |
+| `portal/app/(portal)/network/actions.ts` | getNetworkData() server action |
+
+**Customer UI:** Portal nav → **Network** → three tabs: IP Addresses, Prefixes, VLANs  
+**Skipped:** Global (untenanted) prefixes — only tenant-scoped rows synced.
 
 ---
 
