@@ -4,17 +4,12 @@
 
 {
 	email ops@navonworld.com
-	# Uncomment to harden:
-	# auto_https disable_redirects
+	acme_dns godaddy {env.GODADDY_API_KEY}:{env.GODADDY_API_SECRET}
 }
 
 portal.navonworld.com {
 	encode gzip zstd
 	reverse_proxy portal:3002
-
-	tls {
-		dns godaddy {env.GODADDY_API_KEY}:{env.GODADDY_API_SECRET}
-	}
 
 	header {
 		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
