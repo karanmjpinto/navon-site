@@ -18,8 +18,8 @@ services:
     build:
       context: ./portal
       dockerfile: Dockerfile
-    ports:
-      - "3002:3002"
+    expose:
+      - "3002"
     environment:
       DATABASE_URL: postgresql://navon:${POSTGRES_PASSWORD}@postgres:5432/navon
       AUTH_SECRET: ${AUTH_SECRET}
@@ -32,5 +32,21 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - portal
+    restart: unless-stopped
+
 volumes:
   pgdata:
+  caddy_data:
+  caddy_config:
