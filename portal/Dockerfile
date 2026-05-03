@@ -10,9 +10,10 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# AUTH_SECRET must be set at build time only if referenced at build (it's not — runtime only)
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV SKIP_ENV_VALIDATION=1
+# Dummy DATABASE_URL so db/index.ts doesn't throw during next build's
+# static analysis pass — overridden at runtime via docker-compose env.
+ENV DATABASE_URL=postgresql://build:build@localhost:5432/build
 RUN pnpm build
 
 FROM base AS runner
