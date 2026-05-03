@@ -20,12 +20,7 @@ FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN mkdir -p public
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/db/migrations ./db/migrations
-COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
+# Copy full source so tsx can run seed/worker/migrate scripts at runtime
+COPY --from=builder /app .
 EXPOSE 3002
 CMD ["pnpm", "start"]
