@@ -1,5 +1,5 @@
 import { desc, gte } from "drizzle-orm";
-import { metricsSeed } from "@/db/schema";
+import { metrics } from "@/db/schema";
 import { requireSession, withOrgContext } from "@/lib/tenant";
 import { MetricArea } from "@/components/charts";
 
@@ -10,9 +10,9 @@ export default async function DashboardPage() {
   const rows = await withOrgContext(orgId, async (tx) =>
     tx
       .select()
-      .from(metricsSeed)
-      .where(gte(metricsSeed.ts, since))
-      .orderBy(desc(metricsSeed.ts))
+      .from(metrics)
+      .where(gte(metrics.ts, since))
+      .orderBy(desc(metrics.ts))
       .limit(96),
   );
 

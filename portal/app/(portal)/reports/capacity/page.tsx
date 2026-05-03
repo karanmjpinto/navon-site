@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { eq, and, gte, asc, sum, sql } from "drizzle-orm";
 import { db } from "@/db";
-import { metricsSeed, cabinets } from "@/db/schema";
+import { metrics, cabinets } from "@/db/schema";
 import { requireSession } from "@/lib/tenant";
 import { MetricArea } from "@/components/charts";
 import { Eyebrow, Empty } from "@/components/forms";
@@ -26,9 +26,9 @@ export default async function CapacityReport() {
   const since = new Date(Date.now() - 30 * 24 * 3600_000);
   const points = await db
     .select()
-    .from(metricsSeed)
-    .where(and(eq(metricsSeed.orgId, orgId), gte(metricsSeed.ts, since)))
-    .orderBy(asc(metricsSeed.ts));
+    .from(metrics)
+    .where(and(eq(metrics.orgId, orgId), gte(metrics.ts, since)))
+    .orderBy(asc(metrics.ts));
 
   // Daily averages over the window for the chart and the regression.
   const byDay = new Map<string, { sum: number; count: number }>();

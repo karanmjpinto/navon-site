@@ -7,6 +7,7 @@ import { db } from "@/db";
 import { invoices, mpesaPayments } from "@/db/schema";
 import { requireSession, withOrgContext } from "@/lib/tenant";
 import { recordAudit } from "@/lib/audit";
+import { initiateStkPush, darajaConfigured } from "@/lib/daraja";
 
 const initSchema = z.object({
   invoiceId: z.string().uuid(),
@@ -46,14 +47,14 @@ export async function initiateMpesa(formData: FormData) {
     const [row] = await tx
       .insert(mpesaPayments)
       .values({
-        orgId: ctx.orgId,
-        invoiceId: inv.id,
-        phone: normalisePhone(parsed.data.phone),
+        orgId:       ctx.orgId,
+        invoiceId:   inv.id,
+        phone:       normalisePhone(parsed.data.phone),
         amountMinor: inv.totalMinor,
-        status: "initiated",
+        status:      "initiated",
       })
       .returning();
-    return row;
+    return { row, inv };
   });
 
   if (!created) {
@@ -61,21 +62,52 @@ export async function initiateMpesa(formData: FormData) {
   }
 
   await recordAudit({
-    orgId: ctx.orgId,
-    userId: ctx.userId,
-    action: "mpesa.initiate",
+    orgId:      ctx.orgId,
+    userId:     ctx.userId,
+    action:     "mpesa.initiate",
     targetType: "invoice",
-    targetId: parsed.data.invoiceId,
-    metadata: { phone: created.phone },
+    targetId:   parsed.data.invoiceId,
+    metadata:   { phone: created.row.phone },
   });
 
-  // In Phase 2 we'd call Daraja STK Push here:
-  //   POST https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest
-  //   { BusinessShortCode, Password, Timestamp, TransactionType, Amount,
-  //     PartyA: phone, PartyB: shortcode, PhoneNumber: phone,
-  //     CallBackURL: https://portal.navonworld.com/api/payments/mpesa/callback,
-  //     AccountReference: inv.number, TransactionDesc: "Navon billing" }
-  // The CheckoutRequestID returned would be saved to darajaCheckoutId.
+  // Call Daraja STK Push when credentials are present.
+  // Falls through to the pending page if they're not (e.g. local dev).
+  if (darajaConfigured()) {
+    const result = await initiateStkPush({
+      phone:       created.row.phone,
+      amountKes:   Math.ceil(created.inv.totalMinor / 100),
+      accountRef:  created.inv.number,
+      description: "Navon billing",
+    });
 
-  redirect(`/billing/${parsed.data.invoiceId}/pay/${created.id}`);
+    if (result.ok) {
+      await db
+        .update(mpesaPayments)
+        .set({
+          status:            "pending",
+          darajaCheckoutId:  result.checkoutRequestId,
+          darajaRequestId:   result.merchantRequestId,
+        })
+        .where(eq(mpesaPayments.id, created.row.id));
+    } else {
+      // STK push failed — log but don't crash. The operator can manually
+      // reconcile. The row stays in "initiated" state and the customer
+      // lands on the pending page with a note.
+      console.error(
+        "[daraja] STK push failed",
+        result.errorCode,
+        result.errorMessage,
+      );
+      await recordAudit({
+        orgId:      ctx.orgId,
+        userId:     ctx.userId,
+        action:     "mpesa.stk_failed",
+        targetType: "invoice",
+        targetId:   parsed.data.invoiceId,
+        metadata:   { code: result.errorCode, msg: result.errorMessage },
+      });
+    }
+  }
+
+  redirect(`/billing/${parsed.data.invoiceId}/pay/${created.row.id}`);
 }

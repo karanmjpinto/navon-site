@@ -1,15 +1,14 @@
 import { eq, and, isNull, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db";
-import { metricsTokens, metricsSeed } from "@/db/schema";
+import { metricsTokens, metrics } from "@/db/schema";
 import { hashToken } from "@/lib/metrics-tokens";
 import { evaluateAlertsForOrg } from "@/lib/alerts";
 
-// Phase 2 ingestion endpoint. DCIM/BMS systems POST batches of metric
-// points here authenticated by a bearer token. v1 writes into the same
-// `metrics_seed` table the dashboard reads from; when load grows we
-// promote that table to a TimescaleDB hypertable without breaking this
-// contract.
+// Metrics ingestion endpoint. DCIM/BMS systems POST batches of metric
+// points authenticated by a bearer token. Writes to the `metrics`
+// TimescaleDB hypertable (see migration 0002); all queries are backward-
+// compatible with the Phase 1 regular-table contract.
 //
 // curl -X POST https://portal.navonworld.com/api/metrics \
 //   -H "Authorization: Bearer navon_mt_..." \
@@ -73,10 +72,10 @@ export async function POST(req: Request) {
 
   // Upsert by (org_id, ts) so retries are idempotent.
   await db
-    .insert(metricsSeed)
+    .insert(metrics)
     .values(rows)
     .onConflictDoUpdate({
-      target: [metricsSeed.orgId, metricsSeed.ts],
+      target: [metrics.orgId, metrics.ts],
       set: {
         powerKw: sql`excluded.power_kw`,
         powerKwh: sql`excluded.power_kwh`,
