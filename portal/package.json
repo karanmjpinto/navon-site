@@ -15,7 +15,8 @@
     "db:seed": "tsx db/seed.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "sync:netbox": "tsx workers/netbox-sync.ts"
+    "sync:netbox": "tsx workers/netbox-sync.ts",
+    "mock:bms": "tsx ../scripts/mock-bms.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.4",

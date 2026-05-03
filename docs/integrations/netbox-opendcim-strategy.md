@@ -1,7 +1,7 @@
 # NetBox + openDCIM Integration Strategy
 
 **Author:** Karan Pinto / Claude Code — 2026-05-03  
-**Status:** Phases 1–3 implemented on `main`
+**Status:** Phases 1–4 implemented on `main`
 
 ---
 
@@ -61,6 +61,29 @@ Customer-visible IPAM. Files merged to `main`:
 
 **Customer UI:** Portal nav → **Network** → three tabs: IP Addresses, Prefixes, VLANs  
 **Skipped:** Global (untenanted) prefixes — only tenant-scoped rows synced.
+
+---
+
+## Phase 4 — Implemented (2026-05-03)
+
+BMS metrics ingestion and capacity forecasting. Files merged to `main`:
+
+| File | Role |
+|------|------|
+| `portal/lib/bms/types.ts` | BmsReading vendor-agnostic ingestion contract |
+| `portal/db/migrations/0005_bms_metrics.sql` | bms_metrics hypertable (1-day chunks), hourly + daily continuous aggregates, 90d/2y retention |
+| `portal/app/api/metrics/bms/route.ts` | `POST /api/metrics/bms` — validates, scopes to org via API token, inserts into hypertable |
+| `portal/lib/forecast.ts` | Linear-regression forecast with R², `forecastCrossing()`, `formatForecast()` |
+| `portal/lib/forecast.test.ts` | 10 regression + forecast tests |
+| `portal/app/(portal)/capacity/page.tsx` | Customer capacity page — gauge + sparkline per site, PUE, 7d/30d trend, 80% forecast |
+| `portal/app/(portal)/admin/bms/page.tsx` | Admin BMS health — sources healthy/stale table (stale = no reading in 5min) |
+| `scripts/mock-bms.ts` | Mock generator — 2 PDU sources, 4 metrics, 30s interval, runs with `pnpm mock:bms` |
+
+**Customer UI:** Portal nav → **Capacity**  
+**Admin UI:** Admin nav → **BMS health**  
+**Ingest:** `POST /api/metrics/bms` with Bearer metrics token  
+**Mock:** `BMS_TOKEN=<token> pnpm mock:bms`  
+**Note:** Vendor adapters (APC SNMP, Raritan) are left as a stub — the contract is defined in `lib/bms/types.ts`.
 
 ---
 
