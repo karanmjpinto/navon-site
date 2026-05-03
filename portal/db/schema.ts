@@ -142,6 +142,12 @@ export const workOrderPriorityEnum = pgEnum("work_order_priority", [
   "critical",
 ]);
 
+export const externalSourceEnum = pgEnum("external_source", [
+  "netbox",
+  "opendcim",
+  "manual",
+]);
+
 // ── Tenants ───────────────────────────────────────────────────────
 export const orgs = pgTable("orgs", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -379,6 +385,9 @@ export const sites = pgTable(
     code: text("code").notNull(), // short label, eg. "HG-01"
     address: text("address"),
     country: text("country").notNull().default("KE"),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
     createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   },
   (t) => ({
@@ -402,6 +411,10 @@ export const cabinets = pgTable(
     powerCapKw: doublePrecision("power_cap_kw").notNull().default(6),
     status: cabinetStatusEnum("status").notNull().default("active"),
     notes: text("notes"),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
+    archivedAt: timestamp("archived_at", { mode: "date" }),
     createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   },
   (t) => ({
@@ -428,6 +441,10 @@ export const devices = pgTable(
     role: deviceRoleEnum("role").notNull().default("compute"),
     rackUStart: integer("rack_u_start"),
     rackUSize: integer("rack_u_size").notNull().default(1),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
+    archivedAt: timestamp("archived_at", { mode: "date" }),
     createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   },
   (t) => ({
@@ -450,6 +467,9 @@ export const crossConnects = pgTable(
     speedGbps: doublePrecision("speed_gbps").notNull(),
     media: crossConnectMediaEnum("media").notNull().default("fiber_sm"),
     status: crossConnectStatusEnum("status").notNull().default("pending"),
+    externalId: text("external_id"),
+    externalSource: externalSourceEnum("external_source"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
     createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
     provisionedAt: timestamp("provisioned_at", { mode: "date" }),
   },

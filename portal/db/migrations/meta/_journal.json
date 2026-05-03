@@ -16,5 +16,12 @@
       "tag": "0001_feedback_work_orders",
       "breakpoints": true
     }
+    ,{
+      "idx": 2,
+      "version": "7",
+      "when": 1746316800000,
+      "tag": "0002_netbox_sync_fields",
+      "breakpoints": true
+    }
   ]
 }

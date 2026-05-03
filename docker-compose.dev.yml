@@ -1,0 +1,114 @@
+# Local dev stack: NetBox (DCIM/IPAM source of truth) + its dependencies.
+# Navon's own Postgres (port 5432) runs separately; this file only owns NetBox.
+#
+# Pin: check https://hub.docker.com/r/netboxcommunity/netbox/tags for the
+# latest stable image if the pull fails.
+#
+# Usage:
+#   docker compose -f docker-compose.dev.yml up -d
+#   # NetBox UI → http://localhost:8000  (admin / navon-dev-2026)
+#   # API token  → navon-netbox-dev-00000000000000000000
+#   pnpm tsx scripts/seed-netbox.ts
+
+name: navon-dev
+
+services:
+  netbox:
+    image: docker.io/netboxcommunity/netbox:v4.2
+    depends_on:
+      netbox-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-cache:
+        condition: service_healthy
+    environment:
+      ALLOWED_HOSTS: "*"
+      DB_HOST: netbox-db
+      DB_PORT: "5432"
+      DB_NAME: netbox
+      DB_USER: netbox
+      DB_PASSWORD: netbox-dev
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ""
+      REDIS_DATABASE: "0"
+      REDIS_CACHE_HOST: redis-cache
+      REDIS_CACHE_PORT: "6379"
+      REDIS_CACHE_PASSWORD: ""
+      REDIS_CACHE_DATABASE: "1"
+      SECRET_KEY: "navon-dev-secret-key-not-for-production-use-only-local"
+      SUPERUSER_NAME: admin
+      SUPERUSER_EMAIL: admin@navon.local
+      SUPERUSER_PASSWORD: navon-dev-2026
+      SUPERUSER_API_TOKEN: navon-netbox-dev-00000000000000000000
+      SKIP_SUPERUSER: "false"
+    ports:
+      - "8000:8080"
+    volumes:
+      - netbox-media:/opt/netbox/netbox/media
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/api/"]
+      interval: 15s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
+
+  netbox-worker:
+    image: docker.io/netboxcommunity/netbox:v4.2
+    depends_on:
+      netbox:
+        condition: service_healthy
+    command: /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py rqworker
+    environment:
+      ALLOWED_HOSTS: "*"
+      DB_HOST: netbox-db
+      DB_PORT: "5432"
+      DB_NAME: netbox
+      DB_USER: netbox
+      DB_PASSWORD: netbox-dev
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ""
+      REDIS_DATABASE: "0"
+      REDIS_CACHE_HOST: redis-cache
+      REDIS_CACHE_PORT: "6379"
+      REDIS_CACHE_PASSWORD: ""
+      REDIS_CACHE_DATABASE: "1"
+      SECRET_KEY: "navon-dev-secret-key-not-for-production-use-only-local"
+
+  netbox-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: netbox
+      POSTGRES_USER: netbox
+      POSTGRES_PASSWORD: netbox-dev
+    volumes:
+      - netbox-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U netbox -d netbox"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --save "" --appendonly no
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  redis-cache:
+    image: redis:7-alpine
+    command: redis-server --save "" --appendonly no
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  netbox-media:
+  netbox-pg:
