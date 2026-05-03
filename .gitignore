@@ -11,5 +11,6 @@ portal/.env*
 portal/next-env.d.ts
 portal/tsconfig.tsbuildinfo
 
-# Drizzle regenerates this on every `drizzle-kit generate` — don't track it
-portal/db/migrations/meta/
+# Drizzle snapshot JSONs are regenerated — track only the journal
+portal/db/migrations/meta/*.json
+!portal/db/migrations/meta/_journal.json
