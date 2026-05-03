@@ -5,6 +5,12 @@
 -- app.current_org_id (set by withOrgContext) matches the row's org_id.
 -- The DB owner / migration role bypasses RLS so seeding still works.
 
+-- Ensure the helper is available before any policy references it.
+-- (9999_rls_policies.sql also creates this; CREATE OR REPLACE is idempotent.)
+CREATE OR REPLACE FUNCTION app_current_org() RETURNS uuid AS $$
+  SELECT NULLIF(current_setting('app.current_org_id', true), '')::uuid;
+$$ LANGUAGE sql STABLE;
+
 -- ── memberships ───────────────────────────────────────────────────
 ALTER TABLE memberships ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS memberships_isolate ON memberships;
