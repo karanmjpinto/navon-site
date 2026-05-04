@@ -1096,6 +1096,305 @@ import '../styles/products.css';
       <div class="numbered-item"><div class="num">05 / FITS THE MODULE</div><h4>Drops into a Navon MDC.</h4><p>Every configuration — research rack, training cluster, inference cluster, open accelerator, cold-storage rack — is sized to the same 20 kW rack envelope used in the 400 kW MDC, so compute and storage live side-by-side under the same facility, DCIM, and cooling budget.</p></div>
       <div class="numbered-item"><div class="num">06 / VENDOR-AWARE</div><h4>Choose your stack.</h4><p>Where the workload demands the latest GPU silicon, we ship it. Where customers want to hedge supply-chain or sovereignty risk, we offer a fully-credible non-mainstream accelerator path — same rack, same fabric, same operating model.</p></div>
     </div>
+
+    <!-- Rack Architecture · interactive 20 kW reference rack -->
+    <div class="rack-arch reveal" data-selected="" id="rack-arch" style="margin-top: 96px;">
+      <header class="rack-arch-head">
+        <div class="rack-arch-intro">
+          <div class="eyebrow"><span class="mark"></span>Anatomy of a rack</div>
+          <h3>One 20 kW rack, <span class="accent">most workloads.</span></h3>
+          <p>The research-rack reference design — three CPU nodes, two 8-GPU training nodes, half-petabyte NAS, dual leaf fabric, dual-corded power. Click any unit to inspect its hardware, networking, and load.</p>
+        </div>
+        <ul class="rack-arch-meta mono">
+          <li><span class="ral">Form</span><span class="rav">1 × 42U</span></li>
+          <li><span class="ral">Steady-state load</span><span class="rav">19.05 kW · 95% util</span></li>
+          <li><span class="ral">Lead time</span><span class="rav">14–16 wk</span></li>
+        </ul>
+      </header>
+
+      <div class="rack-arch-body">
+        <!-- Rack elevation (left) -->
+        <div class="rack-elev">
+          <div class="rack-elev-cap mono">
+            <span>Rack elevation · 42U</span>
+            <span>Est. load</span>
+          </div>
+          <ol class="rack-units" role="list">
+            <!-- 42-41 -->
+            <li class="rack-unit ru-net" data-node="net-a" style="--span:2">
+              <button type="button" data-node="net-a">
+                <span class="ru-no">42–41</span>
+                <span class="ru-name"><span class="ru-dot"></span>Asterfusion 25G leaf · primary</span>
+                <span class="ru-kw">0.25 kW</span>
+              </button>
+            </li>
+            <!-- 40-39 -->
+            <li class="rack-unit ru-net" data-node="net-b" style="--span:2">
+              <button type="button" data-node="net-b">
+                <span class="ru-no">40–39</span>
+                <span class="ru-name"><span class="ru-dot"></span>Asterfusion 25G leaf · redundant</span>
+                <span class="ru-kw">0.30 kW</span>
+              </button>
+            </li>
+            <!-- 38 -->
+            <li class="rack-unit ru-passive" style="--span:1"><span class="ru-no">38</span><span class="ru-passive-label">1U cable mgmt</span></li>
+            <!-- 37-36 -->
+            <li class="rack-unit ru-cpu" data-node="cpu1" style="--span:2">
+              <button type="button" data-node="cpu1">
+                <span class="ru-no">37–36</span>
+                <span class="ru-name"><span class="ru-dot"></span>CPU Node 1 · 2× EPYC 9965</span>
+                <span class="ru-kw">1.50 kW</span>
+              </button>
+            </li>
+            <!-- 35-34 -->
+            <li class="rack-unit ru-cpu" data-node="cpu2" style="--span:2">
+              <button type="button" data-node="cpu2">
+                <span class="ru-no">35–34</span>
+                <span class="ru-name"><span class="ru-dot"></span>CPU Node 2 · 2× EPYC 9965</span>
+                <span class="ru-kw">1.50 kW</span>
+              </button>
+            </li>
+            <!-- 33-32 -->
+            <li class="rack-unit ru-cpu" data-node="cpu3" style="--span:2">
+              <button type="button" data-node="cpu3">
+                <span class="ru-no">33–32</span>
+                <span class="ru-name"><span class="ru-dot"></span>CPU Node 3 · 2× EPYC 9965</span>
+                <span class="ru-kw">1.50 kW</span>
+              </button>
+            </li>
+            <!-- 31 -->
+            <li class="rack-unit ru-passive" style="--span:1"><span class="ru-no">31</span><span class="ru-passive-label">1U gap · airflow</span></li>
+            <!-- 30-27 -->
+            <li class="rack-unit ru-gpu" data-node="gpu1" style="--span:4">
+              <button type="button" data-node="gpu1">
+                <span class="ru-no">30–27</span>
+                <span class="ru-name"><span class="ru-dot"></span>GPU Node 1 · 8× RTX 5090</span>
+                <span class="ru-kw">6.50 kW</span>
+              </button>
+            </li>
+            <!-- 26 -->
+            <li class="rack-unit ru-passive" style="--span:1"><span class="ru-no">26</span><span class="ru-passive-label">1U gap · airflow</span></li>
+            <!-- 25-22 -->
+            <li class="rack-unit ru-gpu" data-node="gpu2" style="--span:4">
+              <button type="button" data-node="gpu2">
+                <span class="ru-no">25–22</span>
+                <span class="ru-name"><span class="ru-dot"></span>GPU Node 2 · 8× RTX 5090</span>
+                <span class="ru-kw">6.50 kW</span>
+              </button>
+            </li>
+            <!-- 21 -->
+            <li class="rack-unit ru-passive" style="--span:1"><span class="ru-no">21</span><span class="ru-passive-label">1U gap · airflow</span></li>
+            <!-- 20-17 -->
+            <li class="rack-unit ru-nas" data-node="nas" style="--span:4">
+              <button type="button" data-node="nas">
+                <span class="ru-no">20–17</span>
+                <span class="ru-name"><span class="ru-dot"></span>NAS · 24× 24 TB SAS · 100G</span>
+                <span class="ru-kw">1.00 kW</span>
+              </button>
+            </li>
+            <!-- 16-3 reserved -->
+            <li class="rack-unit ru-reserved" style="--span:14">
+              <span class="ru-no">16–3</span>
+              <span class="ru-reserved-label">Reserved · 14U expansion capacity</span>
+            </li>
+            <!-- 2 -->
+            <li class="rack-unit ru-pdu" data-node="pdu-b" style="--span:1">
+              <button type="button" data-node="pdu-b">
+                <span class="ru-no">2</span>
+                <span class="ru-name"><span class="ru-dot"></span>PDU B · redundant</span>
+                <span class="ru-kw">—</span>
+              </button>
+            </li>
+            <!-- 1 -->
+            <li class="rack-unit ru-pdu" data-node="pdu-a" style="--span:1">
+              <button type="button" data-node="pdu-a">
+                <span class="ru-no">1</span>
+                <span class="ru-name"><span class="ru-dot"></span>PDU A · primary</span>
+                <span class="ru-kw">—</span>
+              </button>
+            </li>
+          </ol>
+          <ul class="rack-legend mono">
+            <li class="lg-gpu">GPU node</li>
+            <li class="lg-cpu">CPU node</li>
+            <li class="lg-nas">NAS</li>
+            <li class="lg-net">Network</li>
+            <li class="lg-pdu">PDU</li>
+          </ul>
+        </div>
+
+        <!-- Detail / topology panel (right) -->
+        <div class="rack-detail">
+          <div class="rack-detail-head mono">
+            <span class="rdh-title">Logical topology</span>
+            <button class="rdh-clear" type="button" hidden>Clear selection ×</button>
+          </div>
+
+          <div class="rack-detail-stage">
+            <!-- Topology SVG: Asterfusion fabric at top, GPU+CPU compute middle, NAS bottom -->
+            <svg class="rack-topology" viewBox="0 0 600 480" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <!-- curved 25G connections from compute → fabric -->
+              <defs>
+                <pattern id="rdash" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+                  <path d="M 0 3 L 6 3" stroke="#B8C24A" stroke-width="1" stroke-dasharray="2 2"/>
+                </pattern>
+              </defs>
+
+              <!-- 25G GPU lines -->
+              <path class="topo-link tl-gpu" data-link="gpu1" d="M 130 175 C 200 110, 260 60, 300 60" />
+              <path class="topo-link tl-gpu" data-link="gpu2" d="M 130 295 C 220 240, 280 100, 304 64" />
+              <!-- 25G CPU lines -->
+              <path class="topo-link tl-cpu" data-link="cpu1" d="M 470 175 C 400 120, 340 70, 308 60" />
+              <path class="topo-link tl-cpu" data-link="cpu2" d="M 470 240 C 400 200, 340 100, 312 60" />
+              <path class="topo-link tl-cpu" data-link="cpu3" d="M 470 305 C 400 260, 340 130, 316 64" />
+              <!-- 100G NAS line -->
+              <path class="topo-link tl-nas" data-link="nas" d="M 300 410 L 300 80" />
+
+              <!-- link labels -->
+              <text class="topo-lbl tl-gpu" x="172" y="116">25 GbE</text>
+              <text class="topo-lbl tl-cpu" x="430" y="116">25 GbE</text>
+              <text class="topo-lbl tl-nas" x="312" y="240">100 GbE</text>
+
+              <!-- Fabric box (top) -->
+              <g class="topo-box tb-net" data-link="net-a net-b">
+                <rect x="190" y="30" width="220" height="58" rx="2"/>
+                <text class="tb-title" x="300" y="52">Asterfusion leaf fabric</text>
+                <text class="tb-sub" x="300" y="70">25 GbE compute · 100 GbE storage · dual-switch HA</text>
+              </g>
+
+              <!-- GPU 1 -->
+              <g class="topo-box tb-gpu" data-link="gpu1">
+                <rect x="20" y="138" width="220" height="74" rx="2"/>
+                <text class="tb-title" x="32" y="158">GPU Node 1</text>
+                <text class="tb-sub" x="32" y="174">2× EPYC 9965 · 1 TB DDR5</text>
+                <text class="tb-sub" x="32" y="188">8× RTX 5090 · 8 TB NVMe</text>
+                <text class="tb-sub" x="32" y="202">2× 25 GbE</text>
+              </g>
+              <!-- GPU 2 -->
+              <g class="topo-box tb-gpu" data-link="gpu2">
+                <rect x="20" y="258" width="220" height="74" rx="2"/>
+                <text class="tb-title" x="32" y="278">GPU Node 2</text>
+                <text class="tb-sub" x="32" y="294">2× EPYC 9965 · 1 TB DDR5</text>
+                <text class="tb-sub" x="32" y="308">8× RTX 5090 · 8 TB NVMe</text>
+                <text class="tb-sub" x="32" y="322">2× 25 GbE</text>
+              </g>
+              <!-- CPU 1 -->
+              <g class="topo-box tb-cpu" data-link="cpu1">
+                <rect x="360" y="138" width="220" height="60" rx="2"/>
+                <text class="tb-title" x="372" y="158">CPU Node 1</text>
+                <text class="tb-sub" x="372" y="174">2× EPYC 9965 · 768 GB</text>
+                <text class="tb-sub" x="372" y="188">4 TB NVMe · 2× 25 GbE</text>
+              </g>
+              <!-- CPU 2 -->
+              <g class="topo-box tb-cpu" data-link="cpu2">
+                <rect x="360" y="208" width="220" height="60" rx="2"/>
+                <text class="tb-title" x="372" y="228">CPU Node 2</text>
+                <text class="tb-sub" x="372" y="244">2× EPYC 9965 · 768 GB</text>
+                <text class="tb-sub" x="372" y="258">4 TB NVMe · 2× 25 GbE</text>
+              </g>
+              <!-- CPU 3 -->
+              <g class="topo-box tb-cpu" data-link="cpu3">
+                <rect x="360" y="278" width="220" height="60" rx="2"/>
+                <text class="tb-title" x="372" y="298">CPU Node 3</text>
+                <text class="tb-sub" x="372" y="314">2× EPYC 9965 · 768 GB</text>
+                <text class="tb-sub" x="372" y="328">4 TB NVMe · 2× 25 GbE</text>
+              </g>
+              <!-- NAS -->
+              <g class="topo-box tb-nas" data-link="nas">
+                <rect x="170" y="384" width="260" height="74" rx="2"/>
+                <text class="tb-title" x="300" y="406">NAS — high-performance storage</text>
+                <text class="tb-sub" x="300" y="424">1× EPYC 9965 · 512 GB · 4 TB NVMe</text>
+                <text class="tb-sub" x="300" y="440">24× 24 TB SAS (≈ 576 TB raw) · 2× 100 GbE</text>
+              </g>
+            </svg>
+
+            <!-- Default overview text · shown when nothing selected -->
+            <div class="rack-overview">
+              <p class="rack-overview-lead">Two GPU nodes for training and high-throughput inference. Three CPU nodes for general compute and orchestration. One NAS for shared training data and checkpoints. Two leaf switches and two PDUs in active/active redundancy. Hover any rack unit to highlight its connection.</p>
+              <ul class="rack-overview-grid mono">
+                <li><span class="rol">GPU compute</span><span class="rov">13.0 kW</span></li>
+                <li><span class="rol">CPU compute</span><span class="rov">4.5 kW</span></li>
+                <li><span class="rol">Storage</span><span class="rov">1.0 kW</span></li>
+                <li><span class="rol">Network</span><span class="rov">0.55 kW</span></li>
+              </ul>
+            </div>
+
+            <!-- Detail card · shown on selection -->
+            <article class="rack-card" hidden>
+              <div class="rack-card-head">
+                <div class="rack-card-tag mono"><span class="rct-dot"></span><span class="rct-kind">—</span><span class="rct-u">U —</span></div>
+                <h4 class="rack-card-name">—</h4>
+                <p class="rack-card-role">—</p>
+              </div>
+              <ul class="rack-card-specs mono"></ul>
+              <div class="rack-card-foot mono">
+                <span><span class="rcfl">Steady-state</span><span class="rcfv rcf-kw">— kW</span></span>
+                <span><span class="rcfl">Feed A / B</span><span class="rcfv rcf-feed">— / —</span></span>
+                <span><span class="rcfl">PSU</span><span class="rcfv rcf-psu">—</span></span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <!-- Power & budget strip -->
+      <div class="rack-power">
+        <div class="rack-power-bars">
+          <div class="rp-cap mono"><span>Per-node IT load</span><span>Steady-state · TDP-derived</span></div>
+          <ul class="rp-list">
+            <li data-node="gpu1"><span class="rp-name">GPU Node 1</span><span class="rp-track"><span class="rp-bar rp-bar-gpu" style="--pct:32.5"></span></span><span class="rp-kw mono">6.50 kW</span></li>
+            <li data-node="gpu2"><span class="rp-name">GPU Node 2</span><span class="rp-track"><span class="rp-bar rp-bar-gpu" style="--pct:32.5"></span></span><span class="rp-kw mono">6.50 kW</span></li>
+            <li data-node="cpu1"><span class="rp-name">CPU Node 1</span><span class="rp-track"><span class="rp-bar rp-bar-cpu" style="--pct:7.5"></span></span><span class="rp-kw mono">1.50 kW</span></li>
+            <li data-node="cpu2"><span class="rp-name">CPU Node 2</span><span class="rp-track"><span class="rp-bar rp-bar-cpu" style="--pct:7.5"></span></span><span class="rp-kw mono">1.50 kW</span></li>
+            <li data-node="cpu3"><span class="rp-name">CPU Node 3</span><span class="rp-track"><span class="rp-bar rp-bar-cpu" style="--pct:7.5"></span></span><span class="rp-kw mono">1.50 kW</span></li>
+            <li data-node="nas"><span class="rp-name">NAS</span><span class="rp-track"><span class="rp-bar rp-bar-nas" style="--pct:5"></span></span><span class="rp-kw mono">1.00 kW</span></li>
+            <li data-node="net"><span class="rp-name">Asterfusion fabric</span><span class="rp-track"><span class="rp-bar rp-bar-net" style="--pct:2.75"></span></span><span class="rp-kw mono">0.55 kW</span></li>
+          </ul>
+        </div>
+        <div class="rack-power-budget">
+          <div class="rp-cap mono"><span>Budget summary</span></div>
+          <div class="rp-stats">
+            <div><span class="rp-label mono">Rack budget</span><span class="rp-val">20.0<em>kW</em></span></div>
+            <div><span class="rp-label mono">Est. IT load</span><span class="rp-val">19.05<em>kW</em></span></div>
+            <div><span class="rp-label mono">Headroom</span><span class="rp-val">0.95<em>kW</em></span></div>
+            <div><span class="rp-label mono">Utilisation</span><span class="rp-val">95<em>%</em></span></div>
+          </div>
+          <div class="rp-meter" aria-hidden="true">
+            <span class="rp-meter-fill" style="--pct:95"></span>
+            <span class="rp-meter-mark" style="--pct:80"></span>
+            <span class="rp-meter-mark" style="--pct:90"></span>
+          </div>
+          <div class="rp-meter-cap mono"><span>0 kW</span><span>20 kW</span></div>
+        </div>
+      </div>
+
+      <!-- A/B feed allocation table -->
+      <div class="rack-feed">
+        <div class="rp-cap mono"><span>Dual-feed (A/B) PDU allocation</span><span>Balanced for redundancy</span></div>
+        <div class="rack-feed-scroll">
+          <table class="rack-feed-table">
+            <thead>
+              <tr><th>Device</th><th>PSU config</th><th>Feed A draw</th><th>Feed B draw</th><th>Total</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr data-node="gpu1"><th><span class="rf-pill rf-pill-gpu">GPU Node 1</span></th><td>2× 3 kW redundant</td><td>3.25 kW</td><td>3.25 kW</td><td>6.50 kW</td><td>Active/active across A+B</td></tr>
+              <tr data-node="gpu2"><th><span class="rf-pill rf-pill-gpu">GPU Node 2</span></th><td>2× 3 kW redundant</td><td>3.25 kW</td><td>3.25 kW</td><td>6.50 kW</td><td>Active/active across A+B</td></tr>
+              <tr data-node="cpu1"><th><span class="rf-pill rf-pill-cpu">CPU Node 1</span></th><td>2× 1.6 kW redundant</td><td>0.75 kW</td><td>0.75 kW</td><td>1.50 kW</td><td>Active/active across A+B</td></tr>
+              <tr data-node="cpu2"><th><span class="rf-pill rf-pill-cpu">CPU Node 2</span></th><td>2× 1.6 kW redundant</td><td>0.75 kW</td><td>0.75 kW</td><td>1.50 kW</td><td>Active/active across A+B</td></tr>
+              <tr data-node="cpu3"><th><span class="rf-pill rf-pill-cpu">CPU Node 3</span></th><td>2× 1.6 kW redundant</td><td>0.75 kW</td><td>0.75 kW</td><td>1.50 kW</td><td>Active/active across A+B</td></tr>
+              <tr data-node="nas"><th><span class="rf-pill rf-pill-nas">NAS</span></th><td>2× 1.6 kW redundant</td><td>0.50 kW</td><td>0.50 kW</td><td>1.00 kW</td><td>Active/active across A+B</td></tr>
+              <tr data-node="net"><th><span class="rf-pill rf-pill-net">Asterfusion leaves</span></th><td>2× PSU per switch</td><td>0.28 kW</td><td>0.27 kW</td><td>0.55 kW</td><td>Primary on A, redundant on B</td></tr>
+            </tbody>
+            <tfoot>
+              <tr><th>Feed totals</th><td></td><td>9.53 kW</td><td>9.52 kW</td><td>19.05 kW</td><td>Failover load per feed: ≈ 19 kW (within 20 kW budget)</td></tr>
+            </tfoot>
+          </table>
+        </div>
+        <p class="rack-feed-foot">
+          Load figures are steady-state estimates derived from component TDPs (EPYC 9965 ≈ 500 W; RTX 5090 ≈ 575 W TGP) plus platform overhead. Peak training bursts can push GPU nodes ≈ 10–15% higher — size PDUs and breakers for peak, not average. On single-feed failover the surviving feed carries the full ≈19 kW, so both PDUs are sized to 20 kW.
+        </p>
+      </div>
+    </div>
   </section>
 
   <!-- Sovereign Cloud -->
@@ -2732,4 +3031,275 @@ import '../styles/products.css';
 </section>
 
 <!-- ── FOOTER ──────────────────────────────────── -->
+
+<script>
+  // Rack-architecture interactive viz
+  (function () {
+    const root = document.getElementById('rack-arch');
+    if (!root) return;
+
+    const NODES = {
+      'gpu1': {
+        kind: 'gpu', u: '30–27 · 4U', name: 'GPU Node 1', role: '8-GPU training & high-throughput inference. Loads model shards from NAS over 100 GbE.',
+        specs: [
+          { k: 'CPU',     v: '2× AMD EPYC 9965 · 192 cores' },
+          { k: 'Memory',  v: '1 TB DDR5 · 24× 64 GB' },
+          { k: 'GPU',     v: '8× NVIDIA RTX 5090 (575 W TGP)' },
+          { k: 'NVMe',    v: '8 TB · local scratch' },
+          { k: 'Network', v: '2× 25 GbE → leaf fabric' },
+          { k: 'Form',    v: '4U · 2× 3 kW redundant PSU' },
+        ],
+        kw: '6.50 kW', feed: '3.25 kW / 3.25 kW', psu: '2× 3 kW redundant',
+      },
+      'gpu2': {
+        kind: 'gpu', u: '25–22 · 4U', name: 'GPU Node 2', role: '8-GPU training & high-throughput inference. Mirrors GPU Node 1 for fault-tolerant training.',
+        specs: [
+          { k: 'CPU',     v: '2× AMD EPYC 9965 · 192 cores' },
+          { k: 'Memory',  v: '1 TB DDR5 · 24× 64 GB' },
+          { k: 'GPU',     v: '8× NVIDIA RTX 5090 (575 W TGP)' },
+          { k: 'NVMe',    v: '8 TB · local scratch' },
+          { k: 'Network', v: '2× 25 GbE → leaf fabric' },
+          { k: 'Form',    v: '4U · 2× 3 kW redundant PSU' },
+        ],
+        kw: '6.50 kW', feed: '3.25 kW / 3.25 kW', psu: '2× 3 kW redundant',
+      },
+      'cpu1': {
+        kind: 'cpu', u: '37–36 · 2U', name: 'CPU Node 1', role: 'General-purpose compute, orchestration, and data preprocessing. Runs the cluster scheduler and bare-metal control plane.',
+        specs: [
+          { k: 'CPU',     v: '2× AMD EPYC 9965 · 192 cores' },
+          { k: 'Memory',  v: '768 GB DDR5' },
+          { k: 'NVMe',    v: '4 TB' },
+          { k: 'Network', v: '2× 25 GbE → leaf fabric' },
+          { k: 'Form',    v: '2U · 2× 1.6 kW redundant PSU' },
+        ],
+        kw: '1.50 kW', feed: '0.75 kW / 0.75 kW', psu: '2× 1.6 kW redundant',
+      },
+      'cpu2': {
+        kind: 'cpu', u: '35–34 · 2U', name: 'CPU Node 2', role: 'General-purpose compute and data preprocessing. Active/active with CPU Node 1 for the cluster control plane.',
+        specs: [
+          { k: 'CPU',     v: '2× AMD EPYC 9965 · 192 cores' },
+          { k: 'Memory',  v: '768 GB DDR5' },
+          { k: 'NVMe',    v: '4 TB' },
+          { k: 'Network', v: '2× 25 GbE → leaf fabric' },
+          { k: 'Form',    v: '2U · 2× 1.6 kW redundant PSU' },
+        ],
+        kw: '1.50 kW', feed: '0.75 kW / 0.75 kW', psu: '2× 1.6 kW redundant',
+      },
+      'cpu3': {
+        kind: 'cpu', u: '33–32 · 2U', name: 'CPU Node 3', role: 'Spare capacity for general-purpose compute, batch jobs, and overflow scheduling.',
+        specs: [
+          { k: 'CPU',     v: '2× AMD EPYC 9965 · 192 cores' },
+          { k: 'Memory',  v: '768 GB DDR5' },
+          { k: 'NVMe',    v: '4 TB' },
+          { k: 'Network', v: '2× 25 GbE → leaf fabric' },
+          { k: 'Form',    v: '2U · 2× 1.6 kW redundant PSU' },
+        ],
+        kw: '1.50 kW', feed: '0.75 kW / 0.75 kW', psu: '2× 1.6 kW redundant',
+      },
+      'nas': {
+        kind: 'nas', u: '20–17 · 4U', name: 'NAS — high-performance storage', role: 'Shared training data, checkpoints, and team filesystems. Reads stream to GPU nodes over 100 GbE.',
+        specs: [
+          { k: 'CPU',     v: '1× AMD EPYC 9965' },
+          { k: 'Memory',  v: '512 GB DDR5' },
+          { k: 'NVMe',    v: '4 TB · metadata + cache' },
+          { k: 'HDD',     v: '24× 24 TB SAS · ≈ 576 TB raw' },
+          { k: 'Network', v: '2× 100 GbE → leaf fabric' },
+          { k: 'Form',    v: '4U · 2× 1.6 kW redundant PSU' },
+        ],
+        kw: '1.00 kW', feed: '0.50 kW / 0.50 kW', psu: '2× 1.6 kW redundant',
+      },
+      'net-a': {
+        kind: 'net', u: '42–41 · 2U', name: 'Asterfusion 25G leaf · primary', role: 'Primary leaf switch. 25 GbE downlinks to compute, 100 GbE uplinks to the NAS.',
+        specs: [
+          { k: 'Model',   v: 'Asterfusion CX532P-N' },
+          { k: 'Ports',   v: '32× 100 GbE QSFP28' },
+          { k: 'Access',  v: '25 GbE breakout to compute' },
+          { k: 'Storage', v: '100 GbE to NAS' },
+          { k: 'OS',      v: 'SONiC (open networking)' },
+          { k: 'Form',    v: '2U · 2× PSU' },
+        ],
+        kw: '0.25 kW', feed: '0.14 kW / 0.13 kW', psu: '2× PSU per switch',
+      },
+      'net-b': {
+        kind: 'net', u: '40–39 · 2U', name: 'Asterfusion 25G leaf · redundant', role: 'Redundant leaf switch. Active/active with the primary for fault-tolerant fabric.',
+        specs: [
+          { k: 'Model',   v: 'Asterfusion CX532P-N' },
+          { k: 'Ports',   v: '32× 100 GbE QSFP28' },
+          { k: 'Access',  v: '25 GbE breakout to compute' },
+          { k: 'Storage', v: '100 GbE to NAS' },
+          { k: 'OS',      v: 'SONiC (open networking)' },
+          { k: 'Form',    v: '2U · 2× PSU' },
+        ],
+        kw: '0.30 kW', feed: '0.14 kW / 0.14 kW', psu: '2× PSU per switch',
+      },
+      'pdu-a': {
+        kind: 'pdu', u: '1 · 1U', name: 'PDU A · primary', role: 'Primary power feed. Sized to 20 kW so the surviving feed carries the full ≈19 kW load on single-feed failover.',
+        specs: [
+          { k: 'Capacity', v: '20 kW · 32 A @ 240 V' },
+          { k: 'Outlets',  v: 'C19/C13 metered' },
+          { k: 'Monitoring', v: 'Per-outlet kWh telemetry' },
+          { k: 'Failover', v: 'Active/active with PDU B' },
+        ],
+        kw: '—', feed: 'Primary', psu: '—',
+      },
+      'pdu-b': {
+        kind: 'pdu', u: '2 · 1U', name: 'PDU B · redundant', role: 'Redundant power feed. Active/active with PDU A; both PDUs sized to carry the full 19 kW load on failover.',
+        specs: [
+          { k: 'Capacity', v: '20 kW · 32 A @ 240 V' },
+          { k: 'Outlets',  v: 'C19/C13 metered' },
+          { k: 'Monitoring', v: 'Per-outlet kWh telemetry' },
+          { k: 'Failover', v: 'Active/active with PDU A' },
+        ],
+        kw: '—', feed: 'Redundant', psu: '—',
+      },
+    };
+
+    const card        = root.querySelector('.rack-card');
+    const cardKind    = card.querySelector('.rct-kind');
+    const cardU       = card.querySelector('.rct-u');
+    const cardName    = card.querySelector('.rack-card-name');
+    const cardRole    = card.querySelector('.rack-card-role');
+    const cardSpecs   = card.querySelector('.rack-card-specs');
+    const cardKW      = card.querySelector('.rcf-kw');
+    const cardFeed    = card.querySelector('.rcf-feed');
+    const cardPSU     = card.querySelector('.rcf-psu');
+    const overview    = root.querySelector('.rack-overview');
+    const topology    = root.querySelector('.rack-topology');
+    const clearBtn    = root.querySelector('.rdh-clear');
+    const headTitle   = root.querySelector('.rdh-title');
+
+    function renderCard(id) {
+      const data = NODES[id]; if (!data) return;
+      card.dataset.kind = data.kind;
+      cardKind.textContent = ({ gpu: 'GPU compute', cpu: 'CPU compute', nas: 'Storage', net: 'Network', pdu: 'Power' })[data.kind] || data.kind;
+      cardU.textContent = 'U ' + data.u;
+      cardName.textContent = data.name;
+      cardRole.textContent = data.role;
+      cardSpecs.innerHTML = data.specs.map(function (s) {
+        return '<li><span class="k">' + s.k + '</span><span class="v">' + s.v + '</span></li>';
+      }).join('');
+      cardKW.textContent = data.kw;
+      cardFeed.textContent = data.feed;
+      cardPSU.textContent = data.psu;
+      headTitle.textContent = data.name;
+    }
+
+    function setActiveTopology(id) {
+      // remove all is-active
+      topology.querySelectorAll('.is-active').forEach(function (n) { n.classList.remove('is-active'); });
+      if (!id) { topology.classList.remove('is-dim'); return; }
+      topology.classList.add('is-dim');
+      // boxes
+      topology.querySelectorAll('.topo-box').forEach(function (b) {
+        const links = (b.dataset.link || '').split(' ');
+        if (links.includes(id)) b.classList.add('is-active');
+      });
+      // for any compute selection, also light up fabric box (it's a star topology)
+      if (['gpu1','gpu2','cpu1','cpu2','cpu3','nas'].includes(id)) {
+        topology.querySelectorAll('.tb-net').forEach(function (b) { b.classList.add('is-active'); });
+      }
+      // links
+      topology.querySelectorAll('.topo-link, .topo-lbl').forEach(function (l) {
+        if (l.dataset.link === id || l.classList.contains('tl-' + id.split('-')[0])) {
+          // only highlight matching link by its data-link, not class
+        }
+        if (l.dataset.link === id) l.classList.add('is-active');
+      });
+      // labels matching link
+      topology.querySelectorAll('.topo-lbl').forEach(function (lbl) {
+        // none have data-link, infer from class
+        if (id.startsWith('gpu') && lbl.classList.contains('tl-gpu')) lbl.classList.add('is-active');
+        if (id.startsWith('cpu') && lbl.classList.contains('tl-cpu')) lbl.classList.add('is-active');
+        if (id === 'nas' && lbl.classList.contains('tl-nas')) lbl.classList.add('is-active');
+      });
+    }
+
+    function setActiveAll(id) {
+      // sync rack units
+      root.querySelectorAll('.rack-unit').forEach(function (u) {
+        u.classList.toggle('is-active', u.dataset.node === id);
+      });
+      // sync power-bar rows
+      root.querySelectorAll('.rp-list li').forEach(function (li) {
+        const matches = li.dataset.node === id ||
+          (li.dataset.node === 'net' && (id === 'net-a' || id === 'net-b'));
+        li.classList.toggle('is-active', matches);
+      });
+      // sync feed table rows
+      root.querySelectorAll('.rack-feed-table tbody tr').forEach(function (tr) {
+        const matches = tr.dataset.node === id ||
+          (tr.dataset.node === 'net' && (id === 'net-a' || id === 'net-b'));
+        tr.classList.toggle('is-active', matches);
+      });
+      setActiveTopology(id);
+    }
+
+    function select(id) {
+      if (!id) {
+        root.dataset.selected = '';
+        clearBtn.hidden = true;
+        card.hidden = true;
+        headTitle.textContent = 'Logical topology';
+        setActiveAll(null);
+        return;
+      }
+      if (!NODES[id]) return;
+      root.dataset.selected = id;
+      clearBtn.hidden = false;
+      card.hidden = false;
+      renderCard(id);
+      setActiveAll(id);
+    }
+
+    // Click handlers — rack units
+    root.querySelectorAll('.rack-unit > button[data-node]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const id = btn.dataset.node;
+        if (root.dataset.selected === id) select(null);
+        else select(id);
+      });
+      btn.addEventListener('mouseenter', function () {
+        if (root.dataset.selected) return;
+        const id = btn.dataset.node;
+        root.querySelector('.rack-unit[data-node="' + id + '"]').classList.add('is-hover');
+        setActiveTopology(id);
+      });
+      btn.addEventListener('mouseleave', function () {
+        if (root.dataset.selected) return;
+        root.querySelectorAll('.rack-unit.is-hover').forEach(function (u) { u.classList.remove('is-hover'); });
+        setActiveTopology(null);
+      });
+    });
+
+    // Click handlers — feed table rows
+    root.querySelectorAll('.rack-feed-table tbody tr[data-node]').forEach(function (tr) {
+      tr.addEventListener('click', function () {
+        let id = tr.dataset.node;
+        if (id === 'net') id = 'net-a';
+        if (root.dataset.selected === id) select(null);
+        else select(id);
+      });
+    });
+
+    // Topology box click
+    topology.querySelectorAll('.topo-box').forEach(function (b) {
+      b.style.cursor = 'pointer';
+      b.addEventListener('click', function () {
+        const id = (b.dataset.link || '').split(' ')[0];
+        if (!id) return;
+        if (root.dataset.selected === id) select(null);
+        else select(id);
+      });
+    });
+
+    // Clear button
+    clearBtn.addEventListener('click', function () { select(null); });
+
+    // ESC to clear
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && root.dataset.selected) select(null);
+    });
+  })();
+</script>
+
 </Site>
