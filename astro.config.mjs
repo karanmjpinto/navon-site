@@ -1,8 +1,10 @@
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
+// ASTRO_SITE / ASTRO_BASE are set by the GitHub Actions deploy workflow.
+// Locally and on navonworld.com these env vars are absent → production defaults apply.
 export default defineConfig({
-  site: 'https://navonworld.com',
+  site: process.env.ASTRO_SITE ?? 'https://navonworld.com',
+  base: process.env.ASTRO_BASE ?? '/',
   output: 'static',
   trailingSlash: 'never',
   build: {
