@@ -1,0 +1,637 @@
+---
+import Site from '../layouts/Site.astro';
+---
+<Site
+  title="Navon Futures — Long-horizon thinking on sovereign compute"
+  description="Navon Futures is where we think publicly about the long-range questions: what does a continent-wide sovereign compute backbone look like, what happens when AI meets geothermal scale, and where does Africa go from here."
+>
+
+<style>
+/* ── Futures page ─────────────────────────────────────────── */
+
+.futures-hero {
+  position: relative;
+  padding: calc(var(--nav-h) + 100px) var(--px) 96px;
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+.futures-hero::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at 80% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse at 80% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
+  pointer-events: none;
+}
+.futures-hero-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+  z-index: 2;
+}
+@media (max-width: 900px) { .futures-hero-inner { grid-template-columns: 1fr; gap: 32px; } }
+
+.futures-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 24px;
+}
+.futures-eyebrow::before {
+  content: "";
+  width: 8px; height: 8px;
+  background: var(--signal);
+  display: inline-block;
+}
+
+.futures-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 8vw, 120px);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  margin: 0 0 36px;
+  font-weight: 500;
+}
+.futures-h1 em {
+  color: var(--signal);
+  font-style: italic;
+  font-weight: 400;
+}
+.futures-lede {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--light);
+  max-width: 48ch;
+  margin: 0 0 40px;
+}
+.futures-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ── Horizon grid ─────────────────────────────── */
+.horizons {
+  padding: var(--section-y) var(--px);
+  border-bottom: 1px solid var(--line);
+}
+.horizon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 64px;
+}
+@media (max-width: 1000px) { .horizon-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .horizon-grid { grid-template-columns: 1fr; } }
+
+.horizon-card {
+  background: var(--ink);
+  padding: 36px 28px 40px;
+  position: relative;
+  transition: background 0.3s ease;
+}
+.horizon-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 2px;
+  background: var(--signal);
+  transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.horizon-card:hover { background: rgba(231,255,0,0.022); }
+.horizon-card:hover::before { width: 100%; }
+.horizon-yr {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-bottom: 20px;
+}
+.horizon-card:hover .horizon-yr { color: var(--signal); }
+.horizon-card h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  margin: 0 0 14px;
+  line-height: 1.1;
+}
+.horizon-card p {
+  color: var(--mid);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 22px;
+}
+.horizon-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.horizon-tag {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border: 1px solid var(--line-2);
+  color: var(--slate);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.horizon-card:hover .horizon-tag { color: var(--signal); border-color: rgba(231,255,0,0.3); }
+
+/* ── Open questions ───────────────────────────── */
+.questions {
+  padding: var(--section-y) var(--px);
+  border-bottom: 1px solid var(--line);
+}
+.q-list {
+  margin-top: 64px;
+  border: 1px solid var(--line);
+}
+.q-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 24px;
+  padding: 28px 32px;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+  transition: background 0.25s ease;
+}
+.q-item:last-child { border-bottom: 0; }
+.q-item:hover { background: rgba(231,255,0,0.025); }
+@media (max-width: 720px) { .q-item { grid-template-columns: 1fr; gap: 12px; } }
+.q-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+.q-item:hover .q-num { color: var(--signal); }
+.q-text {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.q-status {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--slate);
+  white-space: nowrap;
+}
+.q-status.active { color: var(--signal); }
+
+/* ── Signal timeline ──────────────────────────── */
+.signal-timeline {
+  padding: var(--section-y) var(--px);
+  border-bottom: 1px solid var(--line);
+}
+.st-track {
+  margin-top: 64px;
+  position: relative;
+}
+.st-track::before {
+  content: "";
+  position: absolute;
+  left: 40px;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+.st-node {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 32px;
+  padding: 0 0 48px;
+  position: relative;
+}
+.st-node:last-child { padding-bottom: 0; }
+.st-dot-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 4px;
+}
+.st-dot {
+  width: 10px; height: 10px;
+  border: 1.5px solid var(--slate);
+  border-radius: 2px;
+  background: var(--ink);
+  position: relative;
+  z-index: 2;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.st-node.live .st-dot {
+  background: var(--signal);
+  border-color: var(--signal);
+  box-shadow: 0 0 12px rgba(231,255,0,0.4);
+}
+.st-node:hover .st-dot { border-color: var(--signal); }
+.st-yr {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-top: 14px;
+}
+.st-node.live .st-yr { color: var(--signal); }
+.st-content { padding-top: 2px; }
+.st-content h4 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  margin: 0 0 10px;
+}
+.st-content p {
+  color: var(--mid);
+  font-size: 14.5px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 52ch;
+}
+@media (max-width: 640px) { .st-track::before { left: 0; } .st-node { grid-template-columns: 1fr; gap: 16px; } .st-dot-col { flex-direction: row; align-items: center; gap: 12px; } .st-yr { margin-top: 0; } }
+
+/* ── Research threads ─────────────────────────── */
+.threads {
+  padding: var(--section-y) var(--px);
+  border-bottom: 1px solid var(--line);
+}
+.thread-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 64px;
+}
+@media (max-width: 720px) { .thread-grid { grid-template-columns: 1fr; } }
+.thread {
+  background: var(--ink);
+  padding: 36px 32px 40px;
+  position: relative;
+  transition: background 0.3s ease;
+}
+.thread::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 2px;
+  background: var(--signal);
+  transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.thread:hover { background: rgba(231,255,0,0.022); }
+.thread:hover::before { width: 100%; }
+.thread-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-bottom: 18px;
+}
+.thread:hover .thread-tag { color: var(--signal); }
+.thread h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  margin: 0 0 14px;
+  line-height: 1.1;
+}
+.thread p {
+  color: var(--mid);
+  font-size: 14.5px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Futures CTA ──────────────────────────────── */
+.futures-cta {
+  padding: var(--section-y) var(--px);
+  position: relative;
+  overflow: hidden;
+}
+.futures-cta::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(231,255,0,0.06), transparent 50%);
+  pointer-events: none;
+}
+.futures-cta-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 64px;
+  align-items: end;
+}
+@media (max-width: 820px) { .futures-cta-inner { grid-template-columns: 1fr; gap: 32px; } }
+.futures-cta h2 {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.2vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  margin: 20px 0 0;
+  font-weight: 500;
+}
+.futures-cta h2 em { color: var(--signal); font-style: italic; font-weight: 400; }
+</style>
+
+<!-- ── HERO ─────────────────────────────────────── -->
+<section class="futures-hero">
+  <div class="futures-hero-inner">
+    <div>
+      <div class="futures-eyebrow">Navon Futures</div>
+      <h1 class="futures-h1">
+        Where Africa's<br/>
+        compute future<br/>
+        <em>gets built.</em>
+      </h1>
+      <p class="futures-lede">
+        Long-horizon thinking on sovereign compute, clean energy infrastructure,
+        and what a continent-owned AI future actually requires — starting from
+        Kenya and expanding outward.
+      </p>
+      <div class="futures-ctas">
+        <a href="hells-gate.html" class="cta">See Hells Gate <span class="arrow">→</span></a>
+        <a href="about.html#contact" class="cta-ghost">Work with us <span class="arrow">→</span></a>
+      </div>
+    </div>
+
+    <svg viewBox="0 0 480 400" class="tech draw" aria-hidden="true" style="max-width: 480px;">
+      <!-- continental backbone concept diagram -->
+      <!-- africa silhouette hint -->
+      <g transform="translate(90,20)" fill="rgba(255,255,255,0.012)" stroke="#3F4157" stroke-width="0.8">
+        <path d="M130 0 C 185 8, 230 35, 240 72 C 252 110, 274 130, 278 165
+                 C 282 202, 258 225, 266 260 C 274 294, 300 330, 274 365
+                 C 252 394, 226 394, 198 384 C 175 378, 157 348, 130 352
+                 C 103 358, 76 330, 66 295 C 52 254, 34 222, 20 180
+                 C 6 134, 14 82, 50 46 C 78 16, 98 0, 130 0 Z"/>
+      </g>
+
+      <!-- Kenya node — live -->
+      <circle cx="280" cy="265" r="20" fill="#E7FF00" opacity="0.12"/>
+      <circle cx="280" cy="265" r="6" class="signal"/>
+      <circle cx="280" cy="265" r="6" class="signal">
+        <animate attributeName="r" values="6;18;6" dur="2.8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0;1" dur="2.8s" repeatCount="indefinite"/>
+      </circle>
+      <text x="294" y="262" fill="#FFFFFF" font-size="11" font-family="Space Grotesk" font-weight="500">Kenya</text>
+      <text x="294" y="277" class="label-signal" font-size="9" letter-spacing="1.5">LIVE · Q3 2026</text>
+
+      <!-- Future nodes -->
+      <circle cx="262" cy="230" r="4" fill="#3F4157"/>
+      <text x="274" y="228" fill="#6F7287" font-size="10" font-family="Space Grotesk">Uganda</text>
+
+      <circle cx="272" cy="316" r="4" fill="#3F4157"/>
+      <text x="284" y="314" fill="#6F7287" font-size="10" font-family="Space Grotesk">Tanzania</text>
+
+      <circle cx="242" cy="378" r="4" fill="#3F4157"/>
+      <text x="254" y="376" fill="#6F7287" font-size="10" font-family="Space Grotesk">South Africa</text>
+
+      <!-- connecting dashes -->
+      <g class="dashed">
+        <line x1="280" y1="265" x2="262" y2="230"/>
+        <line x1="280" y1="265" x2="272" y2="316"/>
+        <line x1="272" y1="316" x2="242" y2="378"/>
+      </g>
+
+      <!-- legend -->
+      <circle cx="32" cy="388" r="4" class="signal"/>
+      <text x="42" y="392" class="label-signal" font-size="9" letter-spacing="1.5">OPERATIONAL</text>
+      <circle cx="160" cy="388" r="4" fill="#3F4157"/>
+      <text x="170" y="392" fill="#6F7287" font-size="9" letter-spacing="1.5">PLANNED</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ── HORIZONS ──────────────────────────────────── -->
+<section class="horizons">
+  <div class="section-head" style="padding-top:0;">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Long-range horizons</div>
+      <h2 class="section-title reveal">Three timescales.<br/><span class="accent">One direction.</span></h2>
+    </div>
+    <p class="section-lede reveal d1">
+      We think in phases — not because futures are predictable, but because
+      each horizon requires different infrastructure decisions made today.
+    </p>
+  </div>
+
+  <div class="horizon-grid">
+    <div class="horizon-card reveal d1">
+      <div class="horizon-yr">01 · 2026–2028</div>
+      <h3>Kenya proves the model.</h3>
+      <p>Hells Gate goes live. First enterprise and government customers migrate workloads onto sovereign compute. AI startups begin training on-continent. The modular model is validated against real load.</p>
+      <div class="horizon-tags">
+        <span class="horizon-tag">400 kW live</span>
+        <span class="horizon-tag">Tier III</span>
+        <span class="horizon-tag">First customers</span>
+      </div>
+    </div>
+
+    <div class="horizon-card reveal d2">
+      <div class="horizon-yr">02 · 2028–2032</div>
+      <h3>East Africa scales.</h3>
+      <p>Kenya expands to multi-MW. Uganda edge deployment follows. Tanzania brings HPC + hydro. The pattern is established: clean energy site, modular build, sovereign cloud stack, same in every country.</p>
+      <div class="horizon-tags">
+        <span class="horizon-tag">Multi-MW</span>
+        <span class="horizon-tag">3 countries</span>
+        <span class="horizon-tag">Edge presence</span>
+      </div>
+    </div>
+
+    <div class="horizon-card reveal d3">
+      <div class="horizon-yr">03 · 2032–2035</div>
+      <h3>100 MW sovereign backbone.</h3>
+      <p>Ten sites across East and Southern Africa. A continent-wide sovereign compute backbone that African enterprises, governments, and universities actually own. 100 MW of Africa-sited capacity.</p>
+      <div class="horizon-tags">
+        <span class="horizon-tag">10 sites</span>
+        <span class="horizon-tag">100 MW</span>
+        <span class="horizon-tag">Pan-African</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OPEN QUESTIONS ────────────────────────────── -->
+<section class="questions">
+  <div class="section-head" style="padding-top:0;">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Open questions</div>
+      <h2 class="section-title reveal">What we're<br/><span class="accent">still working out.</span></h2>
+    </div>
+    <p class="section-lede reveal d1">
+      Not every question has an answer yet. These are the ones we're actively
+      thinking about — publicly, because the best thinking often happens in the open.
+    </p>
+  </div>
+
+  <div class="q-list reveal d1">
+    <div class="q-item">
+      <div class="q-num">01</div>
+      <div class="q-text">What does a truly sovereign AI look like — one that isn't dependent on foreign foundation models at its core?</div>
+      <div class="q-status active">Active</div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">02</div>
+      <div class="q-text">How do we make geothermal and solar baseload fungible across a continent-wide network?</div>
+      <div class="q-status active">Active</div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">03</div>
+      <div class="q-text">Can the modular DC model work for rural edge — 40 kW, solar-backed, off-grid?</div>
+      <div class="q-status">Exploring</div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">04</div>
+      <div class="q-text">What's the right pricing model for AI startups building in emerging markets — where burn matters and hyperscaler pricing is prohibitive?</div>
+      <div class="q-status active">Active</div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">05</div>
+      <div class="q-text">How do governments procure sovereign cloud without creating decade-long vendor dependencies?</div>
+      <div class="q-status">Exploring</div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">06</div>
+      <div class="q-text">What role does post-quantum cryptography play in a sovereign data strategy — and how do we make it practical today?</div>
+      <div class="q-status">Exploring</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SIGNAL TIMELINE ───────────────────────────── -->
+<section class="signal-timeline">
+  <div class="section-head" style="padding-top:0;">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>The build</div>
+      <h2 class="section-title reveal">From land to<br/><span class="accent">live workloads.</span></h2>
+    </div>
+    <p class="section-lede reveal d1">
+      Where we've been and where we're going — told straight, not polished.
+    </p>
+  </div>
+
+  <div class="st-track reveal d1">
+    <div class="st-node">
+      <div class="st-dot-col">
+        <div class="st-dot" style="border-color: var(--signal); background: rgba(231,255,0,0.3);"></div>
+        <div class="st-yr">2024</div>
+      </div>
+      <div class="st-content">
+        <h4>Site secured and LOIs signed.</h4>
+        <p>Land secured at Naivasha SEZ. Six delivery partner LOIs signed — Delta Electronics, AMAX, Studio Aka, RMX, Securex, Infinity Power. The build coalition is in place.</p>
+      </div>
+    </div>
+
+    <div class="st-node live">
+      <div class="st-dot-col">
+        <div class="st-dot"></div>
+        <div class="st-yr">2025–26</div>
+      </div>
+      <div class="st-content">
+        <h4>First module under development.</h4>
+        <p>400 kW Tier III modular pod in build. Target: live Q3 2026 with the first enterprise and university customers. First AI startup access from day one.</p>
+      </div>
+    </div>
+
+    <div class="st-node">
+      <div class="st-dot-col">
+        <div class="st-dot"></div>
+        <div class="st-yr">2027</div>
+      </div>
+      <div class="st-content">
+        <h4>Scale to 2 MW at Hells Gate.</h4>
+        <p>Additional modules deployed on the same footprint. GPU density increases. Sovereign cloud product matures. First government workloads migrate from public hyperscalers.</p>
+      </div>
+    </div>
+
+    <div class="st-node">
+      <div class="st-dot-col">
+        <div class="st-dot"></div>
+        <div class="st-yr">2028+</div>
+      </div>
+      <div class="st-content">
+        <h4>Regional expansion begins.</h4>
+        <p>First site outside Kenya. The modular playbook is proven and repeatable. The continent-wide sovereign compute backbone moves from vision to active build.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RESEARCH THREADS ──────────────────────────── -->
+<section class="threads">
+  <div class="section-head" style="padding-top:0;">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Research threads</div>
+      <h2 class="section-title reveal">What we're<br/><span class="accent">thinking about.</span></h2>
+    </div>
+    <p class="section-lede reveal d1">
+      Four areas where we're doing serious thinking — alongside our academic
+      partners at UCL, ETH Zurich, UPM, and UPC.
+    </p>
+  </div>
+
+  <div class="thread-grid">
+    <div class="thread reveal d1">
+      <div class="thread-tag">Thread · 01</div>
+      <h3>African AI — training on local languages and datasets.</h3>
+      <p>Foundation models trained on Swahili, Kikuyu, Zulu, and Amharic — not English fine-tuned downward. What infrastructure does that require, and how do sovereign data constraints shape the training pipeline?</p>
+    </div>
+    <div class="thread reveal d2">
+      <div class="thread-tag">Thread · 02</div>
+      <h3>Geothermal and clean energy as compute strategy, not PR.</h3>
+      <p>Olkaria generates 595 MW. Kenya's geothermal potential is 10,000 MW. What does it mean to site compute directly on that baseload — and how does energy sovereignty shape digital sovereignty?</p>
+    </div>
+    <div class="thread reveal d3">
+      <div class="thread-tag">Thread · 03</div>
+      <h3>Post-quantum cryptography in practice for emerging markets.</h3>
+      <p>PQC is coming. Most organisations in growth markets aren't ready. We're working with our partners to understand what "quantum-safe by default" looks like for a sovereign cloud platform that goes live in 2026.</p>
+    </div>
+    <div class="thread reveal d4">
+      <div class="thread-tag">Thread · 04</div>
+      <h3>Modular edge — can sovereign compute reach rural Africa?</h3>
+      <p>The 400 kW Tier III module is proven. But what about a 40 kW, solar-backed, edge node for a rural county government or agricultural cooperative? The architecture exists. The economics need more work.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FUTURES CTA ───────────────────────────────── -->
+<section class="futures-cta">
+  <div class="futures-cta-inner">
+    <div>
+      <div class="eyebrow"><span class="mark"></span>Shape it with us</div>
+      <h2 class="reveal">The questions are<br/>open. The <em>build</em><br/>has started.</h2>
+    </div>
+    <div class="reveal d1">
+      <p style="color:var(--light); font-size:17px; line-height:1.55; max-width:42ch; margin:0 0 28px;">
+        Whether you're a researcher, a government partner, an AI founder, or
+        an investor — the best way to shape what Navon Futures becomes is to
+        be part of the conversation now.
+      </p>
+      <div class="dual-cta">
+        <a href="mailto:info@navonworld.com" class="cta">Start a conversation <span class="arrow">→</span></a>
+        <a href="missions.html" class="cta-ghost">Browse missions <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</Site>

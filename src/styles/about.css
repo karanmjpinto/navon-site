@@ -424,6 +424,22 @@
     margin: 0;
   }
 
+  /* ── Team section ───────────────────────────── */
+  .team-section {
+    padding: var(--section-y) 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .team-section .section-head {
+    padding-left: var(--px);
+    padding-right: var(--px);
+  }
+  .team-section .numbered-item.active,
+  .team-section a.numbered-item {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+  }
+
   /* ── Final CTA ───────────────────────────────── */
   .final-cta {
     padding: var(--section-y) var(--px);
