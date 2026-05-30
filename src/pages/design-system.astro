@@ -1,0 +1,2191 @@
+---
+// Navon Design System — single source of truth
+// Route: /design-system
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Navon · Design System</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/shared.css" />
+  <style>
+    /* ── DS chrome ───────────────────────────────── */
+    :root {
+      --ds-sidebar: 240px;
+      --ds-gap: 48px;
+    }
+    body { background: var(--ink); }
+
+    .ds-layout {
+      display: grid;
+      grid-template-columns: var(--ds-sidebar) 1fr;
+      min-height: 100vh;
+    }
+
+    /* sidebar */
+    .ds-sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid var(--line);
+      padding: 32px 0 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .ds-sidebar::-webkit-scrollbar { width: 0; }
+    .ds-brand {
+      padding: 0 24px 28px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 20px;
+    }
+    .ds-brand .wordmark {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--paper);
+      font-weight: 500;
+    }
+    .ds-brand .wordmark .dot { color: var(--signal); }
+    .ds-brand .ver {
+      margin-top: 6px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--slate);
+    }
+    .ds-nav-group {
+      padding: 0 24px 6px;
+    }
+    .ds-nav-group-label {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      font-weight: 500;
+      padding: 16px 0 8px;
+    }
+    .ds-nav-group a {
+      display: block;
+      font-size: 13px;
+      color: var(--mid);
+      padding: 5px 0;
+      letter-spacing: -0.005em;
+      transition: color 0.15s ease;
+      line-height: 1.5;
+    }
+    .ds-nav-group a:hover { color: var(--paper); }
+    .ds-nav-group a.active { color: var(--signal); }
+
+    /* main — warm off-white editorial surface */
+    .ds-main {
+      padding: 56px var(--ds-gap) 120px;
+      max-width: 1000px;
+      background-color: #F7F6F1;
+      color: var(--ink);
+      /* Rebind dark tokens for light context.
+         Specimen canvases and pattern cards re-rebind back to dark inside themselves. */
+      --paper: #000000;
+      --light: #1a1b28;
+      --mid:   #4a4b5e;
+      --slate: #555568;
+      --line:  rgba(0,0,0,0.10);
+      --line-2: rgba(0,0,0,0.16);
+    }
+
+    /* section */
+    .ds-section {
+      padding-top: var(--section-y);
+      border-top: 1px solid var(--line);
+      margin-top: var(--section-y);
+    }
+    .ds-section:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
+    .ds-section-header {
+      margin-bottom: 48px;
+    }
+    .ds-section-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 10px;
+    }
+    .ds-section-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.2vw, 44px);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin: 0 0 10px;
+    }
+    .ds-section-desc {
+      font-size: 14.5px;
+      color: var(--mid);
+      line-height: 1.6;
+      max-width: 58ch;
+      margin: 0;
+    }
+
+    /* specimen blocks */
+    .ds-specimen {
+      margin-bottom: 40px;
+    }
+    .ds-specimen-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 16px;
+    }
+    .ds-specimen-canvas {
+      border: 1px solid var(--line);
+      padding: 32px;
+      background: rgba(255,255,255,0.012);
+      position: relative;
+    }
+    .ds-specimen-canvas.light {
+      background: var(--paper);
+      color: var(--ink);
+    }
+    .ds-code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: var(--slate);
+      background: rgba(255,255,255,0.04);
+      padding: 2px 7px;
+      border-radius: 2px;
+    }
+    .ds-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .ds-col { display: flex; flex-direction: column; gap: 12px; }
+
+    /* colour swatches */
+    .swatch-row {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 0;
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .swatch {
+      aspect-ratio: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8px;
+    }
+    .swatch-name {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+    .swatch-hex {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      opacity: 0.7;
+    }
+    .swatch-row .swatch:not(:last-child) { border-right: 1px solid rgba(255,255,255,0.06); }
+
+    /* signal row */
+    .signal-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .signal-row .swatch:not(:last-child) { border-right: 1px solid rgba(0,0,0,0.12); }
+
+    /* type scale */
+    .type-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--line);
+    }
+    .type-row-item {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+    .type-row-item:last-child { border-bottom: 0; }
+    .type-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: var(--slate);
+    }
+    .type-meta .size { color: var(--mid); font-size: 11px; margin-top: 3px; }
+    .type-sample { min-width: 0; }
+    .type-class { font-family: var(--font-mono); font-size: 10px; color: var(--charcoal); text-align: right; white-space: nowrap; }
+
+    /* spacing scale */
+    .space-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--line);
+    }
+    .space-row-item {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 80px 1fr 80px;
+      gap: 16px;
+      align-items: center;
+    }
+    .space-row-item:last-child { border-bottom: 0; }
+    .space-bar-wrap { display: flex; align-items: center; }
+    .space-bar { height: 2px; background: var(--signal); }
+    .space-label { font-family: var(--font-mono); font-size: 10px; color: var(--slate); letter-spacing: 0.14em; }
+    .space-value { font-family: var(--font-mono); font-size: 10px; color: var(--mid); letter-spacing: 0.1em; text-align: right; }
+
+    /* easing demo */
+    .easing-demo {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    .ease-ball {
+      width: 16px; height: 16px;
+      background: var(--signal);
+      border-radius: 1px;
+      transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    .ease-track {
+      flex: 1;
+      height: 1px;
+      background: var(--line-2);
+      position: relative;
+    }
+    .ease-track:hover .ease-ball { transform: translateX(calc(100% + 16px)); }
+
+    /* button spec table */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .spec-table th {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--slate);
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-weight: 500;
+    }
+    .spec-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      color: var(--light);
+      vertical-align: top;
+    }
+    .spec-table tr:last-child td { border-bottom: 0; }
+    .spec-table td:first-child { color: var(--mid); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; }
+
+    /* component annotations */
+    .ds-annotation {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin-top: 12px;
+    }
+    .ds-annotation-dot {
+      width: 6px; height: 6px;
+      background: var(--signal);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .ds-annotation p {
+      font-size: 12.5px;
+      color: var(--mid);
+      margin: 0;
+      line-height: 1.5;
+    }
+    .ds-annotation code { font-family: var(--font-mono); font-size: 11px; color: var(--light); }
+
+    /* forbidden words */
+    .forbidden-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--line);
+    }
+    .forbidden-row {
+      display: contents;
+    }
+    .forbidden-row div {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+    }
+    .forbidden-row:last-child div { border-bottom: 0; }
+    .forbidden-row .bad {
+      color: var(--slate);
+      text-decoration: line-through;
+      text-decoration-color: rgba(255,80,80,0.5);
+      border-right: 1px solid var(--line);
+    }
+    .forbidden-row .good { color: var(--light); }
+
+    /* pattern cards */
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .pattern-card {
+      background: var(--ink);
+      padding: 24px;
+    }
+    .pattern-card-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--signal);
+      margin-bottom: 8px;
+    }
+    .pattern-card-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--paper);
+      margin: 0 0 6px;
+    }
+    .pattern-card-desc {
+      font-size: 13px;
+      color: var(--mid);
+      line-height: 1.5;
+      margin: 0 0 14px;
+    }
+    .pattern-card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .pattern-card-tag {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid var(--line-2);
+      color: var(--slate);
+    }
+
+    /* responsive */
+    @media (max-width: 900px) {
+      .ds-layout { grid-template-columns: 1fr; }
+      .ds-sidebar { display: none; }
+      .ds-main { padding: 40px 20px 80px; }
+      .swatch-row { grid-template-columns: repeat(5, 1fr); }
+      .forbidden-grid { grid-template-columns: 1fr; }
+      .forbidden-row .bad { border-right: 0; border-bottom: 1px solid var(--line); }
+      .pattern-grid { grid-template-columns: 1fr; }
+      .type-row-item { grid-template-columns: 80px 1fr; }
+      .type-class { display: none; }
+    }
+
+    /* ── Hallmark redesign · East Africa cultural layer ─
+     * Pre-emit critique: P5 H4 E4 S5 R4 V4
+     * cultural-layer: Rift Valley · Naivasha · 00°42′S 36°26′E
+     */
+
+    /* Topographic texture — dark contour lines at 80px cadence on the light main,
+       evoking Rift Valley survey-map intervals. Sidebar stays plain dark. */
+    .ds-main {
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 79px,
+        rgba(0,0,0,0.022) 79px,
+        rgba(0,0,0,0.022) 80px
+      );
+    }
+
+    /* Sidebar scroll progress — 2px signal line on left edge */
+    .ds-sidebar { position: relative; overflow: hidden; }
+    .ds-progress {
+      position: absolute;
+      left: 0; top: 0;
+      width: 2px;
+      background: var(--signal);
+      height: 0%;
+      transition: height 0.1s linear;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Sidebar location colophon */
+    .ds-location {
+      margin-top: auto;
+      padding: 20px 24px;
+      border-top: 1px solid var(--line);
+    }
+    .ds-location-name {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      line-height: 1.6;
+    }
+    .ds-location-coord {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      color: var(--signal);
+      margin-top: 3px;
+      opacity: 0.85;
+    }
+
+    /* Section number — 16px signal dash prefix */
+    .ds-section-num {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .ds-section-num::before {
+      content: "";
+      width: 16px;
+      height: 1px;
+      background: var(--signal);
+      display: inline-block;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+
+    /* Overview editorial principle list */
+    .ds-overview-principles {
+      margin-top: 48px;
+      border-top: 1px solid var(--line);
+    }
+    .ds-principle {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 28px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: baseline;
+      transition: background 0.25s ease;
+      position: relative;
+    }
+    .ds-principle::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: -1px;
+      width: 0; height: 1px;
+      background: var(--signal);
+      transition: width 0.45s var(--easing);
+    }
+    .ds-principle:hover { background: rgba(231,255,0,0.012); }
+    .ds-principle:hover::after { width: 100%; }
+    .dp-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--signal);
+      text-transform: uppercase;
+      padding-top: 2px;
+    }
+    .dp-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--paper);
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+      font-family: var(--font-display);
+    }
+    .dp-text {
+      font-size: 13.5px;
+      color: var(--mid);
+      line-height: 1.6;
+      margin: 0;
+    }
+    @media (max-width: 900px) {
+      .ds-principle { grid-template-columns: 1fr; gap: 6px; }
+    }
+
+    /* Palette field note — Rift Valley provenance annotation */
+    .ds-field-note {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--charcoal);
+      letter-spacing: 0.06em;
+      line-height: 1.75;
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-left: 2px solid var(--signal);
+      max-width: 72ch;
+      background: rgba(231,255,0,0.03);
+    }
+
+    /* Easing demo — ball inside track, moves on hover */
+    .easing-demo { display: flex; align-items: center; }
+    .ease-track {
+      flex: 1;
+      height: 2px;
+      background: var(--line-2);
+      position: relative;
+      overflow: visible;
+      cursor: default;
+    }
+    .ease-ball {
+      width: 16px; height: 16px;
+      background: var(--signal);
+      border-radius: 1px;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      transition: left 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    .ease-track:hover .ease-ball { left: calc(100% - 16px); }
+
+    /* Forbidden words — header row */
+    .forbidden-row.forbidden-header .bad {
+      background: var(--signal);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .forbidden-row.forbidden-header .good {
+      background: rgba(255,255,255,0.04);
+      color: var(--slate);
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    /* Voice narratives — editorial list (replaces numbered cols-2) */
+    .ds-narrative-list {
+      border-top: 1px solid var(--line);
+      margin-top: 0;
+    }
+    .ds-narrative-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 32px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      transition: background 0.25s ease;
+    }
+    .ds-narrative-item::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--signal);
+      transition: width 0.45s var(--easing);
+    }
+    .ds-narrative-item:hover { background: rgba(231,255,0,0.012); }
+    .ds-narrative-item:hover::before { width: 100%; }
+    .dn-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--signal);
+      padding-top: 4px;
+      text-transform: uppercase;
+    }
+    .dn-body {}
+    .dn-body h4 {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.012em;
+      margin: 0 0 6px;
+      color: var(--paper);
+      font-style: italic;
+    }
+    .dn-body p {
+      font-size: 13.5px;
+      color: var(--mid);
+      margin: 0;
+      line-height: 1.55;
+    }
+    @media (max-width: 900px) {
+      .ds-narrative-item { grid-template-columns: 1fr; gap: 8px; }
+    }
+
+    /* ── Icons & Diagrams ───────────────────────────── */
+
+    /* Mark vocabulary — shown inside dark specimen canvas */
+    .ds-marks-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+    }
+    .ds-mark-item {
+      padding: 22px 12px 16px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+    }
+    .ds-mark-item:last-child { border-right: 0; }
+    .ds-mark-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+    }
+    .ds-mark-name {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #9E9F9B;
+      line-height: 1.6;
+    }
+    .ds-mark-code {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      color: #6F7287;
+      margin-top: 2px;
+    }
+    @media (max-width: 900px) {
+      .ds-marks-row { grid-template-columns: repeat(3, 1fr); }
+      .ds-mark-item:nth-child(3) { border-right: 0; }
+      .ds-mark-item:nth-child(4),
+      .ds-mark-item:nth-child(5) { border-top: 1px solid rgba(255,255,255,0.08); }
+      .ds-mark-item:nth-child(4) { border-right: 1px solid rgba(255,255,255,0.08); }
+    }
+
+    /* Diagram rules list — on light main */
+    .ds-diagram-rules {
+      border-top: 1px solid var(--line);
+      margin-top: 36px;
+    }
+    .ds-diagram-rule {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 20px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: baseline;
+    }
+    .ds-diagram-rule:last-child { border-bottom: 0; }
+    .dr-num {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.2em;
+      color: var(--charcoal);
+      text-transform: uppercase;
+    }
+    .dr-rule {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--paper);
+      margin: 0 0 3px;
+    }
+    .dr-detail {
+      font-size: 12.5px;
+      color: var(--mid);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ── Light-main scoped overrides ────────────────
+     * Dark specimen frames re-rebind tokens to their original dark values.
+     * Signal yellow marks are swapped to charcoal (invisible on #F7F6F1).
+     */
+
+    /* Dark preview frames stay dark — specimens show real dark-mode output */
+    .ds-main .ds-specimen-canvas {
+      background: #09090d;
+      color: #E2E3DE;
+      border-color: rgba(255,255,255,0.08);
+      --paper: #ffffff;
+      --light: #E2E3DE;
+      --mid:   #9E9F9B;
+      --slate: #6F7287;
+      --line:  rgba(255,255,255,0.08);
+      --line-2: rgba(255,255,255,0.14);
+    }
+    .ds-main .ds-specimen-canvas .ds-code {
+      background: rgba(255,255,255,0.07);
+      color: #9E9F9B;
+    }
+
+    /* Pattern cards are page-structure specimens — keep dark */
+    .ds-main .pattern-card {
+      background: #07080A;
+      --paper: #ffffff;
+      --light: #E2E3DE;
+      --mid:   #9E9F9B;
+      --line:  rgba(255,255,255,0.08);
+    }
+
+    /* ds-code on light surface */
+    .ds-main .ds-code {
+      background: rgba(0,0,0,0.07);
+      color: var(--charcoal);
+    }
+
+    /* Swatch grid borders */
+    .ds-main .swatch-row { border-color: rgba(0,0,0,0.10); }
+    .ds-main .swatch-row .swatch:not(:last-child) { border-right-color: rgba(0,0,0,0.07); }
+
+    /* numbered-item signal mark */
+    .ds-main .numbered-item .num { color: var(--charcoal); }
+
+    /* Signal → charcoal for marks that would be invisible on off-white */
+    .ds-main .ds-section-num::before { background: var(--charcoal); opacity: 1; }
+    .ds-main .dp-num { color: var(--charcoal); }
+    .ds-main .dn-num { color: var(--charcoal); }
+    .ds-main .ds-annotation-dot { background: var(--charcoal); }
+    .ds-main .ds-field-note {
+      border-left-color: var(--charcoal);
+      background: rgba(0,0,0,0.04);
+      color: var(--charcoal);
+    }
+    .ds-main .ds-principle::after { background: var(--charcoal); }
+    .ds-main .ds-narrative-item::before { background: var(--charcoal); }
+    .ds-main .dc-coord { color: var(--charcoal); }
+    .ds-main .dc-mark { background: var(--charcoal); }
+    .ds-main .space-bar { background: var(--charcoal); }
+    .ds-main .ds-progress { background: var(--charcoal); }
+
+    /* h1 accent — yellow highlight-bar replaces pure signal text colour */
+    .ds-hero-accent {
+      font-style: italic;
+      font-weight: 400;
+      background: linear-gradient(180deg, transparent 54%, rgba(231,255,0,0.58) 54%);
+      color: var(--ink);
+      padding: 0 3px;
+    }
+
+    /* ── Cultural Roots block ────────────────────── */
+    .ds-roots {
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+    .ds-roots-header {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      margin-bottom: 20px;
+    }
+    .ds-roots-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border: 1px solid var(--line);
+    }
+    .ds-root-item {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .ds-root-item:nth-child(odd) { border-right: 1px solid var(--line); }
+    .ds-root-item:nth-last-child(-n+2) { border-bottom: 0; }
+    .ds-root-item:last-child:nth-child(odd) { border-bottom: 0; }
+    .ri-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      margin-bottom: 6px;
+    }
+    .ri-value {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--paper);
+      margin: 0 0 4px;
+    }
+    .ri-note {
+      font-size: 12.5px;
+      color: var(--mid);
+      margin: 0;
+      line-height: 1.5;
+    }
+    @media (max-width: 900px) {
+      .ds-roots-grid { grid-template-columns: 1fr; }
+      .ds-root-item:nth-child(odd) { border-right: 0; }
+      .ds-root-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .ds-root-item:last-child { border-bottom: 0; }
+    }
+
+    /* ── Swahili display specimen ────────────────── */
+    .ds-swahili {
+      margin-top: 40px;
+      padding: 28px 24px;
+      border: 1px solid var(--line);
+    }
+    .ds-swahili-main {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 6vw, 80px);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      color: var(--paper);
+      margin: 0 0 6px;
+    }
+    .ds-swahili-gloss {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      margin: 0 0 14px;
+    }
+    .ds-swahili-note {
+      font-size: 12.5px;
+      color: var(--mid);
+      max-width: 52ch;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ── Geographic specificity grid ─────────────── */
+    .ds-geo-label {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      margin: 36px 0 16px;
+    }
+    .ds-geo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--line);
+    }
+    .ds-geo-item {
+      padding: 18px 16px;
+      border-right: 1px solid var(--line);
+    }
+    .ds-geo-item:last-child { border-right: 0; }
+    .dg-scope {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+    }
+    .dg-term {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--paper);
+      margin: 0 0 6px;
+    }
+    .dg-when {
+      font-size: 12px;
+      color: var(--mid);
+      line-height: 1.5;
+      margin: 0;
+    }
+    @media (max-width: 900px) {
+      .ds-geo-grid { grid-template-columns: 1fr 1fr; }
+      .ds-geo-item:nth-child(even) { border-right: 0; }
+      .ds-geo-item { border-bottom: 1px solid var(--line); }
+      .ds-geo-item:nth-last-child(-n+2) { border-bottom: 0; }
+    }
+
+    /* Colophon — token section footer */
+    .ds-colophon {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .dc-left { display: flex; align-items: center; gap: 14px; }
+    .dc-mark { width: 8px; height: 8px; background: var(--signal); flex-shrink: 0; }
+    .dc-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--paper);
+      font-weight: 500;
+    }
+    .dc-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      margin-top: 4px;
+    }
+    .dc-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .dc-coord {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--signal);
+      text-transform: uppercase;
+    }
+    .dc-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--slate);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: color 0.2s ease;
+    }
+    .dc-back:hover { color: var(--signal); }
+  </style>
+</head>
+<body>
+
+<div class="ds-layout">
+
+  <!-- ── Sidebar ──────────────────────────────── -->
+  <aside class="ds-sidebar">
+    <div class="ds-progress" id="ds-progress"></div>
+    <div class="ds-brand">
+      <div class="wordmark">NAVON<span class="dot">.</span></div>
+      <div class="ver">Design System · v1.0 · #E7FF00</div>
+    </div>
+
+    <div class="ds-nav-group">
+      <div class="ds-nav-group-label">Foundations</div>
+      <a href="#colour">Colour</a>
+      <a href="#typography">Typography</a>
+      <a href="#spacing">Spacing &amp; Layout</a>
+      <a href="#motion">Motion</a>
+      <a href="#diagrams">Icons &amp; Diagrams</a>
+    </div>
+
+    <div class="ds-nav-group">
+      <div class="ds-nav-group-label">Components</div>
+      <a href="#buttons">Buttons</a>
+      <a href="#labels">Labels &amp; Tags</a>
+      <a href="#cards">Cards</a>
+      <a href="#navigation">Navigation</a>
+      <a href="#segmented">Segmented Control</a>
+    </div>
+
+    <div class="ds-nav-group">
+      <div class="ds-nav-group-label">Patterns</div>
+      <a href="#page-patterns">Page Patterns</a>
+      <a href="#dark-light">Dark / Light Split</a>
+      <a href="#voice">Voice &amp; Language</a>
+    </div>
+
+    <div class="ds-nav-group">
+      <div class="ds-nav-group-label">Reference</div>
+      <a href="#tokens">Token Reference</a>
+    </div>
+
+    <div class="ds-location">
+      <div class="ds-location-name">Navon · Kenya</div>
+      <div class="ds-location-coord">00°42′S 36°26′E</div>
+    </div>
+  </aside>
+
+  <!-- ── Main ─────────────────────────────────── -->
+  <main class="ds-main">
+
+    <!-- Overview -->
+    <div class="ds-section" id="overview">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
+        <span style="width:8px;height:8px;background:var(--signal);display:inline-block;"></span>
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid);">Navon · Design System</span>
+      </div>
+      <h1 style="font-size:clamp(40px,5vw,72px);font-weight:500;letter-spacing:-0.04em;line-height:0.96;margin:0 0 20px;">Build Africa's<br/><span class="ds-hero-accent">AI future</span><br/>consistently.</h1>
+      <p style="font-size:16px;color:var(--mid);line-height:1.65;max-width:54ch;margin:0 0 40px;">A single source of truth for every visual decision on the Navon website and products. Tokens first, components second, patterns third.</p>
+
+      <div class="ds-overview-principles">
+        <div class="ds-principle">
+          <span class="dp-num">01</span>
+          <div>
+            <div class="dp-title">Token-first</div>
+            <p class="dp-text">All colour, type, and spacing decisions start from a named CSS variable — never a hardcoded hex.</p>
+          </div>
+        </div>
+        <div class="ds-principle">
+          <span class="dp-num">02</span>
+          <div>
+            <div class="dp-title">Africa-forward</div>
+            <p class="dp-text">Visuals and language must speak to African business leaders first. Technical diagrams earn their place.</p>
+          </div>
+        </div>
+        <div class="ds-principle">
+          <span class="dp-num">03</span>
+          <div>
+            <div class="dp-title">One idea per section</div>
+            <p class="dp-text">White space is structure. No section carries more than one idea. Hierarchy replaces density.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cultural Anchor — geography behind the brand -->
+      <div class="ds-roots">
+        <div class="ds-roots-header">Cultural anchor — the geography behind the brand</div>
+        <div class="ds-roots-grid">
+          <div class="ds-root-item">
+            <div class="ri-label">Site</div>
+            <div class="ri-value">Hell's Gate SEZ · Naivasha</div>
+            <p class="ri-note">The physical location of Navon's data centre — geothermal steam, not diesel. Every design decision should trace to a real place.</p>
+          </div>
+          <div class="ds-root-item">
+            <div class="ri-label">Region</div>
+            <div class="ri-value">Rift Valley, Kenya</div>
+            <p class="ri-note">East Africa's technology corridor. Photography and illustration should foreground this landscape — escarpment, acacia, red laterite road.</p>
+          </div>
+          <div class="ds-root-item">
+            <div class="ri-label">Context</div>
+            <div class="ri-value">Silicon Savannah</div>
+            <p class="ri-note">Nairobi's tech ecosystem — the buyers, the talent, the ambition. Navon is local infrastructure for a local market, not a Western import.</p>
+          </div>
+          <div class="ds-root-item">
+            <div class="ri-label">Photography rule</div>
+            <div class="ri-value">Faces first</div>
+            <p class="ri-note">Customer-facing pages lead with Kenyan and East African faces and landscape. Diagrams earn their place on technical pages only.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ── 1. COLOUR ──────────────────────────── -->
+    <section class="ds-section" id="colour">
+      <div class="ds-section-header">
+        <div class="ds-section-num">01 — Foundations</div>
+        <h2 class="ds-section-title">Colour</h2>
+        <p class="ds-section-desc">Two families: a nine-step neutral ramp from <code class="ds-code">--ink</code> to <code class="ds-code">--paper</code>, and a single brand accent <code class="ds-code">--signal</code>. Signal is never used as body text — only buttons, accents, and graphic highlights.</p>
+      </div>
+
+      <!-- Neutral ramp -->
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Neutral scale — ink → paper</div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#000000;">
+            <span class="swatch-name" style="color:rgba(255,255,255,0.4);">ink</span>
+            <span class="swatch-hex" style="color:rgba(255,255,255,0.3);">#000000</span>
+          </div>
+          <div class="swatch" style="background:#07080A;">
+            <span class="swatch-name" style="color:rgba(255,255,255,0.4);">ink-2</span>
+            <span class="swatch-hex" style="color:rgba(255,255,255,0.3);">#07080A</span>
+          </div>
+          <div class="swatch" style="background:#3F4157;">
+            <span class="swatch-name" style="color:rgba(255,255,255,0.6);">charcoal</span>
+            <span class="swatch-hex" style="color:rgba(255,255,255,0.4);">#3F4157</span>
+          </div>
+          <div class="swatch" style="background:#6F7287;">
+            <span class="swatch-name" style="color:rgba(255,255,255,0.7);">slate</span>
+            <span class="swatch-hex" style="color:rgba(255,255,255,0.5);">#6F7287</span>
+          </div>
+          <div class="swatch" style="background:#9E9F9B;">
+            <span class="swatch-name" style="color:rgba(255,255,255,0.8);">mid</span>
+            <span class="swatch-hex" style="color:rgba(255,255,255,0.6);">#9E9F9B</span>
+          </div>
+          <div class="swatch" style="background:#E2E3DE;">
+            <span class="swatch-name" style="color:rgba(0,0,0,0.5);">light</span>
+            <span class="swatch-hex" style="color:rgba(0,0,0,0.35);">#E2E3DE</span>
+          </div>
+          <div class="swatch" style="background:#F3F4F4;">
+            <span class="swatch-name" style="color:rgba(0,0,0,0.45);">vlight</span>
+            <span class="swatch-hex" style="color:rgba(0,0,0,0.3);">#F3F4F4</span>
+          </div>
+          <div class="swatch" style="background:#FFFFFF;border-left:1px solid var(--line);">
+            <span class="swatch-name" style="color:rgba(0,0,0,0.45);">paper</span>
+            <span class="swatch-hex" style="color:rgba(0,0,0,0.3);">#FFFFFF</span>
+          </div>
+          <div class="swatch" style="background:#E7FF00;">
+            <span class="swatch-name" style="color:rgba(0,0,0,0.55);">signal</span>
+            <span class="swatch-hex" style="color:rgba(0,0,0,0.4);">#E7FF00</span>
+          </div>
+        </div>
+        <p class="ds-field-note">The neutral ramp traces Rift Valley light: deep basalt of Mount Longonot at dusk → bleached silt of Lake Naivasha at noon. Signal is East African sunrise — deployed only where attention is earned.</p>
+      </div>
+
+      <!-- Signal scale -->
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Signal — usage rules</div>
+        <div class="signal-row">
+          <div class="swatch" style="background:#E7FF00;aspect-ratio:auto;padding:20px 16px 16px;">
+            <span class="swatch-name" style="color:rgba(0,0,0,0.6);font-size:10px;">Button fill</span>
+          </div>
+          <div class="swatch" style="background:rgba(231,255,0,0.1);aspect-ratio:auto;padding:20px 16px 16px;border-left:1px solid var(--line);">
+            <span class="swatch-name" style="color:var(--mid);font-size:10px;">Card hover</span>
+          </div>
+          <div class="swatch" style="background:rgba(231,255,0,0.06);aspect-ratio:auto;padding:20px 16px 16px;border-left:1px solid var(--line);">
+            <span class="swatch-name" style="color:var(--mid);font-size:10px;">Subtle bg</span>
+          </div>
+          <div class="swatch" style="background:rgba(231,255,0,0.6);aspect-ratio:auto;padding:20px 16px 16px;border-left:1px solid var(--line);">
+            <span class="swatch-name" style="color:rgba(0,0,0,0.5);font-size:10px;">Glow shadow</span>
+          </div>
+          <div class="swatch" style="background:var(--ink);aspect-ratio:auto;padding:20px 16px 16px;border-left:1px solid var(--line);">
+            <div style="width:8px;height:8px;background:var(--signal);margin-bottom:8px;"></div>
+            <span class="swatch-name" style="color:var(--mid);font-size:10px;">Dot / mark</span>
+          </div>
+        </div>
+        <div class="ds-annotation">
+          <div class="ds-annotation-dot"></div>
+          <p><strong style="color:var(--paper);">Signal is never used as text colour.</strong> Use it for buttons, decorative dots, top-border accents, hover glows, and the selection highlight. Body copy stays <code>--paper</code>, <code>--light</code>, or <code>--mid</code>.</p>
+        </div>
+      </div>
+
+      <!-- Alpha overlays -->
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Structural overlays</div>
+        <div class="numbered cols-2" style="margin-top:0;">
+          <div class="numbered-item" style="min-height:80px;padding:18px 20px;">
+            <span class="num">--line</span>
+            <p>rgba(255,255,255,0.08) — default borders, dividers</p>
+          </div>
+          <div class="numbered-item" style="min-height:80px;padding:18px 20px;">
+            <span class="num">--line-2</span>
+            <p>rgba(255,255,255,0.14) — scrolled nav, active card borders</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── 2. TYPOGRAPHY ──────────────────────── -->
+    <section class="ds-section" id="typography">
+      <div class="ds-section-header">
+        <div class="ds-section-num">01 — Foundations</div>
+        <h2 class="ds-section-title">Typography</h2>
+        <p class="ds-section-desc">Two typefaces only. <strong style="color:var(--paper);">Space Grotesk</strong> for all editorial and display text. <strong style="color:var(--paper);">JetBrains Mono</strong> for labels, metadata, code, and eyebrows — never for body paragraphs.</p>
+      </div>
+
+      <!-- Type scale -->
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Display scale — Space Grotesk</div>
+        <div class="type-row">
+          <div class="type-row-item">
+            <div class="type-meta">Hero<div class="size">clamp(56px, 9vw, 128px)</div></div>
+            <div class="type-sample" style="font-size:clamp(40px,5vw,64px);font-weight:500;letter-spacing:-0.04em;line-height:0.96;">Navon</div>
+            <div class="type-class">.hero-headline</div>
+          </div>
+          <div class="type-row-item">
+            <div class="type-meta">Page title<div class="size">clamp(48px, 8vw, 120px)</div></div>
+            <div class="type-sample" style="font-size:clamp(36px,4.5vw,56px);font-weight:500;letter-spacing:-0.04em;line-height:0.96;">Africa</div>
+            <div class="type-class">.page-title</div>
+          </div>
+          <div class="type-row-item">
+            <div class="type-meta">Section title<div class="size">clamp(36px, 4.6vw, 64px)</div></div>
+            <div class="type-sample" style="font-size:clamp(28px,3.5vw,44px);font-weight:500;letter-spacing:-0.03em;line-height:1.02;">Four layers.</div>
+            <div class="type-class">.section-title</div>
+          </div>
+          <div class="type-row-item">
+            <div class="type-meta">Card heading<div class="size">18–24px</div></div>
+            <div class="type-sample" style="font-size:20px;font-weight:500;letter-spacing:-0.012em;">Sovereign cloud</div>
+            <div class="type-class">h3 / h4</div>
+          </div>
+          <div class="type-row-item">
+            <div class="type-meta">Body<div class="size">16–17px</div></div>
+            <div class="type-sample" style="font-size:16px;color:var(--light);line-height:1.6;max-width:48ch;">Navon provides AI compute, sovereign cloud, and quantum-safe security to enterprises across Africa.</div>
+            <div class="type-class">.page-lede / p</div>
+          </div>
+          <div class="type-row-item">
+            <div class="type-meta">Small body<div class="size">13–14px</div></div>
+            <div class="type-sample" style="font-size:13.5px;color:var(--mid);line-height:1.55;">Supporting detail text — card descriptions, footnotes, helper copy.</div>
+            <div class="type-class">.desc / small</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Mono scale — JetBrains Mono</div>
+        <div class="type-row">
+          <div class="type-row-item">
+            <div class="type-meta">Eyebrow<div class="size">11px / 0.24em</div></div>
+            <div class="type-sample">
+              <span class="eyebrow"><span class="mark"></span>Infrastructure</span>
+            </div>
+            <div class="type-class">.eyebrow</div>
+          </div>
+          <div class="type-row-item">
+            <div class="type-meta">Label / nav<div class="size">11px / 0.22em</div></div>
+            <div class="type-sample" style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid);">NAVON · 2026</div>
+            <div class="type-class">.mono</div>
+          </div>
+          <div class="type-row-item">
+            <div class="type-meta">Wordmark<div class="size">13–14px / 0.22em</div></div>
+            <div class="type-sample" style="font-family:var(--font-mono);font-size:14px;letter-spacing:0.22em;text-transform:uppercase;font-weight:500;">NAVON<span style="color:var(--signal);">.</span></div>
+            <div class="type-class">.wordmark</div>
+          </div>
+          <div class="type-row-item">
+            <div class="type-meta">Spec / data<div class="size">10–11px</div></div>
+            <div class="type-sample" style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);">PUE <span style="color:var(--paper);">1.29</span></div>
+            <div class="type-class">.spec-card-num</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accent -->
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Accent — italic + signal</div>
+        <div class="ds-specimen-canvas">
+          <div style="font-size:clamp(28px,4vw,52px);font-weight:500;letter-spacing:-0.03em;line-height:1.05;">
+            Four layers.<br/><span style="color:var(--signal);font-style:italic;font-weight:400;">One sovereign stack.</span>
+          </div>
+          <div class="ds-annotation" style="margin-top:16px;">
+            <div class="ds-annotation-dot"></div>
+            <p>Italic + signal weight 400 is used for the highlighted line in section titles. <code>.accent</code> class on a <code>&lt;span&gt;</code> inside <code>.section-title</code> or <code>.page-title</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Swahili specimen — pan-African readability anchor -->
+      <div class="ds-swahili">
+        <div class="ds-specimen-label" style="margin-bottom:20px;">Language specimen — Kiswahili</div>
+        <div class="ds-swahili-main">Kujenga.</div>
+        <div class="ds-swahili-gloss">to build · Kiswahili</div>
+        <p class="ds-swahili-note">Space Grotesk carries Swahili copy without modification — clean Latin-Supplement coverage supports the full Kenyan and East African character set. All Navon display headlines work bilingually. Secondary test words: <em style="font-style:italic;color:var(--charcoal);">Ujenzi · Mazingira · Baadaye</em> (construction · environment · future).</p>
+      </div>
+    </section>
+
+
+    <!-- ── 3. SPACING ────────────────────────── -->
+    <section class="ds-section" id="spacing">
+      <div class="ds-section-header">
+        <div class="ds-section-num">01 — Foundations</div>
+        <h2 class="ds-section-title">Spacing &amp; Layout</h2>
+        <p class="ds-section-desc">All spacing is token-driven. The two most important are <code class="ds-code">--px</code> (horizontal page padding) and <code class="ds-code">--section-y</code> (vertical section rhythm) — both are fluid clamps.</p>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Core layout tokens</div>
+        <div class="space-grid">
+          <div class="space-row-item">
+            <span class="space-label">--nav-h</span>
+            <div class="space-bar-wrap"><div class="space-bar" style="width:68px;"></div></div>
+            <span class="space-value">68px</span>
+          </div>
+          <div class="space-row-item">
+            <span class="space-label">--px</span>
+            <div class="space-bar-wrap"><div class="space-bar" style="width:min(56px,8vw);"></div></div>
+            <span class="space-value">clamp(20px, 4vw, 56px)</span>
+          </div>
+          <div class="space-row-item">
+            <span class="space-label">--section-y</span>
+            <div class="space-bar-wrap"><div class="space-bar" style="width:min(120px,12vw);"></div></div>
+            <span class="space-value">clamp(96px, 12vw, 160px)</span>
+          </div>
+          <div class="space-row-item">
+            <span class="space-label">Max width</span>
+            <div class="space-bar-wrap"><div class="space-bar" style="width:100%;"></div></div>
+            <span class="space-value">1280px</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Grid system</div>
+        <div class="numbered cols-3" style="margin-top:0;">
+          <div class="numbered-item" style="min-height:100px;">
+            <span class="num">1-col</span>
+            <h4>Full-width</h4>
+            <p>Hero sections, photography, maps. No max-width constraint below 1280px.</p>
+          </div>
+          <div class="numbered-item" style="min-height:100px;">
+            <span class="num">2-col</span>
+            <h4>Section header</h4>
+            <p>Title left, lede/meta right. Collapses to 1-col at 820px. Used in .section-head.</p>
+          </div>
+          <div class="numbered-item" style="min-height:100px;">
+            <span class="num">3–5-col</span>
+            <h4>Feature grids</h4>
+            <p>.numbered.cols-3 / cols-5. Collapses to 2-col at 1100px, 1-col at 640px.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Border radius</div>
+        <div class="ds-row" style="gap:24px;align-items:center;">
+          <div>
+            <div style="width:48px;height:48px;background:var(--signal);border-radius:2px;"></div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);margin-top:8px;letter-spacing:0.12em;">2px — buttons, cards, inputs</div>
+          </div>
+          <div>
+            <div style="width:48px;height:48px;background:var(--signal);border-radius:999px;"></div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);margin-top:8px;letter-spacing:0.12em;">999px — tags, pills, badges</div>
+          </div>
+          <div>
+            <div style="width:48px;height:48px;background:var(--signal);border-radius:0px;"></div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);margin-top:8px;letter-spacing:0.12em;">0 — SVG shapes, lines, dividers</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── 4. MOTION ──────────────────────────── -->
+    <section class="ds-section" id="motion">
+      <div class="ds-section-header">
+        <div class="ds-section-num">01 — Foundations</div>
+        <h2 class="ds-section-title">Motion</h2>
+        <p class="ds-section-desc">All transitions use a single shared easing curve. Motion is purposeful and restrained — it guides attention, not decorates.</p>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Easing curve — --easing · hover to play</div>
+        <div class="ds-specimen-canvas">
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--signal);margin-bottom:20px;letter-spacing:0.12em;">cubic-bezier(0.65, 0, 0.35, 1)</div>
+          <p style="font-size:13.5px;color:var(--mid);margin:0 0 20px;">Smooth deceleration — fast in, eases out. Used for nav, buttons, dropdowns, hero reveals, and card transitions.</p>
+          <div class="easing-demo">
+            <div class="ease-track">
+              <div class="ease-ball"></div>
+            </div>
+          </div>
+          <div class="ds-annotation" style="margin-top:20px;">
+            <div class="ds-annotation-dot"></div>
+            <p>Standard durations: <code>0.2s</code> for hover states, <code>0.4–0.5s</code> for structural transitions (nav slide, card reveals), <code>0.8s</code> for scroll-reveal animations.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Scroll reveal — .reveal</div>
+        <div class="ds-specimen-canvas">
+          <p style="font-size:13.5px;color:var(--mid);margin:0 0 16px;">Elements enter with <code class="ds-code">opacity: 0 → 1</code> and <code class="ds-code">translateY(16px → 0)</code>. Stagger delays available via <code class="ds-code">.d1</code>–<code class="ds-code">.d6</code> (0.08s increments). Triggered by IntersectionObserver in shared.js.</p>
+          <div class="ds-row">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);letter-spacing:0.14em;">.reveal — no delay</div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);letter-spacing:0.14em;">.reveal.d1 — 80ms</div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);letter-spacing:0.14em;">.reveal.d2 — 160ms</div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);letter-spacing:0.14em;">.reveal.d3 — 240ms</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">SVG draw animation — .draw</div>
+        <div class="ds-specimen-canvas">
+          <p style="font-size:13.5px;color:var(--mid);margin:0;">SVG paths on technical illustrations animate from <code class="ds-code">stroke-dashoffset: 1200 → 0</code> over 2.2s. Used for the fin.ai-style orthographic diagrams on product detail pages. Staggered with <code class="ds-code">.d2</code>, <code class="ds-code">.d3</code>, <code class="ds-code">.d4</code> classes.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── 5. ICONS & DIAGRAMS ──────────────── -->
+    <section class="ds-section" id="diagrams">
+      <div class="ds-section-header">
+        <div class="ds-section-num">01 — Foundations</div>
+        <h2 class="ds-section-title">Icons &amp; Diagrams</h2>
+        <p class="ds-section-desc">No icon library. All illustration is hand-coded inline SVG following a strict three-layer grammar: <code class="ds-code">.line</code> for primary form, <code class="ds-code">.hair</code> for structure, <code class="ds-code">.signal</code> for the single active element. The same vocabulary scales from a 24px mark to a full-page schematic.</p>
+      </div>
+
+      <!-- Mark vocabulary -->
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Mark vocabulary — geometric primitives used as icons</div>
+        <div class="ds-specimen-canvas" style="padding:0;">
+          <div class="ds-marks-row">
+            <div class="ds-mark-item">
+              <div class="ds-mark-visual">
+                <span style="width:8px;height:8px;background:#E7FF00;display:inline-block;"></span>
+              </div>
+              <div>
+                <div class="ds-mark-name">Signal dot</div>
+                <div class="ds-mark-code">8×8 · square</div>
+              </div>
+            </div>
+            <div class="ds-mark-item">
+              <div class="ds-mark-visual">
+                <span style="width:16px;height:1px;background:#9E9F9B;display:inline-block;"></span>
+              </div>
+              <div>
+                <div class="ds-mark-name">Section dash</div>
+                <div class="ds-mark-code">16×1 · ::before</div>
+              </div>
+            </div>
+            <div class="ds-mark-item">
+              <div class="ds-mark-visual" style="font-size:15px;color:#E2E3DE;letter-spacing:-0.02em;">→</div>
+              <div>
+                <div class="ds-mark-name">CTA arrow</div>
+                <div class="ds-mark-code">.arrow in .cta</div>
+              </div>
+            </div>
+            <div class="ds-mark-item">
+              <div class="ds-mark-visual">
+                <svg viewBox="0 0 28 28" width="28" height="28" class="tech" style="overflow:visible;">
+                  <circle cx="14" cy="14" r="5" fill="#E7FF00" fill-opacity="0.85"/>
+                  <circle class="pulse" cx="14" cy="14" r="5" fill="#E7FF00" fill-opacity="0.4"/>
+                </svg>
+              </div>
+              <div>
+                <div class="ds-mark-name">Pulse node</div>
+                <div class="ds-mark-code">.signal.pulse</div>
+              </div>
+            </div>
+            <div class="ds-mark-item">
+              <div class="ds-mark-visual">
+                <svg viewBox="0 0 48 24" width="48" height="24" class="tech">
+                  <polyline points="2,20 24,6 46,6" fill="none" stroke="#E7FF00" stroke-width="0.8" vector-effect="non-scaling-stroke"/>
+                  <circle cx="46" cy="6" r="3" fill="#E7FF00" fill-opacity="0.85"/>
+                </svg>
+              </div>
+              <div>
+                <div class="ds-mark-name">Callout line</div>
+                <div class="ds-mark-code">.signal polyline</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stroke weight system -->
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Stroke weight system — .tech · vector-effect="non-scaling-stroke" mandatory on all elements</div>
+        <div class="ds-specimen-canvas">
+          <svg viewBox="0 0 540 180" class="tech" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+            <!-- .line — primary structural form -->
+            <rect class="line" x="30" y="18" width="180" height="36" vector-effect="non-scaling-stroke"/>
+            <text x="224" y="30" font-size="8" letter-spacing="1.5">.line</text>
+            <text x="224" y="42" font-size="7" letter-spacing="1" fill="#6F7287">1.2px · #E2E3DE · primary form</text>
+
+            <!-- .hair — secondary structural lines -->
+            <rect class="hair" x="30" y="74" width="180" height="36" vector-effect="non-scaling-stroke"/>
+            <text x="224" y="86" font-size="8" letter-spacing="1.5">.hair</text>
+            <text x="224" y="98" font-size="7" letter-spacing="1" fill="#6F7287">0.7px · #9E9F9B · structural</text>
+
+            <!-- .thin — dimension / annotation lines -->
+            <line class="thin" x1="30" y1="140" x2="210" y2="140" vector-effect="non-scaling-stroke"/>
+            <line class="thin" x1="30" y1="133" x2="30" y2="147" vector-effect="non-scaling-stroke"/>
+            <line class="thin" x1="210" y1="133" x2="210" y2="147" vector-effect="non-scaling-stroke"/>
+            <text x="120" y="132" text-anchor="middle" font-size="7" letter-spacing="1.5">12.2 M</text>
+            <text x="224" y="138" font-size="8" letter-spacing="1.5">.thin</text>
+            <text x="224" y="150" font-size="7" letter-spacing="1" fill="#6F7287">0.6px · #6F7287 · dimension</text>
+
+            <!-- .dashed — projected / secondary -->
+            <line class="dashed" x1="30" y1="168" x2="210" y2="168" vector-effect="non-scaling-stroke"/>
+            <text x="224" y="166" font-size="8" letter-spacing="1.5">.dashed</text>
+            <text x="224" y="178" font-size="7" letter-spacing="1" fill="#6F7287">0.8px · 3 4 · projected / secondary</text>
+
+            <!-- Signal usage column -->
+            <text x="360" y="10" text-anchor="middle" font-size="8" letter-spacing="2" fill="#6F7287">SIGNAL OPACITY</text>
+            <rect x="320" y="18" width="80" height="36" fill="#E7FF00" fill-opacity="0.85" stroke="none"/>
+            <text x="360" y="40" text-anchor="middle" font-size="7" letter-spacing="1" fill="#000">0.85 · active</text>
+            <rect x="320" y="62" width="80" height="28" fill="#E7FF00" fill-opacity="0.15" stroke="none"/>
+            <text x="360" y="80" text-anchor="middle" font-size="7" letter-spacing="1" fill="#9E9F9B">0.15 · hover</text>
+            <rect x="320" y="98" width="80" height="28" fill="#E7FF00" fill-opacity="0.06" stroke="none"/>
+            <text x="360" y="116" text-anchor="middle" font-size="7" letter-spacing="1" fill="#6F7287">0.06 · bg tint</text>
+            <rect x="320" y="134" width="80" height="28" fill="none" stroke="#E7FF00" stroke-width="0.8" vector-effect="non-scaling-stroke"/>
+            <text x="360" y="152" text-anchor="middle" font-size="7" letter-spacing="1" fill="#E7FF00">stroke · callout</text>
+
+            <!-- Right annotation arrow -->
+            <polyline points="414,36 460,36 480,14" fill="none" stroke="#E7FF00" stroke-width="0.8" vector-effect="non-scaling-stroke"/>
+            <circle cx="480" cy="14" r="3" fill="#E7FF00" fill-opacity="0.85"/>
+            <text x="482" y="11" font-size="7" letter-spacing="1" fill="#E7FF00">ACTIVE</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Live animated specimen -->
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Live specimen — .tech .draw · signal appears first, structure draws in · reload to replay</div>
+        <div class="ds-specimen-canvas">
+          <svg viewBox="0 0 500 250" class="tech draw" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+            <!-- Dimension line — no delay, draws first -->
+            <line class="thin" x1="60" y1="18" x2="440" y2="18" vector-effect="non-scaling-stroke"/>
+            <line class="thin" x1="60" y1="12" x2="60" y2="24" vector-effect="non-scaling-stroke"/>
+            <line class="thin" x1="440" y1="12" x2="440" y2="24" vector-effect="non-scaling-stroke"/>
+            <text x="250" y="12" text-anchor="middle" font-size="7" letter-spacing="2">400 KW MODULE · HELL'S GATE SEZ</text>
+
+            <!-- Signal active zone — fills immediately (stroke: none bypasses draw animation) -->
+            <rect x="61" y="108" width="198" height="30" fill="#E7FF00" fill-opacity="0.85" stroke="none"/>
+
+            <!-- Outer shell — .line d2 (0.3s delay) -->
+            <rect class="line d2" x="60" y="36" width="380" height="162" vector-effect="non-scaling-stroke"/>
+
+            <!-- Central partition — .hair d2 -->
+            <line class="hair d2" x1="260" y1="36" x2="260" y2="198" vector-effect="non-scaling-stroke"/>
+
+            <!-- Rack rows — .hair d3 (0.6s delay) -->
+            <line class="hair d3" x1="60" y1="78" x2="260" y2="78" vector-effect="non-scaling-stroke"/>
+            <line class="hair d3" x1="60" y1="108" x2="260" y2="108" vector-effect="non-scaling-stroke"/>
+            <line class="hair d3" x1="60" y1="138" x2="260" y2="138" vector-effect="non-scaling-stroke"/>
+            <line class="hair d3" x1="60" y1="168" x2="260" y2="168" vector-effect="non-scaling-stroke"/>
+            <line class="hair d3" x1="260" y1="117" x2="440" y2="117" vector-effect="non-scaling-stroke"/>
+
+            <!-- Projected rack boundary — .dashed d3 -->
+            <rect class="dashed d3" x="72" y="48" width="176" height="138" vector-effect="non-scaling-stroke"/>
+
+            <!-- Signal callout — d4 (0.9s delay) -->
+            <polyline class="signal d4" points="260,123 345,82 438,82" fill="none" stroke-width="0.8" vector-effect="non-scaling-stroke"/>
+            <circle class="signal d4" cx="438" cy="82" r="5" fill-opacity="0.85" vector-effect="non-scaling-stroke"/>
+            <circle class="pulse" cx="438" cy="82" r="5" fill="#E7FF00" fill-opacity="0.4"/>
+
+            <!-- Labels (text doesn't participate in draw animation) -->
+            <text x="160" y="58" text-anchor="middle" font-size="7" letter-spacing="1.5">IT LOAD · 10 RACKS</text>
+            <text x="350" y="58" text-anchor="middle" font-size="7" letter-spacing="1.5">PWR + COOLING</text>
+            <text x="160" y="126" text-anchor="middle" font-size="7" letter-spacing="1" fill="#000">GPU ACTIVE · INFERENCE</text>
+            <text x="345" y="94" font-size="7" letter-spacing="1.5" fill="#E7FF00">NODE ONLINE</text>
+
+            <text x="250" y="230" text-anchor="middle" font-size="7" letter-spacing="2" fill="#3F4157">00°42′S 36°26′E · NAVON COMPUTE · NAIVASHA</text>
+          </svg>
+        </div>
+        <div class="ds-annotation" style="margin-top:12px;">
+          <div class="ds-annotation-dot"></div>
+          <p>Signal active zone renders first — context before structure. The <code>.d2</code>–<code>.d4</code> stagger (0.3s increments) builds the diagram layer by layer: outer shell → internal structure → annotation callout.</p>
+        </div>
+      </div>
+
+      <!-- Rules -->
+      <div class="ds-diagram-rules">
+        <div class="ds-diagram-rule">
+          <span class="dr-num">01</span>
+          <div>
+            <div class="dr-rule">No icon library</div>
+            <p class="dr-detail">All marks and diagrams are hand-coded inline SVG. No Lucide, Heroicons, or any external library — this keeps visual weight consistent with the diagram grammar and eliminates a dependency axis.</p>
+          </div>
+        </div>
+        <div class="ds-diagram-rule">
+          <span class="dr-num">02</span>
+          <div>
+            <div class="dr-rule">One signal element per diagram</div>
+            <p class="dr-detail">Each diagram highlights exactly one active zone in signal yellow. If multiple elements compete for <code class="ds-code">.signal</code>, the diagram is carrying too many ideas. Split it.</p>
+          </div>
+        </div>
+        <div class="ds-diagram-rule">
+          <span class="dr-num">03</span>
+          <div>
+            <div class="dr-rule">No fills except signal</div>
+            <p class="dr-detail">All geometry uses <code class="ds-code">fill="none"</code>. Fills are reserved for <code class="ds-code">.signal</code> highlights and text. No gradients, no pattern fills, no drop shadows.</p>
+          </div>
+        </div>
+        <div class="ds-diagram-rule">
+          <span class="dr-num">04</span>
+          <div>
+            <div class="dr-rule">vector-effect="non-scaling-stroke" on every element</div>
+            <p class="dr-detail">The stroke hierarchy (0.6 → 0.7 → 0.8 → 1.2) only holds if strokes don't scale with the SVG. Without this attribute, a thin line on a large viewBox becomes a hairline on mobile. Apply it to every <code class="ds-code">line</code>, <code class="ds-code">rect</code>, <code class="ds-code">path</code>, <code class="ds-code">polyline</code>, and <code class="ds-code">polygon</code>.</p>
+          </div>
+        </div>
+        <div class="ds-diagram-rule">
+          <span class="dr-num">05</span>
+          <div>
+            <div class="dr-rule">Mono labels only — 7–11px, letter-spacing 1–2.5px, uppercase</div>
+            <p class="dr-detail">The <code class="ds-code">.tech text</code> CSS rule sets JetBrains Mono and fill #9E9F9B automatically. Use <code class="ds-code">class="label-signal"</code> to make a text element signal yellow. No Space Grotesk inside diagrams.</p>
+          </div>
+        </div>
+        <div class="ds-diagram-rule">
+          <span class="dr-num">06</span>
+          <div>
+            <div class="dr-rule">Diagrams are for technical pages only</div>
+            <p class="dr-detail">Products, Platform, Quantum Security, Hell's Gate detail. On customer-facing pages (Home, About, Who We Serve, Futures) replace diagrams with photography of Kenyan faces and landscape. The diagram language is a signal of depth — not decoration.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── 6. BUTTONS ────────────────────────── -->
+    <section class="ds-section" id="buttons">
+      <div class="ds-section-header">
+        <div class="ds-section-num">02 — Components</div>
+        <h2 class="ds-section-title">Buttons</h2>
+        <p class="ds-section-desc">Two button variants only. Primary is always signal-yellow with black text. Secondary is transparent with a border that turns yellow on hover. Never invert this.</p>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Primary — .cta</div>
+        <div class="ds-specimen-canvas">
+          <div class="ds-row" style="align-items:center;gap:24px;">
+            <a href="#" class="cta">See Hell's Gate <span class="arrow">→</span></a>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--slate);letter-spacing:0.12em;">Default</div>
+          </div>
+        </div>
+        <table class="spec-table" style="margin-top:1px;border:1px solid var(--line);">
+          <thead>
+            <tr><th>Property</th><th>Value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Background</td><td><code class="ds-code">var(--signal)</code> — #E7FF00</td></tr>
+            <tr><td>Text</td><td><code class="ds-code">var(--ink)</code> — #000000, weight 500, 13px</td></tr>
+            <tr><td>Border</td><td>1px solid <code class="ds-code">var(--signal)</code></td></tr>
+            <tr><td>Border radius</td><td>2px</td></tr>
+            <tr><td>Padding</td><td>12px 20px</td></tr>
+            <tr><td>Hover</td><td>translateY(-1px) + box-shadow: 0 10px 28px rgba(231,255,0,0.2)</td></tr>
+            <tr><td>Arrow</td><td>JetBrains Mono, weight 400 — always appended as <code class="ds-code">.arrow</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Secondary — .cta-ghost</div>
+        <div class="ds-specimen-canvas">
+          <div class="ds-row" style="align-items:center;gap:24px;">
+            <a href="#" class="cta-ghost">Talk to us <span class="arrow">↗</span></a>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--slate);letter-spacing:0.12em;">Default</div>
+          </div>
+        </div>
+        <table class="spec-table" style="margin-top:1px;border:1px solid var(--line);">
+          <thead>
+            <tr><th>Property</th><th>Value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Background</td><td>Transparent</td></tr>
+            <tr><td>Text</td><td><code class="ds-code">var(--paper)</code>, weight 500, 13px</td></tr>
+            <tr><td>Border</td><td>1px solid <code class="ds-code">var(--line-2)</code></td></tr>
+            <tr><td>Hover border</td><td><code class="ds-code">var(--signal)</code></td></tr>
+            <tr><td>Hover text</td><td><code class="ds-code">var(--signal)</code></td></tr>
+            <tr><td>Border radius</td><td>2px</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Usage rules</div>
+        <div class="numbered cols-2" style="margin-top:0;">
+          <div class="numbered-item" style="min-height:80px;">
+            <span class="num">Two CTAs max</span>
+            <p>Every section and hero has at most two CTAs. Primary first (yellow), secondary second (ghost). Never three.</p>
+          </div>
+          <div class="numbered-item" style="min-height:80px;">
+            <span class="num">Never grey</span>
+            <p>Grey buttons are not part of the system. All product-page buttons must be converted to .cta or .cta-ghost.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── 6. LABELS ─────────────────────────── -->
+    <section class="ds-section" id="labels">
+      <div class="ds-section-header">
+        <div class="ds-section-num">02 — Components</div>
+        <h2 class="ds-section-title">Labels &amp; Tags</h2>
+        <p class="ds-section-desc">All metadata, eyebrows, and section markers use JetBrains Mono in uppercase with wide letter-spacing. The signal dot is the section entry marker.</p>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Eyebrow — .eyebrow</div>
+        <div class="ds-specimen-canvas">
+          <div class="ds-col" style="gap:20px;">
+            <span class="eyebrow"><span class="mark"></span>Infrastructure · Phase 1</span>
+            <span class="eyebrow"><span class="mark"></span>Hell's Gate · Naivasha SEZ</span>
+          </div>
+        </div>
+        <div class="ds-annotation">
+          <div class="ds-annotation-dot"></div>
+          <p>The <code>.mark</code> span is an 8×8px signal square. Used at the start of every major section. JetBrains Mono 11px, 0.24em tracking, <code>--mid</code> colour.</p>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Mono label — .mono</div>
+        <div class="ds-specimen-canvas">
+          <span class="mono">Phase 01 · 2026 · Naivasha</span>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Spec tag — .spec-tag</div>
+        <div class="ds-specimen-canvas">
+          <div class="ds-row">
+            <span class="spec-tag">GPU Compute</span>
+            <span class="spec-tag">Sovereign Cloud</span>
+            <span class="spec-tag">Quantum Security</span>
+            <span class="spec-tag">PUE 1.29</span>
+          </div>
+        </div>
+        <div class="ds-annotation">
+          <div class="ds-annotation-dot"></div>
+          <p>Pill shape (999px radius). Used in spec card footers. <code>--line-2</code> border, turns signal on card hover.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── 7. CARDS ───────────────────────────── -->
+    <section class="ds-section" id="cards">
+      <div class="ds-section-header">
+        <div class="ds-section-num">02 — Components</div>
+        <h2 class="ds-section-title">Cards</h2>
+        <p class="ds-section-desc">Three card types. All share the same hover behaviour: a signal-yellow top border sweeps in from left to right on hover. Background tints to rgba(signal, 0.02).</p>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Numbered item — .numbered-item</div>
+        <div class="ds-specimen-canvas">
+          <div class="numbered cols-3" style="margin-top:0;">
+            <div class="numbered-item">
+              <span class="num">01</span>
+              <h4>Energy</h4>
+              <p>Clean baseload from geothermal, hydro, and solar — at source.</p>
+            </div>
+            <div class="numbered-item">
+              <span class="num">02</span>
+              <h4>Compute</h4>
+              <p>GPU and HPC infrastructure sized for African workloads.</p>
+            </div>
+            <div class="numbered-item">
+              <span class="num">03</span>
+              <h4>Network</h4>
+              <p>Carrier-neutral fibre with low-latency regional routing.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ds-annotation">
+          <div class="ds-annotation-dot"></div>
+          <p>Use for feature grids, product pillars, and "how it works" sections. Num label is <code>--slate</code> → signal on hover. Top border sweeps in via CSS width transition.</p>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Mega-menu card — .mega-menu-card</div>
+        <div class="ds-specimen-canvas">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);">
+            <a href="#" class="mega-menu-card">
+              <div class="num">01</div>
+              <div class="name">Colocation</div>
+            </a>
+            <a href="#" class="mega-menu-card">
+              <div class="num">02</div>
+              <div class="name">Cloud as a Service</div>
+            </a>
+            <a href="#" class="mega-menu-card">
+              <div class="num">03</div>
+              <div class="name">Quantum Security</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Spec card — .spec-card</div>
+        <div class="ds-specimen-canvas">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);">
+            <div class="spec-card">
+              <div class="spec-card-visual">
+                <svg width="80" height="60" viewBox="0 0 80 60" fill="none" class="tech">
+                  <rect x="10" y="10" width="60" height="40" class="line"/>
+                  <line x1="10" y1="25" x2="70" y2="25" class="thin"/>
+                  <line x1="10" y1="40" x2="70" y2="40" class="thin"/>
+                  <line x1="30" y1="10" x2="30" y2="50" class="thin"/>
+                  <line x1="55" y1="10" x2="55" y2="50" class="thin"/>
+                  <circle cx="40" cy="17" r="3" class="signal" opacity="0.7"/>
+                </svg>
+              </div>
+              <div class="spec-card-body">
+                <div class="spec-card-num">HGX-001</div>
+                <h3>GPU Cluster</h3>
+                <p class="spec-card-desc">NVIDIA HGX H100-class. NVLink mesh. 20kW+ per rack.</p>
+                <ul class="spec-card-specs">
+                  <li>Density<span class="v">20 kW/rack</span></li>
+                  <li>Network<span class="v">400 GbE</span></li>
+                </ul>
+              </div>
+              <div class="spec-card-tags">
+                <span class="spec-tag">GPU</span>
+                <span class="spec-tag">HPC</span>
+              </div>
+            </div>
+            <div class="spec-card" style="opacity:0.5;">
+              <div class="spec-card-visual" style="min-height:80px;"></div>
+              <div class="spec-card-body">
+                <div class="spec-card-num">CLX-001</div>
+                <h3>Sovereign Cloud</h3>
+                <p class="spec-card-desc">Private cloud stack. Data stays in-country.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── 8. NAVIGATION ─────────────────────── -->
+    <section class="ds-section" id="navigation">
+      <div class="ds-section-header">
+        <div class="ds-section-num">02 — Components</div>
+        <h2 class="ds-section-title">Navigation</h2>
+        <p class="ds-section-desc">Fixed top nav with blur backdrop. Active page shows a signal-yellow dot before the link label. Hover triggers a roll animation. Mega-menus drop below the nav bar.</p>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Nav states</div>
+        <table class="spec-table" style="border:1px solid var(--line);">
+          <thead>
+            <tr><th>State</th><th>Class</th><th>Behaviour</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Default</td><td><code class="ds-code">.nav</code></td><td>rgba(0,0,0,0.55) background + blur(14px)</td></tr>
+            <tr><td>Scrolled</td><td><code class="ds-code">.nav.is-scrolled</code></td><td>Background darkens to rgba(7,8,10,0.78)</td></tr>
+            <tr><td>Hidden</td><td><code class="ds-code">.nav.is-hidden</code></td><td>translateY(-100%) — hides on fast scroll down, returns on scroll up</td></tr>
+            <tr><td>Active page</td><td><code class="ds-code">a.current</code></td><td>Signal dot prepended, text colour --paper</td></tr>
+            <tr><td>Hover</td><td>—</td><td>Roll animation: top label slides up, bottom label replaces it</td></tr>
+          </tbody>
+        </table>
+        <div class="ds-annotation" style="margin-top:12px;">
+          <div class="ds-annotation-dot"></div>
+          <p><strong style="color:var(--paper);">Agreed change:</strong> The nav item currently labelled "Platform" must be renamed <code>"Home"</code>. A new top-level item <code>"Futures"</code> must be added.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── 9. SEGMENTED ───────────────────────── -->
+    <section class="ds-section" id="segmented">
+      <div class="ds-section-header">
+        <div class="ds-section-num">02 — Components</div>
+        <h2 class="ds-section-title">Segmented Control</h2>
+        <p class="ds-section-desc">Used to switch between content panels on long pages. Active tab shows a signal underline. Sticky variant stays at the top of the viewport during scroll.</p>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Example — .segmented</div>
+        <div class="ds-specimen-canvas">
+          <div class="segmented" style="max-width:480px;">
+            <button class="active">Colocation</button>
+            <button>Cloud</button>
+            <button>Security</button>
+            <button>Data Lakes</button>
+          </div>
+        </div>
+        <div class="ds-annotation">
+          <div class="ds-annotation-dot"></div>
+          <p>Inactive: <code>--mid</code> text. Active: <code>--signal</code> text + 2px bottom border. Sticky variant adds <code>backdrop-filter: blur(14px)</code> and <code>top: var(--nav-h)</code>.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── 10. PAGE PATTERNS ──────────────────── -->
+    <section class="ds-section" id="page-patterns">
+      <div class="ds-section-header">
+        <div class="ds-section-num">03 — Patterns</div>
+        <h2 class="ds-section-title">Page Patterns</h2>
+        <p class="ds-section-desc">Reusable structural patterns that every page draws from. Consistency here is what makes the site feel like a system, not a collection of pages.</p>
+      </div>
+
+      <div class="pattern-grid">
+        <div class="pattern-card">
+          <div class="pattern-card-label">Hero</div>
+          <div class="pattern-card-title">Full-bleed hero</div>
+          <div class="pattern-card-desc">Photography behind, headline above fold, two CTAs. Stats strip removed from hero — lives on Hell's Gate page only.</div>
+          <div class="pattern-card-tags">
+            <span class="pattern-card-tag">.hero</span>
+            <span class="pattern-card-tag">.hero-headline</span>
+            <span class="pattern-card-tag">.hero-ctas</span>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <div class="pattern-card-label">Section header</div>
+          <div class="pattern-card-title">Two-column section head</div>
+          <div class="pattern-card-desc">Title left, lede right. Eyebrow above title. Used to open every major section. Collapses to single column at 820px.</div>
+          <div class="pattern-card-tags">
+            <span class="pattern-card-tag">.section-head</span>
+            <span class="pattern-card-tag">.section-title</span>
+            <span class="pattern-card-tag">.section-lede</span>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <div class="pattern-card-label">Feature grid</div>
+          <div class="pattern-card-title">Numbered 3–5 column grid</div>
+          <div class="pattern-card-desc">Separated by 1px gap. Hover sweeps a signal top border. Used for product pillars, use cases, and team bios.</div>
+          <div class="pattern-card-tags">
+            <span class="pattern-card-tag">.numbered</span>
+            <span class="pattern-card-tag">.cols-3</span>
+            <span class="pattern-card-tag">.cols-5</span>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <div class="pattern-card-label">Page hero</div>
+          <div class="pattern-card-title">Inner page hero</div>
+          <div class="pattern-card-desc">Offset top by --nav-h. Grid background with radial mask. Title left, meta right. Used on Products, About, Hell's Gate, Futures.</div>
+          <div class="pattern-card-tags">
+            <span class="pattern-card-tag">.page-hero</span>
+            <span class="pattern-card-tag">.page-title</span>
+            <span class="pattern-card-tag">.page-lede</span>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <div class="pattern-card-label">Spec grid</div>
+          <div class="pattern-card-title">Hardware showcase</div>
+          <div class="pattern-card-desc">Spec cards in a 2–4 column grid. Each has visual area, body, and tags footer. Signal sweep on hover. Used on Products and Hell's Gate.</div>
+          <div class="pattern-card-tags">
+            <span class="pattern-card-tag">.spec-card</span>
+            <span class="pattern-card-tag">.spec-card-visual</span>
+            <span class="pattern-card-tag">.spec-tag</span>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <div class="pattern-card-label">3-panel row</div>
+          <div class="pattern-card-title">How Navon Works</div>
+          <div class="pattern-card-desc">Three equal panels: Energy · Infrastructure · Platform. Each ends with what the customer gets. Scans in &lt;30s. Stacks vertically on mobile.</div>
+          <div class="pattern-card-tags">
+            <span class="pattern-card-tag">homepage only</span>
+            <span class="pattern-card-tag">~165 words total</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── 11. DARK / LIGHT SPLIT ─────────────── -->
+    <section class="ds-section" id="dark-light">
+      <div class="ds-section-header">
+        <div class="ds-section-num">03 — Patterns</div>
+        <h2 class="ds-section-title">Dark / Light Split</h2>
+        <p class="ds-section-desc">Page background is determined by audience and content type — not by preference. This is a structural rule, not a toggle.</p>
+      </div>
+
+      <div class="numbered cols-2" style="margin-top:0;">
+        <div class="numbered-item">
+          <span class="num">Dark pages</span>
+          <h4>Technical content</h4>
+          <p>Background: <strong style="color:var(--paper);">--ink</strong>. Diagram-led where diagrams add real value. Used for: Products, Quantum Security, Platform.</p>
+        </div>
+        <div class="numbered-item">
+          <span class="num">Light pages</span>
+          <h4>Customer-facing content</h4>
+          <p>Background: <strong style="color:var(--paper);">--paper / --vlight</strong>. Photography-led, editorial feel. Used for: Home, About, Who We Serve, Hell's Gate detail, Futures.</p>
+        </div>
+      </div>
+
+      <div class="ds-annotation" style="margin-top:24px;">
+        <div class="ds-annotation-dot"></div>
+        <p><strong style="color:var(--paper);">Diagrams earn their place.</strong> On customer-facing pages, replace diagrams with photography and faces. Reserve fin.ai-style orthographic illustrations for product detail and technical pages only.</p>
+      </div>
+    </section>
+
+
+    <!-- ── 12. VOICE ──────────────────────────── -->
+    <section class="ds-section" id="voice">
+      <div class="ds-section-header">
+        <div class="ds-section-num">03 — Patterns</div>
+        <h2 class="ds-section-title">Voice &amp; Language</h2>
+        <p class="ds-section-desc">The site speaks to African business leaders — tech-savvy, optimistic, direct. Think Cloudflare blog, not corporate B2B brochure. Not investor DD memo.</p>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Forbidden words</div>
+        <div class="forbidden-grid">
+          <div class="forbidden-row forbidden-header">
+            <div class="bad">Do not use</div>
+            <div class="good">Replace with</div>
+          </div>
+          <div class="forbidden-row">
+            <div class="bad">Exciting / Revolutionary / Game-changing</div>
+            <div class="good">Describe exactly what it does</div>
+          </div>
+          <div class="forbidden-row">
+            <div class="bad">Innovative</div>
+            <div class="good">Describe the innovation itself</div>
+          </div>
+          <div class="forbidden-row">
+            <div class="bad">Emerging market</div>
+            <div class="good">Africa · growth economies</div>
+          </div>
+          <div class="forbidden-row">
+            <div class="bad">Unlock / Defensible</div>
+            <div class="good">Build · deliver · run · own</div>
+          </div>
+          <div class="forbidden-row">
+            <div class="bad">"The right Navon"</div>
+            <div class="good">Remove entirely</div>
+          </div>
+          <div class="forbidden-row">
+            <div class="bad">Sovereign (as headline concept)</div>
+            <div class="good">Reserve for legal/technical specifics only</div>
+          </div>
+          <div class="forbidden-row">
+            <div class="bad">Global South (where Africa is specific)</div>
+            <div class="good">Africa</div>
+          </div>
+          <div class="forbidden-row">
+            <div class="bad">Geothermal (as general energy headline)</div>
+            <div class="good">Green energy · Clean energy (geothermal on Hell's Gate only)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Geographic specificity — when to use each term</div>
+        <div class="ds-geo-grid">
+          <div class="ds-geo-item">
+            <div class="dg-scope">Most specific</div>
+            <div class="dg-term">Kenya</div>
+            <p class="dg-when">Default for all product and market pages. Navon is a Kenyan company. Use "Kenya" unless the statement genuinely spans multiple borders.</p>
+          </div>
+          <div class="ds-geo-item">
+            <div class="dg-scope">Site &amp; energy</div>
+            <div class="dg-term">Naivasha</div>
+            <p class="dg-when">Hell's Gate SEZ, geothermal power, the physical facility. Name it on About and Futures pages — it is a specific, earned claim.</p>
+          </div>
+          <div class="ds-geo-item">
+            <div class="dg-scope">Regional coverage</div>
+            <div class="dg-term">East Africa</div>
+            <p class="dg-when">Customer base, talent pipeline, regional cloud reach. Use only when a claim truly spans the Kenya–Uganda–Tanzania corridor.</p>
+          </div>
+          <div class="ds-geo-item">
+            <div class="dg-scope">Vision &amp; mission</div>
+            <div class="dg-term">Africa</div>
+            <p class="dg-when">Headline aspiration statements only. Never as a market claim until the footprint earns it — overclaiming erodes local credibility.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Four governing narratives — must land on the homepage</div>
+        <div class="ds-narrative-list">
+          <div class="ds-narrative-item">
+            <span class="dn-num">01</span>
+            <div class="dn-body">
+              <h4>"Others talk, we build."</h4>
+              <p>We are technologists who deliver for end users — not a vision deck.</p>
+            </div>
+          </div>
+          <div class="ds-narrative-item">
+            <span class="dn-num">02</span>
+            <div class="dn-body">
+              <h4>Full systems, not just data centres.</h4>
+              <p>Infrastructure is one component. We build the whole stack: energy, compute, cloud, security, ecosystem.</p>
+            </div>
+          </div>
+          <div class="ds-narrative-item">
+            <span class="dn-num">03</span>
+            <div class="dn-body">
+              <h4>AI-native agility.</h4>
+              <p>Build, test, evaluate, iterate, adapt. Speed is our differentiator over legacy DC operators.</p>
+            </div>
+          </div>
+          <div class="ds-narrative-item">
+            <span class="dn-num">04</span>
+            <div class="dn-body">
+              <h4>The Deep Tech Park.</h4>
+              <p>Energy + Data + Compute + Network + Talent — all five brought together in one place.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── 13. TOKEN REFERENCE ────────────────── -->
+    <section class="ds-section" id="tokens">
+      <div class="ds-section-header">
+        <div class="ds-section-num">04 — Reference</div>
+        <h2 class="ds-section-title">Token Reference</h2>
+        <p class="ds-section-desc">All tokens live in <code class="ds-code">:root</code> inside <code class="ds-code">/public/assets/shared.css</code>. Never hardcode a value that has a token.</p>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Complete token list</div>
+        <table class="spec-table" style="border:1px solid var(--line);">
+          <thead>
+            <tr><th>Token</th><th>Value</th><th>Usage</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>--ink</td><td>#000000</td><td>Default page background</td></tr>
+            <tr><td>--ink-2</td><td>#07080A</td><td>Scrolled nav background</td></tr>
+            <tr><td>--charcoal</td><td>#3F4157</td><td>Inactive nav separators, deep card backgrounds</td></tr>
+            <tr><td>--slate</td><td>#6F7287</td><td>Secondary labels, meta text, inactive states</td></tr>
+            <tr><td>--mid</td><td>#9E9F9B</td><td>Body description text, eyebrow colour</td></tr>
+            <tr><td>--light</td><td>#E2E3DE</td><td>Primary body text on dark backgrounds</td></tr>
+            <tr><td>--vlight</td><td>#F3F4F4</td><td>Light page section backgrounds</td></tr>
+            <tr><td>--paper</td><td>#FFFFFF</td><td>Headlines, active text, light page backgrounds</td></tr>
+            <tr><td>--signal</td><td>#E7FF00</td><td>Brand accent — buttons, dots, hovers, selection. Never body text.</td></tr>
+            <tr><td>--line</td><td>rgba(255,255,255,0.08)</td><td>Default borders and dividers</td></tr>
+            <tr><td>--line-2</td><td>rgba(255,255,255,0.14)</td><td>Active card borders, scrolled nav border</td></tr>
+            <tr><td>--font-display</td><td>'Space Grotesk'</td><td>All editorial, display, and body text</td></tr>
+            <tr><td>--font-mono</td><td>'JetBrains Mono'</td><td>Labels, eyebrows, specs, wordmark, code</td></tr>
+            <tr><td>--nav-h</td><td>68px</td><td>Fixed nav height — used in padding offsets</td></tr>
+            <tr><td>--px</td><td>clamp(20px, 4vw, 56px)</td><td>Horizontal page padding on all sections</td></tr>
+            <tr><td>--section-y</td><td>clamp(96px, 12vw, 160px)</td><td>Vertical section rhythm (top/bottom padding)</td></tr>
+            <tr><td>--easing</td><td>cubic-bezier(0.65, 0, 0.35, 1)</td><td>All transitions across the site</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Colophon -->
+      <div class="ds-colophon">
+        <div class="dc-left">
+          <div class="dc-mark"></div>
+          <div>
+            <div class="dc-title">Navon Design System</div>
+            <div class="dc-meta">v1.0 · May 2026 · Naivasha, Kenya</div>
+          </div>
+        </div>
+        <div class="dc-right">
+          <div class="dc-coord">00°42′S 36°26′E</div>
+          <a href="/" class="dc-back">← Back to site</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Highlight active sidebar link on scroll
+  const links = document.querySelectorAll('.ds-nav-group a');
+  const sections = document.querySelectorAll('.ds-section, section.ds-section');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        links.forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => { if (s.id) observer.observe(s); });
+
+  // Sidebar scroll progress line
+  const progressEl = document.getElementById('ds-progress');
+  if (progressEl) {
+    const update = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = scrollable > 0 ? Math.min(100, (window.scrollY / scrollable) * 100) : 0;
+      progressEl.style.height = pct + '%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>
+
+</body>
+</html>
