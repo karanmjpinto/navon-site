@@ -987,7 +987,7 @@
     <div class="ds-progress" id="ds-progress"></div>
     <div class="ds-brand">
       <div class="wordmark">NAVON<span class="dot">.</span></div>
-      <div class="ver">Design System · v1.0 · #E7FF00</div>
+      <div class="ver">Design System · v1.1 · #E7FF00</div>
     </div>
 
     <div class="ds-nav-group">
@@ -1103,9 +1103,9 @@
       <div class="ds-specimen">
         <div class="ds-specimen-label">Neutral scale — ink → paper</div>
         <div class="swatch-row">
-          <div class="swatch" style="background:#000000;">
+          <div class="swatch" style="background:#0b0b07;">
             <span class="swatch-name" style="color:rgba(255,255,255,0.4);">ink</span>
-            <span class="swatch-hex" style="color:rgba(255,255,255,0.3);">#000000</span>
+            <span class="swatch-hex" style="color:rgba(255,255,255,0.3);">#0b0b07</span>
           </div>
           <div class="swatch" style="background:#07080A;">
             <span class="swatch-name" style="color:rgba(255,255,255,0.4);">ink-2</span>
@@ -1394,6 +1394,10 @@
             <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);letter-spacing:0.14em;">.reveal.d2 — 160ms</div>
             <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);letter-spacing:0.14em;">.reveal.d3 — 240ms</div>
           </div>
+          <div class="ds-annotation" style="margin-top:16px;">
+            <div class="ds-annotation-dot"></div>
+            <p><strong style="color:var(--paper);">Scope rule:</strong> <code>.reveal</code> is for section-level elements only — <code>.section-title</code>, <code>.section-lede</code>, and the delivery banner. Never on individual child items (<code>.pillar</code>, <code>.delivery-card</code>, <code>.phase</code>). Animate-on-scroll on every child card is an AI-slop tell.</p>
+          </div>
         </div>
       </div>
 
@@ -1602,8 +1606,8 @@
         <div class="ds-diagram-rule">
           <span class="dr-num">05</span>
           <div>
-            <div class="dr-rule">Mono labels only — 7–11px, letter-spacing 1–2.5px, uppercase</div>
-            <p class="dr-detail">The <code class="ds-code">.tech text</code> CSS rule sets JetBrains Mono and fill #9E9F9B automatically. Use <code class="ds-code">class="label-signal"</code> to make a text element signal yellow. No Space Grotesk inside diagrams.</p>
+            <div class="dr-rule">Token classes on all SVG text — no inline font-family or fill attributes</div>
+            <p class="dr-detail">The <code class="ds-code">.tech text</code> CSS rule sets JetBrains Mono and <code>--mid</code> fill automatically. Use <code class="ds-code">class="label-signal"</code> for signal-yellow text. For map city names use <code class="ds-code">class="city-label"</code> (Space Grotesk, <code>--paper</code>, weight 600) and <code class="ds-code">class="city-phase"</code> (<code>--slate</code>, mono) for sub-labels. <strong style="color:var(--paper);">Never</strong> write <code>font-family="Space Grotesk"</code> or <code>fill="#FFFFFF"</code> directly on SVG elements — that bypasses the token system.</p>
           </div>
         </div>
         <div class="ds-diagram-rule">
@@ -1611,6 +1615,13 @@
           <div>
             <div class="dr-rule">Diagrams are for technical pages only</div>
             <p class="dr-detail">Products, Platform, Quantum Security, Hell's Gate detail. On customer-facing pages (Home, About, Who We Serve, Futures) replace diagrams with photography of Kenyan faces and landscape. The diagram language is a signal of depth — not decoration.</p>
+          </div>
+        </div>
+        <div class="ds-diagram-rule">
+          <span class="dr-num">07</span>
+          <div>
+            <div class="dr-rule">Use CSS .pulse — never SVG &lt;animate&gt; tags</div>
+            <p class="dr-detail">SVG <code class="ds-code">&lt;animate&gt;</code> elements do not respect <code>prefers-reduced-motion</code>. The CSS <code class="ds-code">.pulse</code> class uses a keyframe animation guarded by <code>@media (prefers-reduced-motion: reduce)</code>. Always write <code class="ds-code">&lt;circle class="signal pulse" opacity="0.4"/&gt;</code> — never nest <code>&lt;animate&gt;</code> children.</p>
           </div>
         </div>
       </div>
@@ -1639,7 +1650,7 @@
           </thead>
           <tbody>
             <tr><td>Background</td><td><code class="ds-code">var(--signal)</code> — #E7FF00</td></tr>
-            <tr><td>Text</td><td><code class="ds-code">var(--ink)</code> — #000000, weight 500, 13px</td></tr>
+            <tr><td>Text</td><td><code class="ds-code">var(--ink)</code> — #0b0b07, weight 500, 13px</td></tr>
             <tr><td>Border</td><td>1px solid <code class="ds-code">var(--signal)</code></td></tr>
             <tr><td>Border radius</td><td>2px</td></tr>
             <tr><td>Padding</td><td>12px 20px</td></tr>
@@ -1706,7 +1717,7 @@
         </div>
         <div class="ds-annotation">
           <div class="ds-annotation-dot"></div>
-          <p>The <code>.mark</code> span is an 8×8px signal square. Used at the start of every major section. JetBrains Mono 11px, 0.24em tracking, <code>--mid</code> colour.</p>
+          <p>The <code>.mark</code> span is an 8×8px signal square. <strong style="color:var(--paper);">Hero section only</strong> — eyebrows on every interior section are an AI-slop tell. All other sections open with <code>.section-title</code> directly. JetBrains Mono 11px, 0.24em tracking, <code>--mid</code> colour.</p>
         </div>
       </div>
 
@@ -1787,6 +1798,21 @@
               <div class="name">Quantum Security</div>
             </a>
           </div>
+        </div>
+      </div>
+
+      <div class="ds-specimen">
+        <div class="ds-specimen-label">Delivery card — .delivery-card · .delivery-card.featured</div>
+        <div class="ds-specimen-canvas">
+          <p style="font-size:13.5px;color:var(--mid);margin:0 0 14px;">Used in the delivery partner grid. Standard cards are equal siblings. The <code class="ds-code">.featured</code> variant spans the full grid width (<code>grid-column: 1 / -1</code>) and receives a left-edge accent gradient. Only the lead partner card should be <code>.featured</code> — it creates one visual anchor per grid, not multiple.</p>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);letter-spacing:0.14em;">
+            .delivery-card — standard · equal weight<br/>
+            .delivery-card.featured — full-width · accent gradient · 44px h3
+          </div>
+        </div>
+        <div class="ds-annotation">
+          <div class="ds-annotation-dot"></div>
+          <p>Only one card in any delivery grid should receive <code>.featured</code>. Using it on multiple cards or all cards defeats the purpose of the visual hierarchy.</p>
         </div>
       </div>
 
@@ -1911,7 +1937,7 @@
         <div class="pattern-card">
           <div class="pattern-card-label">Section header</div>
           <div class="pattern-card-title">Two-column section head</div>
-          <div class="pattern-card-desc">Title left, lede right. Eyebrow above title. Used to open every major section. Collapses to single column at 820px.</div>
+          <div class="pattern-card-desc">Title left, lede right. No eyebrow — hero only. Opens every major interior section. Collapses to single column at 820px.</div>
           <div class="pattern-card-tags">
             <span class="pattern-card-tag">.section-head</span>
             <span class="pattern-card-tag">.section-title</span>
@@ -2116,7 +2142,7 @@
             <tr><th>Token</th><th>Value</th><th>Usage</th></tr>
           </thead>
           <tbody>
-            <tr><td>--ink</td><td>#000000</td><td>Default page background</td></tr>
+            <tr><td>--ink</td><td>#0b0b07</td><td>Default page background — tinted near-black, anchored to brand hue</td></tr>
             <tr><td>--ink-2</td><td>#07080A</td><td>Scrolled nav background</td></tr>
             <tr><td>--charcoal</td><td>#3F4157</td><td>Inactive nav separators, deep card backgrounds</td></tr>
             <tr><td>--slate</td><td>#6F7287</td><td>Secondary labels, meta text, inactive states</td></tr>
@@ -2143,7 +2169,7 @@
           <div class="dc-mark"></div>
           <div>
             <div class="dc-title">Navon Design System</div>
-            <div class="dc-meta">v1.0 · May 2026 · Naivasha, Kenya</div>
+            <div class="dc-meta">v1.1 · June 2026 · Naivasha, Kenya</div>
           </div>
         </div>
         <div class="dc-right">
