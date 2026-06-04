@@ -1897,3 +1897,101 @@ body.theme-light .qai-modalities .mod { color: var(--charcoal); }
 body.theme-light .qai-modalities .mod:hover { color: var(--ink); }
 body.theme-light .qai-modalities .mod .dot { border-color: var(--ink); }
 body.theme-light .qai-modalities .mod:hover .dot { background: var(--signal); }
+
+/* ── light theme — missions page (new components) ───────────────────────────
+ * intern-card, kpartner, pilot-ph, domain, step were added to missions.css
+ * without theme-light overrides. Without these, hover makes them transparent
+ * against the white page and white/light text becomes invisible.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+/* Containers — grid-gap lines */
+body.theme-light .intern-split,
+body.theme-light .kpartners,
+body.theme-light .pilot-phases,
+body.theme-light .domain-grid,
+body.theme-light .steps {
+  background: rgba(15,17,24,0.10);
+  border-color: var(--line-2);
+}
+
+/* Card default surfaces — white */
+body.theme-light .intern-card,
+body.theme-light .kpartner,
+body.theme-light .pilot-ph,
+body.theme-light .domain,
+body.theme-light .step {
+  background: var(--paper);
+}
+
+/* Featured intern card — keep subtle signal tint on white */
+body.theme-light .intern-card.featured {
+  background: linear-gradient(180deg, rgba(231,255,0,0.10), rgba(255,255,255,0));
+}
+
+/* Hover — yellow wash (matches faculty/inc-item pattern) */
+body.theme-light .intern-card:hover,
+body.theme-light .kpartner:hover,
+body.theme-light .pilot-ph:hover,
+body.theme-light .domain:hover,
+body.theme-light .step:hover {
+  background: rgba(231,255,0,0.16);
+}
+
+/* Headings — flip white → ink */
+body.theme-light .intern-card h4,
+body.theme-light .kpartner h4,
+body.theme-light .pilot-ph h4,
+body.theme-light .pilot-ph .ph-num,
+body.theme-light .domain h4,
+body.theme-light .step h5 {
+  color: var(--ink);
+}
+
+/* Body text — flip light-grey → charcoal */
+body.theme-light .intern-card .ic-lede,
+body.theme-light .intern-card ul li,
+body.theme-light .kpartner p,
+body.theme-light .pilot-ph p,
+body.theme-light .domain ul li,
+body.theme-light .step p {
+  color: var(--charcoal);
+}
+
+/* Meta labels — keep as slate */
+body.theme-light .intern-card .ic-tag { color: var(--signal); }
+body.theme-light .kpartner .k-tag,
+body.theme-light .kpartner .k-loc,
+body.theme-light .pilot-ph .ph-week,
+body.theme-light .domain .d-tag,
+body.theme-light .step .step-time {
+  color: var(--slate);
+}
+
+/* Hover label colour */
+body.theme-light .pilot-ph:hover .ph-week,
+body.theme-light .domain:hover .d-tag { color: var(--ink); }
+
+/* Step circle — dark ring + ink number on white */
+body.theme-light .step .step-num {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+/* Dividers inside cards */
+body.theme-light .intern-card ul,
+body.theme-light .domain ul { border-top-color: var(--line); }
+body.theme-light .step .step-time { border-top-color: var(--line); }
+
+/* Mission-cta block */
+body.theme-light .mission-cta {
+  background: linear-gradient(135deg, rgba(231,255,0,0.10), rgba(15,17,24,0.02));
+  border-color: var(--line-2);
+}
+body.theme-light .mission-cta h4 { color: var(--ink); }
+body.theme-light .mission-cta p { color: var(--charcoal); }
+
+/* Spec-matrix stays intentionally dark (data-island treatment);
+   only the header row and first-col labels need attention. */
+body.theme-light .spec-matrix tbody td:first-child {
+  background: rgba(15,17,24,0.03);
+}
