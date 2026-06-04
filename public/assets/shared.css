@@ -1,6 +1,6 @@
 /* ─── Navon shared design system ─────────────────── */
 :root {
-  --ink:       #000000;
+  --ink:       #0b0b07;
   --ink-2:     #07080A;
   --charcoal:  #3F4157;
   --slate:     #6F7287;
@@ -427,13 +427,15 @@ footer.site-footer a:hover { color: var(--signal); }
 
 /* tech SVG helpers */
 .tech line, .tech path, .tech polyline, .tech rect, .tech polygon { vector-effect: non-scaling-stroke; }
-.tech text { font-family: 'JetBrains Mono', monospace; fill: #9E9F9B; }
-.tech .thin { stroke: #6F7287; stroke-width: 0.6; }
-.tech .line { stroke: #E2E3DE; stroke-width: 1.2; fill: none; }
-.tech .hair { stroke: #9E9F9B; stroke-width: 0.7; fill: none; }
-.tech .dashed { stroke: #6F7287; stroke-width: 0.8; stroke-dasharray: 3 4; fill: none; }
-.tech .signal { stroke: #E7FF00; fill: #E7FF00; }
-.tech .label-signal { fill: #E7FF00; }
+.tech text { font-family: var(--font-mono); fill: var(--mid); }
+.tech .thin { stroke: var(--slate); stroke-width: 0.6; }
+.tech .line { stroke: var(--light); stroke-width: 1.2; fill: none; }
+.tech .hair { stroke: var(--mid); stroke-width: 0.7; fill: none; }
+.tech .dashed { stroke: var(--slate); stroke-width: 0.8; stroke-dasharray: 3 4; fill: none; }
+.tech .signal { stroke: var(--signal); fill: var(--signal); }
+.tech .label-signal { fill: var(--signal); }
+.tech text.city-label { font-family: var(--font-display); fill: var(--paper); font-weight: 600; }
+.tech text.city-phase { fill: var(--slate); }
 .draw path,
 .draw line,
 .draw polyline,
@@ -445,6 +447,7 @@ footer.site-footer a:hover { color: var(--signal); }
 .pulse { animation: pulse 2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes pulse { 0%,100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.85; transform: scale(1.8); } }
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; opacity: 0.3; } }
 @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* ── mega-menu ────────────────────────────────── */
@@ -813,7 +816,7 @@ footer.site-footer a:hover { color: var(--signal); }
   letter-spacing: 0.02em;
   border-radius: 2px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .cookie-banner-actions .accept { background: var(--signal); color: var(--ink); border: 1px solid var(--signal); }
 .cookie-banner-actions .accept:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(231,255,0,0.2); }
@@ -1233,6 +1236,17 @@ footer.site-footer.cols-5 { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; }
   font-size: 14px;
   line-height: 1.55;
   margin: 0;
+}
+/* Featured (first) delivery card — spans full width, larger treatment */
+.delivery-card.featured {
+  grid-column: 1 / -1;
+  background: linear-gradient(90deg, rgba(231,255,0,0.028) 0%, transparent 60%);
+  min-height: auto;
+}
+.delivery-card.featured h3 {
+  font-size: 44px;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
 }
 
 /* ── savings table (cloud reservations) ──────── */
