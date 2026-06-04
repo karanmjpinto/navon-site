@@ -334,11 +334,12 @@
     background: rgba(255,255,255,0.012);
   }
   .spec-matrix tbody td.navon-cell {
-    color: var(--ink);
-    background: rgba(231,255,0,0.18);
+    color: var(--paper);
+    background: rgba(231,255,0,0.05);
+    border-left: 2px solid rgba(231,255,0,0.35);
     font-weight: 500;
   }
-  .spec-matrix tbody td.navon-cell strong { color: var(--ink); font-weight: 500; }
+  .spec-matrix tbody td.navon-cell strong { color: var(--signal); font-weight: 500; }
   .spec-matrix tbody td strong { color: var(--paper); font-weight: 500; }
   .spec-matrix tbody td .pill {
     display: inline-block;
