@@ -78,6 +78,43 @@
   .res-card:hover .meta { color: var(--signal); }
   .res-card .meta .arrow { transition: transform 0.3s ease; }
   .res-card:hover .meta .arrow { transform: translateX(4px); }
+  /* Tool card variant — spans full width in the grid, signal-accented */
+  .res-card--tool {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+    min-height: auto;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(90deg, rgba(231,255,0,0.025) 0%, transparent 60%);
+  }
+  .res-card--tool::before { background: var(--signal); }
+  .res-card--tool .glyph {
+    width: 260px;
+    flex-shrink: 0;
+    aspect-ratio: 16/9;
+    margin-bottom: 0;
+  }
+  .res-card--tool .num { color: var(--signal); }
+  .badge--tool {
+    display: inline-block;
+    padding: 2px 9px;
+    margin-left: 10px;
+    background: rgba(231,255,0,0.1);
+    border: 1px solid rgba(231,255,0,0.3);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--signal);
+    vertical-align: middle;
+  }
+  @media (max-width: 820px) {
+    .res-card--tool { flex-direction: column; }
+    .res-card--tool .glyph { width: 100%; }
+  }
+
   .res-card.coming { opacity: 0.85; }
   .res-card.coming .badge {
     display: inline-block;

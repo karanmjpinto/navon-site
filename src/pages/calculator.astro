@@ -1,0 +1,1069 @@
+---
+import Site from '../layouts/Site.astro';
+---
+
+<Site
+  title="Pricing Calculator — Navon"
+  description="Model sovereign AI inference costs for any market. Compare Navon Hells Gate with EU or emerging-market alternatives, then share your scenario with your team."
+>
+
+<!-- ── HERO ──────────────────────────────────────────── -->
+<section class="c-hero">
+  <div class="eyebrow"><span class="mark"></span>Resources · Pricing tool</div>
+  <h1 class="c-h1">Model sovereign<br><em>compute costs.</em></h1>
+  <p class="c-lede">Transparent infrastructure economics — no sales call required. Load the Navon Hells Gate reference model, substitute your market inputs, and share the scenario with your CFO or leadership team.</p>
+</section>
+
+<!-- ── TOOLBAR ────────────────────────────────────────── -->
+<div class="c-toolbar">
+  <div class="c-presets">
+    <span class="c-presets-lbl">Load preset</span>
+    <button class="c-preset is-active" data-preset="hells-gate">Navon Hells Gate</button>
+    <button class="c-preset" data-preset="eu-hyper">EU Hyperscaler</button>
+    <button class="c-preset" data-preset="emerging">Emerging Market</button>
+  </div>
+  <button class="c-add-btn" id="c-add">+ Add market</button>
+</div>
+
+<!-- ── MARGIN ─────────────────────────────────────────── -->
+<div class="c-margin-bar">
+  <span class="c-margin-lbl">Target margin — shared across all markets</span>
+  <div class="c-margin-ctl">
+    <input type="range" id="c-margin" min="1" max="99" value="40" class="c-slider">
+    <span class="c-margin-num" id="c-margin-num">40%</span>
+  </div>
+</div>
+
+<!-- ── CALCULATOR ─────────────────────────────────────── -->
+<div class="c-stage">
+  <div class="c-grid" id="c-grid"></div>
+  <div class="c-delta" id="c-delta" hidden></div>
+</div>
+
+<!-- ── CTA ───────────────────────────────────────────── -->
+<div class="c-cta">
+  <div class="c-cta-inner">
+    <div class="c-cta-left">
+      <div class="eyebrow"><span class="mark"></span>Ready to proceed?</div>
+      <h2 class="c-cta-h2">You've run the numbers.<br><em>Let's build it.</em></h2>
+      <p class="c-cta-body">Send us your modelled scenario and we'll respond with a detailed proposal — energy tariff, hardware spec, and deployment timeline.</p>
+    </div>
+    <div class="c-cta-right">
+      <button class="c-copy-btn" id="c-copy">
+        <span class="c-copy-icon">⎘</span> Copy link
+      </button>
+      <a class="cta c-talk-btn" href="/about.html#contact" id="c-talk">
+        Talk to us <span class="arrow">→</span>
+      </a>
+      <p class="c-cta-note">Your modelled inputs are included with your message.</p>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+
+/* ── HERO ─────────────────────────────────────────── */
+.c-hero {
+  padding: calc(var(--nav-h) + 64px) var(--px) 56px;
+  max-width: 800px;
+}
+.c-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.4vw, 72px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin: 20px 0 24px;
+}
+.c-h1 em { color: var(--signal); font-style: italic; font-weight: 400; }
+.c-lede {
+  color: var(--light);
+  font-size: 17px;
+  line-height: 1.55;
+  max-width: 58ch;
+  margin: 0;
+}
+
+/* ── TOOLBAR ──────────────────────────────────────── */
+.c-toolbar {
+  padding: 20px var(--px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.c-presets {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.c-presets-lbl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+.c-preset {
+  padding: 7px 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--mid);
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+.c-preset:hover,
+.c-preset.is-active {
+  color: var(--signal);
+  border-color: rgba(231,255,0,0.4);
+  background: rgba(231,255,0,0.04);
+}
+.c-add-btn {
+  padding: 7px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--paper);
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.c-add-btn:hover { color: var(--signal); border-color: rgba(231,255,0,0.4); }
+.c-add-btn:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+
+/* ── MARGIN BAR ───────────────────────────────────── */
+.c-margin-bar {
+  padding: 20px var(--px);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,0.012);
+}
+.c-margin-lbl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--slate);
+  flex-shrink: 0;
+}
+.c-margin-ctl {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 180px;
+}
+.c-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2px;
+  background: var(--line-2);
+  border-radius: 1px;
+  outline: none;
+  cursor: pointer;
+}
+.c-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--signal);
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(231,255,0,0.12);
+}
+.c-slider::-moz-range-thumb {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--signal);
+  border: none;
+  cursor: pointer;
+}
+.c-margin-num {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--signal);
+  min-width: 52px;
+  text-align: right;
+}
+
+/* ── STAGE & GRID ─────────────────────────────────── */
+.c-stage {
+  padding: 0 var(--px);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.c-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 1), minmax(280px, 1fr));
+  gap: 0;
+  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  min-width: 0;
+}
+@media (max-width: 640px) {
+  .c-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── COLUMN ───────────────────────────────────────── */
+.c-col {
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.c-col::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--signal);
+  z-index: 1;
+}
+.c-col-hd {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.c-col-name {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--paper);
+  cursor: text;
+  min-width: 0;
+  padding: 0;
+}
+.c-col-name::placeholder { color: var(--slate); }
+.c-col-name:focus { color: var(--signal); }
+.c-remove-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 15px;
+  line-height: 1;
+  width: 26px; height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+.c-remove-btn:hover { color: var(--paper); border-color: var(--mid); }
+
+/* ── INPUTS ───────────────────────────────────────── */
+.c-inputs { padding: 0 24px; }
+.c-section-hd {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--slate);
+  padding: 18px 0 10px;
+}
+.c-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  min-height: 38px;
+}
+.c-row:last-child { border-bottom: none; }
+.c-row-lbl {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--mid);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+.c-row-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.c-num-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+  outline: none;
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  text-align: right;
+  padding: 2px 0;
+  width: 76px;
+  transition: border-color 0.2s;
+  -moz-appearance: textfield;
+}
+.c-num-input::-webkit-outer-spin-button,
+.c-num-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.c-num-input:focus { border-bottom-color: var(--signal); color: var(--paper); }
+.c-num-input.is-error { border-bottom-color: #f87171; color: #f87171; }
+.c-unit {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  width: 40px;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+/* Tooltip */
+.c-tip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px; height: 13px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 500;
+  color: var(--slate);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 50%;
+  cursor: help;
+  position: relative;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.c-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--charcoal);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--light);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.5;
+  padding: 10px 14px;
+  border-radius: 3px;
+  width: 240px;
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 200;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.c-tip:hover::after { opacity: 1; }
+
+/* ── RESULTS ──────────────────────────────────────── */
+.c-results {
+  padding: 0 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.c-res-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  gap: 8px;
+}
+.c-res-lbl {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--slate);
+}
+.c-res-val {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--light);
+  flex-shrink: 0;
+}
+
+/* Breakdown bar */
+.c-bar-wrap {
+  display: flex;
+  height: 5px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.06);
+  margin: 14px 0 12px;
+  gap: 1px;
+}
+.c-bar-seg { height: 100%; transition: width 0.45s var(--easing); border-radius: 1px; }
+.c-bar-energy { background: var(--signal); }
+.c-bar-hw     { background: rgba(231,255,0,0.48); }
+.c-bar-infra  { background: rgba(231,255,0,0.2); }
+
+.c-bar-legend {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.c-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+.c-legend-dot {
+  width: 7px; height: 7px;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+/* Total + price */
+.c-total-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 12px 0 10px;
+  border-top: 1px solid var(--line);
+  margin-top: 4px;
+  gap: 8px;
+}
+.c-total-lbl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+.c-total-val {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--paper);
+  letter-spacing: -0.01em;
+}
+
+.c-price-block {
+  background: rgba(231,255,0,0.06);
+  border: 1px solid rgba(231,255,0,0.18);
+  border-radius: 3px;
+  padding: 16px 20px;
+  margin: 10px 0 12px;
+}
+.c-price-lbl {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(231,255,0,0.55);
+  margin-bottom: 8px;
+}
+.c-price-val {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  color: var(--signal);
+  line-height: 1;
+  transition: opacity 0.3s;
+}
+.c-price-unit {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(231,255,0,0.45);
+  margin-top: 6px;
+}
+
+.c-kwh-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0 20px;
+  gap: 8px;
+}
+.c-kwh-lbl {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--slate);
+}
+.c-kwh-val {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--mid);
+}
+
+/* ── DELTA ROW ────────────────────────────────────── */
+.c-delta {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,0.012);
+  margin-top: 0;
+}
+.c-delta-inner {
+  padding: 20px var(--px);
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.c-delta-baseline {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--slate);
+  flex-shrink: 0;
+}
+.c-delta-items {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.c-delta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.c-delta-name {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+.c-delta-vals {
+  display: flex;
+  gap: 16px;
+}
+.c-delta-val {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--paper);
+}
+.c-delta-val.c-cheaper { color: #4ade80; }
+.c-delta-val.c-pricier  { color: #f87171; }
+.c-delta-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+/* ── BOTTOM CTA ───────────────────────────────────── */
+.c-cta {
+  padding: var(--section-y) var(--px);
+  border-top: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.c-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(231,255,0,0.05), transparent 50%);
+  pointer-events: none;
+}
+.c-cta-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+@media (max-width: 820px) { .c-cta-inner { grid-template-columns: 1fr; gap: 40px; } }
+.c-cta-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin: 16px 0 20px;
+}
+.c-cta-h2 em { color: var(--signal); font-style: italic; font-weight: 400; }
+.c-cta-body { color: var(--mid); font-size: 15px; line-height: 1.6; max-width: 44ch; margin: 0; }
+.c-cta-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.c-copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--paper);
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  width: 100%;
+}
+.c-copy-btn:hover { border-color: rgba(255,255,255,0.4); }
+.c-copy-btn.is-copied { border-color: var(--signal); color: var(--signal); }
+.c-talk-btn { width: 100%; justify-content: center; }
+.c-cta-note {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin: 0;
+  text-align: center;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────── */
+@media (max-width: 640px) {
+  .c-presets { gap: 6px; }
+  .c-preset, .c-add-btn { font-size: 10px; padding: 6px 10px; }
+  .c-margin-bar { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .c-margin-ctl { width: 100%; }
+}
+
+</style>
+
+<script is:inline>
+(function () {
+
+  /* ── PRESETS ───────────────────────────────────── */
+  var PRESETS = {
+    'hells-gate': { name: 'Navon Hells Gate', energy: 0.09,  pue: 1.29, hw: 15000, life: 3, power: 0.7, tps: 1500, util: 70, infra: 200 },
+    'eu-hyper':   { name: 'EU Hyperscaler',   energy: 0.185, pue: 1.50, hw: 18000, life: 3, power: 0.7, tps: 1500, util: 65, infra: 450 },
+    'emerging':   { name: 'Emerging Market',  energy: 0.12,  pue: 1.40, hw: 16000, life: 3, power: 0.7, tps: 1200, util: 60, infra: 300 },
+  };
+
+  /* ── STATE ─────────────────────────────────────── */
+  var state = {
+    margin: 40,
+    markets: [clone(PRESETS['hells-gate'])]
+  };
+
+  function clone(o) { return Object.assign({}, o); }
+
+  /* ── FORMULA ───────────────────────────────────── */
+  function calcMarket(m) {
+    var eff = m.tps * (m.util / 100);
+    if (eff <= 0 || m.pue < 1 || m.life <= 0 || m.hw <= 0) return null;
+    var kWhT    = (m.power * m.pue) / (eff * 3600);
+    var energy  = kWhT * m.energy * 1e6;
+    var hw      = m.hw / (m.life * eff * 3600 * 8760 / 1e6);
+    var infra   = m.infra / (eff * 3600 * 720 / 1e6);
+    var total   = energy + hw + infra;
+    var margin  = state.margin / 100;
+    var price   = total / (1 - margin);
+    var kWh1M   = kWhT * 1e6;
+    return { energy: energy, hw: hw, infra: infra, total: total, price: price, kWh1M: kWh1M };
+  }
+
+  /* ── HELPERS ───────────────────────────────────── */
+  function fmt(n, d) {
+    if (n == null || !isFinite(n)) return '—';
+    return '$' + n.toFixed(d !== undefined ? d : 3);
+  }
+  function pct(n, total) {
+    if (!total) return 0;
+    return Math.max(0, Math.min(100, n / total * 100));
+  }
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+  function sign(n) { return n >= 0 ? '+' : ''; }
+
+  /* ── FIELD META ────────────────────────────────── */
+  var LABELS = {
+    energy: 'Energy cost', pue: 'PUE', hw: 'Hardware cost',
+    life: 'Lifetime', power: 'Power draw', tps: 'Tokens / sec',
+    util: 'GPU utilisation', infra: 'Infra overhead'
+  };
+  var UNITS = {
+    energy: '$/kWh', pue: '', hw: '$', life: 'years',
+    power: 'kW', tps: '', util: '%', infra: '$/mo'
+  };
+  var STEPS = {
+    energy: '0.001', pue: '0.01', hw: '500', life: '1',
+    power: '0.05', tps: '50', util: '1', infra: '10'
+  };
+  var MINS = {
+    energy: '0.001', pue: '1.0', hw: '1', life: '1',
+    power: '0.01', tps: '1', util: '1', infra: '0'
+  };
+  var MAXS = { util: '100' };
+  var TIPS = {
+    pue: 'Power Usage Effectiveness: total facility power ÷ IT equipment power. 1.0 is perfect efficiency. Navon Hells Gate achieves 1.29 — geothermal eliminates cooling overhead.',
+    tps: 'Peak tokens per second at full GPU utilisation. 1,500 TPS is a conservative single-GPU figure for a 7B-class model at FP16 precision. Scale with GPU count.',
+    util: 'Fraction of time the GPU is actively generating tokens. 70% is a realistic commercial figure; research workloads often run lower.',
+  };
+  var FIELDS = ['energy', 'pue', 'hw', 'life', 'power', 'tps', 'util', 'infra'];
+
+  /* ── INPUT ROW ─────────────────────────────────── */
+  function inputRow(idx, field, val) {
+    var tip  = TIPS[field]  ? '<span class="c-tip" data-tip="' + esc(TIPS[field]) + '">i</span>' : '';
+    var unit = UNITS[field] ? '<span class="c-unit">' + esc(UNITS[field]) + '</span>' : '<span class="c-unit"></span>';
+    var max  = MAXS[field]  ? ' max="' + MAXS[field] + '"' : '';
+    return (
+      '<div class="c-row">' +
+        '<label class="c-row-lbl">' + esc(LABELS[field]) + tip + '</label>' +
+        '<div class="c-row-right">' +
+          '<input type="number" class="c-num-input" ' +
+            'data-f="' + field + '" data-i="' + idx + '" ' +
+            'value="' + val + '" ' +
+            'min="' + (MINS[field] || '0') + '" ' +
+            'step="' + (STEPS[field] || 'any') + '"' + max + '>' +
+          unit +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  /* ── COLUMN HTML ───────────────────────────────── */
+  function colHTML(idx, m) {
+    var r       = calcMarket(m);
+    var ep      = r ? pct(r.energy, r.total) : 33;
+    var hp      = r ? pct(r.hw,     r.total) : 34;
+    var ip      = r ? pct(r.infra,  r.total) : 33;
+    var canRm   = state.markets.length > 1;
+    var rmBtn   = canRm
+      ? '<button class="c-remove-btn" data-i="' + idx + '" title="Remove market">&times;</button>'
+      : '';
+
+    return (
+      '<div class="c-col" data-idx="' + idx + '">' +
+        '<div class="c-col-hd">' +
+          '<input class="c-col-name" type="text" value="' + esc(m.name) + '" ' +
+            'data-f="name" data-i="' + idx + '" placeholder="Market name">' +
+          rmBtn +
+        '</div>' +
+
+        '<div class="c-inputs">' +
+          '<div class="c-section-hd">Inputs</div>' +
+          FIELDS.map(function(f) { return inputRow(idx, f, m[f]); }).join('') +
+        '</div>' +
+
+        '<div class="c-results">' +
+          '<div class="c-section-hd">Results — per 1M tokens</div>' +
+
+          '<div class="c-res-row"><span class="c-res-lbl">Energy</span>' +
+            '<span class="c-res-val">' + (r ? fmt(r.energy) : '—') + '</span></div>' +
+          '<div class="c-res-row"><span class="c-res-lbl">Hardware amortisation</span>' +
+            '<span class="c-res-val">' + (r ? fmt(r.hw) : '—') + '</span></div>' +
+          '<div class="c-res-row"><span class="c-res-lbl">Infra overhead</span>' +
+            '<span class="c-res-val">' + (r ? fmt(r.infra) : '—') + '</span></div>' +
+
+          '<div class="c-bar-wrap">' +
+            '<div class="c-bar-seg c-bar-energy" style="width:' + ep.toFixed(1) + '%"></div>' +
+            '<div class="c-bar-seg c-bar-hw"     style="width:' + hp.toFixed(1) + '%"></div>' +
+            '<div class="c-bar-seg c-bar-infra"  style="width:' + ip.toFixed(1) + '%"></div>' +
+          '</div>' +
+          '<div class="c-bar-legend">' +
+            '<span class="c-legend-item"><span class="c-legend-dot" style="background:var(--signal)"></span>Energy</span>' +
+            '<span class="c-legend-item"><span class="c-legend-dot" style="background:rgba(231,255,0,0.48)"></span>Hardware</span>' +
+            '<span class="c-legend-item"><span class="c-legend-dot" style="background:rgba(231,255,0,0.2)"></span>Infra</span>' +
+          '</div>' +
+
+          '<div class="c-total-row">' +
+            '<span class="c-total-lbl">Total cost</span>' +
+            '<span class="c-total-val">' + (r ? fmt(r.total) : '—') + '</span>' +
+          '</div>' +
+
+          '<div class="c-price-block">' +
+            '<div class="c-price-lbl">Recommended price</div>' +
+            '<div class="c-price-val">' + (r ? fmt(r.price, 2) : '—') + '</div>' +
+            '<div class="c-price-unit">per 1 million tokens</div>' +
+          '</div>' +
+
+          '<div class="c-kwh-row">' +
+            '<span class="c-kwh-lbl">kWh / 1M tokens</span>' +
+            '<span class="c-kwh-val">' + (r ? r.kWh1M.toFixed(3) + ' kWh' : '—') + '</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  /* ── DELTA HTML ────────────────────────────────── */
+  function deltaHTML() {
+    var base = calcMarket(state.markets[0]);
+    if (!base || state.markets.length < 2) return '';
+    var items = '';
+    for (var i = 1; i < state.markets.length; i++) {
+      var r = calcMarket(state.markets[i]);
+      if (!r) continue;
+      var dPrice = (r.price - base.price) / base.price * 100;
+      var dCost  = (r.total - base.total) / base.total * 100;
+      var pCls   = dPrice < 0 ? 'c-cheaper' : 'c-pricier';
+      var cCls   = dCost  < 0 ? 'c-cheaper' : 'c-pricier';
+      items += (
+        '<div class="c-delta-item">' +
+          '<span class="c-delta-name">' + esc(state.markets[i].name) + '</span>' +
+          '<div class="c-delta-vals">' +
+            '<div>' +
+              '<div class="c-delta-val ' + cCls + '">' + sign(dCost)  + dCost.toFixed(1)  + '% cost</div>' +
+              '<div class="c-delta-sub">vs baseline</div>' +
+            '</div>' +
+            '<div>' +
+              '<div class="c-delta-val ' + pCls + '">' + sign(dPrice) + dPrice.toFixed(1) + '% price</div>' +
+              '<div class="c-delta-sub">vs baseline</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+    return (
+      '<div class="c-delta-inner">' +
+        '<span class="c-delta-baseline">Baseline: ' + esc(state.markets[0].name) + '</span>' +
+        '<div class="c-delta-items">' + items + '</div>' +
+      '</div>'
+    );
+  }
+
+  /* ── SHARE URL ─────────────────────────────────── */
+  function buildURL() {
+    var p = new URLSearchParams();
+    p.set('margin', state.margin);
+    p.set('n', state.markets.length);
+    state.markets.forEach(function(m, i) {
+      p.set('m' + i + '_name',   m.name);
+      p.set('m' + i + '_energy', m.energy);
+      p.set('m' + i + '_pue',    m.pue);
+      p.set('m' + i + '_hw',     m.hw);
+      p.set('m' + i + '_life',   m.life);
+      p.set('m' + i + '_power',  m.power);
+      p.set('m' + i + '_tps',    m.tps);
+      p.set('m' + i + '_util',   m.util);
+      p.set('m' + i + '_infra',  m.infra);
+    });
+    return window.location.origin + window.location.pathname + '?' + p.toString();
+  }
+
+  function loadURL() {
+    var p = new URLSearchParams(window.location.search);
+    if (!p.has('margin')) return false;
+    var n = Math.min(3, Math.max(1, parseInt(p.get('n') || '1', 10)));
+    var markets = [];
+    for (var i = 0; i < n; i++) {
+      var base = PRESETS['hells-gate'];
+      markets.push({
+        name:   p.get('m' + i + '_name')   || base.name,
+        energy: parseFloat(p.get('m' + i + '_energy') || base.energy),
+        pue:    parseFloat(p.get('m' + i + '_pue')    || base.pue),
+        hw:     parseFloat(p.get('m' + i + '_hw')     || base.hw),
+        life:   parseFloat(p.get('m' + i + '_life')   || base.life),
+        power:  parseFloat(p.get('m' + i + '_power')  || base.power),
+        tps:    parseFloat(p.get('m' + i + '_tps')    || base.tps),
+        util:   parseFloat(p.get('m' + i + '_util')   || base.util),
+        infra:  parseFloat(p.get('m' + i + '_infra')  || base.infra),
+      });
+    }
+    state.margin  = Math.min(99, Math.max(1, parseInt(p.get('margin'), 10)));
+    state.markets = markets;
+    var sl = document.getElementById('c-margin');
+    var sd = document.getElementById('c-margin-num');
+    if (sl) sl.value = state.margin;
+    if (sd) sd.textContent = state.margin + '%';
+    return true;
+  }
+
+  /* ── VALIDATION ────────────────────────────────── */
+  function valid(f, v) {
+    if (isNaN(v)) return false;
+    if (['tps','hw','life'].indexOf(f) > -1 && v <= 0) return false;
+    if (f === 'pue'  && v < 1)   return false;
+    if (f === 'util' && (v < 1 || v > 100)) return false;
+    return true;
+  }
+
+  /* ── RENDER ────────────────────────────────────── */
+  function render() {
+    var grid  = document.getElementById('c-grid');
+    var delta = document.getElementById('c-delta');
+    if (!grid || !delta) return;
+
+    grid.style.setProperty('--cols', state.markets.length);
+    grid.innerHTML = state.markets.map(function(m, i) { return colHTML(i, m); }).join('');
+
+    if (state.markets.length > 1 && calcMarket(state.markets[0])) {
+      delta.innerHTML = deltaHTML();
+      delta.hidden = false;
+    } else {
+      delta.hidden = true;
+    }
+
+    var addBtn = document.getElementById('c-add');
+    if (addBtn) addBtn.disabled = state.markets.length >= 3;
+
+    /* Update "Talk to us" href */
+    var talkBtn = document.getElementById('c-talk');
+    if (talkBtn) {
+      talkBtn.href = '/about.html#contact?scenario=' + encodeURIComponent(buildURL());
+    }
+  }
+
+  /* ── EVENTS ────────────────────────────────────── */
+  document.addEventListener('input', function(e) {
+    var t = e.target;
+
+    /* Margin slider */
+    if (t.id === 'c-margin') {
+      state.margin = parseInt(t.value, 10);
+      var d = document.getElementById('c-margin-num');
+      if (d) d.textContent = state.margin + '%';
+      render();
+      return;
+    }
+
+    /* Column name */
+    if (t.classList.contains('c-col-name')) {
+      var i = parseInt(t.dataset.i, 10);
+      if (!isNaN(i)) state.markets[i].name = t.value;
+      var talkBtn = document.getElementById('c-talk');
+      if (talkBtn) talkBtn.href = '/about.html#contact?scenario=' + encodeURIComponent(buildURL());
+      return;
+    }
+
+    /* Numeric inputs */
+    if (t.classList.contains('c-num-input')) {
+      var i   = parseInt(t.dataset.i, 10);
+      var f   = t.dataset.f;
+      var val = parseFloat(t.value);
+      if (isNaN(i) || !f) return;
+      var ok = valid(f, val);
+      t.classList.toggle('is-error', !ok);
+      if (ok) {
+        state.markets[i][f] = val;
+        render();
+      }
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    var t = e.target;
+
+    /* Remove column */
+    var rmBtn = t.closest('.c-remove-btn');
+    if (rmBtn) {
+      var i = parseInt(rmBtn.dataset.i, 10);
+      if (!isNaN(i) && state.markets.length > 1) {
+        state.markets.splice(i, 1);
+        render();
+      }
+      return;
+    }
+
+    /* Add market */
+    if (t.closest('#c-add') && state.markets.length < 3) {
+      state.markets.push(clone(Object.assign({}, PRESETS['hells-gate'], { name: 'Market ' + (state.markets.length + 1) })));
+      document.querySelectorAll('.c-preset').forEach(function(b) { b.classList.remove('is-active'); });
+      render();
+      return;
+    }
+
+    /* Preset buttons */
+    var pBtn = t.closest('.c-preset');
+    if (pBtn) {
+      var key = pBtn.dataset.preset;
+      if (!PRESETS[key]) return;
+      /* Always reset to single-column with the chosen preset */
+      state.markets = [clone(PRESETS[key])];
+      document.querySelectorAll('.c-preset').forEach(function(b) { b.classList.remove('is-active'); });
+      pBtn.classList.add('is-active');
+      render();
+      return;
+    }
+
+    /* Copy link */
+    if (t.closest('#c-copy')) {
+      var url    = buildURL();
+      var btn    = document.getElementById('c-copy');
+      var reset  = function() {
+        btn.classList.remove('is-copied');
+        btn.innerHTML = '<span class="c-copy-icon">⎘</span> Copy link';
+      };
+      var ok_cb  = function() {
+        btn.classList.add('is-copied');
+        btn.innerHTML = '<span class="c-copy-icon">✓</span> Copied!';
+        setTimeout(reset, 2200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(ok_cb).catch(function() {
+          fallbackCopy(url); ok_cb();
+        });
+      } else {
+        fallbackCopy(url); ok_cb();
+      }
+      return;
+    }
+  });
+
+  function fallbackCopy(text) {
+    var el = document.createElement('textarea');
+    el.value = text;
+    el.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+    document.body.appendChild(el);
+    el.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(el);
+  }
+
+  /* ── INIT ──────────────────────────────────────── */
+  loadURL();
+  render();
+
+})();
+</script>
+
+</Site>

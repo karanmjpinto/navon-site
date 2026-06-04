@@ -101,6 +101,42 @@
     });
   });
 
+  /* ── mobile nav hamburger ──────────────────── */
+  const burger    = document.querySelector('.nav-burger');
+  const mobileNav = document.querySelector('.nav-mobile');
+  if (burger && mobileNav) {
+    const close = () => {
+      burger.classList.remove('is-open');
+      burger.setAttribute('aria-expanded', 'false');
+      mobileNav.classList.remove('is-open');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+    burger.addEventListener('click', () => {
+      const opening = !burger.classList.contains('is-open');
+      if (opening) {
+        burger.classList.add('is-open');
+        burger.setAttribute('aria-expanded', 'true');
+        mobileNav.classList.add('is-open');
+        mobileNav.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      } else {
+        close();
+      }
+    });
+    /* close when any mobile-nav link is tapped */
+    mobileNav.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+    /* close on Escape key */
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    /* close when nav auto-hides on scroll (is-hidden state) */
+    if (nav) {
+      const mo = new MutationObserver(() => {
+        if (nav.classList.contains('is-hidden')) close();
+      });
+      mo.observe(nav, { attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
   /* cookie banner — inject + manage state */
   const COOKIE_KEY = 'navon-cookies-acknowledged';
   if (!localStorage.getItem(COOKIE_KEY)) {
