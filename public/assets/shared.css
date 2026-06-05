@@ -1150,7 +1150,7 @@ footer.site-footer.cols-5 { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; }
   color: var(--light);
   flex-wrap: wrap;
 }
-.delivery-banner .loi-badge {
+.delivery-banner .coalition-badge {
   background: var(--signal);
   color: var(--ink);
   padding: 7px 14px;
@@ -1206,7 +1206,7 @@ footer.site-footer.cols-5 { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; }
   text-transform: uppercase;
   font-weight: 500;
 }
-.delivery-card .loi {
+.delivery-card .partner-status {
   font-family: var(--font-mono);
   font-size: 9.5px;
   letter-spacing: 0.2em;
