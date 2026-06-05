@@ -1642,6 +1642,7 @@ body.theme-light .faculty h4,
 body.theme-light .inc-item h5,
 body.theme-light .stat-strip .s .v,
 body.theme-light .hero-stats .s .v,
+body.theme-light .spec-card-specs li .v,
 body.theme-light .principle-text .name,
 body.theme-light .pillar-text h2 {
   color: var(--ink);

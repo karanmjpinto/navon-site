@@ -1,0 +1,119 @@
+---
+import Site from '../../layouts/Site.astro';
+import '../../styles/partners.css';
+import { partners, layers, getAdjacent } from '../../data/partners.js';
+
+export function getStaticPaths() {
+  return partners.map((p) => ({ params: { slug: p.slug }, props: { partner: p } }));
+}
+
+const { partner: p } = Astro.props;
+const layer = layers.find((l) => l.id === p.layer);
+const { prev, next } = getAdjacent(p.slug);
+---
+<Site
+  title={`${p.name} — Navon Partners`}
+  description={p.oneLiner}
+  bodyClass="pd"
+>
+
+<!-- ── HERO ──────────────────────────────────────────────────────────── -->
+<section class="pd-hero">
+  <a class="pd-back" href="/partners.html"><span class="arrow">←</span> All partners</a>
+
+  <div class="pd-hero-grid">
+    <div class="partner-portrait pd-portrait reveal">
+      <div class="pp-tag mono">{layer.num} · {layer.name}</div>
+      <div class="pp-corner"></div>
+      {p.portrait
+        ? <img class="pp-img" src={p.portrait} alt={`${p.founder?.name ?? p.name}`} />
+        : <div class={`pp-mono${p.monogram.length > 1 ? ' sm' : ''}`}>{p.monogram}</div>}
+      <div class="pp-credit">
+        <div class="pp-cname">{p.name}</div>
+        <div class="pp-crole">
+          {p.founder?.name ? `${p.founder.name} · ${p.founder.role}` : 'Leadership team'}
+          {(!p.founder?.name || p.founder?.confirm) && <span class="pp-confirm">to confirm</span>}
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-hero-body">
+      <div class="pd-layer-tag mono">{layer.num} · {layer.name}</div>
+      <h1 class="pd-name reveal">{p.name}</h1>
+      <div class="pd-tagline reveal d1">{p.tagline}</div>
+      <p class="pd-oneliner reveal d1">{p.oneLiner}</p>
+
+      <div class="pd-founder reveal d2">
+        {p.founder?.name
+          ? <span class="pf-name">{p.founder.name}</span>
+          : <span class="pf-name">Leadership team</span>}
+        <span class="pf-role">{p.founder?.role ?? 'Leadership'}</span>
+        {p.founder?.linkedin
+          ? <a class="pf-link" href={p.founder.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <span class="arrow">↗</span></a>
+          : <span class="pf-link" style="color:var(--charcoal);">LinkedIn — to add</span>}
+      </div>
+
+      {p.website && (
+        <div class="partner-actions reveal d2">
+          <a class="cta" href={p.website} target="_blank" rel="noopener noreferrer">Visit {p.name} <span class="arrow">↗</span></a>
+          <a class="cta-ghost" href="/about.html#contact">Work with them via Navon <span class="arrow">→</span></a>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT THEY DO ──────────────────────────────────────────────────── -->
+<section class="pd-section">
+  <div class="pd-eyebrow">What they do</div>
+  <h2 class="pd-h2 reveal">The value they bring.</h2>
+  <p class="pd-lede reveal d1">{p.summary}</p>
+</section>
+
+<!-- ── WHAT THEY OFFER ───────────────────────────────────────────────── -->
+<section class="pd-section">
+  <div class="pd-eyebrow">What they offer</div>
+  <h2 class="pd-h2 reveal">Capabilities.</h2>
+  <div class="pd-offers reveal d1">
+    {p.offers.map((o, i) => (
+      <div class="pd-offer">
+        <div class="num">{String(i + 1).padStart(2, '0')}</div>
+        <h3>{o.title}</h3>
+        <p>{o.body}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- ── HOW NAVON WORKS WITH THEM ─────────────────────────────────────── -->
+<section class="pd-section">
+  <div class="pd-eyebrow">How we work together</div>
+  <h2 class="pd-h2 reveal">Where they fit the stack.</h2>
+  <p class="pd-lede reveal d1">{p.stackFit}</p>
+</section>
+
+<!-- ── QUOTE ─────────────────────────────────────────────────────────── -->
+<section class="pd-quote-section">
+  <figure class="pd-quote reveal">
+    <div class="mark">&ldquo;</div>
+    <blockquote>{p.quote}</blockquote>
+    <figcaption>
+      — {p.founder?.name ? `${p.founder.name}, ${p.name}` : p.name}
+      {p.quoteDraft && <span class="quote-flag">Draft · pending partner approval</span>}
+    </figcaption>
+  </figure>
+</section>
+
+<!-- ── PREV / NEXT ───────────────────────────────────────────────────── -->
+<nav class="pd-next" aria-label="More partners">
+  <a class="prev" href={`/partners/${prev.slug}.html`}>
+    <span class="pn-dir"><span class="arrow">←</span> Previous</span>
+    <span class="pn-name">{prev.name}</span>
+  </a>
+  <a class="next" href={`/partners/${next.slug}.html`}>
+    <span class="pn-dir">Next <span class="arrow">→</span></span>
+    <span class="pn-name">{next.name}</span>
+  </a>
+</nav>
+
+</Site>

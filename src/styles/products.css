@@ -116,7 +116,7 @@
   }
   .oss-stack-row {
     display: grid;
-    grid-template-columns: 64px minmax(180px, 1.2fr) 2fr;
+    grid-template-columns: 150px minmax(180px, 1.2fr) 2fr;
     gap: 28px;
     padding: 16px 24px;
     border-top: 1px solid var(--line);

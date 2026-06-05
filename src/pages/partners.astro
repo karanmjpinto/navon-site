@@ -1,0 +1,108 @@
+---
+import Site from '../layouts/Site.astro';
+import '../styles/partners.css';
+import { partnersByLayer, partners } from '../data/partners.js';
+---
+<Site
+  title="Partners — Navon"
+  description="The partners building Navon's sovereign stack — from energy and compute to security, applications and capital. One ecosystem, end to end."
+  bodyClass="partners"
+>
+
+<!-- ── HERO ──────────────────────────────────────────────────────────── -->
+<section class="ptr-hero">
+  <div class="eyebrow"><span class="mark"></span>The Navon ecosystem</div>
+  <h1 class="ptr-hero-title reveal">The partners building<br/><span class="accent">the whole stack.</span></h1>
+  <p class="ptr-hero-lede reveal d1">
+    Sovereignty is a team sport. Navon brings together the best builders at every
+    layer — energy, hardware, cloud, security, software and capital — so our
+    customers get one place to go for the entire stack, and know exactly who does what.
+  </p>
+  <div class="ptr-hero-meta reveal d2">
+    <span><b>{partners.length}</b> &nbsp;global partners</span>
+    <span class="dot">/</span>
+    <span><b>{partnersByLayer.length}</b> &nbsp;layers of the stack</span>
+    <span class="dot">/</span>
+    <span>one sovereign platform</span>
+  </div>
+</section>
+
+<!-- ── LAYER LEGEND ──────────────────────────────────────────────────── -->
+<nav class="ptr-legend reveal" aria-label="Jump to a layer">
+  {partnersByLayer.map((layer) => (
+    <a href={`#${layer.id}`}>
+      <span class="lg-num">{layer.num}</span>
+      <span class="lg-name">{layer.name}</span>
+    </a>
+  ))}
+</nav>
+
+<!-- ── LAYER GROUPS ──────────────────────────────────────────────────── -->
+{partnersByLayer.map((layer) => (
+  <section class="layer-group" id={layer.id}>
+    <header class="layer-head reveal">
+      <div class="layer-num">{layer.num}</div>
+      <h2 class="layer-name">{layer.name}</h2>
+      <p class="layer-blurb">{layer.blurb}</p>
+    </header>
+
+    {layer.partners.map((p, i) => (
+      <article class={`partner-row reveal${i % 2 === 1 ? ' flip' : ''}`}>
+        <a class="partner-portrait" href={`/partners/${p.slug}.html`} aria-label={`Explore ${p.name}`}>
+          <div class="pp-tag mono">{layer.num} · {layer.name}</div>
+          <div class="pp-corner"></div>
+          {p.portrait
+            ? <img class="pp-img" src={p.portrait} alt={`${p.founder?.name ?? p.name}`} />
+            : <div class={`pp-mono${p.monogram.length > 1 ? ' sm' : ''}`}>{p.monogram}</div>}
+          <div class="pp-credit">
+            <div class="pp-cname">{p.name}</div>
+            <div class="pp-crole">
+              {p.founder?.name ? `${p.founder.name} · ${p.founder.role}` : 'Leadership team'}
+              {(!p.founder?.name || p.founder?.confirm) && <span class="pp-confirm">to confirm</span>}
+            </div>
+          </div>
+        </a>
+
+        <div class="partner-body">
+          <div class="partner-wordmark">{p.name}</div>
+          <div class="partner-tagline mono">{p.tagline}</div>
+          <p class="partner-oneliner">{p.oneLiner}</p>
+          <p class="partner-summary">{p.summary}</p>
+
+          <figure class="partner-quote">
+            <blockquote>&ldquo;{p.quote}&rdquo;</blockquote>
+            <figcaption>
+              — {p.name}
+              {p.quoteDraft && <span class="quote-flag">Draft · pending approval</span>}
+            </figcaption>
+          </figure>
+
+          <div class="partner-actions">
+            <a class="cta" href={`/partners/${p.slug}.html`}>Explore {p.name} <span class="arrow">→</span></a>
+            {p.website && (
+              <a class="cta-ghost" href={p.website} target="_blank" rel="noopener noreferrer">
+                Visit site <span class="arrow">↗</span>
+              </a>
+            )}
+          </div>
+        </div>
+      </article>
+    ))}
+  </section>
+))}
+
+<!-- ── CLOSING CTA ───────────────────────────────────────────────────── -->
+<section class="ptr-cta reveal">
+  <div class="eyebrow" style="justify-content:center;"><span class="mark"></span>Build with us</div>
+  <h2>Want to join the<br/><span class="accent">ecosystem?</span></h2>
+  <p>
+    If you build something the sovereign stack needs — at any layer — we want
+    to put you on this page and bring your work to the markets that need it.
+  </p>
+  <div class="partner-actions">
+    <a class="cta" href="/about.html#contact">Become a partner <span class="arrow">→</span></a>
+    <a class="cta-ghost" href="/products.html">See the full stack <span class="arrow">→</span></a>
+  </div>
+</section>
+
+</Site>
