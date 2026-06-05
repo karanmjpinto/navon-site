@@ -1787,10 +1787,48 @@ body.theme-light .skills-card:hover .sk-num,
 body.theme-light .vcard:hover .vt,
 body.theme-light .faculty:hover .faculty-num { color: var(--ink); }
 
-/* Duality split — keep merge column tinted */
-body.theme-light .duality .merge { background: rgba(231,255,0,0.18); }
-body.theme-light .duality .didcap { background: rgba(231,255,0,0.10); border-top-color: var(--line); color: var(--charcoal); }
+/* Duality split — defence-in-depth divider + two-layer cap kept dark for contrast */
+body.theme-light .duality .merge {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+body.theme-light .duality .merge .symbol { color: var(--signal); }
+body.theme-light .duality .merge .mlabel { color: var(--paper); }
+body.theme-light .duality .didcap {
+  background: var(--ink);
+  border-top-color: var(--ink);
+  color: var(--light);
+}
+body.theme-light .duality .didcap em { color: var(--signal); font-style: normal; font-weight: 600; }
 body.theme-light .duality .side ul li::before { color: var(--ink); }
+
+/* Dropdown (.ndrop) component on light theme — text/markers flipped to dark */
+body.theme-light .ndrop > summary { color: var(--slate); }
+body.theme-light .ndrop > summary:hover { color: var(--ink); }
+body.theme-light .ndrop > summary:hover .ndrop-toggle { border-color: var(--ink); }
+body.theme-light .ndrop[open] > summary { color: var(--ink); }
+body.theme-light .ndrop[open] > summary .ndrop-toggle {
+  border-color: var(--ink);
+  background: rgba(231,255,0,0.30);
+  color: var(--ink);
+}
+body.theme-light .ndrop-body,
+body.theme-light .ndrop-body p { color: var(--charcoal); }
+body.theme-light .ndrop-body .caps li,
+body.theme-light .ndrop-body .ag-skills li { color: var(--charcoal); border-color: var(--line-2); }
+
+/* The rack panel forces a dark surface regardless of theme — keep its dropdowns on the dark palette */
+body.theme-light .rack-arch .ndrop > summary { color: var(--mid); }
+body.theme-light .rack-arch .ndrop > summary:hover { color: var(--signal); }
+body.theme-light .rack-arch .ndrop > summary:hover .ndrop-toggle { border-color: var(--signal); }
+body.theme-light .rack-arch .ndrop[open] > summary { color: var(--paper); }
+body.theme-light .rack-arch .ndrop[open] > summary .ndrop-toggle {
+  border-color: var(--signal);
+  background: rgba(231,255,0,0.08);
+  color: var(--signal);
+}
+body.theme-light .rack-arch .ndrop-body,
+body.theme-light .rack-arch .ndrop-body p { color: var(--light); }
 
 /* Deploy matrix */
 body.theme-light .deploy-matrix thead th { background: rgba(15,17,24,0.04); border-bottom-color: var(--line-2); }

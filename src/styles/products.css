@@ -592,38 +592,39 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(231,255,0,0.04);
+    background: #16170f;
     position: relative;
   }
   .duality .merge .symbol {
     font-family: var(--font-display);
-    font-size: 28px;
-    font-weight: 400;
+    font-size: 30px;
+    font-weight: 500;
     color: var(--signal);
     line-height: 1;
   }
   .duality .merge .mlabel {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: 0.22em;
-    color: var(--signal);
-    margin-top: 8px;
+    color: var(--paper);
+    margin-top: 10px;
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     text-transform: uppercase;
   }
+  /* Two-layer defence summary — bright box, black text so it can't be missed */
   .duality .didcap {
     grid-column: 1 / -1;
     border-top: 1px solid var(--line);
-    padding: 20px 32px;
-    background: rgba(231,255,0,0.04);
+    padding: 22px 32px;
+    background: var(--signal);
     font-family: var(--font-display);
-    font-size: 15.5px;
+    font-size: 16px;
     line-height: 1.45;
-    color: var(--paper);
+    color: var(--ink);
     letter-spacing: -0.005em;
   }
-  .duality .didcap em { color: var(--signal); font-style: italic; }
+  .duality .didcap em { color: var(--ink); font-style: italic; font-weight: 600; }
 
   /* Deployment matrix table */
   .deploy-matrix {
@@ -688,13 +689,15 @@
 
   /* Test bed showcase card */
   .testbed-hero {
-    margin-top: 32px;
-    border: 1px solid var(--line);
+    margin-top: 40px;
+    border: 1px solid var(--line-2);
+    border-top: 2px solid var(--signal);
     background: var(--ink);
     display: grid;
     grid-template-columns: 1.05fr 1fr;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 30px 80px -40px rgba(231,255,0,0.18);
   }
   .testbed-hero::before {
     content: "";
@@ -2352,3 +2355,77 @@
   .rf-pill-cpu { color: var(--rk-cpu); border-color: color-mix(in oklab, var(--rk-cpu) 50%, transparent); }
   .rf-pill-nas { color: var(--rk-nas); border-color: color-mix(in oklab, var(--rk-nas) 50%, transparent); }
   .rf-pill-net { color: var(--rk-net); border-color: color-mix(in oklab, var(--rk-net) 50%, transparent); }
+
+  /* ════════════════════════════════════════════════════════════════
+     NDROP · reusable "learn more" disclosure (details/summary)
+     Dark-panel styling — keeps dense content collapsed until asked for.
+     ════════════════════════════════════════════════════════════════ */
+  .ndrop {
+    border-top: 1px solid var(--line-2);
+  }
+  .ndrop > summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 16px 2px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    transition: color 0.2s ease;
+  }
+  .ndrop > summary::-webkit-details-marker { display: none; }
+  .ndrop > summary:hover { color: var(--signal); }
+  .ndrop > summary .ndrop-toggle {
+    flex: none;
+    width: 22px; height: 22px;
+    display: grid; place-items: center;
+    border: 1px solid var(--line-2);
+    border-radius: 50%;
+    position: relative;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .ndrop > summary:hover .ndrop-toggle { border-color: var(--signal); }
+  .ndrop > summary .ndrop-toggle::before,
+  .ndrop > summary .ndrop-toggle::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+  }
+  .ndrop > summary .ndrop-toggle::before { width: 10px; height: 1.5px; }
+  .ndrop > summary .ndrop-toggle::after  { width: 1.5px; height: 10px; transition: opacity 0.2s ease; }
+  .ndrop[open] > summary .ndrop-toggle::after { opacity: 0; }
+  .ndrop[open] > summary {
+    color: var(--paper);
+  }
+  .ndrop[open] > summary .ndrop-toggle {
+    border-color: var(--signal);
+    background: rgba(231,255,0,0.08);
+    color: var(--signal);
+  }
+  .ndrop-body {
+    padding: 2px 2px 22px;
+    color: var(--light);
+    font-size: 14.5px;
+    line-height: 1.6;
+    animation: ndrop-in 0.28s ease;
+  }
+  .ndrop-body > :first-child { margin-top: 0; }
+  .ndrop-body p { margin: 0 0 12px; color: var(--light); }
+  .ndrop-body p:last-child { margin-bottom: 0; }
+  @keyframes ndrop-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Mini variant — lives inside cards, lighter divider + tighter rhythm */
+  .ndrop--mini { border-top: 1px solid var(--line); margin-top: 16px; }
+  .ndrop--mini > summary { padding: 12px 0; font-size: 10px; }
+  .ndrop--mini > summary .ndrop-toggle { width: 18px; height: 18px; }
+  .ndrop--mini > summary .ndrop-toggle::before { width: 8px; }
+  .ndrop--mini > summary .ndrop-toggle::after  { height: 8px; }
+  .ndrop--mini .ndrop-body { padding: 4px 0 6px; }
