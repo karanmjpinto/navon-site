@@ -1,13 +1,17 @@
 #!/bin/sh
 # Navon Portal — Railway entrypoint
-# Runs Drizzle migrations then starts Next.js on the Railway-provided $PORT.
-# Executed by railway.toml startCommand; not used in local docker compose.
+# 1. Enables TimescaleDB extension (needed by migrations 0005/0006)
+# 2. Runs Drizzle migrations
+# 3. Starts Next.js on the Railway-provided $PORT
 set -e
 
 echo "=== Navon Customer Portal ==="
 echo "Node: $(node --version)"
+
+echo "Enabling TimescaleDB extension..."
+node --input-type=module < scripts/enable-timescaledb.js
+
 echo "Running database migrations..."
-# drizzle-kit is installed (devDep, full install in Dockerfile deps stage)
 node_modules/.bin/drizzle-kit migrate
 echo "Migrations complete."
 
