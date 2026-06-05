@@ -1,9 +1,9 @@
 import { defineConfig } from 'astro/config';
 
 // ASTRO_SITE / ASTRO_BASE are set by the GitHub Actions deploy workflow.
-// Locally and on navonworld.com these env vars are absent → production defaults apply.
+// Production domain: navon.africa (Cloudflare Pages + custom domain).
 export default defineConfig({
-  site: process.env.ASTRO_SITE ?? 'https://navonworld.com',
+  site: process.env.ASTRO_SITE ?? 'https://navon.africa',
   base: process.env.ASTRO_BASE ?? '/',
   output: 'static',
   trailingSlash: 'never',

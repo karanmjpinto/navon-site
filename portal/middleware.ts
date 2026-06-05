@@ -4,13 +4,14 @@ export default auth((req) => {
   const isAuthed = !!req.auth;
   const { pathname } = req.nextUrl;
 
-  // Public routes: auth flows, root marketing redirect, Auth.js endpoints
+  // Public routes: auth flows, root marketing redirect, Auth.js endpoints, health check
   const isPublic =
     pathname === "/" ||
     pathname.startsWith("/login") ||
     pathname.startsWith("/signup") ||
     pathname.startsWith("/reset") ||
-    pathname.startsWith("/api/auth");
+    pathname.startsWith("/api/auth") ||
+    pathname === "/api/health";
 
   if (!isAuthed && !isPublic) {
     const url = req.nextUrl.clone();

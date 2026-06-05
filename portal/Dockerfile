@@ -22,5 +22,9 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 # Copy full source so tsx can run seed/worker/migrate scripts at runtime
 COPY --from=builder /app .
+# Make the Railway entrypoint executable
+RUN chmod +x scripts/entrypoint.sh
 EXPOSE 3002
+# Local / docker-compose: pnpm start (port 3002)
+# Railway: startCommand in railway.toml overrides this with scripts/entrypoint.sh
 CMD ["pnpm", "start"]
