@@ -123,7 +123,7 @@ img, svg { display: block; max-width: 100%; }
   display: inline-block;
   line-height: 0;
 }
-.wm-img { display: block; height: 26px; width: auto; }
+.wm-img { display: block; height: 26px; width: auto; max-width: 55vw; }
 .wm-light { display: none; }
 /* light contexts (whole-page theme-light, or a light band) flip the wordmark */
 body.theme-light .wm-dark,
@@ -213,6 +213,13 @@ body.theme-light .wm-light,
   .nav-menu { display: none; }
   .nav-signin { display: none; }
   .nav-right { gap: 12px; }
+  /* keep the primary CTA on one line so it never wraps beside the burger */
+  .nav .cta { padding: 9px 14px; font-size: 12px; white-space: nowrap; }
+  .nav .wm-img { height: 24px; }
+}
+@media (max-width: 400px) {
+  /* tightest phones: drop the inline CTA (it also lives in the mobile menu) */
+  .nav .cta { display: none; }
 }
 
 /* ── Mobile hamburger ─────────────────────────── */
