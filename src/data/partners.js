@@ -7,8 +7,10 @@
 // plus a cross-cutting capital & capability layer.
 //
 // ⚠️  BEFORE PUBLISHING:
-//   • portrait: null  → a designed monogram tile renders. Drop a real headshot
-//     at /assets/partners/<slug>.jpg and set `portrait: '/assets/partners/<slug>.jpg'`.
+//   • portrait: null  → a designed monogram tile renders. For real headshots,
+//     drop the file in src/assets/partners/<slug>.jpg and render it through the
+//     import.meta.glob + <Image> pattern (see CLAUDE.md "Dynamic images") so it
+//     is optimized — do NOT point a raw <img> at a file in public/.
 //   • founder.name: null → "Leadership team" renders with a confirm chip.
 //   • quote → every quote below is a DRAFT placeholder. Replace each with a
 //     real, partner-approved quote before this goes live.
