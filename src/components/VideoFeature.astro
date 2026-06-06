@@ -1,0 +1,228 @@
+---
+/**
+ * Portrait video feature — mobile-shot clips presented in a vertical frame.
+ * Autoplays muted when scrolled into view (see shared.js), pauses when out.
+ */
+interface Props {
+  src: string;
+  poster?: string;
+  eyebrow?: string;
+  title: string;
+  description: string;
+  meta?: string;          // small mono line under the title (e.g. duration / series)
+  align?: 'left' | 'right'; // which side the video sits on (desktop)
+}
+const {
+  src,
+  poster,
+  eyebrow = 'Vision',
+  title,
+  description,
+  meta,
+  align = 'right',
+} = Astro.props;
+---
+<section class={`vfeature ${align === 'left' ? 'is-left' : ''}`}>
+  <div class="vfeature-inner">
+
+    <div class="vfeature-copy reveal">
+      {eyebrow && <div class="eyebrow"><span class="mark"></span>{eyebrow}</div>}
+      <h2 class="vfeature-title">{title}</h2>
+      <p class="vfeature-desc">{description}</p>
+      {meta && <div class="vfeature-meta mono">{meta}</div>}
+    </div>
+
+    <div class="vfeature-stage reveal">
+      <div class="vfeature-frame">
+        <span class="tick tl"></span><span class="tick tr"></span>
+        <span class="tick bl"></span><span class="tick br"></span>
+        <video
+          class="vfeature-video"
+          src={src}
+          poster={poster}
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          data-inview
+        ></video>
+        <button class="vfeature-sound" type="button" aria-label="Unmute video" aria-pressed="false">
+          <span class="sound-on" aria-hidden="true">♪</span>
+          <span class="sound-off" aria-hidden="true">✕</span>
+        </button>
+        <div class="vfeature-scan" aria-hidden="true"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .vfeature {
+    padding: var(--section-y) var(--px);
+    position: relative;
+    overflow: hidden;
+  }
+  .vfeature-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(32px, 6vw, 88px);
+    align-items: center;
+  }
+  .vfeature.is-left .vfeature-copy { order: 2; }
+  .vfeature.is-left .vfeature-stage { order: 1; }
+
+  /* ── copy ───────────────────────────────── */
+  .vfeature-copy { max-width: 46ch; }
+  .vfeature-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(30px, 4.4vw, 52px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    margin: 22px 0 0;
+    color: var(--paper);
+  }
+  .vfeature-desc {
+    color: var(--light);
+    font-size: 17px;
+    line-height: 1.6;
+    margin: 22px 0 0;
+  }
+  .vfeature-meta {
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--mid);
+    font-size: 11px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+  }
+
+  /* ── stage / vertical frame ─────────────── */
+  .vfeature-stage { display: flex; justify-content: center; }
+  .vfeature-frame {
+    position: relative;
+    width: min(330px, 78vw);
+    aspect-ratio: 9 / 16;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid var(--line-2);
+    background: var(--ink-2);
+    box-shadow:
+      0 40px 120px -40px rgba(0,0,0,0.8),
+      0 0 0 1px rgba(231,255,0,0.04);
+  }
+  /* ambient signal glow behind the frame */
+  .vfeature-frame::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(160deg, rgba(231,255,0,0.45), transparent 38%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.6s var(--easing);
+    pointer-events: none;
+  }
+  .vfeature-frame.is-playing::before { opacity: 1; }
+
+  .vfeature-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: var(--ink-2);
+  }
+
+  /* corner ticks — technical drawing motif */
+  .tick {
+    position: absolute;
+    width: 14px; height: 14px;
+    border: 1px solid var(--signal);
+    opacity: 0.55;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .tick.tl { top: 10px; left: 10px;  border-right: 0; border-bottom: 0; }
+  .tick.tr { top: 10px; right: 10px; border-left: 0;  border-bottom: 0; }
+  .tick.bl { bottom: 10px; left: 10px;  border-right: 0; border-top: 0; }
+  .tick.br { bottom: 10px; right: 10px; border-left: 0;  border-top: 0; }
+
+  /* subtle scanline sweep while playing */
+  .vfeature-scan {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent 0%, rgba(231,255,0,0.06) 50%, transparent 100%);
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  .vfeature-frame.is-playing .vfeature-scan {
+    opacity: 1;
+    animation: vscan 5.5s linear infinite;
+  }
+  @keyframes vscan {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+
+  /* sound toggle */
+  .vfeature-sound {
+    position: absolute;
+    bottom: 16px; right: 16px;
+    z-index: 4;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--line-2);
+    background: rgba(11,11,7,0.55);
+    backdrop-filter: blur(8px);
+    color: var(--paper);
+    font-size: 14px;
+    display: grid;
+    place-items: center;
+    transition: border-color 0.3s var(--easing), background 0.3s var(--easing);
+  }
+  .vfeature-sound:hover { border-color: var(--signal); }
+  .vfeature-sound .sound-off { display: none; color: var(--mid); }
+  .vfeature-sound[aria-pressed="false"] .sound-on { display: none; }
+  .vfeature-sound[aria-pressed="false"] .sound-off { display: block; }
+
+  /* reveal motion (cooperates with global .reveal -> .in) */
+  .vfeature .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s var(--easing), transform 0.9s var(--easing);
+  }
+  .vfeature .vfeature-stage.reveal { transform: translateY(40px) scale(0.97); }
+  .vfeature .reveal.in { opacity: 1; transform: none; }
+  .vfeature .vfeature-stage.reveal.in { transition-delay: 0.08s; }
+
+  /* light-theme pages (e.g. Products): dark text on white */
+  :global(body.theme-light) .vfeature-title { color: var(--ink); }
+  :global(body.theme-light) .vfeature-desc { color: var(--charcoal); }
+  :global(body.theme-light) .vfeature-meta { color: var(--slate); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vfeature .reveal { opacity: 1; transform: none; transition: none; }
+    .vfeature-frame.is-playing .vfeature-scan { animation: none; }
+  }
+
+  @media (max-width: 860px) {
+    .vfeature-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .vfeature.is-left .vfeature-copy,
+    .vfeature.is-left .vfeature-stage { order: 0; }
+    .vfeature-copy { max-width: none; text-align: center; margin: 0 auto; }
+    .vfeature-copy .eyebrow { justify-content: center; }
+    .vfeature-meta { display: inline-block; }
+  }
+</style>

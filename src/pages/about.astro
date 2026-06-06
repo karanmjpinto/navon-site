@@ -1,33 +1,34 @@
 ---
 import Site from '../layouts/Site.astro';
+import VideoFeature from '../components/VideoFeature.astro';
 import '../styles/about.css';
 ---
 <Site
-  title="About — Navon"
-  description="Navon is not a data centre company. We're a full-stack sovereign compute platform — built for the regions the cloud hasn't reached."
+  title="The Africa thesis — Navon"
+  description="Why Africa is the next frontier for sovereign compute: abundant clean energy, a billion people coming online, and almost none of the world's compute owned on the continent. Navon's case for building it here."
 >
 
-<!-- ── MANIFESTO HERO ──────────────────────────── -->
+<!-- ── THESIS HERO ─────────────────────────────── -->
 <section class="manifesto">
   <div class="manifesto-inner">
-    <div class="eyebrow"><span class="mark"></span>About Navon</div>
+    <div class="eyebrow"><span class="mark"></span>The Africa thesis</div>
     <h1 class="reveal">
-      We are not a<br/>
-      <span class="strike">data centre company.</span><br/>
-      We are a full-stack<br/>
-      <span class="accent">sovereign compute</span><br/>
-      <span class="accent">platform.</span>
+      Africa runs on<br/>
+      <span class="strike">imported compute.</span><br/>
+      We're building<br/>
+      <span class="accent">the alternative.</span>
     </h1>
     <p class="manifesto-sub reveal d2">
-      Navon exists to ensure that regions everywhere can access, govern, and use
-      advanced technology — sovereign over their data, sustainable in their
-      energy, and accessible to the institutions and people who need it.
+      A young continent, abundant clean energy, and a billion people coming
+      online — yet almost none of the world's compute lives here. This is the
+      case for sovereign, sustainable, accessible infrastructure built in
+      Africa, for Africa.
     </p>
   </div>
 </section>
 
 <!-- ── RISKS ───────────────────────────────────── -->
-<section class="risks">
+<section class="risks section--light">
   <div class="section-head" style="padding-top: 0;">
     <div>
       <div class="eyebrow"><span class="mark"></span>The problem</div>
@@ -64,6 +65,17 @@ import '../styles/about.css';
     </div>
   </div>
 </section>
+
+<!-- ── OPPORTUNITY FILM ────────────────────────── -->
+<VideoFeature
+  eyebrow="The opportunity"
+  title="Africa: the untapped continent revolutionising tech?"
+  description="A young continent, abundant clean energy, and a billion people coming online — yet almost none of the world's compute lives here. This short film lays out why Africa is the next frontier for sovereign infrastructure, and why Navon is building it from the ground up."
+  meta="Vision film · 01"
+  src="/assets/video/africa-untapped-continent.mp4"
+  poster="/assets/video/africa-untapped-continent-poster.jpg"
+  align="right"
+/>
 
 <!-- ── PHASES (3-phase Africa narrative) ─────────── -->
 <section class="phases">
@@ -118,7 +130,7 @@ import '../styles/about.css';
 </section>
 
 <!-- ── DRIVERS ─────────────────────────────────── -->
-<section class="drivers">
+<section class="drivers section--light">
   <div class="section-head" style="padding-top: 0;">
     <div>
       <div class="eyebrow"><span class="mark"></span>Three core drivers</div>
@@ -260,7 +272,7 @@ import '../styles/about.css';
 </section>
 
 <!-- ── VISION TRIANGLE ─────────────────────────── -->
-<section class="vision">
+<section class="vision section--light">
   <div class="section-head" style="padding-top: 0;">
     <div>
       <div class="eyebrow"><span class="mark"></span>The vision</div>
@@ -305,63 +317,9 @@ import '../styles/about.css';
   </div>
 </section>
 
-<!-- ── TEAM ─────────────────────────────────────── -->
+<!-- ── SECTOR LINKS ─────────────────────────────── -->
 <section class="team-section">
-  <div class="section-head" style="padding-top: 0;">
-    <div>
-      <div class="eyebrow"><span class="mark"></span>The team</div>
-      <h2 class="section-title reveal">Built by people who've<br/>operated in these <span class="accent">markets.</span></h2>
-    </div>
-    <p class="section-lede reveal d1">
-      We're a small founding team with deep roots in deep tech, infrastructure,
-      and East Africa. We believe the next wave of AI will be built on
-      infrastructure that regions own — not infrastructure they rent.
-    </p>
-  </div>
-
-  <div class="lead-grid" style="padding: 0 var(--px);">
-    <div class="lead-card reveal d1">
-      <div class="lead-portrait">
-        <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
-          <rect width="80" height="80" fill="rgba(231,255,0,0.06)"/>
-          <text x="40" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="28" fill="#E7FF00" opacity="0.7">KP</text>
-        </svg>
-      </div>
-      <div class="role">Founder &amp; CEO</div>
-      <h3>Karan Pinto</h3>
-      <p>Building Navon from the ground up — from securing land at the Naivasha SEZ to assembling a six-partner delivery coalition. Previously in deep tech and infrastructure across emerging markets.</p>
-    </div>
-
-    <div class="lead-card reveal d2">
-      <div class="lead-portrait">
-        <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
-          <rect width="80" height="80" fill="rgba(255,255,255,0.03)"/>
-          <line x1="20" y1="40" x2="60" y2="40" stroke="#6F7287" stroke-width="0.8"/>
-          <line x1="40" y1="20" x2="40" y2="60" stroke="#6F7287" stroke-width="0.8"/>
-          <circle cx="40" cy="40" r="12" stroke="#3F4157" stroke-width="0.8" fill="none"/>
-        </svg>
-      </div>
-      <div class="role">Co-founder · joining soon</div>
-      <h3>Open role</h3>
-      <p>We're looking for a technical co-founder with deep infrastructure experience — someone who has built and operated at the edge of the network in emerging markets.</p>
-    </div>
-
-    <div class="lead-card reveal d3">
-      <div class="lead-portrait">
-        <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
-          <rect width="80" height="80" fill="rgba(255,255,255,0.03)"/>
-          <line x1="20" y1="40" x2="60" y2="40" stroke="#6F7287" stroke-width="0.8"/>
-          <line x1="40" y1="20" x2="40" y2="60" stroke="#6F7287" stroke-width="0.8"/>
-          <circle cx="40" cy="40" r="12" stroke="#3F4157" stroke-width="0.8" fill="none"/>
-        </svg>
-      </div>
-      <div class="role">Head of Business Development</div>
-      <h3>Open role</h3>
-      <p>Closing our first enterprise and government accounts — working across Kenya, East Africa, and the broader continent to define who Navon serves first.</p>
-    </div>
-  </div>
-
-  <div class="section-inner" style="padding-top: 56px;">
+  <div class="section-inner" style="padding-top: 0;">
     <div class="eyebrow" style="margin-bottom:24px;"><span class="mark"></span>Sector links</div>
     <div class="numbered cols-3 reveal" style="margin-top: 0;">
       <a class="numbered-item" href="missions.html#enterprise">

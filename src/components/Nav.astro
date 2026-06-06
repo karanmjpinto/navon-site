@@ -2,16 +2,92 @@
 // Single-source-of-truth nav. Edit here once and every page that uses
 // the Site layout picks up the change. Absolute paths so this works
 // from any URL depth (e.g. /legal/privacy-policy).
+import { Image } from 'astro:assets';
+import wordmarkWhite from '../assets/navon-wordmark-white.png';
+import wordmarkBlack from '../assets/navon-wordmark-black.png';
 ---
 <nav class="nav">
-  <a href="/index.html" class="wordmark">NAVON<span class="dot">.</span></a>
+  <a href="/index.html" class="wordmark" aria-label="Navon home">
+    <Image class="wm-img wm-dark" src={wordmarkWhite} alt="Navon" width={420} />
+    <Image class="wm-img wm-light" src={wordmarkBlack} alt="Navon" width={420} />
+  </a>
   <div class="nav-right">
     <div class="nav-menu">
-      <a href="/products.html">Products</a>
+
+      <!-- Products -->
+      <div class="has-dropdown">
+        <a href="/products.html">Products <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-5">
+            <a class="mega-menu-card" href="/products.html#modular">
+              <div class="num">01</div><div class="name">Modular DCs</div>
+            </a>
+            <a class="mega-menu-card" href="/products.html#turnkey">
+              <div class="num">02</div><div class="name">Turnkey Hardware Systems</div>
+            </a>
+            <a class="mega-menu-card" href="/cloud.html">
+              <div class="num">03</div><div class="name">Sovereign Cloud</div>
+            </a>
+            <a class="mega-menu-card" href="/products.html#security">
+              <div class="num">04</div><div class="name">Cybersecurity</div>
+            </a>
+            <a class="mega-menu-card" href="/products.html#utility">
+              <div class="num">05</div><div class="name">Utility</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Missions -->
       <a href="/missions.html">Missions</a>
+
+      <!-- Deployments -->
+      <a href="/hells-gate.html">Deployments</a>
+
+      <!-- Partners -->
       <a href="/partners.html">Partners</a>
-      <a href="/hells-gate.html">Hells Gate</a>
-      <a href="/about.html">About</a>
+
+      <!-- Resources -->
+      <div class="has-dropdown">
+        <a href="/resources.html">Resources <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-2">
+            <div class="mega-menu-col">
+              <h5>Library</h5>
+              <a class="link" href="/resources.html">Overview <span class="arrow">→</span></a>
+              <a class="link" href="/insights.html">Insights <span class="arrow">→</span></a>
+              <a class="link" href="/news.html">News <span class="arrow">→</span></a>
+              <a class="link" href="/faq.html">FAQ <span class="arrow">→</span></a>
+              <a class="link" href="/docs.html">Docs <span class="arrow">→</span></a>
+            </div>
+            <div class="mega-menu-col">
+              <h5>Tools</h5>
+              <a class="link" href="/tools.html">Tools overview <span class="arrow">→</span></a>
+              <a class="link" href="/customer-portal.html">Customer Portal <span class="arrow">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Company -->
+      <div class="has-dropdown">
+        <a href="/about.html">Company <span class="chev">▾</span></a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner cols-2">
+            <div class="mega-menu-col">
+              <h5>Company</h5>
+              <a class="link" href="/about.html">About <span class="arrow">→</span></a>
+              <a class="link" href="/inside.html">Team <span class="arrow">→</span></a>
+            </div>
+            <div class="mega-menu-col">
+              <h5>Vision</h5>
+              <a class="link" href="/foundations.html">Foundations <span class="arrow">→</span></a>
+              <a class="link" href="/futures.html">Futures <span class="arrow">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <a class="nav-signin" href="https://portal.navon.africa/login">Sign in</a>
     <a href="/about.html#contact" class="cta">Talk to us <span class="arrow">→</span></a>
@@ -25,11 +101,46 @@
 
 <!-- Mobile navigation overlay -->
 <div class="nav-mobile" id="nav-mobile" aria-hidden="true">
-  <a href="/products.html">Products</a>
-  <a href="/missions.html">Missions</a>
-  <a href="/partners.html">Partners</a>
-  <a href="/hells-gate.html">Hells Gate</a>
-  <a href="/about.html">About</a>
+
+  <div class="nav-mobile-group">
+    <button class="nav-mobile-toggle" aria-expanded="false">Products <span class="chev">▾</span></button>
+    <div class="nav-mobile-sub">
+      <a href="/products.html#modular">Modular DCs</a>
+      <a href="/products.html#turnkey">Turnkey Hardware Systems</a>
+      <a href="/cloud.html">Sovereign Cloud</a>
+      <a href="/products.html#security">Cybersecurity</a>
+      <a href="/products.html#utility">Utility</a>
+    </div>
+  </div>
+
+  <a class="nav-mobile-link" href="/missions.html">Missions</a>
+
+  <a class="nav-mobile-link" href="/hells-gate.html">Deployments</a>
+  <a class="nav-mobile-link" href="/partners.html">Partners</a>
+
+  <div class="nav-mobile-group">
+    <button class="nav-mobile-toggle" aria-expanded="false">Resources <span class="chev">▾</span></button>
+    <div class="nav-mobile-sub">
+      <a href="/resources.html">Overview</a>
+      <a href="/insights.html">Insights</a>
+      <a href="/news.html">News</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/docs.html">Docs</a>
+      <a href="/tools.html">Tools overview</a>
+      <a href="/customer-portal.html">Customer Portal</a>
+    </div>
+  </div>
+
+  <div class="nav-mobile-group">
+    <button class="nav-mobile-toggle" aria-expanded="false">Company <span class="chev">▾</span></button>
+    <div class="nav-mobile-sub">
+      <a href="/about.html">About</a>
+      <a href="/inside.html">Team</a>
+      <a href="/foundations.html">Foundations</a>
+      <a href="/futures.html">Futures</a>
+    </div>
+  </div>
+
   <div class="nav-mobile-foot">
     <a class="nav-signin" href="https://portal.navon.africa/login">Sign in</a>
     <a href="/about.html#contact" class="cta">Talk to us <span class="arrow">→</span></a>

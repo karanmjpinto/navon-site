@@ -120,22 +120,28 @@ img, svg { display: block; max-width: 100%; }
 }
 .nav.is-hidden { transform: translateY(-100%); }
 .wordmark {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 14px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  display: inline-block;
+  line-height: 0;
 }
-.wordmark .dot { color: var(--signal); margin-left: 2px; }
+.wm-img { display: block; height: 26px; width: auto; }
+.wm-light { display: none; }
+/* light contexts (whole-page theme-light, or a light band) flip the wordmark */
+body.theme-light .wm-dark,
+.section--light .wm-dark { display: none; }
+body.theme-light .wm-light,
+.section--light .wm-light { display: block; }
 .nav-right { display: flex; align-items: center; gap: 36px; }
 .nav-signin {
   font-size: 13px;
   font-weight: 500;
-  color: var(--mid);
+  color: var(--paper);
   letter-spacing: 0.01em;
-  transition: color 180ms var(--easing);
+  padding: 9px 16px;
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  transition: color 180ms var(--easing), border-color 180ms var(--easing), background 180ms var(--easing);
 }
-.nav-signin:hover { color: var(--paper); }
+.nav-signin:hover { color: var(--signal); border-color: var(--signal); }
 .nav-menu { display: flex; gap: 28px; }
 .nav-menu a {
   position: relative;
@@ -293,6 +299,66 @@ img, svg { display: block; max-width: 100%; }
 /* Only show mobile overlay at ≤820px */
 @media (min-width: 821px) { .nav-mobile { display: none; } }
 
+/* ── mobile accordion groups ─────────────────── */
+.nav-mobile-group { border-bottom: 1px solid var(--line); }
+.nav-mobile-link {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 7vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: var(--mid);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  line-height: 1;
+  transition: color 0.2s ease, padding-left 0.25s ease;
+}
+.nav-mobile-link:hover { color: var(--paper); padding-left: 6px; }
+.nav-mobile-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 7vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: var(--mid);
+  padding: 16px 0;
+  line-height: 1;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+.nav-mobile-toggle .chev {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--slate);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+.nav-mobile-group.is-open .nav-mobile-toggle { color: var(--paper); }
+.nav-mobile-group.is-open .nav-mobile-toggle .chev { transform: rotate(180deg); color: var(--signal); }
+.nav-mobile-sub {
+  display: none;
+  padding: 0 0 14px 2px;
+}
+.nav-mobile-group.is-open .nav-mobile-sub { display: block; }
+.nav-mobile .nav-mobile-sub a {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--light);
+  padding: 10px 0;
+  border-bottom: none;
+  line-height: 1.2;
+  transition: color 0.2s ease, padding-left 0.25s ease;
+}
+.nav-mobile .nav-mobile-sub a:hover { color: var(--signal); padding-left: 6px; }
+
 /* page header (used on inner pages) */
 .page-hero {
   position: relative;
@@ -400,7 +466,22 @@ footer.site-footer a {
   transition: color 0.2s ease;
 }
 footer.site-footer a:hover { color: var(--signal); }
+.foot-brand { position: relative; }
+.foot-brand .wordmark { display: inline-block; }
+.foot-brand .wm-img { height: 34px; }
 .foot-brand p { font-size: 13.5px; color: var(--mid); margin: 16px 0 0; line-height: 1.55; max-width: 36ch; }
+/* circular icon as a subtle brand watermark in the footer corner */
+.foot-mark {
+  position: absolute;
+  right: -28px;
+  bottom: -36px;
+  width: 150px;
+  height: 150px;
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+}
+@media (max-width: 820px) { .foot-mark { display: none; } }
 .legal {
   padding: 20px var(--px);
   border-top: 1px solid var(--line);
@@ -831,6 +912,13 @@ footer.site-footer.cols-5 { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; }
 @media (max-width: 1000px) { footer.site-footer.cols-5 { grid-template-columns: 1fr 1fr 1fr; } }
 @media (max-width: 640px)  { footer.site-footer.cols-5 { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 460px)  { footer.site-footer.cols-5 { grid-template-columns: 1fr; } }
+footer.site-footer.cols-6 { grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr; }
+@media (max-width: 1100px) { footer.site-footer.cols-6 { grid-template-columns: 1fr 1fr 1fr; } }
+@media (max-width: 640px)  { footer.site-footer.cols-6 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 460px)  { footer.site-footer.cols-6 { grid-template-columns: 1fr; } }
+.legal .legal-links { display: flex; gap: 18px; }
+.legal .legal-links a { color: var(--slate); transition: color 0.2s ease; }
+.legal .legal-links a:hover { color: var(--signal); }
 
 /* ── legal page styles ───────────────────────── */
 .legal-page {
@@ -1393,6 +1481,44 @@ footer.site-footer.cols-5 { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; }
   .savings-cell.sku .sku-sub { margin-left: auto; }
 }
 
+/* ── Light contrast bands (site-wide tonal rhythm) ──────────────
+   Drop class="section--light" on any <section> to flip it into a
+   light band. It remaps the neutral ramp so every descendant
+   inverts automatically, and swaps neon-yellow accents for charcoal
+   (neon yellow is invisible on white — keep yellow only on solid
+   chips: yellow background + ink text).
+
+   PURPOSE: alternate dark and light sections down every page so the
+   site never reads as one continuous black slab (which looks
+   templated / AI-generated). Hero stays dark; aim for a
+   dark→light→dark rhythm through the body.
+
+   DO NOT apply to a section whose primary visual is a technical
+   line-art SVG with hardcoded #E7FF00 / #FFFFFF strokes — those
+   colors don't remap and will vanish on light. Band the text-led
+   sections instead. ── */
+.section--light {
+  background: var(--vlight);
+  color: var(--ink);
+  /* remap ramp → descendants invert without per-element edits */
+  --paper: #14150F;
+  --light: #34352F;
+  --mid:   #5A5C56;
+  --slate: #6B6D64;
+  --line:   rgba(15,17,24,0.10);
+  --line-2: rgba(15,17,24,0.18);
+}
+.section--light .section-title .accent,
+.section--light .page-title .accent,
+.section--light .positioning-headline .accent,
+.section--light h2 .accent,
+.section--light h3 .accent { color: var(--charcoal); font-style: italic; }
+.section--light .cta-ghost { color: var(--ink); border-color: var(--line-2); }
+.section--light .cta-ghost:hover { color: var(--ink); border-color: var(--ink); background: var(--signal); }
+/* tech line-art that DOES use the ramp adapts; hardcoded-color SVGs do not */
+.section--light .tech .line { stroke: var(--charcoal); }
+.section--light .tech .hair { stroke: rgba(15,17,24,0.18); }
+
 /* ── light theme (trust pages: legal, docs) ──── */
 body.theme-light {
   background: var(--paper);
@@ -1410,6 +1536,8 @@ body.theme-light .nav-menu a.current { color: var(--ink); }
 body.theme-light .wordmark { color: var(--ink); }
 body.theme-light .cta-ghost { color: var(--ink); border-color: var(--line-2); }
 body.theme-light .cta-ghost:hover { color: var(--ink); border-color: var(--ink); background: var(--signal); }
+body.theme-light .nav-signin { color: var(--ink); border-color: var(--line-2); }
+body.theme-light .nav-signin:hover { color: var(--ink); border-color: var(--ink); background: var(--signal); }
 
 body.theme-light .mega-menu {
   background: rgba(255,255,255,0.96);

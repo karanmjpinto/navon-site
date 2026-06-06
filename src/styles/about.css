@@ -472,3 +472,21 @@
   }
   .final-cta h2 .accent { color: var(--signal); font-style: italic; font-weight: 400; }
   .final-cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* ── Light contrast bands (tonal rhythm) ────────
+     risks / drivers / vision flipped to light. Base engine is in
+     shared.css; below: white card backgrounds + charcoal accents so
+     the dark `var(--ink)` cards read on a light band. ── */
+  .risks.section--light,
+  .drivers.section--light,
+  .vision.section--light { background: var(--vlight); }
+
+  .section--light .risk,
+  .section--light .driver,
+  .section--light .principle { background: #FFFFFF; }
+  .section--light .driver:hover { background: #FBFBF9; }
+  .section--light .driver::before { background: var(--charcoal); }
+  .section--light .risk-num,
+  .section--light .driver-num { color: var(--charcoal); }
+  .section--light .driver h3 .arrow { color: var(--charcoal); }
+  .section--light .principle .glyph { color: var(--charcoal); }

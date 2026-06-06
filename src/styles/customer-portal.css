@@ -270,6 +270,33 @@
     line-height: 1.5;
   }
 
+  /* ── Light-banded feature section (tonal rhythm) ───── */
+  /* Section 02 flips to a light band for contrast. The cap
+     cells go white; the glyph keeps its dark canvas (its
+     strokes are hardcoded neon/grey and would vanish on
+     white), so we frame it on its own dark panel. */
+  .feature-section.section--light .feat-num .signal-tick { background: var(--charcoal); }
+  .feature-section.section--light .cap { background: #FFFFFF; }
+  .feature-section.section--light .cap:hover { background: #FBFBF9; }
+  .feature-section.section--light .cap-title { color: var(--ink); }
+  .feature-section.section--light .cap-status.prep { color: var(--ink); border-color: var(--charcoal); }
+
+  .feature-section.section--light .feat-glyph {
+    background: var(--ink);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 6px;
+    padding: 22px;
+    box-sizing: border-box;
+    /* re-declare the dark ramp so the glyph renders exactly
+       as it does on the dark sections */
+    --paper: #FFFFFF;
+    --light: #E2E3DE;
+    --mid: #9E9F9B;
+    --slate: #6F7287;
+    --line: rgba(255,255,255,0.08);
+    --line-2: rgba(255,255,255,0.14);
+  }
+
   /* ── Roadmap ───────────────────────────────────────── */
   .roadmap {
     padding: var(--section-y) var(--px);

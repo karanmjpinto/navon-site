@@ -13,6 +13,40 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
+  /* autoplay portrait videos when in view, pause when out (muted, looped) */
+  const vids = document.querySelectorAll('video[data-inview]');
+  if (vids.length) {
+    const vio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        const v = e.target;
+        const frame = v.closest('.vfeature-frame');
+        if (e.isIntersecting) {
+          if (!reduceMotion) {
+            const p = v.play();
+            if (p && p.catch) p.catch(() => {});
+          }
+          if (frame) frame.classList.add('is-playing');
+        } else {
+          v.pause();
+          if (frame) frame.classList.remove('is-playing');
+        }
+      });
+    }, { threshold: 0.45 });
+    vids.forEach((v) => vio.observe(v));
+  }
+
+  /* per-video sound toggle */
+  document.querySelectorAll('.vfeature-sound').forEach((btn) => {
+    const frame = btn.closest('.vfeature-frame');
+    const v = frame && frame.querySelector('video');
+    if (!v) return;
+    btn.addEventListener('click', () => {
+      v.muted = !v.muted;
+      btn.setAttribute('aria-pressed', String(!v.muted));
+      if (!v.muted) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
+    });
+  });
+
   /* mark current nav link (top-level only — never inside a mega-menu) */
   const path = (window.location.pathname.replace(/\/$/, '') || '/index.html').split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-menu > a, .nav-menu > .has-dropdown > a').forEach((a) => {
@@ -123,6 +157,16 @@
       } else {
         close();
       }
+    });
+    /* accordion: expand/collapse a submenu group */
+    mobileNav.querySelectorAll('.nav-mobile-toggle').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const group = btn.closest('.nav-mobile-group');
+        if (!group) return;
+        const opening = !group.classList.contains('is-open');
+        group.classList.toggle('is-open', opening);
+        btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      });
     });
     /* close when any mobile-nav link is tapped */
     mobileNav.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));

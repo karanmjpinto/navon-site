@@ -1,6 +1,16 @@
 ---
 import Site from '../layouts/Site.astro';
+import VideoFeature from '../components/VideoFeature.astro';
+import { partnersByLayer } from '../data/partners.js';
 import '../styles/index.css';
+
+// One representative partner per layer — a cross-section of the whole stack.
+const featuredPartners = partnersByLayer
+  .map((layer) => {
+    const p = layer.partners[0];
+    return p ? { ...p, layerName: layer.name, layerNum: layer.num } : null;
+  })
+  .filter(Boolean);
 ---
 <Site
   title="Navon — Sovereign compute, powered by the earth"
@@ -23,7 +33,7 @@ import '../styles/index.css';
         abundant and the need is greatest.
       </p>
       <div class="hero-ctas">
-        <a href="hells-gate.html" class="cta">Explore Hells Gate <span class="arrow">→</span></a>
+        <a href="hells-gate.html" class="cta">Explore Deployments <span class="arrow">→</span></a>
         <a href="#stack" class="cta-ghost">See the stack <span class="arrow">↓</span></a>
       </div>
     </div>
@@ -96,6 +106,171 @@ import '../styles/index.css';
 
   </section>
 
+  <!-- ── POSITIONING (manifesto) ─────────────────── -->
+  <section class="positioning section--light">
+    <div class="positioning-inner">
+      <div class="eyebrow"><span class="mark"></span>What we are</div>
+      <h2 class="positioning-headline reveal">
+        We are not a<br/>
+        <span class="strike">data centre company.</span><br/>
+        We are a full-stack<br/>
+        <span class="accent">sovereign compute platform.</span>
+      </h2>
+      <p class="positioning-sub reveal d2">
+        Navon designs, builds, and operates the full stack — energy, compute,
+        data, connectivity, and the applications on top. Sovereign over your
+        data, sustainable in its energy, and built for the regions the cloud
+        hasn't reached.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── DEEP TECH FILM ──────────────────────────── -->
+  <VideoFeature
+    eyebrow="Who we are"
+    title="Building a deep tech infrastructure company"
+    description="Navon isn't a reseller or a colocation broker — we design, build, and operate the full deep tech stack ourselves: energy, compute, data, and connectivity. This short film walks through what it means to be an infrastructure company built for the AI age, from the ground up."
+    src="/assets/video/deep-tech-infrastructure.mp4"
+    poster="/assets/video/deep-tech-infrastructure-poster.jpg"
+    align="left"
+  />
+
+  <!-- ── LAYERS (the four critical layers) ───────── -->
+  <section id="stack" class="layers section--light">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title reveal">Four critical<br/><span class="accent">layers.</span></h2>
+      </div>
+      <p class="section-lede reveal d1">
+        Every Navon site integrates four layers that have to work together for
+        sovereignty to be real. Own the energy, own the compute, own the data,
+        own the connectivity — or own none of it.
+      </p>
+    </div>
+
+    <div class="layers-stack reveal d1">
+      <div class="layers-axis" aria-hidden="true">
+        <span class="cap">CLOSER TO USER ↑</span>
+        <span class="rail"></span>
+        <span class="cap">FOUNDATION ↓</span>
+      </div>
+
+      <div class="layers-rows">
+        <!-- 04 · NETWORK (top, closest to user) -->
+        <a class="lrow" href="missions.html">
+          <div class="lrow-k">
+            <span class="lrow-no">04</span>
+            <span class="lrow-tag mono">NETWORK</span>
+          </div>
+          <div class="lrow-main">
+            <h3>Carrier-neutral connectivity</h3>
+            <p>Multi-carrier fibre into an on-site meet-me room — cross-connect to your existing footprint without vendor lock-in.</p>
+          </div>
+          <div class="lrow-viz" aria-hidden="true">
+            <svg viewBox="0 0 140 56" class="tech">
+              <g class="hair" fill="none">
+                <circle cx="22" cy="40" r="6"/>
+                <circle cx="70" cy="16" r="6"/>
+                <circle cx="118" cy="40" r="6"/>
+              </g>
+              <g class="signal" stroke-width="1.1" fill="none">
+                <line x1="28" y1="37" x2="64" y2="19"/>
+                <line x1="76" y1="19" x2="112" y2="37"/>
+              </g>
+              <circle cx="70" cy="16" r="3" class="signal"/>
+              <circle cx="70" cy="16" r="6" class="signal pulse" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="lrow-stat"><span class="v">3+</span><span class="l">carriers on-site</span></div>
+          <span class="lrow-go arrow">→</span>
+        </a>
+
+        <!-- 03 · DATA -->
+        <a class="lrow" href="cloud.html">
+          <div class="lrow-k">
+            <span class="lrow-no">03</span>
+            <span class="lrow-tag mono">DATA</span>
+          </div>
+          <div class="lrow-main">
+            <h3>Sovereign cloud</h3>
+            <p>Your data lives on hardware we operate, inside your jurisdiction. Residency is physical — not a contractual promise. Keys held in-country.</p>
+          </div>
+          <div class="lrow-viz" aria-hidden="true">
+            <svg viewBox="0 0 140 56" class="tech">
+              <g class="hair" fill="none">
+                <ellipse cx="48" cy="16" rx="26" ry="6"/>
+                <path d="M22 16 V40 a26 6 0 0 0 52 0 V16"/>
+                <path d="M22 28 a26 6 0 0 0 52 0"/>
+              </g>
+              <g class="signal" fill="none" stroke-width="1.2">
+                <rect x="92" y="20" width="28" height="22" rx="2"/>
+                <path d="M99 20 v-4 a7 7 0 0 1 14 0 v4"/>
+              </g>
+            </svg>
+          </div>
+          <div class="lrow-stat"><span class="v">100%</span><span class="l">in-jurisdiction</span></div>
+          <span class="lrow-go arrow">→</span>
+        </a>
+
+        <!-- 02 · COMPUTE -->
+        <a class="lrow" href="products.html">
+          <div class="lrow-k">
+            <span class="lrow-no">02</span>
+            <span class="lrow-tag mono">COMPUTE</span>
+          </div>
+          <div class="lrow-main">
+            <h3>Modular infrastructure</h3>
+            <p>Factory-built 400 kW Tier III pods, 20 kW+ per rack. We split the modular build from civil works — capacity lands in months, not years.</p>
+          </div>
+          <div class="lrow-viz" aria-hidden="true">
+            <svg viewBox="0 0 140 56" class="tech">
+              <g class="hair" fill="none">
+                <rect x="20" y="12" width="100" height="32"/>
+                <line x1="20" y1="22" x2="120" y2="22"/>
+                <line x1="20" y1="32" x2="120" y2="32"/>
+                <line x1="53" y1="12" x2="53" y2="44"/>
+                <line x1="86" y1="12" x2="86" y2="44"/>
+              </g>
+              <rect x="55" y="24" width="29" height="6" class="signal" opacity="0.9"/>
+            </svg>
+          </div>
+          <div class="lrow-stat"><span class="v">400 kW</span><span class="l">Tier III pod</span></div>
+          <span class="lrow-go arrow">→</span>
+        </a>
+
+        <!-- 01 · ENERGY (foundation) -->
+        <a class="lrow lrow--base" href="hells-gate.html">
+          <div class="lrow-k">
+            <span class="lrow-no">01</span>
+            <span class="lrow-tag mono">ENERGY</span>
+          </div>
+          <div class="lrow-main">
+            <h3>Clean, local baseload</h3>
+            <p>Sited directly on East Africa's geothermal corridors. 95% renewable baseload — not a carbon-offset commitment, a physical fact.</p>
+          </div>
+          <div class="lrow-viz" aria-hidden="true">
+            <svg viewBox="0 0 140 56" class="tech">
+              <g class="hair" fill="none">
+                <path d="M26 46 C24 32 18 26 26 14"/>
+                <path d="M36 46 C34 32 29 28 36 16"/>
+              </g>
+              <g class="hair" fill="none">
+                <rect x="64" y="22" width="40" height="22"/>
+                <circle cx="84" cy="33" r="7"/>
+              </g>
+              <line x1="84" y1="26" x2="84" y2="40" class="signal"/>
+              <polyline points="104,33 124,33 124,14" class="signal" fill="none"/>
+              <circle cx="124" cy="14" r="2.5" class="signal"/>
+              <circle cx="124" cy="14" r="5" class="signal pulse" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="lrow-stat"><span class="v">95%</span><span class="l">clean baseload</span></div>
+          <span class="lrow-go arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- ── TRUST STRIP ─────────────────────────────── -->
   <section class="trust">
     <div class="trust-label mono">Partners and collaborators ↓</div>
@@ -139,70 +314,6 @@ import '../styles/index.css';
       <span class="logo">Strathmore University</span>
       <span class="logo">Siscom</span>
       <span class="logo">Safaricom</span>
-    </div>
-  </section>
-
-  <!-- ── STACK ───────────────────────────────────── -->
-  <section id="stack">
-    <div class="section-head">
-      <div>
-        <h2 class="section-title reveal">Four critical<br/><span class="accent">layers.</span></h2>
-      </div>
-      <p class="section-lede reveal d1">
-        Every Navon site integrates four layers that have to work together
-        for sovereignty to be real. Own the energy source, own the compute,
-        own the data, own the connectivity — or own none of it.
-      </p>
-    </div>
-
-    <div class="stack-grid section-inner" style="padding-top:0;">
-      <article class="pillar">
-        <div class="pillar-num mono">01 / ENERGY</div>
-        <h3 class="pillar-name">Clean, local baseload</h3>
-        <p class="pillar-desc">Sited directly on East Africa's geothermal and solar corridors. 95% renewable baseload — not a carbon offset commitment, a physical fact.</p>
-        <ul class="pillar-bullets">
-          <li>Geothermal, solar &amp; hydro mix</li>
-          <li>220 kV grid-direct feed</li>
-          <li>Renewables-first site selection</li>
-        </ul>
-        <a class="pillar-tag" href="hells-gate.html">Hells Gate site <span class="arrow">→</span></a>
-      </article>
-
-      <article class="pillar">
-        <div class="pillar-num mono">02 / COMPUTE</div>
-        <h3 class="pillar-name">Modular infrastructure</h3>
-        <p class="pillar-desc">Factory-built 400 kW Tier III pods, 20 kW+ per rack. We separate the modular build from the civil works — capacity lands in months, not years.</p>
-        <ul class="pillar-bullets">
-          <li>Delta Electronics modular pods</li>
-          <li>N+N power · N+1 cooling</li>
-          <li>GPU-ready from day one</li>
-        </ul>
-        <a class="pillar-tag" href="products.html">Products <span class="arrow">→</span></a>
-      </article>
-
-      <article class="pillar">
-        <div class="pillar-num mono">03 / DATA</div>
-        <h3 class="pillar-name">Sovereign cloud</h3>
-        <p class="pillar-desc">Your data lives on hardware we operate, inside your jurisdiction. Residency is physical — not a contractual promise. Encryption keys held in-country.</p>
-        <ul class="pillar-bullets">
-          <li>In-jurisdiction by design</li>
-          <li>Sovereign HSM key management</li>
-          <li>Kenya DPA 2019 · GDPR-aligned</li>
-        </ul>
-        <a class="pillar-tag" href="products.html#cloud">Sovereign cloud <span class="arrow">→</span></a>
-      </article>
-
-      <article class="pillar">
-        <div class="pillar-num mono">04 / NETWORK</div>
-        <h3 class="pillar-name">Carrier-neutral connectivity</h3>
-        <p class="pillar-desc">Multi-carrier fibre into the meet-me room — Safaricom, Liquid, SEACOM. Cross-connect to your existing footprint without vendor lock-in.</p>
-        <ul class="pillar-bullets">
-          <li>Dual-entry fibre</li>
-          <li>Meet-me room on-site</li>
-          <li>Carrier-neutral · no lock-in</li>
-        </ul>
-        <a class="pillar-tag" href="missions.html">Who we serve <span class="arrow">→</span></a>
-      </article>
     </div>
   </section>
 
@@ -484,197 +595,49 @@ import '../styles/index.css';
     </div>
   </section>
 
-  <!-- ── HELLS GATE SITE ─────────────────────────── -->
-  <section id="site" class="site">
-    <div class="section-head" style="padding:0 0 56px;">
-      <div>
-        <h2 class="section-title reveal">Hells Gate<br/><span class="accent">Deep Tech Park.</span></h2>
-      </div>
-      <p class="section-lede reveal d1">
-        Our flagship campus, sited directly on Kenya's Olkaria geothermal corridor.
-        Tier III engineering, carrier-neutral interconnection, and 95% clean
-        baseload from the earth beneath the site.
-      </p>
-    </div>
-
-    <div class="site-grid">
-      <!-- Alternate hero visual option B: pod plan schematic -->
-      <div class="site-schematic">
-        <svg viewBox="0 0 560 380" class="tech">
-          <text x="20" y="26" font-size="10" letter-spacing="2">400 KW POD · PLAN VIEW</text>
-
-          <!-- IT Room 1 -->
-          <rect class="hair" x="30" y="60" width="230" height="130" fill="none"/>
-          <text x="40" y="80" font-size="10" class="label-signal" letter-spacing="1.5">IT ROOM 1</text>
-          <text x="40" y="96" font-size="9" letter-spacing="1.5">10 × 42U · 200 KW</text>
-          <g class="hair">
-            <line x1="40" y1="110" x2="40" y2="170"/>
-            <line x1="60" y1="110" x2="60" y2="170"/>
-            <line x1="80" y1="110" x2="80" y2="170"/>
-            <line x1="100" y1="110" x2="100" y2="170"/>
-            <line x1="120" y1="110" x2="120" y2="170"/>
-            <line x1="140" y1="110" x2="140" y2="170"/>
-            <line x1="160" y1="110" x2="160" y2="170"/>
-            <line x1="180" y1="110" x2="180" y2="170"/>
-            <line x1="200" y1="110" x2="200" y2="170"/>
-            <line x1="220" y1="110" x2="220" y2="170"/>
-          </g>
-
-          <!-- IT Room 2 -->
-          <rect class="hair" x="30" y="200" width="230" height="130" fill="none"/>
-          <text x="40" y="220" font-size="10" class="label-signal" letter-spacing="1.5">IT ROOM 2</text>
-          <text x="40" y="236" font-size="9" letter-spacing="1.5">10 × 42U · 200 KW</text>
-          <g class="hair">
-            <line x1="40" y1="250" x2="40" y2="310"/>
-            <line x1="60" y1="250" x2="60" y2="310"/>
-            <line x1="80" y1="250" x2="80" y2="310"/>
-            <line x1="100" y1="250" x2="100" y2="310"/>
-            <line x1="120" y1="250" x2="120" y2="310"/>
-            <line x1="140" y1="250" x2="140" y2="310"/>
-            <line x1="160" y1="250" x2="160" y2="310"/>
-            <line x1="180" y1="250" x2="180" y2="310"/>
-            <line x1="200" y1="250" x2="200" y2="310"/>
-            <line x1="220" y1="250" x2="220" y2="310"/>
-          </g>
-
-          <!-- Power & Cooling room -->
-          <rect class="signal" x="290" y="60" width="250" height="270" opacity="0.06"/>
-          <rect x="290" y="60" width="250" height="270" fill="none" stroke="#E7FF00" stroke-width="1"/>
-          <text x="300" y="80" font-size="10" class="label-signal" letter-spacing="1.5">POWER &amp; COOLING</text>
-
-          <rect x="300" y="96" width="110" height="38" fill="none" stroke="#9E9F9B" stroke-width="0.7"/>
-          <text x="310" y="113" font-size="9" letter-spacing="1.5">UPS A · 500 KVA</text>
-          <text x="310" y="127" font-size="9" letter-spacing="1.5">DELTA DPH GEN2</text>
-
-          <rect x="420" y="96" width="110" height="38" fill="none" stroke="#9E9F9B" stroke-width="0.7"/>
-          <text x="430" y="113" font-size="9" letter-spacing="1.5">UPS B · 500 KVA</text>
-          <text x="430" y="127" font-size="9" letter-spacing="1.5">N+N</text>
-
-          <rect x="300" y="142" width="110" height="28" fill="none" stroke="#9E9F9B" stroke-width="0.7"/>
-          <text x="310" y="160" font-size="9" letter-spacing="1.5">MDB A · 1600 A</text>
-          <rect x="420" y="142" width="110" height="28" fill="none" stroke="#9E9F9B" stroke-width="0.7"/>
-          <text x="430" y="160" font-size="9" letter-spacing="1.5">MDB B · 1600 A</text>
-
-          <rect x="300" y="180" width="230" height="42" fill="none" stroke="#9E9F9B" stroke-width="0.7"/>
-          <text x="310" y="198" font-size="9" letter-spacing="1.5">18× BLUEBOX DX · HOT-AISLE</text>
-          <text x="310" y="214" font-size="9" letter-spacing="1.5">N+1 · PUE 1.29</text>
-
-          <rect x="300" y="232" width="230" height="38" fill="none" stroke="#9E9F9B" stroke-width="0.7"/>
-          <text x="310" y="250" font-size="9" letter-spacing="1.5">MEET-ME ROOM</text>
-          <text x="310" y="264" font-size="9" letter-spacing="1.5">LIQUID · SAFARICOM · SEACOM</text>
-
-          <rect x="300" y="280" width="230" height="34" fill="none" stroke="#E7FF00" stroke-width="0.8"/>
-          <text x="310" y="302" font-size="9" class="label-signal" letter-spacing="1.5">GRID · OLKARIA-SUSWA 220 KV</text>
-
-          <!-- connecting lines -->
-          <g class="thin">
-            <line x1="260" y1="125" x2="290" y2="125"/>
-            <line x1="260" y1="265" x2="290" y2="265"/>
-          </g>
-          <text x="267" y="120" font-size="8" fill="#6F7287">A+B</text>
-          <text x="267" y="260" font-size="8" fill="#6F7287">A+B</text>
-
-          <!-- dimension -->
-          <g class="thin">
-            <line x1="30" y1="350" x2="540" y2="350"/>
-            <line x1="30" y1="346" x2="30" y2="354"/>
-            <line x1="540" y1="346" x2="540" y2="354"/>
-          </g>
-          <text x="285" y="368" text-anchor="middle" font-size="10" letter-spacing="2">3 × STEEL ENCLOSURES · 400 KW</text>
-        </svg>
-      </div>
-
-      <div class="site-specs">
-        <div class="spec"><div class="k">Location</div><div class="v">Naivasha SEZ</div><div class="d">1,624 m altitude · 1,000-acre footprint</div></div>
-        <div class="spec"><div class="k">Module</div><div class="v">400 kW · 20 racks</div><div class="d">Factory-built · ~6 month cycle</div></div>
-        <div class="spec"><div class="k">Rack density</div><div class="v">20 kW+ / rack</div><div class="d">Dual 32 A A+B PDUs · GPU-ready</div></div>
-        <div class="spec"><div class="k">Redundancy</div><div class="v">Tier III</div><div class="d">N+N power · N+1 cooling · dual fibre</div></div>
-        <div class="spec"><div class="k">Energy</div><div class="v">95% clean</div><div class="d">Geothermal · Olkaria-Suswa 220 kV</div></div>
-        <div class="spec"><div class="k">Efficiency</div><div class="v">PUE 1.29</div><div class="d">Validated at 400 kW constant load</div></div>
-        <div class="spec"><div class="k">Connectivity</div><div class="v">Carrier-neutral</div><div class="d">Safaricom · dual fibre · meet-me room</div></div>
-        <div class="spec"><div class="k">Compliance</div><div class="v">Kenya DPA 2019</div><div class="d">GDPR-aligned · SEZ gazetted</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── DELIVERY PARTNER ECOSYSTEM ──────────────── -->
-  <section id="delivery" class="delivery">
+  <!-- ── PARTNER ECOSYSTEM ───────────────────────── -->
+  <section id="partners" class="lp-partners section--light">
     <div class="section-head" style="padding: 0 0 0;">
       <div>
-        <h2 class="section-title reveal">Six partners.<br/><span class="accent">One coalition.</span></h2>
+        <div class="eyebrow"><span class="mark"></span>The ecosystem</div>
+        <h2 class="section-title reveal">One ecosystem.<br/><span class="accent">The whole stack.</span></h2>
       </div>
       <p class="section-lede reveal d1">
-        Engineers, architects, electricians, hardware systems and power
-        infrastructure experts — every layer of the Hells Gate build is
-        already committed. Not a wishlist; a delivery team ready to break ground.
+        Sovereignty is a team sport. We bring together the best builders at every
+        layer — energy and infrastructure, compute and hardware, sovereign cloud,
+        cybersecurity and capital — so you get one place to go for the entire
+        stack, and know exactly who does what.
+        <a class="lede-link" href="partners.html">Meet every partner <span class="arrow">→</span></a>
       </p>
     </div>
 
-    <div class="delivery-banner reveal d1">
-      <span class="coalition-badge">BUILD COALITION</span>
-      <span>Scope and specifications confirmed with all six delivery partners. The full build coalition is committed and in place.</span>
-    </div>
-
-    <div class="delivery-grid">
-      <article class="delivery-card featured">
-        <div class="dh">
-          <span class="domain">01 / Infrastructure &amp; Power</span>
-          <span class="partner-status">Committed</span>
-        </div>
-        <h3>Delta Electronics</h3>
-        <p class="role">Powered shells &amp; modular infrastructure environment</p>
-        <p class="desc">Modular DC enclosures, precision cooling, and power distribution engineered for African climate conditions.</p>
-      </article>
-
-      <article class="delivery-card">
-        <div class="dh">
-          <span class="domain">02 / Hardware Systems</span>
-          <span class="partner-status">Committed</span>
-        </div>
-        <h3>AMAX</h3>
-        <p class="role">Hardware systems design &amp; procurement</p>
-        <p class="desc">AI- and HPC-ready server configuration, rack integration, and supply chain procurement.</p>
-      </article>
-
-      <article class="delivery-card">
-        <div class="dh">
-          <span class="domain">03 / Site Design &amp; Architecture</span>
-          <span class="partner-status">Committed</span>
-        </div>
-        <h3>Studio Aka</h3>
-        <p class="role">Architectural &amp; campus design lead</p>
-        <p class="desc">Facility masterplanning, architectural design, and site layout optimised for modular scalability.</p>
-      </article>
-
-      <article class="delivery-card">
-        <div class="dh">
-          <span class="domain">04 / Engineering</span>
-          <span class="partner-status">Committed</span>
-        </div>
-        <h3>RMX</h3>
-        <p class="role">Civil &amp; structural engineering support</p>
-        <p class="desc">Civil and structural engineering oversight for phased facility build-out and commissioning.</p>
-      </article>
-
-      <article class="delivery-card">
-        <div class="dh">
-          <span class="domain">05 / Site Security</span>
-          <span class="partner-status">Committed</span>
-        </div>
-        <h3>Securex</h3>
-        <p class="role">Physical security systems</p>
-        <p class="desc">Integrated physical security, CCTV, access control, and perimeter monitoring for Tier III operations.</p>
-      </article>
-
-      <article class="delivery-card">
-        <div class="dh">
-          <span class="domain">06 / Power Supply</span>
-          <span class="partner-status">Committed</span>
-        </div>
-        <h3>Infinity Power</h3>
-        <p class="role">A Masdar Infinity company</p>
-        <p class="desc">Renewable energy supply and grid connection, aligned with geothermal power sourcing at Hells Gate.</p>
-      </article>
+    <div class="lp-rail-wrap reveal d1">
+      <div class="lp-rail" id="partnersRail">
+        {featuredPartners.map((p) => (
+          <a class="lp-card" href={`/partners/${p.slug}.html`} aria-label={`Explore ${p.name}`}>
+            <div class="lp-portrait">
+              <span class="lp-tag mono">{p.layerNum} · {p.layerName}</span>
+              <span class="lp-corner"></span>
+              {p.portrait
+                ? <img class="lp-img" src={p.portrait} alt={p.name} />
+                : <span class={`lp-mono${p.monogram.length > 1 ? ' sm' : ''}`}>{p.monogram}</span>}
+              <span class="lp-credit">
+                <span class="lp-cname">{p.name}</span>
+                <span class="lp-tagline mono">{p.tagline}</span>
+              </span>
+            </div>
+            <figure class="lp-quote">
+              <blockquote>&ldquo;{p.quote}&rdquo;</blockquote>
+              <figcaption>— {p.founder?.name ? `${p.founder.name}, ${p.name}` : p.name}</figcaption>
+            </figure>
+            <span class="lp-go">Explore {p.name} <span class="arrow">→</span></span>
+          </a>
+        ))}
+      </div>
+      <div class="lp-rail-nav">
+        <button type="button" class="lp-arrow" data-dir="-1" aria-label="Previous partners">←</button>
+        <button type="button" class="lp-arrow" data-dir="1" aria-label="Next partners">→</button>
+      </div>
     </div>
   </section>
 
@@ -682,6 +645,7 @@ import '../styles/index.css';
   <section id="map">
     <div class="section-head">
       <div>
+        <div class="eyebrow"><span class="mark"></span>Scaling across Africa</div>
         <h2 class="section-title reveal">Kenya first.<br/><span class="accent">Continent next.</span></h2>
       </div>
       <p class="section-lede reveal d1">
@@ -753,80 +717,152 @@ import '../styles/index.css';
       </div>
     </div>
 
-    <!-- TIMELINE (zerog.aero style) -->
-    <div class="timeline" style="padding-top:0; border-top:0;">
-      <div class="phase">
-        <div class="phase-year">2026</div>
-        <div class="phase-label">
-          <div class="mono">PHASE 1 · KENYA</div>
-          <div style="margin-top:8px; color:var(--light); font-size:13px; line-height:1.5;">Flagship · live</div>
-        </div>
-        <div class="phase-body">
-          <h3>Hells Gate goes live.</h3>
-          <p>First 400 kW module operational in the Naivasha SEZ. Tier III, 95% geothermal, carrier-neutral. Proof that modular sovereign compute can land in Africa in months, not years.</p>
-          <ul class="phase-checks">
-            <li>400 KW TIER III</li>
-            <li>20 KW+ / RACK</li>
-            <li>PUE 1.29</li>
-            <li>SEZ GAZETTED</li>
-          </ul>
-        </div>
-        <div class="phase-dot"></div>
+    <!-- RAMP (compact rising roadmap) -->
+    <div class="ramp reveal d1">
+      <div class="ramp-scale" aria-hidden="true">
+        <span>100 MW</span>
+        <span>10 MW</span>
+        <span>1 MW</span>
+        <span>400 kW</span>
       </div>
+      <div class="ramp-track">
+        <svg class="ramp-curve" viewBox="0 0 1000 200" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="rampFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#E7FF00" stop-opacity="0.22"/>
+              <stop offset="100%" stop-color="#E7FF00" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path class="ramp-area" d="M0 188 L120 178 L370 150 L620 96 L880 26 L1000 14 L1000 200 L0 200 Z" fill="url(#rampFill)"/>
+          <polyline class="ramp-line" points="0,188 120,178 370,150 620,96 880,26 1000,14" fill="none"/>
+        </svg>
 
-      <div class="phase">
-        <div class="phase-year">2028</div>
-        <div class="phase-label">
-          <div class="mono">PHASE 2 · REGIONAL</div>
-          <div style="margin-top:8px; color:var(--light); font-size:13px; line-height:1.5;">Scale-up · edge</div>
+        <div class="ramp-steps">
+          <div class="ramp-step" style="--lift: 12px;">
+            <div class="ramp-node"><span class="ramp-dot live"></span></div>
+            <div class="ramp-card">
+              <div class="ramp-year mono">2026</div>
+              <div class="ramp-phase mono">PHASE 1 · KENYA</div>
+              <h3>Hells Gate goes live.</h3>
+              <p>First 400 kW module in the Naivasha SEZ — Tier III, 95% geothermal, carrier-neutral.</p>
+              <div class="ramp-cap">400 kW</div>
+            </div>
+          </div>
+          <div class="ramp-step" style="--lift: 96px;">
+            <div class="ramp-node"><span class="ramp-dot"></span></div>
+            <div class="ramp-card">
+              <div class="ramp-year mono">2028</div>
+              <div class="ramp-phase mono">PHASE 2 · REGIONAL</div>
+              <h3>Kenya scale, Uganda edge.</h3>
+              <p>Hells Gate to multi-MW; first edge deployment brings low-latency compute into Uganda.</p>
+              <div class="ramp-cap">Multi-MW</div>
+            </div>
+          </div>
+          <div class="ramp-step" style="--lift: 196px;">
+            <div class="ramp-node"><span class="ramp-dot"></span></div>
+            <div class="ramp-card">
+              <div class="ramp-year mono">2030</div>
+              <div class="ramp-phase mono">PHASE 3 · CONTINENTAL</div>
+              <h3>East &amp; Southern Africa.</h3>
+              <p>Ten sites across two regions — Tanzania brings hydro + HPC, South Africa the scale hub.</p>
+              <div class="ramp-cap">10 sites</div>
+            </div>
+          </div>
+          <div class="ramp-step" style="--lift: 300px;">
+            <div class="ramp-node"><span class="ramp-dot"></span></div>
+            <div class="ramp-card">
+              <div class="ramp-year mono">2035</div>
+              <div class="ramp-phase mono">PHASE 4 · BACKBONE</div>
+              <h3>A continental backbone.</h3>
+              <p>100 MW of Africa-owned, Africa-sited capacity for sovereign AI, government and research.</p>
+              <div class="ramp-cap">100 MW</div>
+            </div>
+          </div>
         </div>
-        <div class="phase-body">
-          <h3>Kenya scale, Uganda edge.</h3>
-          <p>Additional modules at Hells Gate take the flagship to multi-MW. First edge deployment in Uganda brings low-latency compute into rural and agricultural economies.</p>
-          <ul class="phase-checks">
-            <li>MULTI-MW KENYA</li>
-            <li>UGANDA EDGE</li>
-            <li>RURAL LATENCY</li>
-          </ul>
-        </div>
-        <div class="phase-dot"></div>
       </div>
+    </div>
+  </section>
 
-      <div class="phase">
-        <div class="phase-year">2030</div>
-        <div class="phase-label">
-          <div class="mono">PHASE 3 · CONTINENTAL</div>
-          <div style="margin-top:8px; color:var(--light); font-size:13px; line-height:1.5;">Ten sites · two regions</div>
-        </div>
-        <div class="phase-body">
-          <h3>East &amp; Southern Africa.</h3>
-          <p>Ten strategic sites across East and Southern Africa — same modular architecture, same sovereign cloud stack. Tanzania brings hydro + HPC; South Africa becomes the scale hub.</p>
-          <ul class="phase-checks">
-            <li>10 SITES</li>
-            <li>TANZANIA HPC</li>
-            <li>SOUTH AFRICA HUB</li>
-          </ul>
-        </div>
-        <div class="phase-dot"></div>
-      </div>
+  <!-- ── INVESTOR / DEMAND FILM ──────────────────── -->
+  <VideoFeature
+    eyebrow=""
+    title="What investors miss about infrastructure demand"
+    description="The demand for sovereign compute in emerging markets is real, structural, and already here — yet most capital still flows to the same saturated hyperscaler markets. This short film unpacks the gap investors keep overlooking, and why owning the full infrastructure stack is where the durable returns are."
+    src="/assets/video/investors-infrastructure-demand.mp4"
+    poster="/assets/video/investors-infrastructure-demand-poster.jpg"
+    align="right"
+  />
 
-      <div class="phase">
-        <div class="phase-year">2035</div>
-        <div class="phase-label">
-          <div class="mono">PHASE 4 · 100 MW</div>
-          <div style="margin-top:8px; color:var(--light); font-size:13px; line-height:1.5;">Pan-African backbone</div>
-        </div>
-        <div class="phase-body">
-          <h3>A sovereign continental backbone.</h3>
-          <p>A continent-wide sovereign compute backbone for AI, government and research — powered by clean, local baseload. 100 MW of Africa-owned, Africa-sited deep tech capacity.</p>
-          <ul class="phase-checks">
-            <li>100 MW</li>
-            <li>PAN-AFRICAN</li>
-            <li>SOVEREIGN AI</li>
-          </ul>
-        </div>
-        <div class="phase-dot"></div>
+  <!-- ── EXPLORE (dive deeper) ───────────────────── -->
+  <section id="explore" class="explore section--light">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow"><span class="mark"></span>Go deeper</div>
+        <h2 class="section-title reveal">Explore the<br/><span class="accent">whole picture.</span></h2>
       </div>
+      <p class="section-lede reveal d1">
+        The front page is the headline. The thinking, the missions we back, and
+        the engineering behind every claim live a click away.
+      </p>
+    </div>
+
+    <div class="explore-grid">
+      <a class="explore-card reveal d1" href="missions.html">
+        <div class="ec-top">
+          <span class="ec-num mono">01 / MISSIONS</span>
+          <span class="ec-arrow arrow">→</span>
+        </div>
+        <h3>Who we build for.</h3>
+        <p>Sovereign AI for governments, research compute for universities, and digital infrastructure for the enterprises rewiring emerging markets — the missions Navon exists to serve.</p>
+        <svg class="ec-viz tech" viewBox="0 0 260 80" aria-hidden="true">
+          <g class="hair" fill="none">
+            <circle cx="40" cy="40" r="14"/>
+            <circle cx="130" cy="40" r="14"/>
+            <circle cx="220" cy="40" r="14"/>
+          </g>
+          <line x1="54" y1="40" x2="116" y2="40" class="signal"/>
+          <line x1="144" y1="40" x2="206" y2="40" class="signal"/>
+          <circle cx="130" cy="40" r="4" class="signal"/>
+        </svg>
+        <span class="ec-meta mono">Government · Research · Enterprise</span>
+      </a>
+
+      <a class="explore-card reveal d2" href="insights.html">
+        <div class="ec-top">
+          <span class="ec-num mono">02 / INSIGHTS</span>
+          <span class="ec-arrow arrow">→</span>
+        </div>
+        <h3>How we think.</h3>
+        <p>Twelve essays on energy, sovereignty, AI and the geopolitics of compute — the market read that shapes everything we build.</p>
+        <svg class="ec-viz tech" viewBox="0 0 260 80" aria-hidden="true">
+          <g class="hair">
+            <line x1="20" y1="26" x2="240" y2="26"/>
+            <line x1="20" y1="40" x2="200" y2="40"/>
+            <line x1="20" y1="54" x2="220" y2="54"/>
+          </g>
+          <line x1="20" y1="40" x2="120" y2="40" class="signal" stroke-width="1.6"/>
+        </svg>
+        <span class="ec-meta mono">12 essays</span>
+      </a>
+
+      <a class="explore-card reveal d3" href="resources.html">
+        <div class="ec-top">
+          <span class="ec-num mono">03 / RESOURCES</span>
+          <span class="ec-arrow arrow">→</span>
+        </div>
+        <h3>Tools, docs &amp; news.</h3>
+        <p>The pricing calculator, engineering docs, FAQs, and everything else Navon publishes — laid out so you can find what you need and skip what you don't.</p>
+        <svg class="ec-viz tech" viewBox="0 0 260 80" aria-hidden="true">
+          <g class="hair" fill="none">
+            <rect x="20" y="18" width="64" height="44"/>
+            <rect x="98" y="18" width="64" height="44"/>
+            <rect x="176" y="18" width="64" height="44"/>
+          </g>
+          <rect x="20" y="18" width="64" height="44" class="signal" opacity="0.12"/>
+          <line x1="30" y1="56" x2="74" y2="56" class="signal"/>
+        </svg>
+        <span class="ec-meta mono">Calculator · Docs · FAQ</span>
+      </a>
     </div>
   </section>
 
@@ -849,5 +885,48 @@ import '../styles/index.css';
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    /* trigger strikethrough animation when positioning headline enters */
+    const posH = document.querySelector('.positioning-headline');
+    if (posH) {
+      const posIo = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            posIo.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      posIo.observe(posH);
+    }
+
+    /* partners carousel arrows */
+    const pRail = document.getElementById('partnersRail');
+    if (pRail) {
+      document.querySelectorAll('.lp-arrow').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const dir = Number(btn.getAttribute('data-dir')) || 1;
+          const card = pRail.querySelector('.lp-card');
+          const step = card ? card.offsetWidth + 24 : 360;
+          pRail.scrollBy({ left: dir * step, behavior: 'smooth' });
+        });
+      });
+    }
+
+    /* ramp curve draw-in when it enters viewport */
+    const ramp = document.querySelector('.ramp');
+    if (ramp) {
+      const rampIo = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            rampIo.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.25 });
+      rampIo.observe(ramp);
+    }
+  </script>
 
 </Site>
