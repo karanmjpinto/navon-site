@@ -4,15 +4,34 @@ interface Props {
   description: string;
 }
 const { title, description } = Astro.props;
+// Absolute URLs for social cards (Open Graph / Twitter require them).
+const ogImage = new URL('/assets/og-image.png', Astro.site).href;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{title}</title>
 <meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="780x780" href="/assets/navon-icon.png" />
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
 <meta name="theme-color" content="#0b0b07" />
+
+<!-- Open Graph / social share (branded image on black) -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Navon" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Navon" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link
