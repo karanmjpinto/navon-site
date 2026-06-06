@@ -1,6 +1,22 @@
 ---
 import Site from '../layouts/Site.astro';
+import { Image } from 'astro:assets';
 import '../styles/hells-gate.css';
+
+// Site photography — optimized at build time (responsive WebP) via astro:assets.
+import photo1056 from '../assets/hells-gate/1A1A1056-1.jpg';
+import photo1057 from '../assets/hells-gate/1A1A1057-1.jpg';
+import photo1041 from '../assets/hells-gate/1A1A1041-1.jpg';
+import photo1015 from '../assets/hells-gate/1A1A1015-1.jpg';
+import photo1024 from '../assets/hells-gate/1A1A1024-1.jpg';
+import photo1062 from '../assets/hells-gate/1A1A1062-1.jpg';
+import photo1108 from '../assets/hells-gate/1A1A1108-1.jpg';
+import photo1080 from '../assets/hells-gate/1A1A1080-1.jpg';
+import photo0918 from '../assets/hells-gate/1A1A0918-1.jpg';
+import photo1054 from '../assets/hells-gate/1A1A1054-1.jpg';
+
+// Shared responsive widths + sizing for all site photos.
+const photoWidths = [640, 1024, 1600];
 ---
 <Site
   title="Hells Gate — Navon"
@@ -59,7 +75,7 @@ import '../styles/hells-gate.css';
 
 <!-- Cinematic site band -->
 <section class="photo-band reveal" aria-label="Hells Gate site">
-  <img src="assets/hells-gate/1A1A1056-1.jpg" alt="The Hells Gate site at Naivasha — open ground, dirt access road, Rift Valley sky" loading="lazy">
+  <Image src={photo1056} alt="The Hells Gate site at Naivasha — open ground, dirt access road, Rift Valley sky" widths={photoWidths} sizes="100vw" loading="lazy" />
   <div class="meta">Naivasha SEZ · 1,000-acre footprint</div>
 </section>
 
@@ -96,11 +112,11 @@ import '../styles/hells-gate.css';
   <!-- Site context pair -->
   <div class="photo-pair reveal">
     <figure>
-      <img src="assets/hells-gate/1A1A1057-1.jpg" alt="The land at Hells Gate before the build — sparse acacia, volcanic soil, Rift Valley horizon" loading="lazy">
+      <Image src={photo1057} alt="The land at Hells Gate before the build — sparse acacia, volcanic soil, Rift Valley horizon" widths={photoWidths} sizes="(max-width: 760px) 100vw, 50vw" loading="lazy" />
       <figcaption>The land · pre-build</figcaption>
     </figure>
     <figure>
-      <img src="assets/hells-gate/1A1A1041-1.jpg" alt="Navon team and partners on site at Naivasha SEZ, Kenya" loading="lazy">
+      <Image src={photo1041} alt="Navon team and partners on site at Naivasha SEZ, Kenya" widths={photoWidths} sizes="(max-width: 760px) 100vw, 50vw" loading="lazy" />
       <figcaption>Ground-truthing the site</figcaption>
     </figure>
   </div>
@@ -217,7 +233,7 @@ import '../styles/hells-gate.css';
   <!-- Factory-to-site logistics -->
   <div class="photo-side reveal">
     <div class="ps-img">
-      <img src="assets/hells-gate/1A1A1015-1.jpg" alt="Inland container depot adjacent to Hells Gate — gantry crane, freight yard, Standard Gauge Railway" loading="lazy">
+      <Image src={photo1015} alt="Inland container depot adjacent to Hells Gate — gantry crane, freight yard, Standard Gauge Railway" widths={photoWidths} sizes="(max-width: 760px) 100vw, 50vw" loading="lazy" />
     </div>
     <div class="ps-body">
       <div class="tag">Factory → site</div>
@@ -388,7 +404,7 @@ import '../styles/hells-gate.css';
   <!-- Substation visual proof -->
   <div class="photo-side reveal">
     <div class="ps-img">
-      <img src="assets/hells-gate/1A1A1024-1.jpg" alt="The 90 MVA substation serving Hells Gate, Naivasha SEZ — open-air switchyard, perimeter wall, dual transmission feed" loading="lazy">
+      <Image src={photo1024} alt="The 90 MVA substation serving Hells Gate, Naivasha SEZ — open-air switchyard, perimeter wall, dual transmission feed" widths={photoWidths} sizes="(max-width: 760px) 100vw, 50vw" loading="lazy" />
     </div>
     <div class="ps-body">
       <div class="tag">90 MVA · Naivasha SEZ</div>
@@ -570,7 +586,7 @@ import '../styles/hells-gate.css';
 
 <!-- Cinematic land band -->
 <section class="photo-band reveal" aria-label="Standing on the Hells Gate land">
-  <img src="assets/hells-gate/1A1A1062-1.jpg" alt="On site at the Naivasha SEZ — dirt road, open horizon, Rift Valley sky" loading="lazy">
+  <Image src={photo1062} alt="On site at the Naivasha SEZ — dirt road, open horizon, Rift Valley sky" widths={photoWidths} sizes="100vw" loading="lazy" />
   <div class="meta">Structurally green · by site, not by certificate</div>
 </section>
 
@@ -668,19 +684,19 @@ import '../styles/hells-gate.css';
   <!-- Mosaic — partnership / site visit moments -->
   <div class="photo-mosaic reveal">
     <figure>
-      <img src="assets/hells-gate/1A1A1108-1.jpg" alt="Navon team and partners outside the Integrated Building, Naivasha SEZ" loading="lazy">
+      <Image src={photo1108} alt="Navon team and partners outside the Integrated Building, Naivasha SEZ" widths={photoWidths} sizes="(max-width: 760px) 50vw, 25vw" loading="lazy" />
       <figcaption>The team · Integrated Building</figcaption>
     </figure>
     <figure>
-      <img src="assets/hells-gate/1A1A1080-1.jpg" alt="Three Navon team members on site at Hells Gate" loading="lazy">
+      <Image src={photo1080} alt="Three Navon team members on site at Hells Gate" widths={photoWidths} sizes="(max-width: 760px) 50vw, 25vw" loading="lazy" />
       <figcaption>On site</figcaption>
     </figure>
     <figure>
-      <img src="assets/hells-gate/1A1A0918-1.jpg" alt="Arrival at the SEZ entry point" loading="lazy">
+      <Image src={photo0918} alt="Arrival at the SEZ entry point" widths={photoWidths} sizes="(max-width: 760px) 50vw, 25vw" loading="lazy" />
       <figcaption>Arrival</figcaption>
     </figure>
     <figure>
-      <img src="assets/hells-gate/1A1A1054-1.jpg" alt="Site walkthrough at Hells Gate — three colleagues on the access road" loading="lazy">
+      <Image src={photo1054} alt="Site walkthrough at Hells Gate — three colleagues on the access road" widths={photoWidths} sizes="(max-width: 760px) 50vw, 25vw" loading="lazy" />
       <figcaption>Site walkthrough</figcaption>
     </figure>
   </div>
