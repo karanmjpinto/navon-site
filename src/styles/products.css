@@ -2409,3 +2409,5 @@
   .ndrop--mini > summary .ndrop-toggle::before { width: 8px; }
   .ndrop--mini > summary .ndrop-toggle::after  { height: 8px; }
   .ndrop--mini .ndrop-body { padding: 4px 0 6px; }
+  /* use-case list nested in a dropdown: the summary already separates it */
+  .ndrop-body .sc-uses { border-top: 0; padding-top: 2px; }
