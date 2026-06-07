@@ -1110,7 +1110,7 @@
   }
   .utility-tri .ut-row {
     display: grid;
-    grid-template-columns: minmax(200px, 1fr) minmax(0, 2.4fr) minmax(160px, 0.9fr);
+    grid-template-columns: minmax(200px, 1fr) minmax(160px, auto);
     align-items: center;
     border-bottom: 1px solid var(--line);
     padding: 22px 26px;
@@ -1144,26 +1144,6 @@
     margin: 0;
   }
   .utility-tri .ut-name .accent { color: var(--signal); font-style: italic; font-weight: 400; }
-  .utility-tri .ut-cells {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .utility-tri .ut-cells span {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    padding: 6px 10px;
-    border: 1px solid var(--line-2);
-    border-radius: 999px;
-    color: var(--light);
-  }
-  .utility-tri .ut-cells span.hot {
-    border-color: rgba(231,255,0,0.4);
-    color: var(--signal);
-    background: rgba(231,255,0,0.06);
-  }
   .utility-tri .ut-tag {
     font-family: var(--font-mono);
     font-size: 10.5px;
