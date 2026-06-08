@@ -1,0 +1,67 @@
+---
+import Site from '../../layouts/Site.astro';
+import '../../styles/news-article.css';
+import { news } from '../../data/news.js';
+
+export function getStaticPaths() {
+  return news
+    .filter((n) => n.body)
+    .map((n) => ({ params: { slug: n.slug }, props: { item: n } }));
+}
+
+const { item } = Astro.props;
+const headline = item.headline ?? item.title;
+const contacts = item.contact ? (Array.isArray(item.contact) ? item.contact : [item.contact]) : [];
+---
+<Site
+  title={`${item.title.replace(/\.$/, '')} — Navon News`}
+  description={item.standfirst ?? item.desc}
+>
+
+<!-- ── HERO ──────────────────────────────────────────────────────────── -->
+<section class="na-hero">
+  <div class="na-inner">
+    <a class="na-back" href="/news.html"><span class="arrow">←</span> All news</a>
+    <div class="na-meta">
+      <span class="na-tag">{item.tag}</span>
+      <span class="na-date">{item.my} · {item.day}</span>
+    </div>
+    <h1 class="na-headline reveal">{headline}</h1>
+    {item.standfirst && <p class="na-standfirst reveal d1">{item.standfirst}</p>}
+  </div>
+</section>
+
+<!-- ── BODY ──────────────────────────────────────────────────────────── -->
+<section class="na-body">
+  <div class="na-body-inner reveal">
+    {item.body.map((para) => <p>{para}</p>)}
+  </div>
+
+  {item.quotes && item.quotes.length > 0 && (
+    <div class="na-quotes">
+      {item.quotes.map((q) => (
+        <figure class="na-quote reveal">
+          <blockquote>&ldquo;{q.quote}&rdquo;</blockquote>
+          <figcaption><span class="qname">{q.name}</span>{q.role ? ` — ${q.role}` : ''}</figcaption>
+        </figure>
+      ))}
+    </div>
+  )}
+
+  {contacts.length > 0 && (
+    <div class="na-foot">
+      For media inquiries, contact {contacts.map((c, i) => (
+        <Fragment>{i > 0 && (i === contacts.length - 1 ? ' or ' : ', ')}<a href={`mailto:${c}`}>{c}</a></Fragment>
+      ))}.
+    </div>
+  )}
+</section>
+
+<!-- ── BACK ──────────────────────────────────────────────────────────── -->
+<nav class="na-next" aria-label="Back to news">
+  <div class="na-next-inner">
+    <a href="/news.html"><span class="arrow">←</span> Back to all news</a>
+  </div>
+</nav>
+
+</Site>

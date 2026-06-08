@@ -1,54 +1,7 @@
 ---
 import Site from '../layouts/Site.astro';
 import '../styles/news.css';
-
-// News items, newest first. Add `href` to link an item out to its source;
-// items without an href render without a "Read" link (no source yet).
-const news = [
-  {
-    my: 'JUN 2026', day: '08', dow: 'MON',
-    tag: 'Milestone',
-    title: "Navon selected by the Digital Investment Facility to build Kenya's first sovereign, green data centre.",
-    desc: "Navon will receive tailored technical assistance from the Digital Investment Facility (DIF) — backed by the European Commission, Germany and Finland under the Team Europe D4D Hub — to build a 0.8MW sovereign and green data centre in Hells Gate Deep Tech Park, serving Kenyan businesses, research institutions, and the health, finance and agriculture sectors.",
-    href: 'https://www.linkedin.com/posts/d4dhub_hell-dif-dif-activity-7469644615499800576-Bod1',
-  },
-  {
-    my: 'OCT 2025', day: '20', dow: 'MON',
-    tag: 'Partnership',
-    title: 'Navon and Sytronix sign strategic hardware partnership.',
-    desc: 'A partnership focused on delivering improved value for modular co-location customers through right-fit compute systems — closing the gap between the rack and the workload.',
-  },
-  {
-    my: 'OCT 2025', day: '14', dow: 'TUE',
-    tag: 'Strategic agreement',
-    title: 'Navon and Africa Compute Fund sign strategic agreement.',
-    desc: 'Joint deployment of sovereign AI infrastructure beginning with the Nairobi Supercluster, with structured opportunities for additional compute participants to join.',
-  },
-  {
-    my: 'AUG 2025', day: '08', dow: 'FRI',
-    tag: 'MOU',
-    title: 'Navon and Alliance4AI sign MOU to advance responsible AI and quantum tech in Africa.',
-    desc: 'An agreement to accelerate responsible AI and quantum technology innovation across the African continent — pairing Navon infrastructure with Alliance4AI policy and ecosystem reach.',
-  },
-  {
-    my: 'JUL 2025', day: '21', dow: 'MON',
-    tag: 'MOU',
-    title: 'Navon and Siscom Technology sign MOU.',
-    desc: 'An agreement to jointly build AI infrastructure and expand modular data centre investment access to broader public audiences across the region.',
-  },
-  {
-    my: 'JUL 2025', day: '18', dow: 'FRI',
-    tag: 'University partnership',
-    title: 'Strathmore University and Navon sign MOU.',
-    desc: 'A partnership to collaborate on digital infrastructure, education, and innovation — supporting students and researchers in Kenya with sovereign compute and on-site placements.',
-  },
-  {
-    my: 'JUN 2025', day: '25', dow: 'WED',
-    tag: 'Speaking',
-    title: 'Navon at Blue Beach: rethinking data centre infrastructure.',
-    desc: 'Navon advocates for European policymakers to prioritise renewable power sources over legacy fibre corridors when planning the next generation of digital sovereignty.',
-  },
-];
+import { news } from '../data/news.js';
 ---
 <Site
   title="News — Navon"
@@ -94,12 +47,18 @@ const news = [
 <!-- News list -->
 <section class="news-list">
   {news.map((item, i) => {
-    const Tag = item.href ? 'a' : 'article';
+    // body → on-site article (same tab); external → source link (new tab).
+    const internal = item.body ? `/news/${item.slug}.html` : null;
+    const link = internal ?? item.external ?? null;
+    const isExternal = !internal && !!item.external;
+    const Tag = link ? 'a' : 'article';
     const classes = ['news-item', 'reveal'];
     if (i) classes.push(`d${i}`);
-    if (!item.href) classes.push('news-item--static');
-    const linkAttrs = item.href
-      ? { href: item.href, target: '_blank', rel: 'noopener noreferrer' }
+    if (!link) classes.push('news-item--static');
+    const linkAttrs = link
+      ? (isExternal
+          ? { href: link, target: '_blank', rel: 'noopener noreferrer' }
+          : { href: link })
       : {};
     return (
       <Tag class={classes.join(' ')} {...linkAttrs}>
@@ -113,7 +72,9 @@ const news = [
           <h2 class="news-title">{item.title}</h2>
           <p class="news-desc">{item.desc}</p>
         </div>
-        {item.href && <div class="news-cta">Read <span class="arrow">→</span></div>}
+        {link && (
+          <div class="news-cta">Read {isExternal ? <span class="arrow">↗</span> : <span class="arrow">→</span>}</div>
+        )}
       </Tag>
     );
   })}
