@@ -171,6 +171,16 @@
   object-fit: cover;
   z-index: 1;
 }
+/* Wide team/group photos: let the tile take the image's natural ratio so every
+   face is shown, instead of cropping to the default 4/5 portrait frame. */
+.partner-portrait.has-photo { aspect-ratio: auto; }
+.partner-portrait.has-photo .pp-img {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  display: block;
+}
 .partner-portrait .pp-mono {
   position: absolute;
   top: 50%;

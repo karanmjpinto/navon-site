@@ -1,7 +1,17 @@
 ---
 import Site from '../layouts/Site.astro';
+import { Image } from 'astro:assets';
 import '../styles/partners.css';
 import { partnersByLayer, partners } from '../data/partners.js';
+
+// Real headshots, optimized at build time. Drop <slug>.jpg in src/assets/partners/
+// and it resolves here automatically (see CLAUDE.md "Dynamic / data-driven images").
+const headshots = import.meta.glob('../assets/partners/*.{jpg,jpeg,png}', { eager: true, import: 'default' });
+const headshotFor = (slug) =>
+  headshots[`../assets/partners/${slug}.jpg`] ||
+  headshots[`../assets/partners/${slug}.jpeg`] ||
+  headshots[`../assets/partners/${slug}.png`];
+const portraitWidths = [400, 560, 800];
 ---
 <Site
   title="Partners — Navon"
@@ -46,19 +56,21 @@ import { partnersByLayer, partners } from '../data/partners.js';
       <p class="layer-blurb">{layer.blurb}</p>
     </header>
 
-    {layer.partners.map((p, i) => (
+    {layer.partners.map((p, i) => {
+      const photo = headshotFor(p.slug);
+      return (
       <article class={`partner-row reveal${i % 2 === 1 ? ' flip' : ''}`}>
-        <a class="partner-portrait" href={`/partners/${p.slug}.html`} aria-label={`Explore ${p.name}`}>
+        <a class={`partner-portrait${photo ? ' has-photo' : ''}`} href={`/partners/${p.slug}.html`} aria-label={`Explore ${p.name}`}>
           <div class="pp-tag mono">{layer.num} · {layer.name}</div>
           <div class="pp-corner"></div>
-          {p.portrait
-            ? <img class="pp-img" src={p.portrait} alt={`${p.founder?.name ?? p.name}`} />
+          {photo
+            ? <Image class="pp-img" src={photo} alt={`${p.name} — ${p.portraitCaption ?? p.founder?.name ?? 'team'}`} widths={portraitWidths} sizes="(max-width: 860px) 100vw, 480px" loading="lazy" />
             : <div class={`pp-mono${p.monogram.length > 1 ? ' sm' : ''}`}>{p.monogram}</div>}
           <div class="pp-credit">
             <div class="pp-cname">{p.name}</div>
             <div class="pp-crole">
-              {p.founder?.name ? `${p.founder.name} · ${p.founder.role}` : 'Leadership team'}
-              {(!p.founder?.name || p.founder?.confirm) && <span class="pp-confirm">to confirm</span>}
+              {p.portraitCaption ?? (p.founder?.name ? `${p.founder.name} · ${p.founder.role}` : 'Leadership team')}
+              {(!p.founder?.name || p.founder?.confirm) && !p.portraitCaption && <span class="pp-confirm">to confirm</span>}
             </div>
           </div>
         </a>
@@ -87,7 +99,8 @@ import { partnersByLayer, partners } from '../data/partners.js';
           </div>
         </div>
       </article>
-    ))}
+      );
+    })}
   </section>
 ))}
 

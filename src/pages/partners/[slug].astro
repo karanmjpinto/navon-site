@@ -1,5 +1,6 @@
 ---
 import Site from '../../layouts/Site.astro';
+import { Image } from 'astro:assets';
 import '../../styles/partners.css';
 import { partners, layers, getAdjacent } from '../../data/partners.js';
 
@@ -7,9 +8,18 @@ export function getStaticPaths() {
   return partners.map((p) => ({ params: { slug: p.slug }, props: { partner: p } }));
 }
 
+// Real headshots, optimized at build time (see partners.astro / CLAUDE.md).
+const headshots = import.meta.glob('../../assets/partners/*.{jpg,jpeg,png}', { eager: true, import: 'default' });
+const headshotFor = (slug) =>
+  headshots[`../../assets/partners/${slug}.jpg`] ||
+  headshots[`../../assets/partners/${slug}.jpeg`] ||
+  headshots[`../../assets/partners/${slug}.png`];
+const portraitWidths = [400, 600, 900];
+
 const { partner: p } = Astro.props;
 const layer = layers.find((l) => l.id === p.layer);
 const { prev, next } = getAdjacent(p.slug);
+const photo = headshotFor(p.slug);
 ---
 <Site
   title={`${p.name} — Navon Partners`}
@@ -22,17 +32,17 @@ const { prev, next } = getAdjacent(p.slug);
   <a class="pd-back" href="/partners.html"><span class="arrow">←</span> All partners</a>
 
   <div class="pd-hero-grid">
-    <div class="partner-portrait pd-portrait reveal">
+    <div class={`partner-portrait pd-portrait reveal${photo ? ' has-photo' : ''}`}>
       <div class="pp-tag mono">{layer.num} · {layer.name}</div>
       <div class="pp-corner"></div>
-      {p.portrait
-        ? <img class="pp-img" src={p.portrait} alt={`${p.founder?.name ?? p.name}`} />
+      {photo
+        ? <Image class="pp-img" src={photo} alt={`${p.name} — ${p.portraitCaption ?? p.founder?.name ?? 'team'}`} widths={portraitWidths} sizes="(max-width: 860px) 100vw, 420px" loading="eager" />
         : <div class={`pp-mono${p.monogram.length > 1 ? ' sm' : ''}`}>{p.monogram}</div>}
       <div class="pp-credit">
         <div class="pp-cname">{p.name}</div>
         <div class="pp-crole">
-          {p.founder?.name ? `${p.founder.name} · ${p.founder.role}` : 'Leadership team'}
-          {(!p.founder?.name || p.founder?.confirm) && <span class="pp-confirm">to confirm</span>}
+          {p.portraitCaption ?? (p.founder?.name ? `${p.founder.name} · ${p.founder.role}` : 'Leadership team')}
+          {(!p.founder?.name || p.founder?.confirm) && !p.portraitCaption && <span class="pp-confirm">to confirm</span>}
         </div>
       </div>
     </div>

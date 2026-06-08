@@ -1,0 +1,5 @@
+# Partner portrait headshots.
+# Drop a file named <slug>.jpg (or .png) here and it renders automatically,
+# optimized to responsive WebP via astro:assets. No code change needed.
+# Slugs: delta, sytronix, kinesis, qcentroid, hosted-ai, canopy-cloud,
+#        id-quantique, tne, evos, siscom, azraq, alliance-for-ai
