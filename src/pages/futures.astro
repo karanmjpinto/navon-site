@@ -2,41 +2,41 @@
 import Site from '../layouts/Site.astro';
 ---
 <Site
-  title="Navon Futures — Long-horizon thinking on sovereign compute"
-  description="Navon Futures is where we think publicly about the long-range questions: what does a continent-wide sovereign compute backbone look like, what happens when AI meets geothermal scale, and where does Africa go from here."
+  title="Navon Futures — Building Africa's deep tech ecosystem"
+  description="Navon Futures is our commitment to the full deep tech ecosystem — the capacity, talent and networks built on top of sovereign compute. A rare global network of leading technologists, working with universities, enterprises and governments across Africa."
 >
 
 <style>
-/* ── Futures page ─────────────────────────────────────────── */
+/* ── Futures page — the ecosystem / capacity-building programme ── */
 
-.futures-hero {
+.fut-hero {
   position: relative;
   padding: calc(var(--nav-h) + 100px) var(--px) 96px;
   border-bottom: 1px solid var(--line);
   overflow: hidden;
 }
-.futures-hero::before {
+.fut-hero::before {
   content: "";
   position: absolute; inset: 0;
   background-image:
     linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse at 80% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
-  -webkit-mask-image: radial-gradient(ellipse at 80% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
+  mask-image: radial-gradient(ellipse at 78% 28%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse at 78% 28%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 60%, transparent 90%);
   pointer-events: none;
 }
-.futures-hero-inner {
+.fut-hero-inner {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: 56px;
   align-items: center;
   z-index: 2;
 }
-@media (max-width: 900px) { .futures-hero-inner { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 900px) { .fut-hero-inner { grid-template-columns: 1fr; gap: 32px; } }
 
-.futures-eyebrow {
+.fut-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -48,301 +48,394 @@ import Site from '../layouts/Site.astro';
   color: var(--mid);
   margin-bottom: 24px;
 }
-.futures-eyebrow::before {
+.fut-eyebrow::before {
   content: "";
   width: 8px; height: 8px;
   background: var(--signal);
   display: inline-block;
 }
-
-.futures-h1 {
+.fut-h1 {
   font-family: var(--font-display);
-  font-size: clamp(52px, 8vw, 120px);
-  line-height: 0.94;
+  font-size: clamp(46px, 6.6vw, 100px);
+  line-height: 0.96;
   letter-spacing: -0.04em;
-  margin: 0 0 36px;
+  margin: 0 0 32px;
   font-weight: 500;
 }
-.futures-h1 em {
-  color: var(--signal);
-  font-style: italic;
-  font-weight: 400;
-}
-.futures-lede {
+.fut-h1 em { color: var(--signal); font-style: italic; font-weight: 400; }
+.fut-lede {
   font-size: 18px;
   line-height: 1.6;
   color: var(--light);
-  max-width: 48ch;
-  margin: 0 0 40px;
+  max-width: 52ch;
+  margin: 0 0 28px;
 }
-.futures-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.fut-lede strong { color: var(--paper); font-weight: 500; }
+.fut-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
 
-/* ── Horizon grid ─────────────────────────────── */
-.horizons {
+/* ── Pull-quote band ──────────────────────────── */
+.fut-quote {
   padding: var(--section-y) var(--px);
   border-bottom: 1px solid var(--line);
 }
-.horizon-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  margin-top: 64px;
-}
-@media (max-width: 1000px) { .horizon-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 640px) { .horizon-grid { grid-template-columns: 1fr; } }
-
-.horizon-card {
-  background: var(--ink);
-  padding: 36px 28px 40px;
-  position: relative;
-  transition: background 0.3s ease;
-}
-.horizon-card::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 0; height: 2px;
-  background: var(--signal);
-  transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.horizon-card:hover { background: rgba(231,255,0,0.022); }
-.horizon-card:hover::before { width: 100%; }
-.horizon-yr {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--slate);
-  margin-bottom: 20px;
-}
-.horizon-card:hover .horizon-yr { color: var(--signal); }
-.horizon-card h3 {
+.fut-quote-inner { max-width: 1000px; }
+.fut-quote blockquote {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  margin: 0 0 14px;
-  line-height: 1.1;
-}
-.horizon-card p {
-  color: var(--mid);
-  font-size: 14px;
-  line-height: 1.6;
-  margin: 0 0 22px;
-}
-.horizon-tags {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.horizon-tag {
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 4px 9px;
-  border: 1px solid var(--line-2);
-  color: var(--slate);
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-.horizon-card:hover .horizon-tag { color: var(--signal); border-color: rgba(231,255,0,0.3); }
-
-/* ── Open questions ───────────────────────────── */
-.questions {
-  padding: var(--section-y) var(--px);
-  border-bottom: 1px solid var(--line);
-}
-.q-list {
-  margin-top: 64px;
-  border: 1px solid var(--line);
-}
-.q-item {
-  display: grid;
-  grid-template-columns: 80px 1fr auto;
-  gap: 24px;
-  padding: 28px 32px;
-  border-bottom: 1px solid var(--line);
-  align-items: center;
-  transition: background 0.25s ease;
-}
-.q-item:last-child { border-bottom: 0; }
-.q-item:hover { background: rgba(231,255,0,0.025); }
-@media (max-width: 720px) { .q-item { grid-template-columns: 1fr; gap: 12px; } }
-.q-num {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--slate);
-}
-.q-item:hover .q-num { color: var(--signal); }
-.q-text {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-size: clamp(26px, 3.4vw, 44px);
   line-height: 1.2;
+  letter-spacing: -0.025em;
+  font-weight: 500;
 }
-.q-status {
+.fut-quote blockquote .accent { color: var(--charcoal); font-style: italic; font-weight: 400; }
+.fut-quote .attr {
+  margin-top: 28px;
   font-family: var(--font-mono);
-  font-size: 9.5px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--slate);
-  white-space: nowrap;
-}
-.q-status.active { color: var(--signal); }
-
-/* ── Signal timeline ──────────────────────────── */
-.signal-timeline {
-  padding: var(--section-y) var(--px);
-  border-bottom: 1px solid var(--line);
-}
-.st-track {
-  margin-top: 64px;
-  position: relative;
-}
-.st-track::before {
-  content: "";
-  position: absolute;
-  left: 40px;
-  top: 0; bottom: 0;
-  width: 1px;
-  background: var(--line);
-}
-.st-node {
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  gap: 32px;
-  padding: 0 0 48px;
-  position: relative;
-}
-.st-node:last-child { padding-bottom: 0; }
-.st-dot-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  padding-top: 4px;
-}
-.st-dot {
-  width: 10px; height: 10px;
-  border: 1.5px solid var(--slate);
-  border-radius: 2px;
-  background: var(--ink);
-  position: relative;
-  z-index: 2;
-  transition: border-color 0.25s ease, background 0.25s ease;
-}
-.st-node.live .st-dot {
-  background: var(--signal);
-  border-color: var(--signal);
-  box-shadow: 0 0 12px rgba(231,255,0,0.4);
-}
-.st-node:hover .st-dot { border-color: var(--signal); }
-.st-yr {
-  font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--slate);
-  margin-top: 14px;
 }
-.st-node.live .st-yr { color: var(--signal); }
-.st-content { padding-top: 2px; }
-.st-content h4 {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: -0.012em;
-  margin: 0 0 10px;
-}
-.st-content p {
-  color: var(--mid);
-  font-size: 14.5px;
-  line-height: 1.6;
-  margin: 0;
-  max-width: 52ch;
-}
-@media (max-width: 640px) { .st-track::before { left: 0; } .st-node { grid-template-columns: 1fr; gap: 16px; } .st-dot-col { flex-direction: row; align-items: center; gap: 12px; } .st-yr { margin-top: 0; } }
 
-/* ── Research threads ─────────────────────────── */
-.threads {
+/* ── Generic section wrapper ──────────────────── */
+.fut-section {
   padding: var(--section-y) var(--px);
   border-bottom: 1px solid var(--line);
 }
-.thread-grid {
+
+/* ── Knowledge-partner + expert-domain cards ──── */
+.eco-label {
+  margin-top: 56px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+.eco-cards {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
-  margin-top: 64px;
+  margin-top: 20px;
 }
-@media (max-width: 720px) { .thread-grid { grid-template-columns: 1fr; } }
-.thread {
+@media (max-width: 1000px) { .eco-cards { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .eco-cards { grid-template-columns: 1fr; } }
+.eco-card {
   background: var(--ink);
-  padding: 36px 32px 40px;
+  padding: 32px 26px 36px;
   position: relative;
   transition: background 0.3s ease;
 }
-.thread::before {
+.eco-card::before {
   content: "";
-  position: absolute;
-  top: 0; left: 0;
+  position: absolute; top: 0; left: 0;
   width: 0; height: 2px;
   background: var(--signal);
   transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.thread:hover { background: rgba(231,255,0,0.022); }
-.thread:hover::before { width: 100%; }
-.thread-tag {
+.eco-card:hover { background: rgba(231,255,0,0.022); }
+.eco-card:hover::before { width: 100%; }
+.eco-tag {
   font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--slate);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
-.thread:hover .thread-tag { color: var(--signal); }
-.thread h3 {
+.eco-card:hover .eco-tag { color: var(--signal); }
+.eco-card h4 {
   font-family: var(--font-display);
   font-size: 24px;
   font-weight: 500;
   letter-spacing: -0.018em;
-  margin: 0 0 14px;
-  line-height: 1.1;
+  margin: 0 0 6px;
+  line-height: 1.05;
 }
-.thread p {
+.eco-loc {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
   color: var(--mid);
-  font-size: 14.5px;
+  margin-bottom: 16px;
+}
+.eco-card p {
+  color: var(--mid);
+  font-size: 14px;
   line-height: 1.6;
   margin: 0;
 }
+.section--light .eco-cards { background: var(--line); border-color: var(--line); }
+.section--light .eco-card { background: rgba(15,17,24,0.015); }
+.section--light .eco-card:hover { background: rgba(231,255,0,0.10); }
 
-/* ── Futures CTA ──────────────────────────────── */
-.futures-cta {
+/* expert domains */
+.dom-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 20px;
+}
+@media (max-width: 1000px) { .dom-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .dom-grid { grid-template-columns: 1fr; } }
+.dom {
+  background: var(--ink);
+  padding: 32px 26px 36px;
+}
+.dom .d-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-bottom: 16px;
+}
+.dom h4 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  margin: 0 0 16px;
+  line-height: 1.1;
+}
+.dom ul { margin: 0; padding: 0; list-style: none; }
+.dom li {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--mid);
+  padding: 7px 0 7px 16px;
+  position: relative;
+  border-top: 1px solid var(--line);
+}
+.dom li:first-child { border-top: 0; }
+.dom li::before {
+  content: "›";
+  position: absolute; left: 0;
+  color: var(--slate);
+}
+
+/* ── Audience sub-head (smaller than section-head) ── */
+.aud-head {
+  max-width: 760px;
+  margin-bottom: 8px;
+}
+.aud-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+.aud-kicker .accent { color: var(--signal); }
+.section--light .aud-kicker .accent { color: var(--charcoal); }
+
+/* ── Audience cards — glyph + index + hover ───── */
+.aud-grid {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 56px;
+}
+.aud-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.aud-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 1000px) { .aud-grid.cols-2, .aud-grid.cols-3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .aud-grid.cols-2, .aud-grid.cols-3 { grid-template-columns: 1fr; } }
+/* keep dark cards in both dark and light bands for a bold, consistent grid;
+   colours are literal so the band's remapped vars can't wash out the title */
+.section--light .aud-grid { background: var(--line); border-color: var(--line); }
+
+.aud-card {
+  position: relative;
+  background: var(--ink);
+  padding: 30px 28px 28px;
+  min-height: 248px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+.aud-card::before {
+  content: "";
+  position: absolute; top: 0; left: 0;
+  width: 0; height: 2px;
+  background: var(--signal);
+  transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.aud-card:hover { background: rgba(231,255,0,0.03); }
+.aud-card:hover::before { width: 100%; }
+
+.aud-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+.aud-chip {
+  width: 46px; height: 46px;
+  border: 1px solid rgba(255,255,255,0.14);
+  display: flex; align-items: center; justify-content: center;
+  color: #7E8194;
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.aud-card:hover .aud-chip {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: #0b0b07;
+}
+.aud-chip svg { width: 23px; height: 23px; display: block; }
+.aud-no {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: rgba(255,255,255,0.13);
+  transition: color 0.25s ease;
+}
+.aud-card:hover .aud-no { color: var(--signal); }
+.aud-card .aud-kick {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6F7287;
+  margin-bottom: 12px;
+}
+.aud-card h4 {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  color: #FFFFFF;
+  margin: 0 0 12px;
+}
+.aud-card p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #9E9F9B;
+  margin: 0;
+}
+.aud-arrow {
+  margin-top: auto;
+  align-self: flex-end;
+  padding-top: 18px;
+  font-size: 16px;
+  color: #3F4157;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease;
+}
+.aud-card:hover .aud-arrow { opacity: 1; transform: translateX(0); color: var(--signal); }
+
+/* ── Mastercard in-practice callout ───────────── */
+.mc-callout {
+  margin-top: 56px;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, rgba(231,255,0,0.05), rgba(255,255,255,0.012));
+  padding: 44px 40px;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+@media (max-width: 820px) { .mc-callout { grid-template-columns: 1fr; gap: 24px; } }
+.mc-callout .mc-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--signal);
+  margin-bottom: 18px;
+}
+.mc-callout h3 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  margin: 0 0 16px;
+}
+.mc-callout h3 em { color: var(--signal); font-style: italic; font-weight: 400; }
+.mc-callout p {
+  color: var(--mid);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 48ch;
+}
+.mc-callout .mc-aside {
+  border-left: 1px solid var(--line-2);
+  padding-left: 32px;
+}
+@media (max-width: 820px) { .mc-callout .mc-aside { border-left: 0; border-top: 1px solid var(--line-2); padding-left: 0; padding-top: 24px; } }
+.mc-callout .mc-aside p { font-size: 14px; color: var(--light); margin-bottom: 18px; }
+.mc-watch {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mid);
+  border-bottom: 1px solid var(--line-2);
+  padding-bottom: 4px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.mc-watch:hover { color: var(--signal); border-color: var(--signal); }
+
+/* ── Partners strip ───────────────────────────── */
+.fut-partners {
+  padding: 52px var(--px);
+  border-bottom: 1px solid var(--line);
+}
+.partners-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 40px;
+}
+.partners-strip .label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+.partners-strip .partner-name {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.4vw, 30px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--light);
+  transition: color 0.2s ease;
+}
+.partners-strip .partner-name:hover { color: var(--signal); }
+
+/* ── Closing CTA ──────────────────────────────── */
+.fut-cta {
   padding: var(--section-y) var(--px);
   position: relative;
   overflow: hidden;
 }
-.futures-cta::before {
+.fut-cta::before {
   content: "";
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 20% 50%, rgba(231,255,0,0.06), transparent 50%);
+  background: radial-gradient(ellipse at 25% 50%, rgba(231,255,0,0.07), transparent 50%);
   pointer-events: none;
 }
-.futures-cta-inner {
+.fut-cta-inner {
   position: relative;
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 64px;
   align-items: end;
 }
-@media (max-width: 820px) { .futures-cta-inner { grid-template-columns: 1fr; gap: 32px; } }
-.futures-cta h2 {
+@media (max-width: 820px) { .fut-cta-inner { grid-template-columns: 1fr; gap: 32px; } }
+.fut-cta h2 {
   font-family: var(--font-display);
   font-size: clamp(40px, 5.2vw, 72px);
   line-height: 1;
@@ -350,285 +443,427 @@ import Site from '../layouts/Site.astro';
   margin: 20px 0 0;
   font-weight: 500;
 }
-.futures-cta h2 em { color: var(--signal); font-style: italic; font-weight: 400; }
+.fut-cta h2 em { color: var(--signal); font-style: italic; font-weight: 400; }
+.fut-cta .open-to {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.fut-cta .open-to span {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--slate);
+  border: 1px solid var(--line-2);
+  padding: 6px 12px;
+}
 </style>
 
 <!-- ── HERO ─────────────────────────────────────── -->
-<section class="futures-hero">
-  <div class="futures-hero-inner">
+<section class="fut-hero">
+  <div class="fut-hero-inner">
     <div>
-      <div class="futures-eyebrow">Navon Futures</div>
-      <h1 class="futures-h1">
-        Where Africa's<br/>
-        compute future<br/>
-        <em>gets built.</em>
+      <div class="fut-eyebrow">Navon Futures</div>
+      <h1 class="fut-h1">
+        Building the ecosystem.<br/>
+        Borderless by design.<br/>
+        <em>Built for Africa.</em>
       </h1>
-      <p class="futures-lede">
-        Long-horizon thinking on sovereign compute, clean energy infrastructure,
-        and what a continent-owned AI future actually requires — starting from
-        Kenya and expanding outward.
+      <p class="fut-lede">
+        Navon Futures is our commitment to the full deep tech ecosystem —
+        <strong>not a product line, not an add-on.</strong> It is everything that
+        comes after the compute: investing in capacity, talent and the utility
+        of what we build, and connecting Africa to a rare global network of
+        leading technologists.
       </p>
-      <div class="futures-ctas">
-        <a href="hells-gate.html" class="cta">See Hells Gate <span class="arrow">→</span></a>
-        <a href="about.html#contact" class="cta-ghost">Work with us <span class="arrow">→</span></a>
+      <div class="fut-ctas">
+        <a href="#network" class="cta">Meet the network <span class="arrow">→</span></a>
+        <a href="mailto:info@navonworld.com" class="cta-ghost">Be part of it <span class="arrow">→</span></a>
       </div>
     </div>
 
     <svg viewBox="0 0 480 400" class="tech draw" aria-hidden="true" style="max-width: 480px;">
-      <!-- continental backbone concept diagram -->
-      <!-- africa silhouette hint -->
-      <g transform="translate(90,20)" fill="rgba(255,255,255,0.012)" stroke="#3F4157" stroke-width="0.8">
-        <path d="M130 0 C 185 8, 230 35, 240 72 C 252 110, 274 130, 278 165
-                 C 282 202, 258 225, 266 260 C 274 294, 300 330, 274 365
-                 C 252 394, 226 394, 198 384 C 175 378, 157 348, 130 352
-                 C 103 358, 76 330, 66 295 C 52 254, 34 222, 20 180
-                 C 6 134, 14 82, 50 46 C 78 16, 98 0, 130 0 Z"/>
-      </g>
-
-      <!-- Kenya node — live -->
-      <circle cx="280" cy="265" r="20" fill="#E7FF00" opacity="0.12"/>
-      <circle cx="280" cy="265" r="6" class="signal"/>
-      <circle cx="280" cy="265" r="6" class="signal">
-        <animate attributeName="r" values="6;18;6" dur="2.8s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="1;0;1" dur="2.8s" repeatCount="indefinite"/>
+      <!-- global-network constellation: a central Navon node linked to
+           knowledge partners and expert domains around it -->
+      <!-- central node -->
+      <circle cx="240" cy="200" r="26" fill="#E7FF00" opacity="0.10"/>
+      <circle cx="240" cy="200" r="7" class="signal"/>
+      <circle cx="240" cy="200" r="7" class="signal">
+        <animate attributeName="r" values="7;20;7" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite"/>
       </circle>
-      <text x="294" y="262" fill="#FFFFFF" font-size="11" font-family="Space Grotesk" font-weight="500">Kenya</text>
-      <text x="294" y="277" class="label-signal" font-size="9" letter-spacing="1.5">LIVE · Q3 2026</text>
+      <text x="240" y="244" fill="#FFFFFF" font-size="11" font-family="Space Grotesk" font-weight="500" text-anchor="middle">Navon Futures</text>
 
-      <!-- Future nodes -->
-      <circle cx="262" cy="230" r="4" fill="#3F4157"/>
-      <text x="274" y="228" fill="#6F7287" font-size="10" font-family="Space Grotesk">Uganda</text>
+      <!-- satellite nodes -->
+      <circle cx="80"  cy="80"  r="5" fill="#3F4157"/>
+      <text x="80" y="66" fill="#6F7287" font-size="10" font-family="Space Grotesk" text-anchor="middle">UCL</text>
+      <circle cx="400" cy="78"  r="5" fill="#3F4157"/>
+      <text x="400" y="64" fill="#6F7287" font-size="10" font-family="Space Grotesk" text-anchor="middle">ETH Zürich</text>
+      <circle cx="60"  cy="320" r="5" fill="#3F4157"/>
+      <text x="60" y="340" fill="#6F7287" font-size="10" font-family="Space Grotesk" text-anchor="middle">UPM</text>
+      <circle cx="420" cy="322" r="5" fill="#3F4157"/>
+      <text x="420" y="342" fill="#6F7287" font-size="10" font-family="Space Grotesk" text-anchor="middle">UPC</text>
+      <circle cx="240" cy="44"  r="4" fill="#3F4157"/>
+      <circle cx="446" cy="200" r="4" fill="#3F4157"/>
+      <circle cx="34"  cy="200" r="4" fill="#3F4157"/>
+      <circle cx="240" cy="360" r="4" fill="#3F4157"/>
 
-      <circle cx="272" cy="316" r="4" fill="#3F4157"/>
-      <text x="284" y="314" fill="#6F7287" font-size="10" font-family="Space Grotesk">Tanzania</text>
-
-      <circle cx="242" cy="378" r="4" fill="#3F4157"/>
-      <text x="254" y="376" fill="#6F7287" font-size="10" font-family="Space Grotesk">South Africa</text>
-
-      <!-- connecting dashes -->
+      <!-- links -->
       <g class="dashed">
-        <line x1="280" y1="265" x2="262" y2="230"/>
-        <line x1="280" y1="265" x2="272" y2="316"/>
-        <line x1="272" y1="316" x2="242" y2="378"/>
+        <line x1="240" y1="200" x2="80"  y2="80"/>
+        <line x1="240" y1="200" x2="400" y2="78"/>
+        <line x1="240" y1="200" x2="60"  y2="320"/>
+        <line x1="240" y1="200" x2="420" y2="322"/>
+        <line x1="240" y1="200" x2="240" y2="44"/>
+        <line x1="240" y1="200" x2="446" y2="200"/>
+        <line x1="240" y1="200" x2="34"  y2="200"/>
+        <line x1="240" y1="200" x2="240" y2="360"/>
       </g>
 
       <!-- legend -->
       <circle cx="32" cy="388" r="4" class="signal"/>
-      <text x="42" y="392" class="label-signal" font-size="9" letter-spacing="1.5">OPERATIONAL</text>
-      <circle cx="160" cy="388" r="4" fill="#3F4157"/>
-      <text x="170" y="392" fill="#6F7287" font-size="9" letter-spacing="1.5">PLANNED</text>
+      <text x="42" y="392" class="label-signal" font-size="9" letter-spacing="1.5">NAVON</text>
+      <circle cx="150" cy="388" r="4" fill="#3F4157"/>
+      <text x="160" y="392" fill="#6F7287" font-size="9" letter-spacing="1.5">GLOBAL NETWORK</text>
     </svg>
   </div>
 </section>
 
-<!-- ── HORIZONS ──────────────────────────────────── -->
-<section class="horizons">
+<!-- ── PULL QUOTE ───────────────────────────────── -->
+<section class="fut-quote section--light">
+  <div class="fut-quote-inner reveal">
+    <blockquote>
+      Africa does not have a shortage of ambition, talent, or ideas. It has a
+      shortage of the <span class="accent">infrastructure, networks, and
+      pathways</span> needed to turn those things into products, policies, and
+      industries. Navon Futures is our response to that gap — and our
+      responsibility to close it.
+    </blockquote>
+    <div class="attr">— Navon, on our commitment to the ecosystem</div>
+  </div>
+</section>
+
+<!-- ── OUR GLOBAL NETWORK ───────────────────────── -->
+<section class="fut-section" id="network">
   <div class="section-head" style="padding-top:0;">
     <div>
-      <div class="eyebrow"><span class="mark"></span>Long-range horizons</div>
-      <h2 class="section-title reveal">Three timescales.<br/><span class="accent">One direction.</span></h2>
+      <div class="eyebrow"><span class="mark"></span>Our global network</div>
+      <h2 class="section-title reveal">The people behind<br/><span class="accent">Navon Futures.</span></h2>
     </div>
     <p class="section-lede reveal d1">
-      We think in phases — not because futures are predictable, but because
-      each horizon requires different infrastructure decisions made today.
+      Navon Futures convenes world-leading technologists across artificial
+      intelligence, quantum computing, cybersecurity and sovereign
+      infrastructure — and brings that expertise directly to Africa.
     </p>
   </div>
 
-  <div class="horizon-grid">
-    <div class="horizon-card reveal d1">
-      <div class="horizon-yr">01 · 2026–2028</div>
-      <h3>Kenya proves the model.</h3>
-      <p>Hells Gate goes live. First enterprise and government customers migrate workloads onto sovereign compute. AI startups begin training on-continent. The modular model is validated against real load.</p>
-      <div class="horizon-tags">
-        <span class="horizon-tag">400 kW live</span>
-        <span class="horizon-tag">Tier III</span>
-        <span class="horizon-tag">First customers</span>
-      </div>
+  <div class="eco-label reveal">Global knowledge partners · working relationships, not affiliations</div>
+  <div class="eco-cards">
+    <div class="eco-card reveal d1">
+      <div class="eco-tag">Partner · 01</div>
+      <h4>UCL.</h4>
+      <div class="eco-loc">University College London</div>
+      <p>AI, computer science and data systems — guest expertise, knowledge transfer and research collaboration.</p>
     </div>
-
-    <div class="horizon-card reveal d2">
-      <div class="horizon-yr">02 · 2028–2032</div>
-      <h3>East Africa scales.</h3>
-      <p>Kenya expands to multi-MW. Uganda edge deployment follows. Tanzania brings HPC + hydro. The pattern is established: clean energy site, modular build, sovereign cloud stack, same in every country.</p>
-      <div class="horizon-tags">
-        <span class="horizon-tag">Multi-MW</span>
-        <span class="horizon-tag">3 countries</span>
-        <span class="horizon-tag">Edge presence</span>
-      </div>
+    <div class="eco-card reveal d2">
+      <div class="eco-tag">Partner · 02</div>
+      <h4>ETH Zürich.</h4>
+      <div class="eco-loc">Eidgenössische Technische Hochschule</div>
+      <p>Advanced computing, engineering simulation and robotics — applied to real deep tech problems.</p>
     </div>
+    <div class="eco-card reveal d3">
+      <div class="eco-tag">Partner · 03</div>
+      <h4>UPM.</h4>
+      <div class="eco-loc">Universidad Politécnica de Madrid</div>
+      <p>Telecommunications, systems engineering and large-scale infrastructure design.</p>
+    </div>
+    <div class="eco-card reveal d4">
+      <div class="eco-tag">Partner · 04</div>
+      <h4>UPC.</h4>
+      <div class="eco-loc">Universitat Politècnica de Catalunya</div>
+      <p>Quantum computing, data science and advanced networking — active in Navon's quantum research.</p>
+    </div>
+  </div>
 
-    <div class="horizon-card reveal d3">
-      <div class="horizon-yr">03 · 2032–2035</div>
-      <h3>100 MW sovereign backbone.</h3>
-      <p>Ten sites across East and Southern Africa. A continent-wide sovereign compute backbone that African enterprises, governments, and universities actually own. 100 MW of Africa-sited capacity.</p>
-      <div class="horizon-tags">
-        <span class="horizon-tag">10 sites</span>
-        <span class="horizon-tag">100 MW</span>
-        <span class="horizon-tag">Pan-African</span>
-      </div>
+  <div class="sub-head" style="margin-top:64px;">
+    <div class="eyebrow"><span class="mark"></span>Expert domains</div>
+    <h3 style="font-family:var(--font-display); font-size:clamp(28px,3.4vw,44px); font-weight:500; letter-spacing:-0.03em; line-height:1.05; margin:14px 0 0;">Where the network <span class="accent" style="color:var(--signal); font-style:italic; font-weight:400;">goes deep.</span></h3>
+  </div>
+
+  <div class="dom-grid">
+    <div class="dom reveal d1">
+      <div class="d-tag">Domain · 01</div>
+      <h4>Artificial intelligence.</h4>
+      <ul>
+        <li>LLM training &amp; fine-tuning</li>
+        <li>NLP for African languages</li>
+        <li>Computer vision</li>
+        <li>Responsible AI deployment</li>
+        <li>ML infrastructure at scale</li>
+      </ul>
+    </div>
+    <div class="dom reveal d2">
+      <div class="d-tag">Domain · 02</div>
+      <h4>Quantum computing.</h4>
+      <ul>
+        <li>Quantum circuit design</li>
+        <li>Hybrid classical-quantum algorithms</li>
+        <li>Post-quantum cryptography</li>
+        <li>Quantum key distribution (QKD)</li>
+      </ul>
+    </div>
+    <div class="dom reveal d3">
+      <div class="d-tag">Domain · 03</div>
+      <h4>Cybersecurity.</h4>
+      <ul>
+        <li>Sovereign cloud security</li>
+        <li>Zero-trust network design</li>
+        <li>Quantum-safe frameworks</li>
+        <li>Infrastructure hardening</li>
+      </ul>
+    </div>
+    <div class="dom reveal d4">
+      <div class="d-tag">Domain · 04</div>
+      <h4>Deep tech infrastructure.</h4>
+      <ul>
+        <li>GPU cluster architecture</li>
+        <li>High-performance computing</li>
+        <li>Large-memory workloads</li>
+        <li>Data centre operations</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- ── OPEN QUESTIONS ────────────────────────────── -->
-<section class="questions">
-  <div class="section-head" style="padding-top:0;">
-    <div>
-      <div class="eyebrow"><span class="mark"></span>Open questions</div>
-      <h2 class="section-title reveal">What we're<br/><span class="accent">still working out.</span></h2>
-    </div>
-    <p class="section-lede reveal d1">
-      Not every question has an answer yet. These are the ones we're actively
-      thinking about — publicly, because the best thinking often happens in the open.
-    </p>
+<!-- ── FOR UNIVERSITIES ─────────────────────────── -->
+<section class="fut-section section--light">
+  <div class="aud-head">
+    <div class="aud-kicker reveal">Navon Futures for <span class="accent">/ Universities</span></div>
+    <h2 class="section-title reveal" style="margin-top:14px;">Capacity, talent<br/><span class="accent">and commercialisation.</span></h2>
+  </div>
+  <p class="section-lede reveal d1" style="max-width:64ch;">
+    We work with universities as long-term partners — building research
+    capacity, opening talent pipelines, and turning academic work into
+    products, spinouts and industries.
+  </p>
+
+  <div class="aud-grid cols-3 reveal" style="margin-top:56px;">
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7.5" r="3"/><path d="M3 19a6 6 0 0 1 12 0"/><circle cx="17.5" cy="9" r="2.2"/><path d="M15.5 19a5 5 0 0 1 5.5-4.6"/></svg></span>
+        <span class="aud-no">01</span>
+      </div>
+      <div class="aud-kick">Mentoring</div>
+      <h4>Mentoring &amp; expert access.</h4>
+      <p>Direct access to Navon's global network of practitioners — guest lectures, mentorship and knowledge transfer into your faculties.</p>
+      <span class="aud-arrow">→</span>
+    </article>
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-9"/><path d="M16 7h5v5"/></svg></span>
+        <span class="aud-no">02</span>
+      </div>
+      <div class="aud-kick">Careers</div>
+      <h4>Internships &amp; career pathways.</h4>
+      <p>Structured placements at Hells Gate and across the partner network — a real route from student project to industry career.</p>
+      <span class="aud-arrow">→</span>
+    </article>
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="7" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M7.6 7.4l2.8 8.4M16.6 8.6l-2.9 7.2M8 6.3h8"/></svg></span>
+        <span class="aud-no">03</span>
+      </div>
+      <div class="aud-kick">Industry</div>
+      <h4>Industry connections.</h4>
+      <p>Introductions into Navon's enterprise and government customers — research problems sourced from the real economy.</p>
+      <span class="aud-arrow">→</span>
+    </article>
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 18h5"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 1 4 10.5c-.7.6-1 1.2-1 2.5H9c0-1.3-.3-1.9-1-2.5A6 6 0 0 1 12 3z"/></svg></span>
+        <span class="aud-no">04</span>
+      </div>
+      <div class="aud-kick">IP</div>
+      <h4>IP commercialisation.</h4>
+      <p>Support taking research IP out of the lab — from disclosure and protection to licensing and go-to-market.</p>
+      <span class="aud-arrow">→</span>
+    </article>
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 2 4.5 5 4.5 8L12 16l-4.5-5C7.5 8 9 5 12 3z"/><circle cx="12" cy="9" r="1.4"/><path d="M7.5 13.5L5 16l2 .5.5 2 2.5-2.5M16.5 13.5L19 16l-2 .5-.5 2-2.5-2.5"/></svg></span>
+        <span class="aud-no">05</span>
+      </div>
+      <div class="aud-kick">Spinouts</div>
+      <h4>Spinout support.</h4>
+      <p>Compute, infrastructure and network access for university spinouts building deep tech on the continent.</p>
+      <span class="aud-arrow">→</span>
+    </article>
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="9.5" ry="4"/><ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(120 12 12)"/></svg></span>
+        <span class="aud-no">06</span>
+      </div>
+      <div class="aud-kick">Research</div>
+      <h4>Research collaboration.</h4>
+      <p>Joint research with UCL, ETH Zürich, UPM and UPC — on top of the sovereign infrastructure your institution already runs.</p>
+      <span class="aud-arrow">→</span>
+    </article>
+  </div>
+</section>
+
+<!-- ── FOR CORPORATES & ENTERPRISES ─────────────── -->
+<section class="fut-section">
+  <div class="aud-head">
+    <div class="aud-kicker reveal">Navon Futures for <span class="accent">/ Corporates &amp; enterprises</span></div>
+    <h2 class="section-title reveal" style="margin-top:14px;">We are not<br/><span class="accent">a consultancy.</span></h2>
+  </div>
+  <p class="section-lede reveal d1" style="max-width:64ch;">
+    We are the people building it. Enterprises work with Navon Futures to learn
+    from the technologists actually shipping deep tech infrastructure — and to
+    build the talent and capability to run it themselves.
+  </p>
+
+  <div class="aud-grid cols-3 reveal" style="margin-top:56px;">
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-4 10 4-10 4z"/><path d="M6 11v4c0 1.5 2.7 3 6 3s6-1.5 6-3v-4"/><path d="M22 9v5"/></svg></span>
+        <span class="aud-no">01</span>
+      </div>
+      <div class="aud-kick">Education</div>
+      <h4>Education with global experts.</h4>
+      <p>Briefings, workshops and working sessions led by Navon's network of leading technologists — not generic training decks.</p>
+      <span class="aud-arrow">→</span>
+    </article>
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2 6.4 6.4 2-6.4 2-2 6.4-2-6.4-6.4-2 6.4-2z"/></svg></span>
+        <span class="aud-no">02</span>
+      </div>
+      <div class="aud-kick">Innovation</div>
+      <h4>Innovation as a service.</h4>
+      <p>Applied R&amp;D and prototyping on sovereign compute — turning a business problem into a working deep tech capability.</p>
+      <span class="aud-arrow">→</span>
+    </article>
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4-2v-4z"/></svg></span>
+        <span class="aud-no">03</span>
+      </div>
+      <div class="aud-kick">Talent</div>
+      <h4>Talent pipeline.</h4>
+      <p>A direct line to the engineers, researchers and operators coming through the Navon Futures network.</p>
+      <span class="aud-arrow">→</span>
+    </article>
   </div>
 
-  <div class="q-list reveal d1">
-    <div class="q-item">
-      <div class="q-num">01</div>
-      <div class="q-text">What does a truly sovereign AI look like — one that isn't dependent on foreign foundation models at its core?</div>
-      <div class="q-status active">Active</div>
+  <div class="mc-callout reveal d1">
+    <div>
+      <div class="mc-tag">In practice · Navon × Mastercard</div>
+      <h3>Global practitioners, <em>African leaders,</em> one room.</h3>
+      <p>
+        With Mastercard, Navon Futures brings world-leading technology
+        practitioners together with African business leaders — connecting the
+        people building the frontier with the people deploying it across the
+        continent.
+      </p>
     </div>
-    <div class="q-item">
-      <div class="q-num">02</div>
-      <div class="q-text">How do we make geothermal and solar baseload fungible across a continent-wide network?</div>
-      <div class="q-status active">Active</div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">03</div>
-      <div class="q-text">Can the modular DC model work for rural edge — 40 kW, solar-backed, off-grid?</div>
-      <div class="q-status">Exploring</div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">04</div>
-      <div class="q-text">What's the right pricing model for AI startups building in emerging markets — where burn matters and hyperscaler pricing is prohibitive?</div>
-      <div class="q-status active">Active</div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">05</div>
-      <div class="q-text">How do governments procure sovereign cloud without creating decade-long vendor dependencies?</div>
-      <div class="q-status">Exploring</div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">06</div>
-      <div class="q-text">What role does post-quantum cryptography play in a sovereign data strategy — and how do we make it practical today?</div>
-      <div class="q-status">Exploring</div>
+    <div class="mc-aside">
+      <p>Sessions are recorded and shared, so the knowledge reaches beyond the room.</p>
+      <a href="https://navonworld.com/events" target="_blank" rel="noopener" class="mc-watch">Watch the recordings ↗</a>
     </div>
   </div>
 </section>
 
-<!-- ── SIGNAL TIMELINE ───────────────────────────── -->
-<section class="signal-timeline">
-  <div class="section-head" style="padding-top:0;">
-    <div>
-      <div class="eyebrow"><span class="mark"></span>The build</div>
-      <h2 class="section-title reveal">From land to<br/><span class="accent">live workloads.</span></h2>
-    </div>
-    <p class="section-lede reveal d1">
-      Where we've been and where we're going — told straight, not polished.
-    </p>
+<!-- ── FOR GOVERNMENTS ──────────────────────────── -->
+<section class="fut-section section--light">
+  <div class="aud-head">
+    <div class="aud-kicker reveal">Navon Futures for <span class="accent">/ Governments</span></div>
+    <h2 class="section-title reveal" style="margin-top:14px;">Sovereign decisions<br/><span class="accent">need sovereign knowledge.</span></h2>
   </div>
+  <p class="section-lede reveal d1" style="max-width:64ch;">
+    Sovereign technology decisions require sovereign knowledge. Navon Futures
+    gives governments independent access to the expertise needed to make them —
+    and safe environments to test before they commit.
+  </p>
 
-  <div class="st-track reveal d1">
-    <div class="st-node">
-      <div class="st-dot-col">
-        <div class="st-dot" style="border-color: var(--signal); background: rgba(231,255,0,0.3);"></div>
-        <div class="st-yr">2024</div>
+  <div class="aud-grid cols-2 reveal" style="margin-top:56px;">
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 3.5L17 11H6"/></svg></span>
+        <span class="aud-no">01</span>
       </div>
-      <div class="st-content">
-        <h4>Site secured. Coalition assembled.</h4>
-        <p>Land secured at Naivasha SEZ. Six delivery partners committed — Delta Electronics, AMAX, Studio Aka, RMX, Securex, Infinity Power. The build coalition is in place.</p>
+      <div class="aud-kick">Strategy</div>
+      <h4>Sovereign cloud strategy.</h4>
+      <p>Independent guidance on building and procuring sovereign cloud without creating decade-long vendor dependencies.</p>
+      <span class="aud-arrow">→</span>
+    </article>
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <span class="aud-no">02</span>
       </div>
-    </div>
-
-    <div class="st-node live">
-      <div class="st-dot-col">
-        <div class="st-dot"></div>
-        <div class="st-yr">2025–26</div>
+      <div class="aud-kick">Security</div>
+      <h4>Next-generation cybersecurity.</h4>
+      <p>Access to quantum-safe and zero-trust expertise for national infrastructure and sensitive data.</p>
+      <span class="aud-arrow">→</span>
+    </article>
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg></span>
+        <span class="aud-no">03</span>
       </div>
-      <div class="st-content">
-        <h4>First module under development.</h4>
-        <p>400 kW Tier III modular pod in build. Target: live Q3 2026 with the first enterprise and university customers. First AI startup access from day one.</p>
+      <div class="aud-kick">Network</div>
+      <h4>Global expert connections.</h4>
+      <p>Direct relationships with Navon's network of technologists across AI, quantum and sovereign infrastructure.</p>
+      <span class="aud-arrow">→</span>
+    </article>
+    <article class="aud-card">
+      <div class="aud-card-top">
+        <span class="aud-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9c-.6 1.1.2 2.5 1.5 2.5h11c1.3 0 2.1-1.4 1.5-2.5l-5-9V3"/><path d="M7.5 15h9"/></svg></span>
+        <span class="aud-no">04</span>
       </div>
-    </div>
-
-    <div class="st-node">
-      <div class="st-dot-col">
-        <div class="st-dot"></div>
-        <div class="st-yr">2027</div>
-      </div>
-      <div class="st-content">
-        <h4>Scale to 2 MW at Hells Gate.</h4>
-        <p>Additional modules deployed on the same footprint. GPU density increases. Sovereign cloud product matures. First government workloads migrate from public hyperscalers.</p>
-      </div>
-    </div>
-
-    <div class="st-node">
-      <div class="st-dot-col">
-        <div class="st-dot"></div>
-        <div class="st-yr">2028+</div>
-      </div>
-      <div class="st-content">
-        <h4>Regional expansion begins.</h4>
-        <p>First site outside Kenya. The modular playbook is proven and repeatable. The continent-wide sovereign compute backbone moves from vision to active build.</p>
-      </div>
-    </div>
+      <div class="aud-kick">Sandbox</div>
+      <h4>Safe experimentation environments.</h4>
+      <p>Sandboxed, sovereign environments to test AI and deep tech policy and tooling before national rollout.</p>
+      <span class="aud-arrow">→</span>
+    </article>
   </div>
 </section>
 
-<!-- ── RESEARCH THREADS ──────────────────────────── -->
-<section class="threads">
-  <div class="section-head" style="padding-top:0;">
-    <div>
-      <div class="eyebrow"><span class="mark"></span>Research threads</div>
-      <h2 class="section-title reveal">What we're<br/><span class="accent">thinking about.</span></h2>
-    </div>
-    <p class="section-lede reveal d1">
-      Four areas where we're doing serious thinking — alongside our academic
-      partners at UCL, ETH Zurich, UPM, and UPC.
-    </p>
-  </div>
-
-  <div class="thread-grid">
-    <div class="thread reveal d1">
-      <div class="thread-tag">Thread · 01</div>
-      <h3>African AI — training on local languages and datasets.</h3>
-      <p>Foundation models trained on Swahili, Kikuyu, Zulu, and Amharic — not English fine-tuned downward. What infrastructure does that require, and how do sovereign data constraints shape the training pipeline?</p>
-    </div>
-    <div class="thread reveal d2">
-      <div class="thread-tag">Thread · 02</div>
-      <h3>Geothermal and clean energy as compute strategy, not PR.</h3>
-      <p>Olkaria generates 595 MW. Kenya's geothermal potential is 10,000 MW. What does it mean to site compute directly on that baseload — and how does energy sovereignty shape digital sovereignty?</p>
-    </div>
-    <div class="thread reveal d3">
-      <div class="thread-tag">Thread · 03</div>
-      <h3>Post-quantum cryptography in practice for emerging markets.</h3>
-      <p>PQC is coming. Most organisations in growth markets aren't ready. We're working with our partners to understand what "quantum-safe by default" looks like for a sovereign cloud platform that goes live in 2026.</p>
-    </div>
-    <div class="thread reveal d4">
-      <div class="thread-tag">Thread · 04</div>
-      <h3>Modular edge — can sovereign compute reach rural Africa?</h3>
-      <p>The 400 kW Tier III module is proven. But what about a 40 kW, solar-backed, edge node for a rural county government or agricultural cooperative? The architecture exists. The economics need more work.</p>
-    </div>
+<!-- ── PARTNERS STRIP ───────────────────────────── -->
+<section class="fut-partners">
+  <div class="partners-strip reveal">
+    <span class="label">Building it with ↓</span>
+    <span class="partner-name">Mastercard</span>
+    <span class="partner-name">Alliance for AI</span>
+    <span class="partner-name">AI Kenya</span>
+    <span class="partner-name">Horizon X</span>
   </div>
 </section>
 
-<!-- ── FUTURES CTA ───────────────────────────────── -->
-<section class="futures-cta">
-  <div class="futures-cta-inner">
+<!-- ── CLOSING CTA ──────────────────────────────── -->
+<section class="fut-cta">
+  <div class="fut-cta-inner">
     <div>
-      <div class="eyebrow"><span class="mark"></span>Shape it with us</div>
-      <h2 class="reveal">The questions are<br/>open. The <em>build</em><br/>has started.</h2>
+      <div class="eyebrow"><span class="mark"></span>Join us</div>
+      <h2 class="reveal">Be part of<br/>the <em>ecosystem.</em></h2>
+      <div class="open-to reveal d1">
+        <span>Universities</span>
+        <span>Enterprises</span>
+        <span>Governments</span>
+      </div>
     </div>
     <div class="reveal d1">
       <p style="color:var(--light); font-size:17px; line-height:1.55; max-width:42ch; margin:0 0 28px;">
-        Whether you're a researcher, a government partner, an AI founder, or
-        an investor — the best way to shape what Navon Futures becomes is to
-        be part of the conversation now.
+        Navon Futures is open to universities, enterprises and governments
+        building Africa's deep tech future. Tell us what you're working on —
+        we'll connect you to the network.
       </p>
       <div class="dual-cta">
-        <a href="mailto:info@navonworld.com" class="cta">Start a conversation <span class="arrow">→</span></a>
-        <a href="missions.html" class="cta-ghost">Browse missions <span class="arrow">→</span></a>
+        <a href="mailto:info@navonworld.com" class="cta">info@navonworld.com <span class="arrow">→</span></a>
+        <a href="https://navonworld.com" target="_blank" rel="noopener" class="cta-ghost">navonworld.com <span class="arrow">↗</span></a>
       </div>
     </div>
   </div>
