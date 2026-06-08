@@ -20,8 +20,14 @@
     cursor: pointer;
     position: relative;
     transition: background 0.3s ease;
+    text-decoration: none;
+    color: inherit;
   }
   .news-item:last-child { border-bottom: 1px solid var(--line); }
+  /* Items with no source link: not clickable, no hover affordance */
+  .news-item--static { cursor: default; }
+  .news-item--static:hover::before { width: 0; }
+  .news-item--static:hover .news-title { color: var(--paper); }
   @media (max-width: 900px) { .news-item { grid-template-columns: 1fr; gap: 16px; padding: 32px 0; } }
   .news-item::before {
     content: "";
