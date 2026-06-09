@@ -1,0 +1,31 @@
+{
+  "name": "Navon Site",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker": {},
+    "ghcr.io/devcontainers/features/git-lfs": {}
+  },
+  "forwardPorts": [4321, 4322, 3002, 5432, 8000],
+  "portsAttributes": {
+    "4321": {
+      "label": "Marketing site",
+      "onAutoForward": "notify"
+    },
+    "4322": {
+      "label": "Marketing preview",
+      "onAutoForward": "notify"
+    },
+    "3002": {
+      "label": "Customer portal",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "Portal Postgres",
+      "onAutoForward": "silent"
+    },
+    "8000": {
+      "label": "NetBox",
+      "onAutoForward": "notify"
+    }
+  }
+}
