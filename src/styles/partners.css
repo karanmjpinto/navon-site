@@ -442,6 +442,27 @@
   padding: clamp(48px, 7vw, 96px) var(--px);
   border-top: 1px solid var(--line);
 }
+/* Optional wide team/group photo band */
+.pd-team-figure {
+  margin: clamp(28px, 4vw, 44px) 0 0;
+  border: 1px solid var(--line-2);
+  background: var(--ink-2);
+  overflow: hidden;
+}
+.pd-team-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.pd-team-cap {
+  margin: 0;
+  padding: 14px 18px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
 .pd-eyebrow {
   font-family: var(--font-mono);
   font-size: 11px;

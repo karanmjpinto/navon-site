@@ -84,7 +84,7 @@ const portraitWidths = [400, 560, 800];
           <figure class="partner-quote">
             <blockquote>&ldquo;{p.quote}&rdquo;</blockquote>
             <figcaption>
-              — {p.name}
+              — {p.quoteBy ?? p.name}
               {p.quoteDraft && <span class="quote-flag">Draft · pending approval</span>}
             </figcaption>
           </figure>

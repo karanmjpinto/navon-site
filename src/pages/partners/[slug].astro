@@ -14,12 +14,18 @@ const headshotFor = (slug) =>
   headshots[`../../assets/partners/${slug}.jpg`] ||
   headshots[`../../assets/partners/${slug}.jpeg`] ||
   headshots[`../../assets/partners/${slug}.png`];
+// Optional wide group/team shot: drop <slug>-team.jpg to render a full-width band.
+const teamPhotoFor = (slug) =>
+  headshots[`../../assets/partners/${slug}-team.jpg`] ||
+  headshots[`../../assets/partners/${slug}-team.jpeg`] ||
+  headshots[`../../assets/partners/${slug}-team.png`];
 const portraitWidths = [400, 600, 900];
 
 const { partner: p } = Astro.props;
 const layer = layers.find((l) => l.id === p.layer);
 const { prev, next } = getAdjacent(p.slug);
 const photo = headshotFor(p.slug);
+const teamPhoto = teamPhotoFor(p.slug);
 ---
 <Site
   title={`${p.name} — Navon Partners`}
@@ -54,13 +60,20 @@ const photo = headshotFor(p.slug);
       <p class="pd-oneliner reveal d1">{p.oneLiner}</p>
 
       <div class="pd-founder reveal d2">
-        {p.founder?.name
-          ? <span class="pf-name">{p.founder.name}</span>
-          : <span class="pf-name">Leadership team</span>}
-        <span class="pf-role">{p.founder?.role ?? 'Leadership'}</span>
-        {p.founder?.linkedin
-          ? <a class="pf-link" href={p.founder.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <span class="arrow">↗</span></a>
-          : <span class="pf-link" style="color:var(--charcoal);">LinkedIn — to add</span>}
+        {p.foundersLine
+          ? (<>
+              <span class="pf-name">{p.foundersLine}</span>
+              <span class="pf-role">Co-founders</span>
+            </>)
+          : (<>
+              {p.founder?.name
+                ? <span class="pf-name">{p.founder.name}</span>
+                : <span class="pf-name">Leadership team</span>}
+              <span class="pf-role">{p.founder?.role ?? 'Leadership'}</span>
+              {p.founder?.linkedin
+                ? <a class="pf-link" href={p.founder.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <span class="arrow">↗</span></a>
+                : <span class="pf-link" style="color:var(--charcoal);">LinkedIn — to add</span>}
+            </>)}
       </div>
 
       {p.website && (
@@ -72,6 +85,18 @@ const photo = headshotFor(p.slug);
     </div>
   </div>
 </section>
+
+<!-- ── TEAM PHOTO BAND (optional) ────────────────────────────────────── -->
+{teamPhoto && (
+  <section class="pd-section pd-team">
+    <div class="pd-eyebrow">The team</div>
+    <h2 class="pd-h2 reveal">The people behind it.</h2>
+    <figure class="pd-team-figure reveal d1">
+      <Image src={teamPhoto} alt={`The ${p.name} team`} widths={[640, 1024, 1600]} sizes="(max-width: 1200px) 100vw, 1160px" loading="lazy" />
+      {p.teamCaption && <figcaption class="pd-team-cap mono">{p.teamCaption}</figcaption>}
+    </figure>
+  </section>
+)}
 
 <!-- ── WHAT THEY DO ──────────────────────────────────────────────────── -->
 <section class="pd-section">
@@ -108,7 +133,7 @@ const photo = headshotFor(p.slug);
     <div class="mark">&ldquo;</div>
     <blockquote>{p.quote}</blockquote>
     <figcaption>
-      — {p.founder?.name ? `${p.founder.name}, ${p.name}` : p.name}
+      — {p.quoteBy ?? (p.founder?.name ? `${p.founder.name}, ${p.name}` : p.name)}
       {p.quoteDraft && <span class="quote-flag">Draft · pending partner approval</span>}
     </figcaption>
   </figure>
