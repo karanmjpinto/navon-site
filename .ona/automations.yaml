@@ -1,0 +1,152 @@
+tasks:
+  installDeps:
+    name: Install dependencies
+    description: Install dependencies for the marketing site and customer portal.
+    command: |
+      corepack enable
+      pnpm install --frozen-lockfile
+      pnpm --dir portal install --frozen-lockfile
+    triggeredBy:
+      - postDevcontainerStart
+
+  preparePortalEnv:
+    name: Prepare portal environment
+    description: Create a local portal environment file from the checked-in template.
+    command: |
+      if [ ! -f portal/.env.local ]; then
+        cp portal/.env.example portal/.env.local
+        AUTH_SECRET="$(openssl rand -base64 32)"
+        sed -i "s|^AUTH_SECRET=.*|AUTH_SECRET=${AUTH_SECRET}|" portal/.env.local
+      fi
+    triggeredBy:
+      - postDevcontainerStart
+
+  buildSite:
+    name: Build marketing site
+    description: Build the Astro marketing site.
+    command: |
+      corepack enable
+      pnpm build
+    triggeredBy:
+      - manual
+    dependsOn:
+      - installDeps
+
+  buildPortal:
+    name: Build customer portal
+    description: Build the Next.js customer portal.
+    command: |
+      corepack enable
+      set -a
+      . portal/.env.local
+      set +a
+      pnpm --dir portal build
+    triggeredBy:
+      - manual
+    dependsOn:
+      - installDeps
+      - preparePortalEnv
+
+  testPortal:
+    name: Test customer portal
+    description: Run portal unit tests.
+    command: |
+      corepack enable
+      pnpm --dir portal test
+    triggeredBy:
+      - manual
+    dependsOn:
+      - installDeps
+
+  migratePortalDb:
+    name: Migrate portal database
+    description: Apply Drizzle migrations to the local portal database.
+    command: |
+      corepack enable
+      set -a
+      . portal/.env.local
+      set +a
+      pnpm --dir portal db:migrate
+    triggeredBy:
+      - manual
+    dependsOn:
+      - installDeps
+      - preparePortalEnv
+
+  seedNetbox:
+    name: Seed NetBox
+    description: Seed the local NetBox development stack.
+    command: |
+      corepack enable
+      pnpm tsx scripts/seed-netbox.ts
+    triggeredBy:
+      - manual
+    dependsOn:
+      - installDeps
+
+services:
+  marketingSite:
+    name: Marketing site
+    description: Run the Astro development server.
+    commands:
+      start: |
+        corepack enable
+        pnpm dev --host 0.0.0.0
+      ready: |
+        curl -sf http://localhost:4321
+
+  marketingPreview:
+    name: Marketing preview
+    description: Serve the built Astro site preview.
+    commands:
+      start: |
+        corepack enable
+        pnpm preview --host 0.0.0.0
+      ready: |
+        curl -sf http://localhost:4322
+
+  portalPostgres:
+    name: Portal Postgres
+    description: Run the local TimescaleDB-backed Postgres database for the customer portal.
+    commands:
+      start: |
+        if docker ps -a --format '{{.Names}}' | grep -qx navon-pg; then
+          docker start navon-pg
+        else
+          docker run --name navon-pg \
+            -e POSTGRES_USER=navon \
+            -e POSTGRES_PASSWORD=navon \
+            -e POSTGRES_DB=navon_portal \
+            -p 5432:5432 \
+            -d timescale/timescaledb:latest-pg16
+        fi
+      ready: |
+        docker exec navon-pg pg_isready -U navon -d navon_portal
+      stop: |
+        docker stop navon-pg
+
+  portalApp:
+    name: Customer portal
+    description: Run the Next.js customer portal development server.
+    commands:
+      start: |
+        corepack enable
+        if [ ! -f portal/.env.local ]; then
+          cp portal/.env.example portal/.env.local
+          AUTH_SECRET="$(openssl rand -base64 32)"
+          sed -i "s|^AUTH_SECRET=.*|AUTH_SECRET=${AUTH_SECRET}|" portal/.env.local
+        fi
+        pnpm --dir portal dev --hostname 0.0.0.0
+      ready: |
+        curl -sf http://localhost:3002
+
+  netbox:
+    name: NetBox
+    description: Run the local NetBox DCIM/IPAM development stack.
+    commands:
+      start: |
+        docker compose -f docker-compose.dev.yml up
+      ready: |
+        curl -sf http://localhost:8000/api/
+      stop: |
+        docker compose -f docker-compose.dev.yml down
