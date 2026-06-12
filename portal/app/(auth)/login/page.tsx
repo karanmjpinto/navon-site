@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { AuthError } from "next-auth";
 import { signIn } from "@/lib/auth";
 
 export default async function LoginPage({
@@ -97,20 +99,36 @@ export default async function LoginPage({
 
 async function signInWithCredentials(formData: FormData) {
   "use server";
-  await signIn("credentials", {
-    email: formData.get("email"),
-    password: formData.get("password"),
-    totp: formData.get("totp"),
-    redirectTo: "/dashboard",
-  });
+  try {
+    await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      totp: formData.get("totp"),
+      redirectTo: "/dashboard",
+    });
+  } catch (error) {
+    // A successful sign-in throws NEXT_REDIRECT (not an AuthError), which must
+    // propagate. Only swallow auth failures and surface them inline.
+    if (error instanceof AuthError) {
+      redirect(`/login?error=${error.type}`);
+    }
+    throw error;
+  }
 }
 
 async function signInWithMagicLink(formData: FormData) {
   "use server";
-  await signIn("resend", {
-    email: formData.get("email"),
-    redirectTo: "/dashboard",
-  });
+  try {
+    await signIn("resend", {
+      email: formData.get("email"),
+      redirectTo: "/dashboard",
+    });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      redirect(`/login?error=${error.type}`);
+    }
+    throw error;
+  }
 }
 
 function Field({
