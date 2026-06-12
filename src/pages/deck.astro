@@ -1,0 +1,568 @@
+---
+// Navon Investor Deck — standalone, password-gated, noindex.
+// Does NOT use Site.astro (no public nav/footer): the deck carries its own chrome.
+// Content recreated from Navon_Investor_Main_Deck_v9; per-slide figures preserved as stated.
+import BaseHead from '../components/BaseHead.astro';
+import Icon from '../components/Icon.astro';
+import { Image } from 'astro:assets';
+import wordmark from '../assets/navon-wordmark-white.png';
+// Real photography from the Naivasha SEZ / Hell's Gate site (Kenya).
+import sitePhoto from '../assets/hells-gate/1A1A1056-1.jpg';
+import substationPhoto from '../assets/hells-gate/1A1A1024-1.jpg';
+import teamPhoto from '../assets/hells-gate/1A1A1041-1.jpg';
+import aerialPhoto from '../assets/hells-gate/1A1A1062-1.jpg';
+import horizonPhoto from '../assets/hells-gate/1A1A1057-1.jpg';
+import groupPhoto from '../assets/hells-gate/1A1A1108-1.jpg';
+import '../styles/deck.css';
+
+const proofWidths = [480, 800, 1200];
+
+const nav = [
+  ['summary', 'Summary'], ['mission', 'Mission'], ['problem', 'Problem'],
+  ['market', 'Market'], ['timing', 'Timing'], ['edge', 'Edge'],
+  ['stack', 'Stack'], ['moat', 'Moat'], ['model', 'Model'],
+  ['expansion', 'Expansion'], ['returns', 'Returns'], ['discount', 'Discount'],
+  ['traction', 'Traction'], ['phase1', 'Phase 1'], ['team', 'Team'],
+];
+
+const advisors = [
+  ['ben', 'Ben Roberts', 'Advisor'],
+  ['muhoro', 'Muhoro Gathii', 'Advisor'],
+  ['steve', 'Steve Suarez', 'CEO · Horizon X · ex-HSBC'],
+  ['erin', 'Erin Beilharz', 'Advisor'],
+  ['ankush', 'Ankush Shah', 'Advisor'],
+  ['jim', 'Jim Rowland', 'Delta Electronics · DC Infra'],
+  ['karl', 'Karl Harvard', 'Nscale · ex-AWS EMEA'],
+  ['urav', 'Urav Shah', 'Founding Team · Entrepreneur'],
+  ['mitun', 'Mitun Patel', 'Energy · Central Africa'],
+  ['samir', 'Samir Shah', 'ex-CEO · Sil Africa'],
+  ['robert', 'Robert Kruschbersky', 'Hitachi Private Equity'],
+  ['ingvil', 'Ingvil Smines Tybring-Gjedde', 'Founder · Kyros Cloud'],
+  ['maryann', 'Maryann Løcka', 'Founder · Kyros Cloud'],
+];
+const initials = (n) => n.split(' ').slice(0, 2).map((w) => w[0]).join('');
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <BaseHead title="Navon · Investor Deck" description="Confidential investor materials — Navon, Africa's first sovereign vertically integrated deep tech company." />
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+<body class="deck-body">
+
+  <!-- ─── PASSWORD GATE ─── -->
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <Image class="gate-mark" src={wordmark} alt="Navon" width={420} />
+      <h1>Investor materials</h1>
+      <p>This deck is confidential and shared by invitation. Enter the access code you were given to continue.</p>
+      <form class="gate-form" id="gate-form" autocomplete="off">
+        <input class="gate-input" id="gate-input" type="password" placeholder="Access code" aria-label="Access code" />
+        <button class="gate-btn" type="submit">Enter <span class="arrow">→</span></button>
+        <div class="gate-msg" id="gate-msg" role="status"></div>
+      </form>
+      <div class="gate-foot">Proprietary &amp; Confidential · H1 2026</div>
+    </div>
+  </div>
+
+  <!-- ─── DECK ─── -->
+  <div class="deck" id="deck" hidden>
+    <header class="deck-nav">
+      <a href="#cover" class="wordmark" aria-label="Navon"><Image class="wm-img wm-dark" src={wordmark} alt="Navon" width={420} /></a>
+      <nav class="deck-nav-links" id="deck-nav-links" aria-label="Deck sections">
+        {nav.map(([id, label]) => <a href={`#${id}`} data-spy={id}>{label}</a>)}
+      </nav>
+      <span class="deck-confidential">Confidential</span>
+    </header>
+    <div class="deck-progress" id="deck-progress"></div>
+
+    <!-- 01 · COVER -->
+    <section class="slide cover has-bg" id="cover">
+      <div class="slide-bg" aria-hidden="true"><Image src={horizonPhoto} alt="" widths={[768, 1280, 1920]} sizes="100vw" loading="eager" fetchpriority="high" /></div>
+      <div class="slide-inner">
+        <div class="slide-eyebrow reveal"><Icon name="spark" class="eyebrow-icon" /> Investor Deck · H1 2026</div>
+        <h1 class="deck-h reveal d1">Africa's first <span class="accent">sovereign</span>, vertically integrated deep tech company</h1>
+        <div class="cover-raise reveal d2">
+          <span class="num">Raising <span class="signal">$8M</span></span>
+          <span class="lab">To build Africa's deep tech<br>infrastructure backbone</span>
+        </div>
+        <div class="cover-meta reveal d3">
+          <span>Sovereign · Green · Full-stack compute</span>
+          <span class="signal">HPC · AI · Quantum</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 · EXECUTIVE SUMMARY -->
+    <section class="slide slide--ink" id="summary">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div>
+            <div class="slide-eyebrow reveal"><Icon name="doc" class="eyebrow-icon" /> Executive Summary</div>
+            <h2 class="deck-h2 reveal d1">Building Africa's deep tech infrastructure backbone — <span class="accent">sovereign, green, and full-stack.</span></h2>
+          </div>
+          <p class="deck-lede reveal d2">We deliver modular, renewable-powered compute (HPC, AI, Quantum) owned and operated in Africa — closing the infrastructure gap that keeps the continent dependent on foreign clouds.</p>
+        </div>
+        <div class="stat-row">
+          <div class="bigstat reveal"><div class="v"><span class="signal">5×</span></div><div class="k">Compute demand growth across Africa by 2030</div></div>
+          <div class="bigstat reveal d1"><div class="v">Kenya</div><div class="k">Ideal first market — special economic zones and abundant geothermal power</div></div>
+          <div class="bigstat reveal d2"><div class="v">&gt;30%</div><div class="k">Target project-level IRRs</div></div>
+          <div class="bigstat reveal d3"><div class="v"><span class="signal">$8M</span></div><div class="k">Total raise</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 · MISSION -->
+    <section class="slide section--light slide--light" id="mission">
+      <div class="slide-inner">
+        <div class="slide-eyebrow reveal"><Icon name="flag" class="eyebrow-icon" /> Mission</div>
+        <div class="statement reveal d1">
+          <p class="big">We are <span class="strike">not a data centre company.</span> We are a <span class="keep">full-stack sovereign compute platform.</span></p>
+        </div>
+        <div class="trio">
+          <div class="t reveal"><Icon name="shield" class="ticon" /><div class="ti"><span class="signal">01</span> Sovereign</div><div class="tb">Compute owned, operated and governed on the continent — data stays under local jurisdiction.</div></div>
+          <div class="t reveal d1"><Icon name="leaf" class="ticon" /><div class="ti"><span class="signal">02</span> Sustainable</div><div class="tb">Renewable-first siting — geothermal and green power drive cost and carbon down together.</div></div>
+          <div class="t reveal d2"><Icon name="globe" class="ticon" /><div class="ti"><span class="signal">03</span> Accessible</div><div class="tb">Modular infrastructure that reaches markets hyperscalers won't serve.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 · PROBLEM -->
+    <section class="slide" id="problem">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div>
+            <div class="slide-eyebrow reveal"><Icon name="alert" class="eyebrow-icon" /> The Problem</div>
+            <h2 class="deck-h2 reveal d1">Compute ownership is <span class="accent">dangerously concentrated.</span></h2>
+          </div>
+          <p class="deck-lede reveal d2">Africa runs on infrastructure it does not own — a sovereignty, economic and security risk as AI becomes critical national infrastructure.</p>
+        </div>
+        <div class="stat-row">
+          <div class="bigstat reveal"><div class="v">~32</div><div class="k">Countries host AI data centres today</div></div>
+          <div class="bigstat reveal d1"><div class="v"><span class="signal">90%+</span></div><div class="k">Of AI capacity operated by US &amp; China</div></div>
+          <div class="bigstat reveal d2"><div class="v">150+</div><div class="k">Countries with no AI infrastructure at all</div></div>
+          <div class="bigstat reveal d3"><div class="v">~45%</div><div class="k">Of global data centres sit in the US</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 · MARKET -->
+    <section class="slide section--light slide--light" id="market">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div>
+            <div class="slide-eyebrow reveal"><Icon name="target" class="eyebrow-icon" /> Market</div>
+            <h2 class="deck-h2 reveal d1">A <span class="accent">$6.8B</span> African compute market by 2030.</h2>
+          </div>
+          <p class="deck-lede reveal d2">Five-fold compute growth, ~$60B of value unlocked, and 835M mobile-money users already online. Navon targets ~5% — 100MW across 10 sites by 2035.</p>
+        </div>
+        <div class="market-grid">
+          <div class="tam-rings reveal">
+            <div class="tam-bar tam"><div class="fill"><span class="lab">TAM</span><span class="amt">$6.8B</span></div></div>
+            <div class="tam-bar sam"><div class="fill"><span class="lab">SAM</span><span class="amt">$3.0B</span></div></div>
+            <div class="tam-bar som"><div class="fill"><span class="lab">SOM</span><span class="amt">$300M</span></div></div>
+          </div>
+          <div class="reveal d1">
+            <div class="bigstat"><div class="v">100MW</div><div class="k">Target capacity across 10 sites by 2035 — roughly 5% of the serviceable market</div></div>
+            <p class="note">TAM total African compute · SAM sovereign &amp; modular segment · SOM Navon's 2035 reach.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 · TIMING / PHASES -->
+    <section class="slide" id="timing">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div>
+            <div class="slide-eyebrow reveal"><Icon name="clock" class="eyebrow-icon" /> Why Now</div>
+            <h2 class="deck-h2 reveal d1">Africa's infrastructure is entering its <span class="accent">third phase.</span></h2>
+          </div>
+          <p class="deck-lede reveal d2">200MW+ of sovereign compute is needed by 2030, with zero modular sovereign providers serving it today. Navon enters at the inflection.</p>
+        </div>
+        <div class="phases">
+          <div class="phase reveal"><div class="pyr">2000 – 2015</div><div class="pno">Phase 01</div><div class="pt">Telecom</div><div class="pb">Mobile connectivity is built out across the continent.</div></div>
+          <div class="phase reveal d1"><div class="pyr">2016 – present</div><div class="pno">Phase 02</div><div class="pt">Colocation</div><div class="pb">Traditional data centres and colocation arrive in major hubs.</div></div>
+          <div class="phase is-now reveal d2"><div class="pyr">Now</div><div class="pno">Phase 03</div><div class="pt">Advanced sovereign compute</div><div class="pb">Modular, renewable, full-stack AI infrastructure.</div><span class="pnow-tag">Navon enters here</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 · EDGE / THREE DRIVERS -->
+    <section class="slide section--light slide--light" id="edge">
+      <div class="slide-inner">
+        <div class="slide-eyebrow reveal"><Icon name="bolt" class="eyebrow-icon" /> The Edge</div>
+        <h2 class="deck-h2 reveal d1">Three structural advantages compound.</h2>
+        <div class="card-grid cols-3" style="margin-top: clamp(36px,5vw,52px)">
+          <div class="gcard reveal"><div class="gcard-top"><div class="gnum">01</div><Icon name="cpu" class="gicon" /></div><div class="gtitle">Compute architecture</div><div class="gbody">Purpose-built modular systems tuned for African deployment conditions.</div><div class="gmetric">10× performance delta</div></div>
+          <div class="gcard reveal d1"><div class="gcard-top"><div class="gnum">02</div><Icon name="bolt" class="gicon" /></div><div class="gtitle">Geography &amp; energy</div><div class="gbody">Siting on geothermal and renewable power near demand.</div><div class="gmetric">40–60% lower energy cost</div></div>
+          <div class="gcard reveal d2"><div class="gcard-top"><div class="gnum">03</div><Icon name="trend" class="gicon" /></div><div class="gtitle">Value creation</div><div class="gbody">Moving up the stack from colocation into sovereign cloud.</div><div class="gmetric">$20M/MW cloud vs $4M/MW colo</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 · STACK -->
+    <section class="slide slide--ink" id="stack">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div>
+            <div class="slide-eyebrow reveal"><Icon name="layers" class="eyebrow-icon" /> The Full Stack</div>
+            <h2 class="deck-h2 reveal d1">One vertically integrated platform — <span class="accent">infrastructure to applications.</span></h2>
+          </div>
+          <p class="deck-lede reveal d2">The hyperscaler model won't work here. Navon owns every layer, capturing margin and sovereignty the import model leaks abroad.</p>
+        </div>
+        <div class="layers">
+          <div class="layer reveal"><div class="lnum"><Icon name="server" class="licon" /><span class="ln">1</span></div><div><div class="ltitle">Foundational infrastructure</div><div class="lbody">Modular data centres, power and bare metal.</div></div><div class="ltag">Own the site</div></div>
+          <div class="layer reveal d1"><div class="lnum"><Icon name="cloud" class="licon" /><span class="ln">2</span></div><div><div class="ltitle">Cloud layer</div><div class="lbody">Private sovereign cloud-as-a-service.</div></div><div class="ltag">Own the platform</div></div>
+          <div class="layer reveal d2"><div class="lnum"><Icon name="code" class="licon" /><span class="ln">3</span></div><div><div class="ltitle">Application platforms &amp; SDKs</div><div class="lbody">Tools and education that build local demand.</div></div><div class="ltag">Own the demand</div></div>
+          <div class="layer reveal d3"><div class="lnum"><Icon name="lock" class="licon" /><span class="ln">4</span></div><div><div class="ltitle">Next-gen cybersecurity</div><div class="lbody">Post-quantum cryptography built in.</div></div><div class="ltag">Own the trust</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 · MOAT / DIFFERENTIATION -->
+    <section class="slide section--light slide--light" id="moat">
+      <div class="slide-inner">
+        <div class="slide-eyebrow reveal"><Icon name="shield" class="eyebrow-icon" /> Differentiation</div>
+        <h2 class="deck-h2 reveal d1">The only vertically integrated, sovereign-ready modular DC built for Africa.</h2>
+        <div class="moat-lede reveal d1">
+          <p>Read across any row and <strong>one column says yes to all of it.</strong> Hyperscalers,
+            traditional data centres and generic modular vendors each win a cell or two — none of them
+            hold the full hand for an African deployment.</p>
+        </div>
+        <div class="scroll-wrap reveal d2">
+          <table class="dtable">
+            <thead>
+              <tr><th>Capability</th><th class="navon-col">Navon</th><th>Hyperscalers</th><th>Traditional DCs</th><th>Modular DCs</th></tr>
+            </thead>
+            <tbody>
+              <tr><th>Sovereign / data residency</th><td class="navon-col yes">Yes</td><td class="no">No</td><td class="part">Partial</td><td class="part">Partial</td></tr>
+              <tr><th>Modular &amp; rapid deploy</th><td class="navon-col yes">Yes</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td></tr>
+              <tr><th>Renewable-powered siting</th><td class="navon-col yes">Yes</td><td class="part">Partial</td><td class="no">No</td><td class="no">No</td></tr>
+              <tr><th>Vertically integrated stack</th><td class="navon-col yes">Yes</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td></tr>
+              <tr><th>Built for African grid &amp; climate</th><td class="navon-col yes">Yes</td><td class="no">No</td><td class="part">Partial</td><td class="part">Partial</td></tr>
+              <tr><th>Edge &amp; IoT reach</th><td class="navon-col yes">Yes</td><td class="part">Partial</td><td class="no">No</td><td class="part">Partial</td></tr>
+              <tr><th>Post-quantum cybersecurity</th><td class="navon-col yes">Yes</td><td class="part">Partial</td><td class="no">No</td><td class="no">No</td></tr>
+              <tr><th>Cost per MW</th><td class="navon-col best">Lowest</td><td class="lvl">High</td><td class="lvl">High</td><td class="lvl">Mid</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · MODEL -->
+    <section class="slide" id="model">
+      <div class="slide-inner">
+        <div class="slide-eyebrow reveal"><Icon name="coins" class="eyebrow-icon" /> Business Model</div>
+        <h2 class="deck-h2 reveal d1">Four revenue streams, one platform.</h2>
+        <div class="card-grid cols-4" style="margin-top: clamp(36px,5vw,52px)">
+          <div class="gcard reveal"><div class="gcard-top"><div class="gnum">01</div><Icon name="server" class="gicon" /></div><div class="gtitle">Modular DCs</div><div class="gbody">Colocation and bare metal capacity sold per rack and per kW.</div></div>
+          <div class="gcard reveal d1"><div class="gcard-top"><div class="gnum">02</div><Icon name="cloud" class="gicon" /></div><div class="gtitle">Private sovereign cloud</div><div class="gbody">Cloud-as-a-service for governments, universities and enterprise.</div></div>
+          <div class="gcard reveal d2"><div class="gcard-top"><div class="gnum">03</div><Icon name="lock" class="gicon" /></div><div class="gtitle">Cybersecurity</div><div class="gbody">Post-quantum security delivered as a managed layer.</div></div>
+          <div class="gcard reveal d3"><div class="gcard-top"><div class="gnum">04</div><Icon name="code" class="gicon" /></div><div class="gtitle">Education &amp; applications</div><div class="gbody">SDKs, training and platforms that grow local compute demand.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 · EXPANSION + ROADMAP -->
+    <section class="slide section--light slide--light" id="expansion">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div>
+            <div class="slide-eyebrow reveal"><Icon name="pin" class="eyebrow-icon" /> Expansion</div>
+            <h2 class="deck-h2 reveal d1">Kenya first. Then the continent.</h2>
+          </div>
+          <p class="deck-lede reveal d2">Phase 1 is Kenya only — Naivasha SEZ, with ~60% of demand already secured. A repeatable modular template scales site by site to 100MW by 2035.</p>
+        </div>
+        <div class="ramp">
+          <div class="step reveal"><div class="yr">2027</div><div class="mw">0.8MW</div><div class="desc">Naivasha goes live</div><div class="bar" style="width: 8%"></div></div>
+          <div class="step reveal d1"><div class="yr">2028</div><div class="mw">2–5MW</div><div class="desc">Capacity ramp</div><div class="bar" style="width: 24%"></div></div>
+          <div class="step reveal d2"><div class="yr">2030</div><div class="mw">10MW</div><div class="desc">10 sites · ~5% SOM</div><div class="bar" style="width: 55%"></div></div>
+          <div class="step reveal d3"><div class="yr">2035</div><div class="mw">100MW</div><div class="desc">$867M rev · 76% EBITDA</div><div class="bar" style="width: 100%"></div></div>
+        </div>
+        <div class="chips" style="margin-top: 22px">
+          <span class="chip">Site 1 · Kenya — Naivasha SEZ</span>
+          <span class="chip">Site 2 · Uganda — edge (Mandulis)</span>
+          <span class="chip">Site 3 · South Africa</span>
+          <span class="chip">Site 4 · Tanzania</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 · RETURNS -->
+    <section class="slide slide--ink" id="returns">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div>
+            <div class="slide-eyebrow reveal"><Icon name="trend" class="eyebrow-icon" /> Returns</div>
+            <h2 class="deck-h2 reveal d1">A platform that compounds to <span class="accent">76% EBITDA margins.</span></h2>
+          </div>
+          <p class="deck-lede reveal d2">Margins expand from 46% to 76% as the mix shifts from colocation toward sovereign cloud. Modelled at a 15% WACC and a 12× exit multiple.</p>
+        </div>
+        <div class="returns-grid">
+          <div class="rc reveal"><div class="v">$867M</div><div class="k">2035 revenue</div></div>
+          <div class="rc reveal d1"><div class="v">$469M</div><div class="k">2035 EBITDA — 76% margin</div></div>
+          <div class="rc reveal d2"><div class="v"><span class="signal">$5.63B</span></div><div class="k">Implied enterprise value at 12×</div></div>
+          <div class="rc reveal d3"><div class="v">$2.04B</div><div class="k">Equity NPV</div></div>
+        </div>
+        <p class="note">Margin trajectory: 46% → 76% EBITDA · Cybersecurity 28% (2027) · Cloud 33% (2031) → 64% (2035).</p>
+      </div>
+    </section>
+
+    <!-- 13 · DISCOUNT -->
+    <section class="slide discount" id="discount">
+      <div class="slide-inner">
+        <div class="lead reveal">The discount</div>
+        <div class="big reveal d1"><span class="signal">160×</span></div>
+        <p class="sub reveal d1">Implied EV to entry valuation — buying into a $5.6B asset at roughly $35M today. A ~20% stake maps to ~$1.1B at a 2035 exit.</p>
+        <div class="reasons">
+          <div class="r reveal"><div class="rn">01</div><div class="rt">Phase 1 goes live</div><div class="rb">Naivasha is online in Q3 2026 — execution risk falls away.</div></div>
+          <div class="r reveal d1"><div class="rn">02</div><div class="rt">First-mover lock-in</div><div class="rb">Pipeline contracts lock from Q1 2027, fixing the market position.</div></div>
+          <div class="r reveal d2"><div class="rn">03</div><div class="rt">Sovereign cloud inflecting</div><div class="rb">14 African nations now mandate data residency — demand is structural.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14 · TRACTION -->
+    <section class="slide section--light slide--light" id="traction">
+      <div class="slide-inner">
+        <div class="slide-eyebrow reveal"><Icon name="check" class="eyebrow-icon" /> Traction</div>
+        <h2 class="deck-h2 reveal d1">Demand is already contracted.</h2>
+        <div class="traction-head" style="margin-top: clamp(36px,5vw,52px)">
+          <div class="tc reveal"><div class="v">20</div><div class="k">Pipeline customers</div></div>
+          <div class="tc reveal d1"><div class="v"><span class="signal">11</span></div><div class="k">MoUs &amp; LOIs signed</div></div>
+          <div class="tc reveal d2"><div class="v">56</div><div class="k">Racks demanded</div></div>
+          <div class="tc reveal d3"><div class="v">5</div><div class="k">At SLA / contracting</div></div>
+        </div>
+        <div class="chips reveal d2">
+          <span class="chip">Africa Compute Fund</span>
+          <span class="chip">Siscom</span>
+          <span class="chip">Pure Infrastructure</span>
+          <span class="chip">Kabarak University</span>
+          <span class="chip">PAUSTI</span>
+          <span class="chip">JKUAT</span>
+          <span class="chip">KEMRI</span>
+          <span class="chip">Meru University</span>
+          <span class="chip">Strathmore University</span>
+        </div>
+
+        <div class="proof-note reveal">Photography &amp; footage from the ground.</div>
+        <div class="proof-strip cols-3 reveal d1">
+          <figure class="proof-slot filled">
+            <Image src={sitePhoto} alt="The Naivasha SEZ site — open ground, dirt access road, Rift Valley sky" widths={proofWidths} sizes="(max-width: 700px) 100vw, 33vw" loading="lazy" />
+            <figcaption class="proof-meta"><span class="proof-cap">Naivasha SEZ · Kenya</span></figcaption>
+          </figure>
+          <figure class="proof-slot filled">
+            <Image src={substationPhoto} alt="The 90 MVA substation serving Naivasha SEZ" widths={proofWidths} sizes="(max-width: 700px) 100vw, 33vw" loading="lazy" />
+            <figcaption class="proof-meta"><span class="proof-cap">90 MVA substation · power on site</span></figcaption>
+          </figure>
+          <figure class="proof-slot filled">
+            <Image src={teamPhoto} alt="Navon team and partners on site at Naivasha SEZ, Kenya" widths={proofWidths} sizes="(max-width: 700px) 100vw, 33vw" loading="lazy" />
+            <figcaption class="proof-meta"><span class="proof-cap">On site · the team</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15 · PHASE 1 ECONOMICS + USE OF PROCEEDS -->
+    <section class="slide" id="phase1">
+      <div class="slide-inner">
+        <div class="slide-head">
+          <div>
+            <div class="slide-eyebrow reveal"><Icon name="server" class="eyebrow-icon" /> Phase 1 · Kenya</div>
+            <h2 class="deck-h2 reveal d1">A single site that already pays for itself.</h2>
+          </div>
+          <p class="deck-lede reveal d2">Naivasha alone returns a 47% leveraged IRR on $7.6M of CapEx — with $0.6M secured and a $2M term sheet from KCB Bank Kenya.</p>
+        </div>
+        <div class="returns-grid">
+          <div class="rc reveal"><div class="v">$4.39M</div><div class="k">ARR by Year 2</div></div>
+          <div class="rc reveal d1"><div class="v">$3.46M</div><div class="k">EBITDA — 75% margin</div></div>
+          <div class="rc reveal d2"><div class="v"><span class="signal">47%</span></div><div class="k">Leveraged IRR</div></div>
+          <div class="rc reveal d3"><div class="v">$6.4M</div><div class="k">Project NPV</div></div>
+        </div>
+        <div class="split" style="margin-top: clamp(40px,5vw,60px)">
+          <div class="reveal">
+            <p class="deck-kicker">Use of proceeds · $6.4M</p>
+            <div class="uop">
+              <div class="row"><span class="name">IT infrastructure</span><span class="track"><span class="fl" style="width:100%"></span></span><span class="amt">$3.5M</span></div>
+              <div class="row"><span class="name">Power</span><span class="track"><span class="fl" style="width:40%"></span></span><span class="amt">$1.4M</span></div>
+              <div class="row"><span class="name">Civil works</span><span class="track"><span class="fl" style="width:17%"></span></span><span class="amt">$0.6M</span></div>
+              <div class="row"><span class="name">Capitalised OPEX</span><span class="track"><span class="fl" style="width:9%"></span></span><span class="amt">$0.3M</span></div>
+              <div class="row"><span class="name">Security</span><span class="track"><span class="fl" style="width:3%"></span></span><span class="amt">$0.1M</span></div>
+              <div class="row"><span class="name">Logistics</span><span class="track"><span class="fl" style="width:3%"></span></span><span class="amt">$0.1M</span></div>
+              <div class="row"><span class="name">Land &amp; water</span><span class="track"><span class="fl" style="width:3%"></span></span><span class="amt">$0.1M</span></div>
+            </div>
+          </div>
+          <div class="reveal d1">
+            <p class="deck-kicker">Risks &amp; mitigations</p>
+            <div class="card-grid cols-1" style="grid-template-columns:1fr">
+              <div class="gcard" style="min-height:auto"><div class="gcard-top"><div class="gnum">01</div><Icon name="clock" class="gicon" /></div><div class="gtitle">Deployment delay</div><div class="gbody" style="margin-top:6px">Delta LOI secures modular enclosure supply.</div></div>
+              <div class="gcard" style="min-height:auto"><div class="gcard-top"><div class="gnum">02</div><Icon name="users" class="gicon" /></div><div class="gtitle">Customer conversion</div><div class="gbody" style="margin-top:6px">30 racks already confirmed against pipeline.</div></div>
+              <div class="gcard" style="min-height:auto"><div class="gcard-top"><div class="gnum">03</div><Icon name="coins" class="gicon" /></div><div class="gtitle">FX exposure</div><div class="gbody" style="margin-top:6px">USD revenue with local KCB debt as a natural hedge.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proof-strip one reveal" style="margin-top:clamp(40px,5vw,60px)">
+          <figure class="proof-slot wide filled">
+            <Image src={aerialPhoto} alt="Naivasha Special Economic Zone — Phase 1 location, Rift Valley" widths={[768, 1280, 1920]} sizes="100vw" loading="lazy" />
+            <figcaption class="proof-meta"><span class="proof-cap">Naivasha Special Economic Zone — Phase 1 location</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 16 · TEAM -->
+    <section class="slide section--light slide--light" id="team">
+      <div class="slide-inner">
+        <div class="slide-eyebrow reveal"><Icon name="users" class="eyebrow-icon" /> Team</div>
+        <h2 class="deck-h2 reveal d1">Operators, backed by deep infrastructure advisors.</h2>
+        <div class="founders">
+          <div class="founder reveal">
+            <span class="photo"><img src="assets/team/romi.jpg" alt="Romi Sumaria" onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>RS</span>'"></span>
+            <div><div class="fn">Romi Sumaria</div><div class="fr">CEO &amp; Co-Founder</div></div>
+          </div>
+          <div class="founder reveal d1">
+            <span class="photo"><img src="assets/team/karan.jpg" alt="Karan Pinto" onerror="this.parentElement.innerHTML='<span class=&quot;ph&quot;>KP</span>'"></span>
+            <div><div class="fn">Karan Pinto</div><div class="fr">CTO &amp; Co-Founder</div></div>
+          </div>
+        </div>
+        <div class="advisors">
+          <p class="deck-kicker reveal">Advisors</p>
+          <div class="advisor-grid">
+            {advisors.map(([slug, name, role], i) => (
+              <div class="adv reveal" class:list={[`d${(i % 4) + 1}`]}>
+                <span class="ap"><img src={`assets/team/${slug}.jpg`} alt={name} onerror={`this.parentElement.innerHTML='<span class=&quot;ph&quot;>${initials(name)}</span>'`} /></span>
+                <div><div class="an">{name}</div><div class="ar">{role}</div></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 17 · CLOSE -->
+    <section class="slide close slide--ink has-bg" id="close">
+      <div class="slide-bg" aria-hidden="true"><Image src={groupPhoto} alt="" widths={[768, 1280, 1920]} sizes="100vw" loading="lazy" /></div>
+      <div class="slide-inner">
+        <div class="slide-eyebrow reveal" style="justify-content:center"><Icon name="gem" class="eyebrow-icon" /> Why Navon Wins</div>
+        <h2 class="deck-h reveal d1">Lowest cost. <span class="accent">Vertically integrated.</span> Sovereign by design. First to move.</h2>
+        <div class="close-contact reveal d2">
+          <a href="mailto:info@navonworld.com">info@navonworld.com</a>
+          <a href="https://navon.africa" target="_blank" rel="noopener">navon.africa</a>
+        </div>
+        <div class="gate-foot reveal d3" style="margin-top:32px">Proprietary &amp; Confidential · H1 2026</div>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline define:vars={{ accessCode: 'navon2026' }}>
+    (function () {
+      const gate = document.getElementById('gate');
+      const deck = document.getElementById('deck');
+      const form = document.getElementById('gate-form');
+      const input = document.getElementById('gate-input');
+      const msg = document.getElementById('gate-msg');
+      const KEY = 'navon-deck-unlocked';
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const NUM_RE = /^(\D*)(\d[\d,]*(?:\.\d+)?)(.*)$/;
+
+      // Count a single stat value up from 0 to its printed number, preserving
+      // any prefix ($, ~, >), suffix (%, ×, MW, B…), decimals and thousands commas.
+      function countUp(host) {
+        if (!host || host.dataset.counted) return;
+        host.dataset.counted = '1';
+        const raw = host.textContent.trim();
+        const m = raw.match(NUM_RE);
+        if (!m) return;                       // non-numeric (e.g. "Kenya")
+        const [, prefix, numStr, suffix] = m;
+        const decimals = numStr.includes('.') ? numStr.split('.')[1].length : 0;
+        const hasComma = numStr.includes(',');
+        const target = parseFloat(numStr.replace(/,/g, ''));
+        if (prefersReduced || !target) return;
+        const fmt = (n) => {
+          let s = n.toFixed(decimals);
+          if (hasComma) {
+            const [int, dec] = s.split('.');
+            s = int.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (dec ? '.' + dec : '');
+          }
+          return s;
+        };
+        const DUR = 1100, t0 = performance.now();
+        const tick = (now) => {
+          const p = Math.min((now - t0) / DUR, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          host.textContent = prefix + fmt(target * eased) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+
+      // Pick the value-bearing node inside a revealed stat block, then count it.
+      function runCount(el) {
+        if (el.classList.contains('big')) { countUp(el.querySelector('.signal') || el); return; }
+        const v = el.querySelector('.v');
+        if (v) countUp(v.querySelector('.signal') || v);
+      }
+
+      let observer = null;
+      function startReveal() {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); runCount(e.target); io.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        deck.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+      }
+
+      function startSpy() {
+        const links = Array.from(document.querySelectorAll('#deck-nav-links a[data-spy]'));
+        const map = new Map(links.map((a) => [a.dataset.spy, a]));
+        const spy = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              links.forEach((l) => l.classList.remove('active'));
+              const a = map.get(e.target.id);
+              if (a) { a.classList.add('active'); a.scrollIntoView({ inline: 'center', block: 'nearest' }); }
+            }
+          });
+        }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+        document.querySelectorAll('.slide[id]').forEach((s) => { if (map.has(s.id)) spy.observe(s); });
+
+        const progress = document.getElementById('deck-progress');
+        const onScroll = () => {
+          const h = document.documentElement.scrollHeight - window.innerHeight;
+          progress.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      }
+
+      function unlock() {
+        gate.hidden = true;
+        deck.hidden = false;
+        document.body.style.overflow = '';
+        startReveal();
+        startSpy();
+      }
+
+      // lock scroll behind gate
+      document.body.style.overflow = 'hidden';
+
+      if (sessionStorage.getItem(KEY) === '1') { unlock(); }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (input.value.trim().toLowerCase() === accessCode) {
+          sessionStorage.setItem(KEY, '1');
+          unlock();
+        } else {
+          gate.classList.add('is-error');
+          msg.textContent = 'Incorrect code — try again';
+          input.value = '';
+          input.focus();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
