@@ -589,7 +589,7 @@ body.deck-body { background: var(--ink); }
 
 /* ── CLOSING ── */
 .close { text-align: center; align-items: center; justify-content: center; }
-.close .deck-h { max-width: 18ch; }
+.close .deck-h { max-width: 18ch; margin-inline: auto; }
 .close-contact { display: flex; flex-wrap: wrap; gap: 14px 32px; justify-content: center; margin-top: 40px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.04em; }
 .close-contact a { color: var(--signal); }
 .close-contact a:hover { text-decoration: underline; }
