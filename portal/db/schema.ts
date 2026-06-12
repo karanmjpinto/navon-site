@@ -82,6 +82,18 @@ export const crossConnectMediaEnum = pgEnum("cross_connect_media", [
   "copper",
 ]);
 
+// Counterparty class for a cross-connect. Mirrors the canonical interconnect
+// patterns: cloud on-ramp (AWS Direct Connect / Azure ExpressRoute), carrier
+// uplink, customer-to-customer (partner/IX peer), an internal cabinet-to-cabinet
+// expansion, or a public Internet Exchange peering port.
+export const crossConnectTypeEnum = pgEnum("cross_connect_type", [
+  "cloud",
+  "carrier",
+  "customer",
+  "internal",
+  "ix",
+]);
+
 export const mpesaStatusEnum = pgEnum("mpesa_status", [
   "initiated",
   "pending",
@@ -462,15 +474,28 @@ export const crossConnects = pgTable(
     fromCabinetId: uuid("from_cabinet_id")
       .notNull()
       .references(() => cabinets.id, { onDelete: "cascade" }),
-    toLabel: text("to_label").notNull(), // free-form: "MMR rack 3, port 12"
+    toLabel: text("to_label").notNull(), // Z-side demarc: "MMR rack 3, port 12"
+    connectionType: crossConnectTypeEnum("connection_type")
+      .notNull()
+      .default("carrier"),
+    zSideProvider: text("z_side_provider"), // counterparty name, eg "AWS", "Safaricom"
     speedGbps: doublePrecision("speed_gbps").notNull(),
     media: crossConnectMediaEnum("media").notNull().default("fiber_sm"),
     status: crossConnectStatusEnum("status").notNull().default("pending"),
+    // Commercials. Stored in minor units (cents) like invoices. Set by an
+    // admin at provisioning time: a one-time install (NRC) + monthly (MRC).
+    installFeeMinor: bigint("install_fee_minor", { mode: "number" }),
+    monthlyChargeMinor: bigint("monthly_charge_minor", { mode: "number" }),
+    notes: text("notes"),
+    requestedBy: text("requested_by").references(() => users.id, {
+      onDelete: "set null",
+    }),
     externalId: text("external_id"),
     externalSource: externalSourceEnum("external_source"),
     lastSyncedAt: timestamp("last_synced_at", { mode: "date" }),
     createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
     provisionedAt: timestamp("provisioned_at", { mode: "date" }),
+    decommissionedAt: timestamp("decommissioned_at", { mode: "date" }),
   },
   (t) => ({
     orgIdx: index("cross_connects_org_idx").on(t.orgId),
@@ -924,6 +949,9 @@ export type Site = typeof sites.$inferSelect;
 export type Cabinet = typeof cabinets.$inferSelect;
 export type Device = typeof devices.$inferSelect;
 export type CrossConnect = typeof crossConnects.$inferSelect;
+export type CrossConnectStatus = (typeof crossConnectStatusEnum.enumValues)[number];
+export type CrossConnectType = (typeof crossConnectTypeEnum.enumValues)[number];
+export type CrossConnectMedia = (typeof crossConnectMediaEnum.enumValues)[number];
 export type Notification = typeof notifications.$inferSelect;
 export type Invite = typeof invites.$inferSelect;
 export type MetricsToken = typeof metricsTokens.$inferSelect;
